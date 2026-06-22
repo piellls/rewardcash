@@ -3,14 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
-import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle, CheckCircle2, MessageSquare } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
   
-  const [activeTab, setActiveTab] = useState('withdrawals'); // 'withdrawals' or 'users'
+  const [activeTab, setActiveTab] = useState('withdrawals'); // 'withdrawals', 'users', or 'tickets'
   const [withdrawals, setWithdrawals] = useState([]);
   const [usersList, setUsersList] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Action loading states
@@ -24,8 +25,10 @@ export default function AdminDashboard() {
       try {
         const w = await db.adminGetWithdrawals();
         const u = await db.adminGetUsers();
+        const t = await db.adminGetSupportTickets();
         setWithdrawals(w);
         setUsersList(u);
+        setTickets(t || []);
       } catch (err) {
         console.error('Error loading admin data:', err);
       } finally {
@@ -53,6 +56,26 @@ export default function AdminDashboard() {
       }, 5000);
     } catch (err) {
       setErrorMsg(err.message || 'Failed to update withdrawal status.');
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const handleResolveTicket = async (id) => {
+    setErrorMsg('');
+    setSuccessMsg('');
+    setProcessingId(id);
+
+    try {
+      await db.adminResolveSupportTicket(id);
+      setSuccessMsg('Support ticket resolved successfully!');
+      await loadData();
+      
+      setTimeout(() => {
+        setSuccessMsg('');
+      }, 5000);
+    } catch (err) {
+      setErrorMsg(err.message || 'Failed to resolve support ticket.');
     } finally {
       setProcessingId(null);
     }
@@ -86,6 +109,7 @@ export default function AdminDashboard() {
 
   // Calculate statistics
   const pendingWithdrawals = withdrawals.filter(w => w.status === 'pending');
+  const pendingTickets = tickets.filter(t => t.status === 'pending');
   const totalVolumeUSD = withdrawals
     .filter(w => w.status === 'approved')
     .reduce((sum, w) => sum + parseFloat(w.amount_usd), 0);
@@ -126,7 +150,7 @@ export default function AdminDashboard() {
         <div className="space-y-8">
           
           {/* Quick Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="rounded-2xl glass-card border border-dark-border p-5 flex items-center gap-4">
               <div className="rounded-xl bg-yellow-950/30 border border-yellow-900/50 p-3 text-yellow-500">
                 <Wallet className="h-6 w-6" />
@@ -144,6 +168,16 @@ export default function AdminDashboard() {
               <div>
                 <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Registered Users</span>
                 <span className="text-xl font-black text-white">{usersList.length} Accounts</span>
+              </div>
+            </div>
+
+            <div className="rounded-2xl glass-card border border-dark-border p-5 flex items-center gap-4">
+              <div className="rounded-xl bg-purple-950/30 border border-purple-900/50 p-3 text-purple-400">
+                <MessageSquare className="h-6 w-6" />
+              </div>
+              <div>
+                <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Pending Tickets</span>
+                <span className="text-xl font-black text-white">{pendingTickets.length} Support</span>
               </div>
             </div>
 
@@ -179,6 +213,16 @@ export default function AdminDashboard() {
               }`}
             >
               User Accounts Directory ({usersList.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('tickets')}
+              className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
+                activeTab === 'tickets' 
+                  ? 'border-primary text-primary' 
+                  : 'border-transparent text-zinc-500 hover:text-zinc-300'
+              }`}
+            >
+              Support Tickets ({tickets.length})
             </button>
           </div>
 
@@ -255,7 +299,7 @@ export default function AdminDashboard() {
                 </div>
               )}
             </div>
-          ) : (
+          ) : activeTab === 'users' ? (
             <div className="rounded-2xl glass-card border border-dark-border p-6">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
@@ -300,6 +344,66 @@ export default function AdminDashboard() {
                   </tbody>
                 </table>
               </div>
+            </div>
+          ) : (
+            <div className="rounded-2xl glass-card border border-dark-border p-6">
+              {tickets.length === 0 ? (
+                <div className="text-center py-12 text-zinc-500 text-sm">
+                  No support tickets found.
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-dark-border text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                        <th className="pb-3 pr-4">User</th>
+                        <th className="pb-3 px-4">Email</th>
+                        <th className="pb-3 px-4">Subject</th>
+                        <th className="pb-3 px-4">Message</th>
+                        <th className="pb-3 px-4">Date</th>
+                        <th className="pb-3 px-4">Status</th>
+                        <th className="pb-3 pl-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-dark-border/40 text-sm">
+                      {tickets.map((t) => (
+                        <tr key={t.id} className="group">
+                          <td className="py-3.5 pr-4 font-bold text-white">{t.username}</td>
+                          <td className="py-3.5 px-4 font-mono text-xs text-zinc-400">{t.email}</td>
+                          <td className="py-3.5 px-4 text-zinc-200 font-semibold">{t.subject}</td>
+                          <td className="py-3.5 px-4 text-zinc-400 max-w-[250px] truncate" title={t.message}>{t.message}</td>
+                          <td className="py-3.5 px-4 text-zinc-500 text-xs">{new Date(t.created_at).toLocaleDateString()}</td>
+                          <td className="py-3.5 px-4">
+                            {t.status === 'resolved' ? (
+                              <span className="text-xs font-bold text-primary bg-emerald-950/20 px-2 py-0.5 rounded border border-emerald-900/50">Resolved</span>
+                            ) : (
+                              <span className="text-xs font-bold text-yellow-500 bg-amber-950/20 px-2 py-0.5 rounded border border-amber-900/50">Pending</span>
+                            )}
+                          </td>
+                          <td className="py-3.5 pl-4 text-right">
+                            {t.status === 'pending' && (
+                              <div className="flex justify-end">
+                                <button
+                                  onClick={() => handleResolveTicket(t.id)}
+                                  disabled={processingId !== null}
+                                  className="rounded bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-800 p-1.5 text-primary disabled:opacity-50 transition-colors"
+                                  title="Mark as Resolved"
+                                >
+                                  {processingId === t.id ? (
+                                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                  ) : (
+                                    <Check className="h-3.5 w-3.5" />
+                                  )}
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
         </div>

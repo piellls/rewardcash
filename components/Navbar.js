@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
+import SupportModal from './SupportModal';
 import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, Menu, X, User, MessageSquare } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { user, loading, logout } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [authTab, setAuthTab] = useState('login');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -48,6 +50,18 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-6">
               {navItems.map((item) => {
                 const Icon = item.icon;
+                if (item.name === 'Support') {
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => setIsSupportOpen(true)}
+                      className="flex items-center gap-1.5 text-sm font-semibold tracking-wide text-zinc-400 hover:text-white transition-colors py-2 px-3 rounded-md cursor-pointer border-none bg-transparent"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {item.name}
+                    </button>
+                  );
+                }
                 const isActive = pathname === item.href;
                 return (
                   <Link
@@ -162,6 +176,21 @@ export default function Navbar() {
           <div className="md:hidden border-t border-dark-border bg-dark-bg/95 px-4 py-4 space-y-3">
             {navItems.map((item) => {
               const Icon = item.icon;
+              if (item.name === 'Support') {
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => {
+                      setIsSupportOpen(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-base font-semibold tracking-wide text-zinc-400 hover:text-white hover:bg-zinc-900 border-none bg-transparent text-left cursor-pointer"
+                  >
+                    <Icon className="h-5 w-5" />
+                    {item.name}
+                  </button>
+                );
+              }
               const isActive = pathname === item.href;
               return (
                 <Link
@@ -244,6 +273,12 @@ export default function Navbar() {
         isOpen={isAuthOpen} 
         onClose={() => setIsAuthOpen(false)} 
         initialTab={authTab} 
+      />
+
+      {/* Support Modal */}
+      <SupportModal
+        isOpen={isSupportOpen}
+        onClose={() => setIsSupportOpen(false)}
       />
     </>
   );
