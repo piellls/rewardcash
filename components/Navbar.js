@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -14,6 +14,21 @@ export default function Navbar() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [authTab, setAuthTab] = useState('login');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref && !user && !loading) {
+        const hasAutoOpened = sessionStorage.getItem('rc_ref_auto_opened');
+        if (!hasAutoOpened) {
+          sessionStorage.setItem('rc_ref_auto_opened', 'true');
+          setAuthTab('register');
+          setIsAuthOpen(true);
+        }
+      }
+    }
+  }, [user, loading]);
 
   const openAuth = (tab) => {
     setAuthTab(tab);

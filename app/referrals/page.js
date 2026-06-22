@@ -44,7 +44,7 @@ export default function Referrals() {
 
   const getReferralLink = () => {
     if (typeof window === 'undefined' || !user) return '';
-    return `${window.location.origin}/register?ref=${user.username}`;
+    return `${window.location.origin}/?ref=${user.username}`;
   };
 
   const handleCopyLink = () => {
