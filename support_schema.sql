@@ -24,7 +24,21 @@ CREATE POLICY "Users can create their own support tickets"
   ON public.support_tickets FOR INSERT 
   WITH CHECK (auth.uid() = user_id);
 
--- 3. Admin Policy: Admins can view and update all tickets
--- We will handle admin access in code using service role,
--- or we can write an RLS policy if we want, but since RLS is bypassed by service role (used in admin route/calls),
--- this is already fully secure.
+-- 3. Admin Policies: Admins can view and update all tickets
+CREATE POLICY "Admins can view all support tickets" 
+  ON public.support_tickets FOR SELECT 
+  USING (
+    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
+    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+  );
+
+CREATE POLICY "Admins can update all support tickets" 
+  ON public.support_tickets FOR UPDATE 
+  USING (
+    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
+    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+  )
+  WITH CHECK (
+    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
+    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+  );
