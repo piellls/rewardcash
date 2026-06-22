@@ -30,24 +30,25 @@ CREATE POLICY "Users can update their own support tickets"
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
--- 3. Admin Policies: Admins can view and update all tickets
+-- 3. Admin Policies: Admins can view and update all tickets (by checking profiles.role)
 CREATE POLICY "Admins can view all support tickets" 
   ON public.support_tickets FOR SELECT 
   USING (
-    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
-    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+    EXISTS (
+      SELECT 1 FROM public.profiles 
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
   );
 
 CREATE POLICY "Admins can update all support tickets" 
   ON public.support_tickets FOR UPDATE 
   USING (
-    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
-    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
-  )
-  WITH CHECK (
-    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
-    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+    EXISTS (
+      SELECT 1 FROM public.profiles 
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
   );
+
 
 -- 4. Create support_ticket_messages table for two-way chat
 CREATE TABLE IF NOT EXISTS public.support_ticket_messages (
@@ -83,17 +84,21 @@ CREATE POLICY "Users can send messages for their own tickets"
     ) AND sender_id = auth.uid() AND is_admin = false
   );
 
--- 3. Admin Policy: Admins can view and write any message
+-- 3. Admin Policies: Admins can view and write any message (by checking profiles.role)
 CREATE POLICY "Admins can view all ticket messages" 
   ON public.support_ticket_messages FOR SELECT 
   USING (
-    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
-    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+    EXISTS (
+      SELECT 1 FROM public.profiles 
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
   );
 
 CREATE POLICY "Admins can create ticket messages" 
   ON public.support_ticket_messages FOR INSERT 
   WITH CHECK (
-    auth.jwt() ->> 'email' = 'admin@rewardcash.co' OR 
-    (auth.jwt() -> 'user_metadata' ->> 'role') = 'admin'
+    EXISTS (
+      SELECT 1 FROM public.profiles 
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
   );
