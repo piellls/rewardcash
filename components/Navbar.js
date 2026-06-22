@@ -234,6 +234,17 @@ export default function Navbar() {
           );
         })}
       </nav>
+
+      <AuthModal 
+        isOpen={isAuthOpen} 
+        onClose={() => setIsAuthOpen(false)} 
+        initialTab={authTab} 
+      />
+
+      <SupportModal 
+        isOpen={isSupportOpen} 
+        onClose={() => setIsSupportOpen(false)} 
+      />
     </>
   );
 }
