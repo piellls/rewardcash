@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
-import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, Menu, X, User } from 'lucide-react';
+import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, Menu, X, User, MessageSquare } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -23,7 +23,8 @@ export default function Navbar() {
   const navItems = [
     { name: 'Earn', href: '/earn', icon: PlayCircle },
     { name: 'Cashout', href: '/cashout', icon: Wallet },
-    { name: 'Leaderboard', href: '/leaderboard', icon: Trophy }
+    { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
+    { name: 'Support', href: 'mailto:support@rewardcash.co', icon: MessageSquare }
   ];
 
   return (
