@@ -36,6 +36,15 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     refreshUser();
+    
+    // Capture referral code from URL
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        localStorage.setItem('rc_referred_by', ref);
+      }
+    }
   }, []);
 
   const login = async (email, password) => {
@@ -53,7 +62,13 @@ export function AuthProvider({ children }) {
   const register = async (username, email, password) => {
     setLoading(true);
     try {
-      const u = await db.signUp(username, email, password);
+      const refCode = typeof window !== 'undefined' ? localStorage.getItem('rc_referred_by') : null;
+      const u = await db.signUp(username, email, password, refCode);
+      
+      if (refCode && typeof window !== 'undefined') {
+        localStorage.removeItem('rc_referred_by');
+      }
+      
       setUser(u);
       return u;
     } catch (err) {

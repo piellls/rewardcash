@@ -62,7 +62,7 @@ export async function GET(request) {
     // 1. Check if user profile exists
     const { data: profile, error: profError } = await supabaseAdmin
       .from('profiles')
-      .select('balance_coins, total_earned_coins')
+      .select('balance_coins, total_earned_coins, referred_by')
       .eq('id', click_id)
       .single();
 
@@ -103,6 +103,38 @@ export async function GET(request) {
     if (updError) {
       console.error('[POSTBACK ERROR] Failed to credit coins to user profile:', updError);
       return NextResponse.json({ error: 'Failed to update user profile balance.' }, { status: 500 });
+    }
+
+    // 4. Process Referrer 10% Commission Payout
+    if (profile.referred_by) {
+      const commissionCoins = Math.floor(coinsEarned * 0.10);
+      if (commissionCoins > 0) {
+        // Fetch referrer's current balance and earnings
+        const { data: referrer, error: refFetchErr } = await supabaseAdmin
+          .from('profiles')
+          .select('balance_coins, referral_earnings_total')
+          .eq('id', profile.referred_by)
+          .single();
+
+        if (!refFetchErr && referrer) {
+          const newRefBalance = referrer.balance_coins + commissionCoins;
+          const newRefEarnings = (referrer.referral_earnings_total || 0) + commissionCoins;
+
+          const { error: refUpdErr } = await supabaseAdmin
+            .from('profiles')
+            .update({
+              balance_coins: newRefBalance,
+              referral_earnings_total: newRefEarnings
+            })
+            .eq('id', profile.referred_by);
+
+          if (refUpdErr) {
+            console.error('[POSTBACK ERROR] Failed to credit referral commission to referrer:', refUpdErr);
+          } else {
+            console.log(`[POSTBACK REFERRAL] Credited ${commissionCoins} coins commission to referrer ID: ${profile.referred_by}`);
+          }
+        }
+      }
     }
 
     console.log(`[POSTBACK SUCCESS] Credited ${coinsEarned} coins to user ID: ${click_id}`);

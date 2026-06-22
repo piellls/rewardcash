@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
 import SupportModal from './SupportModal';
-import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare } from 'lucide-react';
+import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, User, Users } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -24,6 +24,7 @@ export default function Navbar() {
     { name: 'Earn', href: '/earn', icon: PlayCircle },
     { name: 'Cashout', href: '/cashout', icon: Wallet },
     { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
+    { name: 'Referrals', href: '/referrals', icon: User },
     { name: 'Support', href: '#support', icon: MessageSquare }
   ];
 
