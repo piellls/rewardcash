@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
-import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle, CheckCircle2, MessageSquare } from 'lucide-react';
+import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle, CheckCircle2, MessageSquare, ArrowLeft, Send } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { user } = useAuth();
@@ -13,6 +13,13 @@ export default function AdminDashboard() {
   const [usersList, setUsersList] = useState([]);
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Support Chat States
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [loadingChat, setLoadingChat] = useState(false);
+  const [replyMessage, setReplyMessage] = useState('');
+  const [sendingReply, setSendingReply] = useState(false);
 
   // Action loading states
   const [processingId, setProcessingId] = useState(null);
@@ -40,6 +47,10 @@ export default function AdminDashboard() {
   useEffect(() => {
     loadData();
   }, [user]);
+
+  useEffect(() => {
+    setSelectedTicket(null);
+  }, [activeTab]);
 
   const handleUpdateStatus = async (id, status) => {
     setErrorMsg('');
@@ -69,6 +80,9 @@ export default function AdminDashboard() {
     try {
       await db.adminResolveSupportTicket(id);
       setSuccessMsg('Support ticket resolved successfully!');
+      if (selectedTicket && selectedTicket.id === id) {
+        setSelectedTicket(prev => prev ? { ...prev, status: 'resolved' } : null);
+      }
       await loadData();
       
       setTimeout(() => {
@@ -78,6 +92,69 @@ export default function AdminDashboard() {
       setErrorMsg(err.message || 'Failed to resolve support ticket.');
     } finally {
       setProcessingId(null);
+    }
+  };
+
+  const handleToggleTicketStatus = async (ticketId, currentStatus) => {
+    const nextStatus = currentStatus === 'resolved' ? 'pending' : 'resolved';
+    setErrorMsg('');
+    setSuccessMsg('');
+    setProcessingId(ticketId);
+    try {
+      await db.adminUpdateTicketStatus(ticketId, nextStatus);
+      setSuccessMsg(`Ticket status successfully updated to ${nextStatus}!`);
+      
+      if (selectedTicket && selectedTicket.id === ticketId) {
+        setSelectedTicket(prev => prev ? { ...prev, status: nextStatus } : null);
+      }
+      
+      await loadData();
+      
+      setTimeout(() => {
+        setSuccessMsg('');
+      }, 5000);
+    } catch (err) {
+      setErrorMsg(err.message || 'Failed to update ticket status.');
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const loadChatMessages = async (ticketId) => {
+    setLoadingChat(true);
+    try {
+      const data = await db.getSupportTicketMessages(ticketId);
+      setChatMessages(data || []);
+    } catch (err) {
+      console.error('Error loading chat:', err);
+    } finally {
+      setLoadingChat(false);
+    }
+  };
+
+  const handleSendAdminReply = async (e) => {
+    e.preventDefault();
+    if (!replyMessage.trim() || !selectedTicket || !user) return;
+    
+    setErrorMsg('');
+    setSendingReply(true);
+    try {
+      await db.sendSupportTicketMessage(
+        selectedTicket.id, 
+        user.id, 
+        user.username, 
+        replyMessage.trim(), 
+        true // is_admin
+      );
+      setReplyMessage('');
+      
+      await loadChatMessages(selectedTicket.id);
+      await loadData();
+    } catch (err) {
+      console.error('Error sending reply:', err);
+      setErrorMsg('Failed to send message.');
+    } finally {
+      setSendingReply(false);
     }
   };
 
@@ -345,6 +422,137 @@ export default function AdminDashboard() {
                 </table>
               </div>
             </div>
+          ) : selectedTicket ? (
+            <div className="rounded-2xl glass-card border border-dark-border p-6 flex flex-col h-[500px]">
+              {/* Chat Header */}
+              <div className="flex items-center justify-between border-b border-dark-border/40 pb-4 mb-4 shrink-0">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setSelectedTicket(null)}
+                    className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors py-1.5 px-3 rounded-lg bg-zinc-900 border border-dark-border"
+                  >
+                    <ArrowLeft className="h-4 w-4" /> Back to list
+                  </button>
+                  <div>
+                    <h3 className="text-sm font-bold text-white leading-none">
+                      Support Ticket with {selectedTicket.username}
+                    </h3>
+                    <span className="text-[10px] text-zinc-500 mt-1 block">
+                      User Email: <span className="font-mono text-zinc-400">{selectedTicket.email}</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {/* Status Indicator */}
+                  {selectedTicket.status === 'resolved' ? (
+                    <span className="text-[10px] font-black uppercase tracking-wider text-primary bg-emerald-950/20 px-2.5 py-1 rounded border border-emerald-900/50">
+                      Resolved
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-black uppercase tracking-wider text-yellow-500 bg-amber-950/20 px-2.5 py-1 rounded border border-amber-900/50 animate-pulse-slow">
+                      Pending
+                    </span>
+                  )}
+
+                  {/* Resolve / Reopen toggle */}
+                  <button
+                    onClick={() => handleToggleTicketStatus(selectedTicket.id, selectedTicket.status)}
+                    disabled={processingId !== null}
+                    className={`rounded-xl px-4 py-1.5 text-xs font-bold transition-all border ${
+                      selectedTicket.status === 'resolved'
+                        ? 'bg-amber-950/20 hover:bg-amber-900/40 text-yellow-500 border-amber-900/50'
+                        : 'bg-emerald-950/20 hover:bg-emerald-900/40 text-primary border-emerald-900/50'
+                    }`}
+                  >
+                    {processingId === selectedTicket.id ? (
+                      <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                    ) : selectedTicket.status === 'resolved' ? (
+                      'Reopen Ticket'
+                    ) : (
+                      'Mark as Resolved'
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Chat Thread Messages Box */}
+              <div className="flex-1 overflow-y-auto space-y-4 pr-1.5 pb-2 text-xs">
+                {/* Initial message details */}
+                <div className="flex items-start gap-2.5 max-w-[85%]">
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <span className="font-bold text-zinc-350">{selectedTicket.username}</span>
+                      <span className="text-[9px] text-zinc-500">
+                        {new Date(selectedTicket.created_at).toLocaleDateString()} at {new Date(selectedTicket.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+                    <div className="bg-zinc-900/40 border border-dark-border/20 rounded-2xl rounded-tl-none px-3.5 py-2.5 text-zinc-300 leading-relaxed select-text">
+                      <div className="font-bold text-zinc-200 mb-1 border-b border-dark-border/10 pb-1">
+                        Topic: {selectedTicket.subject}
+                      </div>
+                      {selectedTicket.message}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Replied messages thread */}
+                {!loadingChat && chatMessages.map((msg) => {
+                  const isUserMsg = !msg.is_admin;
+                  return (
+                    <div 
+                      key={msg.id} 
+                      className={`flex flex-col max-w-[85%] ${isUserMsg ? 'items-start' : 'items-end ml-auto'}`}
+                    >
+                      <div className={`flex items-center gap-2 mb-1 flex-wrap ${!isUserMsg && 'justify-end'}`}>
+                        <span className={`font-bold ${isUserMsg ? 'text-zinc-355' : 'text-primary'}`}>
+                          {isUserMsg ? msg.sender_username : 'Admin Support'}
+                        </span>
+                        <span className="text-[9px] text-zinc-500">
+                          {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      </div>
+                      <p className={`px-3.5 py-2.5 rounded-2xl leading-relaxed select-text border ${
+                        isUserMsg 
+                          ? 'bg-zinc-900/40 border-dark-border/20 rounded-tl-none text-zinc-300' 
+                          : 'bg-primary/5 border-primary/10 rounded-tr-none text-white'
+                      }`}>
+                        {msg.message}
+                      </p>
+                    </div>
+                  );
+                })}
+                
+                {loadingChat && (
+                  <div className="flex items-center justify-center py-8">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  </div>
+                )}
+              </div>
+
+              {/* Chat Input form */}
+              <form onSubmit={handleSendAdminReply} className="mt-3 flex gap-2 border-t border-dark-border/40 pt-3 shrink-0">
+                <input
+                  type="text"
+                  required
+                  value={replyMessage}
+                  onChange={(e) => setReplyMessage(e.target.value)}
+                  placeholder={selectedTicket.status === 'resolved' ? "Reopen ticket or type to reply..." : "Type reply to user..."}
+                  className="flex-1 rounded-xl bg-zinc-950 border border-dark-border px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
+                />
+                <button
+                  type="submit"
+                  disabled={sendingReply || !replyMessage.trim()}
+                  className="rounded-xl bg-primary hover:opacity-90 active:scale-[0.95] px-4 text-black disabled:opacity-50 disabled:scale-100 transition-all flex items-center justify-center shrink-0"
+                >
+                  {sendingReply ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4 fill-black text-black" />
+                  )}
+                </button>
+              </form>
+            </div>
           ) : (
             <div className="rounded-2xl glass-card border border-dark-border p-6">
               {tickets.length === 0 ? (
@@ -381,8 +589,20 @@ export default function AdminDashboard() {
                             )}
                           </td>
                           <td className="py-3.5 pl-4 text-right">
-                            {t.status === 'pending' && (
-                              <div className="flex justify-end">
+                            <div className="flex justify-end gap-1.5">
+                              {/* Open Chat/Messages thread button */}
+                              <button
+                                onClick={() => {
+                                  setSelectedTicket(t);
+                                  loadChatMessages(t.id);
+                                }}
+                                className="rounded bg-zinc-950 border border-dark-border hover:bg-zinc-800 p-1.5 text-zinc-350 transition-colors"
+                                title="Open Chat Thread"
+                              >
+                                <MessageSquare className="h-3.5 w-3.5" />
+                              </button>
+
+                              {t.status === 'pending' && (
                                 <button
                                   onClick={() => handleResolveTicket(t.id)}
                                   disabled={processingId !== null}
@@ -395,8 +615,8 @@ export default function AdminDashboard() {
                                     <Check className="h-3.5 w-3.5" />
                                   )}
                                 </button>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </td>
                         </tr>
                       ))}
