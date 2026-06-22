@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
 import SupportModal from './SupportModal';
-import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, Menu, X, User, MessageSquare } from 'lucide-react';
+import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -14,272 +14,210 @@ export default function Navbar() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [authTab, setAuthTab] = useState('login');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const openAuth = (tab) => {
     setAuthTab(tab);
     setIsAuthOpen(true);
-    setMobileMenuOpen(false);
   };
 
   const navItems = [
     { name: 'Earn', href: '/earn', icon: PlayCircle },
     { name: 'Cashout', href: '/cashout', icon: Wallet },
     { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
-    { name: 'Support', href: 'mailto:support@rewardcash.co', icon: MessageSquare }
+    { name: 'Support', href: '#support', icon: MessageSquare }
   ];
 
   return (
     <>
-      <nav className="sticky top-0 z-40 w-full glass-nav">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center">
-              <Link href="/" className="flex items-center gap-2 group">
-                <div className="rounded-lg bg-gradient-to-tr from-primary to-secondary p-1.5 shadow-[0_0_10px_rgba(16,185,129,0.3)] transition-transform group-hover:scale-110">
-                  <Coins className="h-6 w-6 text-black" />
-                </div>
-                <span className="text-xl font-bold tracking-wider text-gradient">
-                  RewardCash
-                </span>
-              </Link>
+      {/* 1. TOP HEADER (sticky on mobile, right-aligned next to sidebar on desktop) */}
+      <header className="fixed top-0 right-0 left-0 md:left-64 z-30 h-16 glass-nav flex items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Mobile Logo (hidden on desktop sidebar) */}
+        <div className="flex items-center md:hidden">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="rounded-lg bg-gradient-to-tr from-primary to-accent-cyan p-1.5 shadow-[0_0_10px_rgba(35,231,133,0.3)]">
+              <Coins className="h-5 w-5 text-black" />
             </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                if (item.name === 'Support') {
-                  return (
-                    <button
-                      key={item.name}
-                      onClick={() => setIsSupportOpen(true)}
-                      className="flex items-center gap-1.5 text-sm font-semibold tracking-wide text-zinc-400 hover:text-white transition-colors py-2 px-3 rounded-md cursor-pointer border-none bg-transparent"
-                    >
-                      <Icon className="h-4 w-4" />
-                      {item.name}
-                    </button>
-                  );
-                }
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`flex items-center gap-1.5 text-sm font-semibold tracking-wide transition-colors py-2 px-3 rounded-md ${
-                      isActive 
-                        ? 'text-primary bg-primary/5' 
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* User Controls */}
-            <div className="hidden md:flex items-center gap-4">
-              {loading ? (
-                <div className="h-9 w-24 animate-pulse rounded-lg bg-zinc-800" />
-              ) : user ? (
-                <div className="flex items-center gap-4">
-                  {/* Admin Badge */}
-                  {user.role === 'admin' && (
-                    <Link
-                      href="/admin"
-                      className="flex items-center gap-1.5 rounded-full border border-red-500/20 bg-red-950/20 px-3 py-1 text-xs font-bold text-red-400 hover:bg-red-950/40 transition-colors"
-                    >
-                      <ShieldAlert className="h-3 w-3" />
-                      Admin Panel
-                    </Link>
-                  )}
-
-                  {/* Coin Display */}
-                  <div className="flex items-center gap-2 rounded-lg bg-zinc-900 border border-dark-border px-3.5 py-1.5">
-                    <Coins className="h-4.5 w-4.5 text-yellow-500 animate-pulse-slow" />
-                    <span className="font-bold text-white tracking-wide">
-                      {user.balance_coins?.toLocaleString() || 0}
-                    </span>
-                    <span className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">
-                      Coins
-                    </span>
-                  </div>
-
-                  {/* Profile & Logout */}
-                  <div className="flex items-center gap-3">
-                    <Link 
-                      href="/dashboard"
-                      className="flex items-center gap-2 hover:text-primary text-zinc-200 transition-colors"
-                    >
-                      <img 
-                        src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                        alt={user.username}
-                        className="h-8 w-8 rounded-full border border-dark-border"
-                      />
-                      <span className="text-sm font-bold">
-                        {user.username}
-                      </span>
-                    </Link>
-
-                    <button 
-                      onClick={logout}
-                      className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors"
-                      title="Log Out"
-                    >
-                      <LogOut className="h-4.5 w-4.5" />
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => openAuth('login')}
-                    className="text-sm font-semibold text-zinc-400 hover:text-white transition-colors px-3 py-2"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => openAuth('register')}
-                    className="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-black hover:opacity-90 active:scale-[0.98] transition-all"
-                  >
-                    Register
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="flex md:hidden">
-              {user && (
-                <div className="flex items-center gap-2 mr-4 rounded-lg bg-zinc-900 border border-dark-border px-2.5 py-1">
-                  <Coins className="h-4 w-4 text-yellow-500" />
-                  <span className="text-sm font-bold text-white">
-                    {user.balance_coins || 0}
-                  </span>
-                </div>
-              )}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="inline-flex items-center justify-center rounded-lg p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors"
-              >
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </div>
-          </div>
+            <span className="text-lg font-bold tracking-wider text-gradient">
+              RewardCash
+            </span>
+          </Link>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-dark-border bg-dark-bg/95 px-4 py-4 space-y-3">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              if (item.name === 'Support') {
-                return (
-                  <button
-                    key={item.name}
-                    onClick={() => {
-                      setIsSupportOpen(true);
-                      setMobileMenuOpen(false);
-                    }}
-                    className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-base font-semibold tracking-wide text-zinc-400 hover:text-white hover:bg-zinc-900 border-none bg-transparent text-left cursor-pointer"
-                  >
-                    <Icon className="h-5 w-5" />
-                    {item.name}
-                  </button>
-                );
-              }
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 rounded-lg px-4 py-2.5 text-base font-semibold tracking-wide transition-colors ${
-                    isActive 
-                      ? 'text-primary bg-primary/5' 
-                      : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-                  }`}
-                >
-                  <Icon className="h-5 w-5" />
-                  {item.name}
-                </Link>
-              );
-            })}
-            
-            {user && user.role === 'admin' && (
-              <Link
-                href="/admin"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-base font-semibold text-red-400 hover:bg-zinc-900"
+        {/* Desktop Header Spacer (page title) */}
+        <div className="hidden md:block">
+          <span className="text-xs text-zinc-500 font-bold uppercase tracking-wider">
+            {pathname === '/' ? 'Home Dashboard' : pathname.replace('/', '')}
+          </span>
+        </div>
+
+        {/* User Controls (Sign In / Register / Balance / Profile) */}
+        <div className="flex items-center gap-4">
+          {loading ? (
+            <div className="h-9 w-24 animate-pulse rounded-lg bg-zinc-900 border border-dark-border" />
+          ) : user ? (
+            <div className="flex items-center gap-3 sm:gap-4">
+              {/* Coin Display */}
+              <div className="flex items-center gap-2 rounded-lg bg-zinc-950 border border-dark-border px-3 py-1.5">
+                <Coins className="h-4.5 w-4.5 text-yellow-500 animate-pulse-slow" />
+                <span className="font-bold text-white text-xs sm:text-sm tracking-wide">
+                  {user.balance_coins?.toLocaleString() || 0}
+                </span>
+                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider hidden sm:inline">
+                  Coins
+                </span>
+              </div>
+
+              {/* Profile Avatar link */}
+              <Link 
+                href="/dashboard"
+                className="flex items-center gap-2 hover:text-primary text-zinc-200 transition-colors"
               >
-                <ShieldAlert className="h-5 w-5" />
-                Admin Panel
+                <img 
+                  src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                  alt={user.username}
+                  className="h-8 w-8 rounded-full border border-dark-border"
+                />
+                <span className="text-xs sm:text-sm font-bold hidden sm:inline">
+                  {user.username}
+                </span>
               </Link>
-            )}
 
-            <hr className="border-dark-border my-2" />
+              {/* Logout Button */}
+              <button 
+                onClick={logout}
+                className="rounded-lg p-1.5 text-zinc-500 hover:bg-zinc-900 hover:text-white transition-colors"
+                title="Log Out"
+              >
+                <LogOut className="h-4.5 w-4.5" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                onClick={() => openAuth('login')}
+                className="text-xs sm:text-sm font-semibold text-zinc-400 hover:text-white transition-colors px-3 py-2"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => openAuth('register')}
+                className="rounded-lg bg-primary px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-black hover:opacity-90 active:scale-[0.98] transition-all"
+              >
+                Register
+              </button>
+            </div>
+          )}
+        </div>
+      </header>
 
-            {loading ? (
-              <div className="h-10 w-full animate-pulse rounded-lg bg-zinc-850" />
-            ) : user ? (
-              <div className="space-y-3">
-                <Link 
-                  href="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-1 hover:text-primary text-zinc-200 transition-colors"
-                >
-                  <img 
-                    src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                    alt={user.username}
-                    className="h-8 w-8 rounded-full border border-dark-border"
-                  />
-                  <span className="text-base font-bold">
-                    {user.username}
-                  </span>
-                </Link>
+      {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
+      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
+        {/* Sidebar Logo Header */}
+        <div className="h-16 border-b border-dark-border/40 flex items-center px-6 shrink-0">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="rounded-lg bg-gradient-to-tr from-primary to-accent-cyan p-1.5 shadow-[0_0_10px_rgba(35,231,133,0.3)] transition-transform group-hover:scale-110">
+              <Coins className="h-5 w-5 text-black" />
+            </div>
+            <span className="text-xl font-bold tracking-wider text-gradient">
+              RewardCash
+            </span>
+          </Link>
+        </div>
+
+        {/* Sidebar Nav Links */}
+        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isSupport = item.name === 'Support';
+            const isActive = !isSupport && pathname === item.href;
+
+            if (isSupport) {
+              return (
                 <button
-                  onClick={() => { logout(); setMobileMenuOpen(false); }}
-                  className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-base font-semibold text-zinc-400 hover:text-white hover:bg-zinc-900"
+                  key={item.name}
+                  onClick={() => setIsSupportOpen(true)}
+                  className="flex w-full items-center gap-3 text-sm font-semibold tracking-wide text-zinc-400 hover:text-white hover:bg-zinc-900/40 py-2.5 px-4 rounded-xl transition-all cursor-pointer border-none bg-transparent text-left"
                 >
-                  <LogOut className="h-5 w-5" />
-                  Log Out
+                  <Icon className="h-4.5 w-4.5 text-zinc-500" />
+                  {item.name}
                 </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <button
-                  onClick={() => openAuth('login')}
-                  className="rounded-lg border border-dark-border py-2 text-center text-sm font-semibold text-zinc-300 hover:text-white"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => openAuth('register')}
-                  className="rounded-lg bg-primary py-2 text-center text-sm font-bold text-black"
-                >
-                  Register
-                </button>
-              </div>
-            )}
+              );
+            }
+
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`flex items-center gap-3 text-sm font-semibold tracking-wide py-2.5 px-4 rounded-xl transition-all ${
+                  isActive 
+                    ? 'text-primary bg-primary/5 font-bold border-l-2 border-primary' 
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/40'
+                }`}
+              >
+                <Icon className={`h-4.5 w-4.5 ${isActive ? 'text-primary' : 'text-zinc-500'}`} />
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Sidebar Admin Controls */}
+        <div className="p-4 border-t border-dark-border/40 shrink-0 space-y-2">
+          {user && user.role === 'admin' && (
+            <Link
+              href="/admin"
+              className="flex items-center justify-center gap-2 rounded-xl border border-accent-red/20 bg-accent-red/5 py-2.5 text-xs font-bold text-accent-red hover:bg-accent-red/10 transition-colors"
+            >
+              <ShieldAlert className="h-4 w-4" />
+              Admin Control Panel
+            </Link>
+          )}
+          <div className="text-[10px] text-zinc-500 text-center py-1 font-semibold uppercase tracking-wider">
+            RewardCash v1.2.0 • Coinhub Style
           </div>
-        )}
+        </div>
+      </aside>
+
+      {/* 3. MOBILE BOTTOM NAVIGATION (fixed at bottom, hidden on desktop) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-dark-card/95 backdrop-blur-lg border-t border-dark-border flex items-center justify-around z-40 px-2 shadow-2xl">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isSupport = item.name === 'Support';
+          const isActive = !isSupport && pathname === item.href;
+
+          if (isSupport) {
+            return (
+              <button
+                key={item.name}
+                onClick={() => setIsSupportOpen(true)}
+                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
+              >
+                <Icon className="h-5 w-5 mb-0.5 text-zinc-500" />
+                <span className="text-[10px] font-bold tracking-wide">
+                  {item.name}
+                </span>
+              </button>
+            );
+          }
+
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${
+                isActive 
+                  ? 'text-primary font-bold' 
+                  : 'text-zinc-500 hover:text-white'
+              }`}
+            >
+              <Icon className={`h-5 w-5 mb-0.5 ${isActive ? 'text-primary' : 'text-zinc-500'}`} />
+              <span className="text-[10px] font-bold tracking-wide">
+                {item.name}
+              </span>
+            </Link>
+          );
+        })}
       </nav>
-
-      {/* Auth Modal */}
-      <AuthModal 
-        isOpen={isAuthOpen} 
-        onClose={() => setIsAuthOpen(false)} 
-        initialTab={authTab} 
-      />
-
-      {/* Support Modal */}
-      <SupportModal
-        isOpen={isSupportOpen}
-        onClose={() => setIsSupportOpen(false)}
-      />
     </>
   );
 }

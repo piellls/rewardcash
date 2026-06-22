@@ -18,13 +18,15 @@ export default function RootLayout({ children }) {
       className="h-full antialiased dark"
       style={{ colorScheme: 'dark' }}
     >
-      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans">
+      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-16 pb-16 md:pb-0">
         <AuthProvider>
           <Navbar />
-          <main className="flex-1 flex flex-col w-full">
-            {children}
-          </main>
-          <Footer />
+          <div className="flex-1 flex flex-col w-full md:pl-64">
+            <main className="flex-1 flex flex-col w-full">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </AuthProvider>
       </body>
     </html>
