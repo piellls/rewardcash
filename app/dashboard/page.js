@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import Link from 'next/link';
 import AuthModal from '@/components/AuthModal';
+import Shoutbox from '@/components/Shoutbox';
 import { Coins, Flame, Award, Wallet, Calendar, CheckCircle2, History, AlertCircle, PlayCircle } from 'lucide-react';
 
 export default function Dashboard() {
@@ -212,77 +213,87 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Tables layout split */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* Recent Completions */}
-            <div className="rounded-2xl glass-card border border-dark-border p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-base font-bold text-white flex items-center gap-2">
-                  <PlayCircle className="h-5 w-5 text-primary" />
-                  Recent Completed Tasks
-                </h2>
-                <Link href="/earn" className="text-xs text-primary font-bold hover:underline">Earn More</Link>
-              </div>
+          {/* Main Dashboard Layout: Tables + Shoutbox Sidebar */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left 2/3: Logs & History */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Recent Completions */}
+                <div className="rounded-2xl glass-card border border-dark-border p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-base font-bold text-white flex items-center gap-2">
+                      <PlayCircle className="h-5 w-5 text-primary" />
+                      Recent Completed Tasks
+                    </h2>
+                    <Link href="/earn" className="text-xs text-primary font-bold hover:underline">Earn More</Link>
+                  </div>
 
-              {completions.length === 0 ? (
-                <div className="text-center py-10 rounded-xl bg-zinc-950/30 border border-dashed border-dark-border">
-                  <p className="text-sm text-zinc-500">No completed tasks yet.</p>
-                  <Link href="/earn" className="text-xs text-primary font-bold mt-2 block hover:underline">Complete your first task now</Link>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {completions.slice(0, 5).map((c) => (
-                    <div key={c.id} className="flex items-center justify-between rounded-xl bg-zinc-950/60 p-3 border border-dark-border/40">
-                      <div>
-                        <p className="text-xs font-bold text-zinc-200">{c.offer_title}</p>
-                        <p className="text-[10px] text-zinc-500 font-semibold uppercase">{c.provider} • {new Date(c.completed_at).toLocaleDateString()}</p>
-                      </div>
-                      <span className="flex items-center gap-1 text-xs font-bold text-primary">
-                        <Coins className="h-3.5 w-3.5 text-yellow-500" />
-                        +{c.coins}
-                      </span>
+                  {completions.length === 0 ? (
+                    <div className="text-center py-10 rounded-xl bg-zinc-950/30 border border-dashed border-dark-border">
+                      <p className="text-sm text-zinc-500">No completed tasks yet.</p>
+                      <Link href="/earn" className="text-xs text-primary font-bold mt-2 block hover:underline">Complete your first task now</Link>
                     </div>
-                  ))}
+                  ) : (
+                    <div className="space-y-3">
+                      {completions.slice(0, 5).map((c) => (
+                        <div key={c.id} className="flex items-center justify-between rounded-xl bg-zinc-950/60 p-3 border border-dark-border/40">
+                          <div>
+                            <p className="text-xs font-bold text-zinc-200">{c.offer_title}</p>
+                            <p className="text-[10px] text-zinc-500 font-semibold uppercase">{c.provider} • {new Date(c.completed_at).toLocaleDateString()}</p>
+                          </div>
+                          <span className="flex items-center gap-1 text-xs font-bold text-primary">
+                            <Coins className="h-3.5 w-3.5 text-yellow-500" />
+                            +{c.coins}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+
+                {/* Recent Withdrawals */}
+                <div className="rounded-2xl glass-card border border-dark-border p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-base font-bold text-white flex items-center gap-2">
+                      <History className="h-5 w-5 text-secondary" />
+                      Recent Withdrawals
+                    </h2>
+                    <Link href="/cashout" className="text-xs text-secondary font-bold hover:underline">Request Cashout</Link>
+                  </div>
+
+                  {withdrawals.length === 0 ? (
+                    <div className="text-center py-10 rounded-xl bg-zinc-950/30 border border-dashed border-dark-border">
+                      <p className="text-sm text-zinc-500">No withdrawal requests yet.</p>
+                      <Link href="/cashout" className="text-xs text-secondary font-bold mt-2 block hover:underline">Redeem coins for cash</Link>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {withdrawals.slice(0, 5).map((w) => (
+                        <div key={w.id} className="flex items-center justify-between rounded-xl bg-zinc-950/60 p-3 border border-dark-border/40">
+                          <div>
+                            <p className="text-xs font-bold text-zinc-200 uppercase">{w.payment_method} Payout</p>
+                            <p className="text-[10px] text-zinc-500 font-semibold">{new Date(w.created_at).toLocaleDateString()} • {w.coins_spent?.toLocaleString()} Coins</p>
+                          </div>
+                          <div className="flex items-center gap-2 text-right">
+                            <span className="text-xs font-black text-primary">${parseFloat(w.amount_usd).toFixed(2)}</span>
+                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-emerald-950/30 border border-emerald-900/40 px-1 py-0.5 rounded">Paid</span>}
+                            {w.status === 'rejected' && <span className="text-[9px] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-1 py-0.5 rounded">Refund</span>}
+                            {w.status === 'pending' && <span className="text-[9px] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-1 py-0.5 rounded">Wait</span>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+              </div>
             </div>
 
-            {/* Recent Withdrawals */}
-            <div className="rounded-2xl glass-card border border-dark-border p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-base font-bold text-white flex items-center gap-2">
-                  <History className="h-5 w-5 text-secondary" />
-                  Recent Withdrawals
-                </h2>
-                <Link href="/cashout" className="text-xs text-secondary font-bold hover:underline">Request Cashout</Link>
-              </div>
-
-              {withdrawals.length === 0 ? (
-                <div className="text-center py-10 rounded-xl bg-zinc-950/30 border border-dashed border-dark-border">
-                  <p className="text-sm text-zinc-500">No withdrawal requests yet.</p>
-                  <Link href="/cashout" className="text-xs text-secondary font-bold mt-2 block hover:underline">Redeem coins for cash</Link>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {withdrawals.slice(0, 5).map((w) => (
-                    <div key={w.id} className="flex items-center justify-between rounded-xl bg-zinc-950/60 p-3 border border-dark-border/40">
-                      <div>
-                        <p className="text-xs font-bold text-zinc-200 uppercase">{w.payment_method} Payout</p>
-                        <p className="text-[10px] text-zinc-500 font-semibold">{new Date(w.created_at).toLocaleDateString()} • {w.coins_spent?.toLocaleString()} Coins</p>
-                      </div>
-                      <div className="flex items-center gap-2 text-right">
-                        <span className="text-xs font-black text-primary">${parseFloat(w.amount_usd).toFixed(2)}</span>
-                        {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-emerald-950/30 border border-emerald-900/40 px-1 py-0.5 rounded">Paid</span>}
-                        {w.status === 'rejected' && <span className="text-[9px] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-1 py-0.5 rounded">Refund</span>}
-                        {w.status === 'pending' && <span className="text-[9px] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-1 py-0.5 rounded">Wait</span>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+            {/* Right 1/3: Shoutbox Panel */}
+            <div className="lg:col-span-1">
+              <Shoutbox />
             </div>
-
           </div>
         </div>
       )}
