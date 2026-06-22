@@ -26,8 +26,8 @@ export default function Earn() {
       setLoading(true);
       try {
         const userId = user ? user.id : 'guest';
-        // Fetch from AdBlueMedia JSON Feed passing s1 for tracking
-        const res = await fetch(`https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php?user_id=199180&api_key=784b49bd7b4108039d10fac0f90cc372&s1=${userId}`);
+        // Fetch via our server-side proxy route to handle geo-targeting & hide API Key
+        const res = await fetch(`/api/offers?s1=${userId}`);
         const data = await res.json();
         
         // Parse and classify offers dynamically
