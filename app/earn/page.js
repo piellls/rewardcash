@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { db } from '@/lib/db';
+import { db, isMockMode } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
 import { Coins, Flame, Award, Gamepad2, Laptop, Play, ShieldAlert, Sparkles, CheckCircle, Loader2 } from 'lucide-react';
 
 export default function Earn() {
   const { user, earnCoinsSimulated } = useAuth();
   const [offers, setOffers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   
   // Auth state redirect
@@ -21,8 +22,52 @@ export default function Earn() {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    setOffers(db.getOffers());
-  }, []);
+    const fetchOffers = async () => {
+      setLoading(true);
+      try {
+        const userId = user ? user.id : 'guest';
+        // Fetch from AdBlueMedia JSON Feed passing s1 for tracking
+        const res = await fetch(`https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php?user_id=199180&api_key=784b49bd7b4108039d10fac0f90cc372&s1=${userId}`);
+        const data = await res.json();
+        
+        // Parse and classify offers dynamically
+        const mappedOffers = (data || []).map(offer => {
+          const rawPayout = parseFloat(offer.user_payout || offer.payout || '0.20');
+          const calculatedCoins = Math.round(rawPayout * 1000);
+          
+          // Categorization by keywords in name or description
+          const text = `${offer.name} ${offer.conversion} ${offer.anchor}`.toLowerCase();
+          let category = 'Survey';
+          if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('العاب') || text.includes('لعبة')) {
+            category = 'Game';
+          } else if (text.includes('install') || text.includes('download') || text.includes('app') || text.includes('تطبيق') || text.includes('تنزيل') || text.includes('mobile')) {
+            category = 'App';
+          }
+          
+          return {
+            id: offer.id,
+            title: offer.name || 'AdBlueMedia Task',
+            description: offer.conversion || 'Complete the task steps to earn your reward.',
+            coins: calculatedCoins,
+            payout: rawPayout,
+            provider: 'AdBlueMedia',
+            icon: offer.network_icon || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150',
+            category: category,
+            url: offer.url,
+            anchor: offer.anchor || 'Earn Coins'
+          };
+        });
+
+        setOffers(mappedOffers);
+      } catch (err) {
+        console.error("Failed to fetch live offers:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOffers();
+  }, [user?.id]);
 
   const categories = ['All', 'Game', 'Survey', 'App'];
 
@@ -36,7 +81,14 @@ export default function Earn() {
       setIsAuthOpen(true);
       return;
     }
-    setExecutingOffer(offer);
+    
+    if (!isMockMode) {
+      // In production mode, redirect user to complete the real offer
+      window.open(offer.url, '_blank');
+    } else {
+      // In mock/offline mode, open the sandbox simulator popup
+      setExecutingOffer(offer);
+    }
   };
 
   const handleSimulateCompletion = async () => {
@@ -44,7 +96,7 @@ export default function Earn() {
     
     setLoadingOfferId(executingOffer.id);
     try {
-      await earnCoinsSimulated(executingOffer.id);
+      await earnCoinsSimulated(executingOffer);
       setSuccessMessage(`Success! You have completed "${executingOffer.title}" and earned ${executingOffer.coins} coins.`);
       setExecutingOffer(null);
       
@@ -81,63 +133,88 @@ export default function Earn() {
         </div>
       )}
 
-      {/* Category Tabs */}
-      <div className="mb-8 flex flex-wrap gap-2 border-b border-dark-border pb-4">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
-              selectedCategory === cat 
-                ? 'bg-primary text-black' 
-                : 'bg-zinc-900 text-zinc-400 border border-dark-border/40 hover:text-white hover:border-zinc-700'
-            }`}
-          >
-            {cat} Tasks
-          </button>
-        ))}
-      </div>
-
-      {/* Offers Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredOffers.map((offer) => (
-          <div 
-            key={offer.id}
-            onClick={() => handleOfferClick(offer)}
-            className="flex flex-col rounded-2xl glass-card border border-dark-border p-5 hover:border-primary/20 hover:shadow-[0_0_15px_rgba(16,185,129,0.05)] active:scale-[0.99] transition-all cursor-pointer group relative overflow-hidden"
-          >
-            {/* Top Row: Icon & Category */}
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-3xl p-2 rounded-xl bg-zinc-950/60 border border-dark-border/50">
-                {offer.icon}
-              </span>
-              <span className="rounded-full border border-dark-border bg-zinc-900 px-3 py-1 text-xs font-semibold text-zinc-400 uppercase tracking-wide">
-                {offer.category}
-              </span>
-            </div>
-
-            {/* Title & Description */}
-            <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors line-clamp-1">
-              {offer.title}
-            </h3>
-            <p className="text-xs text-zinc-400 mt-1.5 mb-6 line-clamp-2 leading-relaxed flex-1">
-              {offer.description}
-            </p>
-
-            {/* Bottom Row: Coins & Action */}
-            <div className="flex items-center justify-between pt-4 border-t border-dark-border/60">
-              <div className="flex items-center gap-1.5">
-                <Coins className="h-4 w-4 text-yellow-500" />
-                <span className="font-black text-white">{offer.coins.toLocaleString()}</span>
-                <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Coins</span>
-              </div>
-              <div className="flex items-center gap-1 text-xs font-bold text-primary group-hover:translate-x-1 transition-transform">
-                Earn ${offer.payout.toFixed(2)} <Play className="h-3 w-3 fill-primary text-primary" />
-              </div>
-            </div>
+      {loading ? (
+        <div className="flex-1 flex flex-col items-center justify-center py-24">
+          <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
+          <span className="text-xs font-bold text-zinc-550 uppercase tracking-widest animate-pulse">
+            Loading Live AdBlueMedia Offers...
+          </span>
+        </div>
+      ) : (
+        <>
+          {/* Category Tabs */}
+          <div className="mb-8 flex flex-wrap gap-2 border-b border-dark-border pb-4">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
+                  selectedCategory === cat 
+                    ? 'bg-primary text-black' 
+                    : 'bg-zinc-900 text-zinc-400 border border-dark-border/40 hover:text-white hover:border-zinc-700'
+                }`}
+              >
+                {cat} Tasks
+              </button>
+            ))}
           </div>
-        ))}
-      </div>
+
+          {/* Offers Grid */}
+          {filteredOffers.length === 0 ? (
+            <div className="text-center py-16 text-zinc-500 text-sm">
+              No offers available in this category at the moment. Please check back later!
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredOffers.map((offer) => (
+                <div 
+                  key={offer.id}
+                  onClick={() => handleOfferClick(offer)}
+                  className="flex flex-col rounded-2xl glass-card border border-dark-border p-5 hover:border-primary/20 hover:shadow-[0_0_15px_rgba(16,185,129,0.05)] active:scale-[0.99] transition-all cursor-pointer group relative overflow-hidden"
+                >
+                  {/* Top Row: Thumbnail Image & Category */}
+                  <div className="flex items-center justify-between mb-4">
+                    {offer.icon && offer.icon.startsWith('http') ? (
+                      <img 
+                        src={offer.icon} 
+                        alt={offer.title}
+                        className="h-12 w-12 rounded-xl border border-dark-border/60 object-cover bg-zinc-950"
+                      />
+                    ) : (
+                      <span className="text-3xl p-2 rounded-xl bg-zinc-950/60 border border-dark-border/50">
+                        🎮
+                      </span>
+                    )}
+                    <span className="rounded-full border border-dark-border bg-zinc-900 px-3 py-1 text-xs font-semibold text-zinc-400 uppercase tracking-wide">
+                      {offer.category}
+                    </span>
+                  </div>
+
+                  {/* Title & Description */}
+                  <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors line-clamp-1">
+                    {offer.title}
+                  </h3>
+                  <p className="text-xs text-zinc-400 mt-1.5 mb-6 line-clamp-2 leading-relaxed flex-1">
+                    {offer.description}
+                  </p>
+
+                  {/* Bottom Row: Coins & Action */}
+                  <div className="flex items-center justify-between pt-4 border-t border-dark-border/60">
+                    <div className="flex items-center gap-1.5">
+                      <Coins className="h-4 w-4 text-yellow-500" />
+                      <span className="font-black text-white">{offer.coins.toLocaleString()}</span>
+                      <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Coins</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs font-bold text-primary group-hover:translate-x-1 transition-transform">
+                      {offer.anchor.length > 15 ? `${offer.anchor.substring(0, 15)}...` : offer.anchor} <Play className="h-3 w-3 fill-primary text-primary" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
 
       {/* Offer Execution Modal (Simulated Sandbox) */}
       {executingOffer && (
