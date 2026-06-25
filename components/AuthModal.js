@@ -1,8 +1,7 @@
-'use client';
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { X, Mail, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
+import { X, Mail, Lock, User, AlertCircle, Loader2, ShieldAlert } from 'lucide-react';
+import { db } from '@/lib/db';
 
 export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
   const [tab, setTab] = useState(initialTab);
@@ -14,6 +13,17 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
   
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [deviceHasAccount, setDeviceHasAccount] = useState(null);
+
+  useEffect(() => {
+    if (tab === 'register' && isOpen) {
+      db.checkDeviceHasAccount().then(existingUsername => {
+        setDeviceHasAccount(existingUsername);
+      });
+    } else {
+      setDeviceHasAccount(null);
+    }
+  }, [tab, isOpen]);
 
   if (!isOpen) return null;
 
@@ -106,74 +116,94 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
             )}
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3.5">
-              {tab === 'register' && (
+            {deviceHasAccount ? (
+              <div className="text-center py-6 px-4 bg-red-950/20 border border-red-900/40 rounded-xl space-y-4 shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+                <div className="inline-flex rounded-full bg-red-500/10 p-3 text-red-500 animate-pulse">
+                  <ShieldAlert className="h-6 w-6" />
+                </div>
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Device Blocked</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed max-w-sm mx-auto">
+                  Our system detected an existing account registered from this device (Username: <strong className="text-[#38bdf8] font-bold">{deviceHasAccount}</strong>). 
+                  To prevent fraud and duplicate accounts, only one account is allowed per device.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setTab('login')}
+                  className="btn-gaming w-full py-2.5 text-xs font-extrabold rounded-xl"
+                >
+                  Sign In to Existing Account
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-3.5">
+                {tab === 'register' && (
+                  <div>
+                    <label className="block text-[9px] font-bold uppercase tracking-wider text-zinc-500 mb-1.5">
+                      Username
+                    </label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="displayname"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="w-full rounded-xl bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-[9px] font-bold uppercase tracking-wider text-zinc-500 mb-1.5">
-                    Username
+                    Email Address
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                     <input
-                      type="text"
+                      type="email"
                       required
-                      placeholder="displayname"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full rounded-xl bg-zinc-955 bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[9px] font-bold uppercase tracking-wider text-zinc-500 mb-1.5">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                    <input
+                      type="password"
+                      required
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-full rounded-xl bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
-              )}
 
-              <div>
-                <label className="block text-[9px] font-bold uppercase tracking-wider text-zinc-500 mb-1.5">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-                  <input
-                    type="email"
-                    required
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl bg-zinc-955 bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[9px] font-bold uppercase tracking-wider text-zinc-500 mb-1.5">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-                  <input
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-xl bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-secondary to-primary py-3 text-xs font-black text-black hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100 shadow-[0_0_15px_rgba(56,189,248,0.2)]"
-              >
-                {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : tab === 'login' ? (
-                  'Sign In'
-                ) : (
-                  'Create Account'
-                )}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-gaming w-full flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-extrabold"
+                >
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : tab === 'login' ? (
+                    'Sign In'
+                  ) : (
+                    'Create Account'
+                  )}
+                </button>
+              </form>
+            )}
           </div>
 
           {/* Bottom toggle links */}
@@ -185,7 +215,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 setTab(tab === 'login' ? 'register' : 'login');
                 setError('');
               }}
-              className="text-primary font-bold hover:underline bg-transparent border-none cursor-pointer mt-1"
+              className="text-primary font-bold hover:underline bg-transparent border-none cursor-pointer mt-1 active:scale-95 transition-all"
             >
               {tab === 'login' ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
             </button>

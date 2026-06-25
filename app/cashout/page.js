@@ -604,11 +604,11 @@ export default function Cashout() {
                         type="button"
                         key={amount.usd}
                         onClick={() => setSelectedAmount(amount)}
-                        className={`rounded-xl p-3 text-center border transition-all flex flex-col items-center justify-center gap-0.5 ${
+                        className={`rounded-xl p-3 text-center border active:scale-95 hover:scale-[1.02] transition-all flex flex-col items-center justify-center gap-0.5 ${
                           isSelected
-                            ? 'bg-primary border-primary text-black'
-                            : 'bg-zinc-950 border-dark-border text-white hover:border-zinc-700'
-                        } ${!canAfford && !isSelected ? 'opacity-50' : ''}`}
+                            ? 'bg-[#38bdf8] border-[#38bdf8] text-black shadow-[0_0_12px_rgba(56,189,248,0.4)] font-bold'
+                            : 'bg-zinc-950 border-dark-border text-white hover:border-primary/40'
+                        } ${!canAfford && !isSelected ? 'opacity-40' : ''}`}
                       >
                         <span className="text-sm font-bold">${amount.usd.toFixed(2)}</span>
                         <span className={`text-[10px] ${isSelected ? 'text-black/70 font-bold' : 'text-zinc-555'}`}>
@@ -649,14 +649,14 @@ export default function Cashout() {
                 <button
                   type="button"
                   onClick={() => setSelectedMethod(null)}
-                  className="flex-1 rounded-xl border border-dark-border bg-zinc-900 py-3 text-xs font-bold text-zinc-300 hover:text-white transition-colors"
+                  className="btn-gaming-secondary flex-1 rounded-xl py-3 text-xs font-extrabold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-secondary to-primary py-3 text-xs font-black text-black hover:opacity-90 disabled:opacity-50 transition-all shadow-[0_0_15px_rgba(56,189,248,0.25)]"
+                  className="btn-gaming flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-extrabold"
                 >
                   {loading ? (
                     <Loader2 className="h-4 w-4 animate-spin text-black" />

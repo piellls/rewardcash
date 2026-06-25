@@ -201,7 +201,7 @@ export default function SupportModal({ isOpen, onClose }) {
             setSelectedTicket(null);
             onClose();
           }}
-          className="absolute right-4 top-4 rounded-full p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors"
+          className="absolute right-4 top-4 rounded-full p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white active:scale-90 transition-all"
         >
           <X className="h-5 w-5" />
         </button>
@@ -213,7 +213,7 @@ export default function SupportModal({ isOpen, onClose }) {
               setSelectedTicket(null);
               loadTickets();
             }}
-            className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white mb-4 transition-colors"
+            className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white mb-4 active:scale-95 transition-all"
           >
             <ArrowLeft className="h-4 w-4" /> Back to History
           </button>
@@ -237,7 +237,7 @@ export default function SupportModal({ isOpen, onClose }) {
           <div className="flex gap-6 border-b border-dark-border mb-5 pb-2 text-xs">
             <button
               onClick={() => setActiveTab('submit')}
-              className={`pb-2 font-bold uppercase tracking-wider transition-all border-b-2 ${
+              className={`pb-2 font-bold uppercase tracking-wider active:scale-95 transition-all border-b-2 ${
                 activeTab === 'submit' 
                   ? 'border-primary text-primary' 
                   : 'border-transparent text-zinc-500 hover:text-zinc-300'
@@ -250,7 +250,7 @@ export default function SupportModal({ isOpen, onClose }) {
                 setActiveTab('list');
                 loadTickets();
               }}
-              className={`pb-2 font-bold uppercase tracking-wider transition-all border-b-2 ${
+              className={`pb-2 font-bold uppercase tracking-wider active:scale-95 transition-all border-b-2 ${
                 activeTab === 'list' 
                   ? 'border-primary text-primary' 
                   : 'border-transparent text-zinc-500 hover:text-zinc-300'
@@ -325,7 +325,7 @@ export default function SupportModal({ isOpen, onClose }) {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-secondary py-3 text-sm font-bold text-black hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
+                    className="btn-gaming w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-extrabold"
                   >
                     {loading ? (
                       <Loader2 className="h-4 w-4 animate-spin text-black" />
@@ -476,7 +476,7 @@ export default function SupportModal({ isOpen, onClose }) {
               <button
                 type="submit"
                 disabled={sendingMsg || !newMessage.trim()}
-                className="rounded-xl bg-primary hover:opacity-90 active:scale-[0.95] px-3.5 text-black disabled:opacity-50 disabled:scale-100 transition-all flex items-center justify-center shrink-0"
+                className="btn-gaming rounded-xl px-4 text-black disabled:opacity-50 disabled:scale-100 flex items-center justify-center shrink-0"
               >
                 {sendingMsg ? (
                   <Loader2 className="h-4 w-4 animate-spin" />

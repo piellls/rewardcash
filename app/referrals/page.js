@@ -158,7 +158,7 @@ export default function Referrals() {
 
         <button
           onClick={() => { setAuthTab('register'); setIsAuthOpen(true); }}
-          className="rounded-xl bg-gradient-to-r from-secondary to-primary px-8 py-3.5 text-xs sm:text-sm font-black text-black shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:opacity-90 active:scale-[0.98] transition-all"
+          className="btn-gaming rounded-xl px-8 py-3.5 text-xs sm:text-sm font-extrabold"
         >
           Create Free Account & Start
         </button>
@@ -185,9 +185,9 @@ export default function Referrals() {
         </h1>
         <button 
           onClick={() => alert("Affiliate guidelines: Share your URL, earn commission percentage based on Tiers 1-10 on completions. Commissions can be claimed at any time to your active coin balance.")}
-          className="rounded-xl border border-dark-border bg-zinc-950 px-4 py-2 text-xs font-bold text-zinc-355 hover:bg-zinc-900 transition-colors flex items-center gap-1.5"
+          className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs flex items-center gap-1.5"
         >
-          <Info className="h-4 w-4 text-zinc-455" />
+          <Info className="h-4 w-4 text-[#38bdf8]" />
           How it works
         </button>
       </div>
@@ -251,7 +251,7 @@ export default function Referrals() {
                 <button
                   onClick={handleClaimEarnings}
                   disabled={claimableCoins <= 0}
-                  className="rounded-xl bg-[#10b981] hover:bg-emerald-600 disabled:bg-zinc-900 border border-emerald-500/20 disabled:border-dark-border text-white hover:text-white px-5 py-2 text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 shadow-[0_0_12px_rgba(16,185,129,0.2)]"
+                  className="btn-gaming rounded-xl px-5 py-2 text-xs font-extrabold"
                 >
                   Claim
                 </button>
@@ -320,13 +320,13 @@ export default function Referrals() {
                 />
                 <button
                   onClick={handleCopyLink}
-                  className={`rounded-xl border px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 active:scale-95 ${
+                  className={`flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-extrabold shrink-0 ${
                     copied 
-                      ? 'bg-emerald-950/20 text-primary border-emerald-500/30' 
-                      : 'bg-zinc-900 border-dark-border hover:bg-zinc-800 text-white hover:text-primary'
+                      ? 'btn-gaming shadow-[0_0_10px_rgba(56,189,248,0.35)]' 
+                      : 'btn-gaming-secondary'
                   }`}
                 >
-                  {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copied ? <Check className="h-3.5 w-3.5 text-black font-extrabold" /> : <Copy className="h-3.5 w-3.5" />}
                   Copy link
                 </button>
               </div>
@@ -396,9 +396,9 @@ export default function Referrals() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`flex-1 rounded-lg py-1.5 text-xs font-bold transition-all ${
+                className={`flex-1 rounded-lg py-1.5 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all ${
                   activeTab === tab 
-                    ? 'bg-primary text-black' 
+                    ? 'bg-[#38bdf8] text-black shadow-[0_0_10px_rgba(56,189,248,0.3)]' 
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >

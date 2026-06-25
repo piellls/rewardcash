@@ -80,7 +80,7 @@ export default function Dashboard() {
         </p>
         <button
           onClick={() => setIsAuthOpen(true)}
-          className="rounded-xl bg-gradient-to-r from-secondary to-primary px-8 py-3.5 text-xs sm:text-sm font-black text-black hover:opacity-90 active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(56,189,248,0.25)] cursor-pointer"
+          className="btn-gaming rounded-xl px-8 py-3.5 text-xs sm:text-sm font-extrabold"
         >
           Sign In / Register
         </button>
@@ -134,9 +134,9 @@ export default function Dashboard() {
         </h1>
         <button 
           onClick={() => alert("Profile Settings: Updates coming soon!")}
-          className="rounded-xl bg-zinc-950/40 border border-dark-border hover:border-emerald-500/25 px-4 py-2 text-xs font-bold text-[#10b981] hover:bg-emerald-500/[0.02] transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+          className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs flex items-center gap-1.5"
         >
-          <div className="icon-wrapper-secondary p-1 border-none mr-0.5">
+          <div className="icon-wrapper-secondary p-1 border-none mr-0.5 text-[#38bdf8] bg-transparent">
             <Settings className="h-3.5 w-3.5" />
           </div>
           Settings
@@ -266,9 +266,9 @@ export default function Dashboard() {
                 <button
                   key={tab}
                   onClick={() => setActiveMainTab(tab)}
-                  className={`rounded-xl px-5 py-2 text-xs font-extrabold transition-all cursor-pointer ${
+                  className={`rounded-xl px-5 py-2 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all cursor-pointer ${
                     isActive 
-                      ? 'bg-emerald-500/15 text-[#10b981] border border-emerald-500/20 shadow-[0_0_12px_rgba(16,185,129,0.1)]' 
+                      ? 'bg-[#38bdf8]/15 text-[#38bdf8] border border-[#38bdf8]/20 shadow-[0_0_12px_rgba(56,189,248,0.15)]' 
                       : 'bg-zinc-950/40 border border-dark-border text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/40'
                   }`}
                 >
@@ -290,9 +290,9 @@ export default function Dashboard() {
                       <button
                         key={sub}
                         onClick={() => setActiveSubTab(sub)}
-                        className={`relative py-2 text-xs font-extrabold transition-all cursor-pointer ${
+                        className={`relative py-2 text-xs font-extrabold active:scale-95 transition-all cursor-pointer ${
                           isActive 
-                            ? 'text-[#10b981]' 
+                            ? 'text-[#38bdf8]' 
                             : 'text-zinc-500 hover:text-zinc-350'
                         }`}
                       >

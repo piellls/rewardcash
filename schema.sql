@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   balance_coins INTEGER DEFAULT 0 CHECK (balance_coins >= 0),
   total_earned_coins INTEGER DEFAULT 0 CHECK (total_earned_coins >= 0),
   avatar_url TEXT,
+  device_fingerprint TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -87,13 +88,14 @@ BEGIN
     v_username := v_username || '_' || floor(random() * 10000)::text;
   END IF;
 
-  INSERT INTO public.profiles (id, username, email, balance_coins, total_earned_coins)
+  INSERT INTO public.profiles (id, username, email, balance_coins, total_earned_coins, device_fingerprint)
   VALUES (
     new.id,
     v_username,
     new.email,
     0,
-    0
+    0,
+    new.raw_user_meta_data->>'device_fingerprint'
   );
   RETURN NEW;
 END;

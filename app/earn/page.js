@@ -1,10 +1,36 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { db, isMockMode } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Coins, Flame, Award, Gamepad2, Play, Sparkles, CheckCircle, Loader2, Lock, Check, TrendingUp, AlertTriangle, Globe, Target, FileText, Smartphone, Swords, MessageSquare, Music } from 'lucide-react';
+import { Coins, Flame, Award, Gamepad2, Play, Sparkles, CheckCircle, Loader2, Lock, Check, TrendingUp, Globe, Target, FileText, Smartphone } from 'lucide-react';
+
+// AdBlueMedia credentials
+const ABM_USER_ID = '199180';
+const ABM_API_KEY = '784b49bd7b4108039d10fac0f90cc372';
+const ABM_FEED    = `https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php`;
+const ABM_CHECK   = `https://de6jvomfbm0af.cloudfront.net/public/external/check2.php`;
+
+// JSONP helper – works cross-origin without CORS issues
+function fetchJSONP(url) {
+  return new Promise((resolve, reject) => {
+    const cbName = `_abm_cb_${Date.now()}_${Math.floor(Math.random()*1e6)}`;
+    const script = document.createElement('script');
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error('JSONP timeout'));
+    }, 10000);
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    window[cbName] = (data) => { cleanup(); resolve(data); };
+    script.src = `${url}&callback=${cbName}`;
+    script.onerror = () => { cleanup(); reject(new Error('JSONP error')); };
+    document.head.appendChild(script);
+  });
+}
 
 export default function Earn() {
   const { user, earnCoinsSimulated } = useAuth();
@@ -107,51 +133,84 @@ export default function Earn() {
     return () => clearInterval(interval);
   }, [streak.lastClaimed, canClaim]);
 
-  // Fetch live AdBlueMedia offers
+  // Map raw AdBlueMedia offer object → internal format
+  const mapOffer = useCallback((offer) => {
+    const rawPayout = parseFloat(offer.user_payout || offer.payout || '0.20');
+    const coins     = Math.round(rawPayout * 1000);
+    const text      = `${offer.name} ${offer.conversion} ${offer.anchor}`.toLowerCase();
+    let category    = 'Survey';
+    if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot'))
+      category = 'Game';
+    else if (text.includes('install') || text.includes('download') || text.includes('app') || text.includes('mobile'))
+      category = 'App';
+    return {
+      id:          offer.id,
+      title:       offer.name || 'AdBlueMedia Task',
+      description: offer.conversion || 'Complete the task to earn your reward.',
+      coins,
+      payout:      rawPayout,
+      provider:    'AdBlueMedia',
+      icon:        offer.network_icon || null,
+      category,
+      url:         offer.url,
+      anchor:      offer.anchor || 'Earn Coins',
+    };
+  }, []);
+
+  // Fetch offers – call AdBlueMedia DIRECTLY from browser so real user IP is used
   useEffect(() => {
     const fetchOffers = async () => {
       setLoading(true);
       try {
-        const userId = user ? user.id : 'guest';
-        const res = await fetch(`/api/offers?s1=${userId}`);
-        const data = await res.json();
-        
-        const mappedOffers = (data || []).map(offer => {
-          const rawPayout = parseFloat(offer.user_payout || offer.payout || '0.20');
-          const calculatedCoins = Math.round(rawPayout * 1000);
-          
-          // Categorization by keywords
-          const text = `${offer.name} ${offer.conversion} ${offer.anchor}`.toLowerCase();
-          let category = 'Survey';
-          if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('العاب') || text.includes('لعبة')) {
-            category = 'Game';
-          } else if (text.includes('install') || text.includes('download') || text.includes('app') || text.includes('تطبيق') || text.includes('تنزيل') || text.includes('mobile')) {
-            category = 'App';
-          }
-          
-          return {
-            id: offer.id,
-            title: offer.name || 'AdBlueMedia Task',
-            description: offer.conversion || 'Complete the task steps to earn your reward.',
-            coins: calculatedCoins,
-            payout: rawPayout,
-            provider: 'AdBlueMedia',
-            icon: offer.network_icon || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150',
-            category: category,
-            url: offer.url,
-            anchor: offer.anchor || 'Earn Coins'
-          };
-        });
-
-        setOffers(mappedOffers);
+        const s1  = user ? user.id : 'guest';
+        const url = `${ABM_FEED}?user_id=${ABM_USER_ID}&api_key=${ABM_API_KEY}&s1=${s1}&s2=`;
+        const raw = await fetchJSONP(url);
+        const mapped = (Array.isArray(raw) ? raw : []).map(mapOffer);
+        setOffers(mapped);
+        console.log(`[OFFERS] Loaded ${mapped.length} offers from AdBlueMedia`);
       } catch (err) {
-        console.error("Failed to fetch live offers:", err);
+        console.warn('[OFFERS] JSONP failed, trying server proxy:', err.message);
+        // Fallback: server-side proxy (may have IP mismatch in dev)
+        try {
+          const res  = await fetch(`/api/offers?s1=${user ? user.id : 'guest'}`);
+          const data = await res.json();
+          setOffers((Array.isArray(data) ? data : []).map(mapOffer));
+        } catch (e) {
+          console.error('[OFFERS] Both methods failed:', e.message);
+        }
       } finally {
         setLoading(false);
       }
     };
-
     fetchOffers();
+  }, [user?.id, mapOffer]);
+
+  // Check for completed leads every 15 seconds → auto-credit coins
+  useEffect(() => {
+    if (!user) return;
+    const checkLeads = async () => {
+      try {
+        const url = `${ABM_CHECK}?testing=0`;
+        const leads = await fetchJSONP(url);
+        if (Array.isArray(leads) && leads.length > 0) {
+          let totalCoins = 0;
+          leads.forEach(lead => {
+            const earned = Math.round((parseFloat(lead.points) / 100) * 1000);
+            totalCoins += earned;
+            console.log(`[LEAD] Offer #${lead.offer_id} → $${(parseFloat(lead.points)/100).toFixed(2)} → ${earned} coins`);
+          });
+          if (totalCoins > 0 && earnCoinsSimulated) {
+            await earnCoinsSimulated({ id: `abm_leads_${Date.now()}`, title: 'AdBlueMedia Offer Completed', coins: totalCoins, payout: totalCoins / 1000 });
+            setSuccessMessage(`🎉 Offer completed! You earned ${totalCoins.toLocaleString()} coins!`);
+            setTimeout(() => setSuccessMessage(''), 6000);
+          }
+        }
+      } catch (e) {
+        // silent – lead check failures are non-critical
+      }
+    };
+    const iv = setInterval(checkLeads, 15000);
+    return () => clearInterval(iv);
   }, [user?.id]);
 
   const categories = ['All', 'Game', 'Survey', 'App'];
@@ -166,12 +225,8 @@ export default function Earn() {
       setIsAuthOpen(true);
       return;
     }
-    
-    if (!isMockMode) {
-      window.open(offer.url, '_blank');
-    } else {
-      setExecutingOffer(offer);
-    }
+    // Always open the real AdBlueMedia offer URL in a new tab
+    window.open(offer.url, '_blank', 'noopener,noreferrer');
   };
 
   const handleSimulateCompletion = async () => {
@@ -254,12 +309,8 @@ export default function Earn() {
           </p>
         </div>
         
-        {isMockMode && (
-          <div className="flex items-center gap-2 rounded-xl bg-zinc-950 border border-dark-border px-4 py-2 text-xs text-zinc-400">
-            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-            <span>Sandbox Simulator Active</span>
-          </div>
-        )}
+
+
       </div>
 
       {/* Success Notification */}
@@ -297,7 +348,7 @@ export default function Earn() {
             {!user ? (
               <button 
                 onClick={() => { setAuthTab('register'); setIsAuthOpen(true); }}
-                className="rounded-xl bg-gradient-to-r from-secondary to-primary px-5 py-2.5 text-xs font-bold text-black shadow-[0_0_15px_rgba(99,102,241,0.25)] hover:opacity-90 active:scale-[0.98] transition-all"
+                className="btn-gaming rounded-xl px-5 py-2.5 text-xs font-extrabold"
               >
                 Sign In to Claim
               </button>
@@ -305,7 +356,7 @@ export default function Earn() {
               <button
                 onClick={handleClaimStreak}
                 disabled={loadingOfferId === 'streak'}
-                className="rounded-xl bg-gradient-to-r from-secondary to-primary px-6 py-2.5 text-xs font-black text-black shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:opacity-90 active:scale-[0.98] transition-all flex items-center gap-2"
+                className="btn-gaming rounded-xl px-5 py-2.5 text-xs font-extrabold flex items-center gap-1.5"
               >
                 {loadingOfferId === 'streak' ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -423,7 +474,7 @@ export default function Earn() {
               className={`rounded-xl border p-5 flex flex-col justify-between transition-all cursor-pointer relative overflow-hidden group ${
                 wall.active 
                   ? 'border-primary/20 bg-dark-card hover:border-primary/40 hover:shadow-[0_0_15px_rgba(56,189,248,0.1)] active:scale-[0.98]'
-                  : 'border-dark-border bg-dark-card/60 opacity-80 hover:opacity-100 hover:border-zinc-800'
+                  : 'border-dark-border bg-dark-card/60 opacity-80 hover:opacity-100 hover:border-zinc-800 active:scale-[0.98] transition-all'
               }`}
             >
               {/* Badge */}
@@ -483,10 +534,10 @@ export default function Earn() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
+                className={`rounded-lg px-3.5 py-1.5 text-xs font-extrabold active:scale-[0.95] hover:scale-[1.02] transition-all ${
                   selectedCategory === cat 
-                    ? 'bg-primary text-black shadow-sm' 
-                    : 'text-zinc-450 hover:text-white'
+                    ? 'bg-[#38bdf8] text-black shadow-[0_0_10px_rgba(56,189,248,0.3)]' 
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/40'
                 }`}
               >
                 {cat}
@@ -507,65 +558,118 @@ export default function Earn() {
             No tasks found in this category at the moment. Please check back later!
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredOffers.map((offer) => (
-              <div 
-                key={offer.id}
-                onClick={() => handleOfferClick(offer)}
-                className="flex flex-col justify-between rounded-xl border border-dark-border bg-dark-card p-5 hover:border-primary/20 hover:shadow-[0_0_15px_rgba(56,189,248,0.06)] active:scale-[0.99] transition-all cursor-pointer group relative overflow-hidden"
-              >
-                {/* Accent lines */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-secondary/0 via-primary/0 to-primary/0 group-hover:via-primary/30 transition-all duration-500" />
-                
-                <div>
-                  {/* Icon & Category */}
-                  <div className="flex items-center justify-between mb-4">
-                    {offer.icon && offer.icon.startsWith('http') ? (
-                      <img 
-                        src={offer.icon} 
-                        alt={offer.title}
-                        className="h-11 w-11 rounded-lg border border-dark-border/80 object-cover bg-zinc-950"
-                      />
-                    ) : (
-                      <div className="p-2.5 rounded-lg bg-zinc-950 border border-dark-border flex items-center justify-center group-hover:border-primary/20 transition-all">
-                        {(() => {
-                          const iconKey = (offer.icon || offer.category || '').toLowerCase();
-                          if (iconKey === 'game') return <Gamepad2 className="h-5 w-5 text-primary" />;
-                          if (iconKey === 'survey') return <FileText className="h-5 w-5 text-secondary" />;
-                          if (iconKey === 'app') return <Smartphone className="h-5 w-5 text-primary" />;
-                          return <Gamepad2 className="h-5 w-5 text-zinc-500" />;
-                        })()}
+          <div className="space-y-10 flex-1 flex flex-col">
+            {/* Helper to render OS / Compatibility circular badges */}
+            {(() => {
+              const renderOSIndicator = (category) => (
+                <div className="absolute top-1.5 right-1.5 rounded-full bg-black/80 p-1 border border-zinc-800/80 text-white flex items-center justify-center shadow-md">
+                  {category === 'Survey' ? (
+                    <FileText className="h-3 w-3 text-zinc-300" />
+                  ) : category === 'App' ? (
+                    <Smartphone className="h-3 w-3 text-zinc-300" />
+                  ) : (
+                    <Gamepad2 className="h-3 w-3 text-zinc-300" />
+                  )}
+                </div>
+              );
+
+              const renderOfferCard = (offer) => {
+                const boostVal = offer.coins >= 3000 ? 80 : 50;
+                const originalPayout = offer.payout / (1 + boostVal / 100);
+
+                return (
+                  <div
+                    key={offer.id}
+                    onClick={() => handleOfferClick(offer)}
+                    className="flex flex-col w-[165px] shrink-0 bg-dark-card border border-dark-border/80 p-3 rounded-2xl hover:border-primary/40 hover:shadow-[0_0_15px_rgba(56,189,248,0.1)] active:scale-[0.98] transition-all cursor-pointer group"
+                  >
+                    {/* Card Image Container */}
+                    <div className="relative w-full aspect-square rounded-xl overflow-hidden mb-3 bg-zinc-950/60 border border-dark-border/40">
+                      {offer.icon && offer.icon.startsWith('http') ? (
+                        <img 
+                          src={offer.icon} 
+                          alt={offer.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-zinc-650 bg-zinc-950">
+                          {offer.category === 'Survey' ? (
+                            <FileText className="h-10 w-10 text-primary/30" />
+                          ) : (
+                            <Gamepad2 className="h-10 w-10 text-secondary/30" />
+                          )}
+                        </div>
+                      )}
+
+                      {/* Boost Badge (Top Left) */}
+                      <div className="absolute top-1.5 left-1.5 bg-[#38bdf8] text-black text-[9px] font-black px-1.5 py-0.5 rounded shadow-md">
+                        +{boostVal}%
                       </div>
-                    )}
-                    
-                    <span className="rounded-full bg-zinc-900 border border-dark-border/60 px-2.5 py-0.5 text-[9px] font-bold text-zinc-400 uppercase tracking-wider">
-                      {offer.category}
-                    </span>
-                  </div>
 
-                  <h3 className="text-sm font-bold text-white group-hover:text-primary transition-colors line-clamp-1">
-                    {offer.title}
-                  </h3>
-                  <p className="text-xs text-zinc-455 mt-1 line-clamp-2 leading-relaxed">
-                    {offer.description}
-                  </p>
-                </div>
-
-                <div className="mt-5 pt-3 border-t border-dark-border/40 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
-                      <Coins className="h-3.5 w-3.5 text-primary" />
+                      {/* OS Indicator (Top Right) */}
+                      {renderOSIndicator(offer.category)}
                     </div>
-                    <span className="font-extrabold text-sm text-white">{offer.coins.toLocaleString()}</span>
-                    <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Coins</span>
+
+                    {/* Text Details */}
+                    <h4 className="text-xs font-extrabold text-white truncate group-hover:text-primary transition-colors text-left w-full mb-0.5">
+                      {offer.title}
+                    </h4>
+                    <p className="text-[10px] text-zinc-500 truncate text-left w-full mb-3 leading-normal">
+                      {offer.description}
+                    </p>
+
+                    {/* Pricing Row */}
+                    <div className="flex items-center gap-1.5 mt-auto text-left">
+                      <span className="text-xs font-black text-primary font-sans">
+                        ${offer.payout.toFixed(2)}
+                      </span>
+                      <span className="text-[10px] text-zinc-600 line-through font-bold font-sans">
+                        ${originalPayout.toFixed(2)}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 text-[11px] font-bold text-primary group-hover:translate-x-0.5 transition-all">
-                    {offer.anchor.length > 15 ? `${offer.anchor.substring(0, 15)}...` : offer.anchor} 
-                    <Play className="h-2.5 w-2.5 fill-primary text-primary" />
-                  </div>
-                </div>
-              </div>
-            ))}
+                );
+              };
+
+              const tasks = filteredOffers.filter(o => o.category === 'Game' || o.category === 'App');
+              const surveys = filteredOffers.filter(o => o.category === 'Survey');
+
+              return (
+                <>
+                  {/* Featured Tasks Row */}
+                  {tasks.length > 0 && (
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-base font-black text-white tracking-tight">Featured Tasks</h3>
+                          <p className="text-[11px] text-zinc-500">Featured tasks are the best tasks to complete, with the highest rewards</p>
+                        </div>
+                        <button onClick={() => setSelectedCategory('All')} className="text-xs font-extrabold text-[#38bdf8] hover:underline active:scale-95 transition-all">View All</button>
+                      </div>
+                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth">
+                        {tasks.map(offer => renderOfferCard(offer))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Featured Surveys Row */}
+                  {surveys.length > 0 && (
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-base font-black text-white tracking-tight">Featured Surveys</h3>
+                          <p className="text-[11px] text-zinc-500">Explore our handpicked selection of surveys just for you</p>
+                        </div>
+                        <button onClick={() => setSelectedCategory('Survey')} className="text-xs font-extrabold text-[#38bdf8] hover:underline active:scale-95 transition-all">View All</button>
+                      </div>
+                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth">
+                        {surveys.map(offer => renderOfferCard(offer))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
         )}
       </div>
@@ -609,14 +713,14 @@ export default function Earn() {
             <div className="flex gap-3">
               <button
                 onClick={() => setExecutingOffer(null)}
-                className="flex-1 rounded-xl border border-dark-border bg-zinc-900 py-3 text-xs font-bold text-zinc-300 hover:text-white transition-colors"
+                className="btn-gaming-secondary flex-1 rounded-xl py-3 text-xs font-extrabold"
               >
                 Close Sandbox
               </button>
               <button
                 onClick={handleSimulateCompletion}
                 disabled={loadingOfferId !== null}
-                className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-secondary to-primary py-3 text-xs font-black text-black hover:opacity-90 disabled:opacity-50 transition-all shadow-[0_0_15px_rgba(56,189,248,0.25)] animate-pulse"
+                className="btn-gaming flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-extrabold animate-pulse"
               >
                 {loadingOfferId ? (
                   <Loader2 className="h-4 w-4 animate-spin text-black" />

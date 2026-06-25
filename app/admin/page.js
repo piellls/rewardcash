@@ -279,7 +279,7 @@ export default function AdminDashboard() {
           <div className="flex gap-4 border-b border-dark-border pb-2.5">
             <button
               onClick={() => setActiveTab('withdrawals')}
-              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
+              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 active:scale-95 transition-all ${
                 activeTab === 'withdrawals' 
                   ? 'border-primary text-primary' 
                   : 'border-transparent text-zinc-500 hover:text-zinc-350'
@@ -289,7 +289,7 @@ export default function AdminDashboard() {
             </button>
             <button
               onClick={() => setActiveTab('users')}
-              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
+              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 active:scale-95 transition-all ${
                 activeTab === 'users' 
                   ? 'border-primary text-primary' 
                   : 'border-transparent text-zinc-500 hover:text-zinc-350'
@@ -299,7 +299,7 @@ export default function AdminDashboard() {
             </button>
             <button
               onClick={() => setActiveTab('tickets')}
-              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
+              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 active:scale-95 transition-all ${
                 activeTab === 'tickets' 
                   ? 'border-primary text-primary' 
                   : 'border-transparent text-zinc-500 hover:text-zinc-350'
@@ -481,10 +481,10 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => handleToggleTicketStatus(selectedTicket.id, selectedTicket.status)}
                     disabled={processingId !== null}
-                    className={`rounded-xl px-4 py-1.5 text-xs font-bold transition-all border active:scale-95 ${
+                    className={`rounded-xl px-4 py-1.5 text-xs font-extrabold active:scale-95 transition-all border ${
                       selectedTicket.status === 'resolved'
-                        ? 'bg-amber-950/20 hover:bg-amber-900/40 text-yellow-500 border-amber-900/50'
-                        : 'bg-emerald-950/20 hover:bg-emerald-900/40 text-primary border-emerald-900/50'
+                        ? 'bg-amber-950/25 hover:bg-amber-900/40 text-yellow-500 border-yellow-500/25'
+                        : 'bg-emerald-950/25 hover:bg-emerald-900/40 text-emerald-400 border-emerald-500/25'
                     }`}
                   >
                     {processingId === selectedTicket.id ? (
@@ -565,7 +565,7 @@ export default function AdminDashboard() {
                 <button
                   type="submit"
                   disabled={sendingReply || !replyMessage.trim()}
-                  className="rounded-xl bg-primary hover:opacity-90 active:scale-[0.95] px-4 text-black disabled:opacity-50 disabled:scale-100 transition-all flex items-center justify-center shrink-0"
+                  className="btn-gaming rounded-xl px-4 text-black disabled:opacity-50 disabled:scale-100 flex items-center justify-center shrink-0"
                 >
                   {sendingReply ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

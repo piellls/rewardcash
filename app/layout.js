@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       className="h-full antialiased dark"
       style={{ colorScheme: 'dark' }}
     >
-      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-16 pb-16 md:pb-0">
+      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[120px] pb-16 md:pb-0">
         <AuthProvider>
           <Navbar />
           <div className="flex-1 flex flex-col w-full md:pl-64">

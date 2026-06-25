@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
 import SupportModal from './SupportModal';
+import LiveFeedBanner from './LiveFeedBanner';
 import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, User, Users, ChevronRight } from 'lucide-react';
 
 const calculateLevel = (totalEarned = 0) => {
@@ -152,13 +153,13 @@ export default function Navbar() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() => openAuth('login')}
-                className="text-xs sm:text-sm font-semibold text-zinc-400 hover:text-white transition-colors px-3 py-2"
+                className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs sm:text-sm"
               >
                 Sign In
               </button>
               <button
                 onClick={() => openAuth('register')}
-                className="rounded-xl bg-gradient-to-r from-secondary to-primary px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-black hover:opacity-90 active:scale-[0.98] transition-all shadow-[0_0_15px_rgba(99,102,241,0.25)]"
+                className="btn-gaming rounded-xl px-4 py-2 text-xs sm:text-sm"
               >
                 Register
               </button>
@@ -166,6 +167,9 @@ export default function Navbar() {
           )}
         </div>
       </header>
+
+      {/* Live Feed Banner (Global User Activities) */}
+      <LiveFeedBanner />
 
       {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
       <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
@@ -193,7 +197,7 @@ export default function Navbar() {
                 <button
                   key={item.name}
                   onClick={() => setIsSupportOpen(true)}
-                  className="flex w-full items-center justify-between text-sm font-semibold tracking-wide text-zinc-400 hover:text-white hover:bg-zinc-900/30 py-2.5 px-4 rounded-xl transition-all cursor-pointer border-none bg-transparent text-left group"
+                  className="flex w-full items-center justify-between text-sm font-semibold tracking-wide text-zinc-400 hover:text-white hover:bg-zinc-900/30 py-2.5 px-4 rounded-xl hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer border-none bg-transparent text-left group"
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-1.5 rounded-lg bg-transparent text-zinc-500 group-hover:bg-zinc-900/50 group-hover:text-primary transition-colors border border-transparent group-hover:border-zinc-800/40">
@@ -210,7 +214,7 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center justify-between text-sm font-semibold tracking-wide py-2.5 px-4 rounded-xl transition-all relative group overflow-hidden ${
+                className={`flex items-center justify-between text-sm font-semibold tracking-wide py-2.5 px-4 rounded-xl hover:scale-[1.01] active:scale-[0.98] transition-all relative group overflow-hidden ${
                   isActive 
                     ? 'text-primary bg-primary/5 font-bold border-l-2 border-primary shadow-[inset_1px_0_0_rgba(56,189,248,0.2)]' 
                     : 'text-zinc-400 hover:text-white hover:bg-zinc-900/30'
@@ -237,7 +241,7 @@ export default function Navbar() {
           {user && user.role === 'admin' && (
             <Link
               href="/admin"
-              className="flex items-center justify-center gap-2 rounded-xl border border-accent-red/20 bg-accent-red/5 py-2.5 text-xs font-bold text-accent-red hover:bg-accent-red/10 transition-colors"
+              className="flex items-center justify-center gap-2 rounded-xl border border-accent-red/20 bg-accent-red/5 py-2.5 text-xs font-bold text-accent-red hover:bg-accent-red/10 active:scale-[0.98] transition-all"
             >
               <ShieldAlert className="h-4 w-4 animate-pulse" />
               Admin Control Panel
@@ -261,7 +265,7 @@ export default function Navbar() {
               <button
                 key={item.name}
                 onClick={() => setIsSupportOpen(true)}
-                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-white transition-colors cursor-pointer border-none bg-transparent group"
+                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-white active:scale-95 transition-all cursor-pointer border-none bg-transparent group"
               >
                 <div className="p-1 rounded-lg bg-transparent text-zinc-500 group-hover:bg-zinc-900/40 group-hover:text-primary transition-colors mb-0.5">
                   <Icon className="h-4.5 w-4.5" />
@@ -277,7 +281,7 @@ export default function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors group ${
+              className={`flex flex-col items-center justify-center flex-1 py-1 active:scale-95 transition-all group ${
                 isActive 
                   ? 'text-primary font-bold' 
                   : 'text-zinc-500 hover:text-white'
