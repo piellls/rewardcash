@@ -387,43 +387,59 @@ export default function AdminDashboard() {
               <div className="overflow-x-auto text-xs">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                    <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-550 uppercase tracking-widest pb-3">
                       <th className="pb-3 pr-4">User account</th>
                       <th className="pb-3 px-4">Email</th>
                       <th className="pb-3 px-4">Register Date</th>
+                      <th className="pb-3 px-4">Signup Source</th>
                       <th className="pb-3 px-4 text-right">Available Balance</th>
                       <th className="pb-3 pl-4 text-right">Total Earnings</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-dark-border/30 text-zinc-300">
-                    {usersList.map((usr) => (
-                      <tr key={usr.id} className="group hover:bg-zinc-900/10 transition-colors">
-                        <td className="py-3.5 pr-4">
-                          <div className="flex items-center gap-2.5">
-                            <img 
-                              src={usr.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                              alt={usr.username}
-                              className="h-7 w-7 rounded-full border border-dark-border object-cover"
-                            />
-                            <span className="font-bold text-white">{usr.username}</span>
-                          </div>
-                        </td>
-                        <td className="py-3.5 px-4 text-zinc-400 font-mono">{usr.email}</td>
-                        <td className="py-3.5 px-4 text-zinc-500">{new Date(usr.created_at).toLocaleDateString()}</td>
-                        <td className="py-3.5 px-4 text-right font-extrabold text-primary">
-                          <div className="flex items-center justify-end gap-1">
-                            <Coins className="h-3.5 w-3.5 text-primary" />
-                            {usr.balance_coins?.toLocaleString()}
-                          </div>
-                        </td>
-                        <td className="py-3.5 pl-4 text-right font-extrabold text-white">
-                          <div className="flex items-center justify-end gap-1">
-                            <Coins className="h-3.5 w-3.5 text-primary" />
-                            {usr.total_earned_coins?.toLocaleString()}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                    {usersList.filter(usr => usr.role !== 'admin').map((usr) => {
+                      const referrer = usr.referred_by ? usersList.find(u => u.id === usr.referred_by) : null;
+                      return (
+                        <tr key={usr.id} className="group hover:bg-zinc-900/10 transition-colors">
+                          <td className="py-3.5 pr-4">
+                            <div className="flex items-center gap-2.5">
+                              <img 
+                                src={usr.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                                alt={usr.username}
+                                className="h-7 w-7 rounded-full border border-dark-border object-cover"
+                              />
+                              <span className="font-bold text-white">{usr.username}</span>
+                            </div>
+                          </td>
+                          <td className="py-3.5 px-4 text-zinc-400 font-mono">{usr.email}</td>
+                          <td className="py-3.5 px-4 text-zinc-500">{new Date(usr.created_at).toLocaleDateString()}</td>
+                          <td className="py-3.5 px-4 text-left">
+                            {referrer ? (
+                              <span className="rounded bg-primary/10 border border-primary/20 px-2 py-0.5 text-[10px] font-bold text-primary inline-flex items-center gap-1">
+                                <Users className="h-3 w-3" />
+                                Referred by <span className="underline font-extrabold">{referrer.username}</span>
+                              </span>
+                            ) : (
+                              <span className="rounded bg-zinc-950 border border-dark-border px-2 py-0.5 text-[10px] font-semibold text-zinc-500">
+                                Direct Signup
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3.5 px-4 text-right font-extrabold text-primary">
+                            <div className="flex items-center justify-end gap-1">
+                              <Coins className="h-3.5 w-3.5 text-primary" />
+                              {usr.balance_coins?.toLocaleString()}
+                            </div>
+                          </td>
+                          <td className="py-3.5 pl-4 text-right font-extrabold text-white">
+                            <div className="flex items-center justify-end gap-1">
+                              <Coins className="h-3.5 w-3.5 text-primary" />
+                              {usr.total_earned_coins?.toLocaleString()}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
