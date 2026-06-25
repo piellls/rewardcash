@@ -167,11 +167,6 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
 
         <div className="mt-6 text-center text-xs text-zinc-500">
           By signing up, you agree to our Terms of Service & Privacy Policy.
-          {tab === 'login' && (
-            <p className="mt-3 text-zinc-400">
-              Demo Credentials: <span className="text-primary font-semibold">admin@rewardcash.co</span> / <span className="text-secondary font-semibold">admin123</span>
-            </p>
-          )}
         </div>
       </div>
     </div>

@@ -22,36 +22,58 @@ export default function Home() {
   });
 
   useEffect(() => {
-    // Initial live feed
-    setLiveFeed(db.getLiveFeed());
+    let feedInterval;
+    
+    const initData = async () => {
+      try {
+        const [feed, currentStats, board] = await Promise.all([
+          db.getLiveFeed(),
+          db.getStats(),
+          db.getLeaderboard()
+        ]);
+        setLiveFeed(feed);
+        setStats(currentStats);
+        
+        let names = [];
+        if (board && board.length > 0) {
+          names = board.map(u => u.username);
+        }
 
-    // Live feed simulator
-    const feedInterval = setInterval(() => {
-      const randomNames = ['Amine', 'Sarah', 'Youssef', 'Mehdi', 'Anass', 'Sofia', 'Fatima', 'Omar', 'Karim', 'Lina'];
-      const randomOffers = ['Cooking Blast 3D', 'Market Research (CPX)', 'PrimeSurveys - Completion', 'Aviator - Spin Now', 'GemezZ - Zuppy Kids', 'Tap Rewards'];
-      const randomCoins = [320, 500, 980, 1200, 1500, 1995, 4500];
-      const randomProviders = ['AdBlueMedia', 'CPALead', 'Lootably', 'CPX Research'];
+        // Live feed simulator using real username source if available
+        feedInterval = setInterval(() => {
+          const baselineNames = ['Amine', 'Sarah', 'Youssef', 'Mehdi', 'Anass', 'Sofia', 'Fatima', 'Omar', 'Karim', 'Lina'];
+          const namesSource = names.length > 0 ? names : baselineNames;
+          const randomOffers = ['Cooking Blast 3D', 'Market Research (CPX)', 'PrimeSurveys - Completion', 'Aviator - Spin Now', 'GemezZ - Zuppy Kids', 'Tap Rewards'];
+          const randomCoins = [320, 500, 980, 1200, 1500, 1995, 4500];
+          const randomProviders = ['AdBlueMedia', 'CPALead', 'Lootably', 'CPX Research'];
 
-      const newCompletion = {
-        id: `c_${Math.random()}`,
-        username: randomNames[Math.floor(Math.random() * randomNames.length)],
-        offer_title: randomOffers[Math.floor(Math.random() * randomOffers.length)],
-        provider: randomProviders[Math.floor(Math.random() * randomProviders.length)],
-        coins: randomCoins[Math.floor(Math.random() * randomCoins.length)],
-        completed_at: new Date().toISOString()
-      };
+          const newCompletion = {
+            id: `c_${Math.random()}`,
+            username: namesSource[Math.floor(Math.random() * namesSource.length)],
+            offer_title: randomOffers[Math.floor(Math.random() * randomOffers.length)],
+            provider: randomProviders[Math.floor(Math.random() * randomProviders.length)],
+            coins: randomCoins[Math.floor(Math.random() * randomCoins.length)],
+            completed_at: new Date().toISOString()
+          };
 
-      setLiveFeed(prev => [newCompletion, ...prev.slice(0, 4)]);
-      
-      // Slightly increment stats
-      setStats(prev => ({
-        usersOnline: prev.usersOnline + Math.floor(Math.random() * 5) - 2,
-        totalPaid: prev.totalPaid + (newCompletion.coins / 1000),
-        offersCompleted: prev.offersCompleted + 1
-      }));
-    }, 4000);
+          setLiveFeed(prev => [newCompletion, ...prev.slice(0, 4)]);
+          
+          setStats(prev => ({
+            usersOnline: prev.usersOnline + Math.floor(Math.random() * 5) - 2,
+            totalPaid: prev.totalPaid + (newCompletion.coins / 1000),
+            offersCompleted: prev.offersCompleted + 1
+          }));
+        }, 4000);
+      } catch (err) {
+        console.error('Failed to load dynamic data:', err);
+      }
+    };
 
-    return () => clearInterval(feedInterval);
+    initData();
+
+    return () => {
+      if (feedInterval) clearInterval(feedInterval);
+    };
   }, []);
 
   return (
