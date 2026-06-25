@@ -3,17 +3,17 @@
 
 @theme {
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
 
-  --color-primary: #23e785; /* Cyber Mint Green */
-  --color-secondary: #7c35de; /* Royal Violet */
-  --color-dark-bg: #070c0a; /* Cyber Emerald Deep Background */
-  --color-dark-card: #0c1411; /* Sleek forest card background */
-  --color-dark-border: #182821; /* Subtle forest green border */
+  --color-primary: #38bdf8; /* EarnLab Sky Blue */
+  --color-secondary: #6366f1; /* EarnLab Indigo */
+  --color-dark-bg: #050811; /* EarnLab Deep Navy-Black */
+  --color-dark-card: #0a0e1a; /* Elevated Slate Blue card */
+  --color-dark-border: #141c30; /* Subtle border color */
   
   --color-accent-cyan: #0ddff2;
-  --color-accent-gold: #ffcf33;
-  --color-accent-red: #ea5353;
+  --color-accent-gold: #fb923c;
+  --color-accent-red: #ef4444;
   
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-glow: glow 2s ease-in-out infinite alternate;
@@ -21,16 +21,16 @@
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 4px rgba(35, 231, 133, 0.2), 0 0 10px rgba(35, 231, 133, 0.2);
+    text-shadow: 0 0 4px rgba(56, 189, 248, 0.2), 0 0 10px rgba(56, 189, 248, 0.2);
   }
   to {
-    text-shadow: 0 0 8px rgba(35, 231, 133, 0.6), 0 0 20px rgba(35, 231, 133, 0.4);
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.6), 0 0 20px rgba(56, 189, 248, 0.4);
   }
 }
 
 :root {
-  --background: #070c0a;
-  --foreground: #edf2f0;
+  --background: #050811;
+  --foreground: #f1f5f9;
 }
 
 body {
@@ -51,35 +51,35 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 ::-webkit-scrollbar-track {
-  background: #070c0a;
+  background: #050811;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #182821;
+  background: #141c30;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #23e785;
+  background: #38bdf8;
 }
 
 /* Custom glassmorphism utilities */
 .glass-card {
-  background: rgba(12, 20, 17, 0.7);
+  background: rgba(10, 14, 26, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(35, 231, 133, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.08);
 }
 
 .glass-nav {
-  background: rgba(7, 12, 10, 0.85);
+  background: rgba(5, 8, 17, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(35, 231, 133, 0.05);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.08);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #23e785 0%, #0ddff2 50%, #7c35de 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #38bdf8 50%, #0ddff2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

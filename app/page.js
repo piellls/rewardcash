@@ -2,19 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
-import { Coins, Trophy, Wallet, ShieldCheck, ArrowRight, Star, Users, Flame, CheckCircle } from 'lucide-react';
+import AuthModal from '@/components/AuthModal';
+import { Coins, Trophy, Wallet, ShieldCheck, ArrowRight, Star, Users, Flame, CheckCircle, Smartphone, Gamepad2, Award } from 'lucide-react';
 
 export default function Home() {
   const { user } = useAuth();
   const [liveFeed, setLiveFeed] = useState([]);
-  
-  // Fake ticker states
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authTab, setAuthTab] = useState('login');
+
+  // Stats indicators
   const [stats, setStats] = useState({
-    usersOnline: 1248,
-    totalPaid: 45892.40,
-    offersCompleted: 89431
+    usersOnline: 1489,
+    totalPaid: 84931.20,
+    offersCompleted: 129432
   });
 
   useEffect(() => {
@@ -24,9 +28,9 @@ export default function Home() {
     // Live feed simulator
     const feedInterval = setInterval(() => {
       const randomNames = ['Amine', 'Sarah', 'Youssef', 'Mehdi', 'Anass', 'Sofia', 'Fatima', 'Omar', 'Karim', 'Lina'];
-      const randomOffers = ['Board Kings', 'Opinion World Survey', 'Lords Mobile', 'TikTok Install', 'Crypto.com App', 'SayMore Surveys'];
-      const randomCoins = [500, 1200, 1500, 4500, 6500, 8000];
-      const randomProviders = ['CPALead', 'AdGate Media', 'Lootably'];
+      const randomOffers = ['Cooking Blast 3D', 'Market Research (CPX)', 'PrimeSurveys - Completion', 'Aviator - Spin Now', 'GemezZ - Zuppy Kids', 'Tap Rewards'];
+      const randomCoins = [320, 500, 980, 1200, 1500, 1995, 4500];
+      const randomProviders = ['AdBlueMedia', 'CPALead', 'Lootably', 'CPX Research'];
 
       const newCompletion = {
         id: `c_${Math.random()}`,
@@ -37,7 +41,7 @@ export default function Home() {
         completed_at: new Date().toISOString()
       };
 
-      setLiveFeed(prev => [newCompletion, ...prev.slice(0, 5)]);
+      setLiveFeed(prev => [newCompletion, ...prev.slice(0, 4)]);
       
       // Slightly increment stats
       setStats(prev => ({
@@ -45,7 +49,7 @@ export default function Home() {
         totalPaid: prev.totalPaid + (newCompletion.coins / 1000),
         offersCompleted: prev.offersCompleted + 1
       }));
-    }, 4500);
+    }, 4000);
 
     return () => clearInterval(feedInterval);
   }, []);
@@ -53,10 +57,10 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20 pb-16 md:pt-32 md:pb-24 border-b border-dark-border">
+      <section className="relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-20 border-b border-dark-border">
         {/* Glow Effects */}
-        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 rounded-full bg-secondary/15 blur-[150px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-secondary/10 blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[420px] h-[420px] rounded-full bg-primary/10 blur-[160px] pointer-events-none" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -64,39 +68,49 @@ export default function Home() {
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-bold text-primary tracking-wide uppercase">
-                <Flame className="h-4 w-4 animate-bounce" />
-                Get Paid for Your Time
+                <Flame className="h-4 w-4 text-primary animate-pulse" />
+                The #1 GPT Platform
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight text-white">
-                Earn Free Coins & Cashout <span className="text-gradient">Instant Rewards</span>
+                Earn Free Coins & Cashout <span className="text-gradient">Real Rewards</span>
               </h1>
-              <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto lg:mx-0">
-                Join the fastest growing rewards platform. Complete simple tasks, play game levels, fill out surveys, and withdraw your earnings directly to PayPal or Crypto.
+              <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                Join the fastest-growing rewards platform. Complete simple tasks, play levels on mobile games, take surveys, and instantly redeem your coins for PayPal, crypto, or gift cards.
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                <Link
-                  href="/earn"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-base font-bold text-black hover:opacity-90 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] active:scale-[0.98] transition-all"
-                >
-                  Start Earning Now
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
+                {!user ? (
+                  <button
+                    onClick={() => { setAuthTab('register'); setIsAuthOpen(true); }}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-secondary to-primary px-8 py-4 text-base font-bold text-black hover:opacity-90 active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+                  >
+                    Get Started Now
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                ) : (
+                  <Link
+                    href="/earn"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-secondary to-primary px-8 py-4 text-base font-bold text-black hover:opacity-90 active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(99,102,241,0.3)]"
+                  >
+                    Start Earning
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                )}
                 <Link
                   href="/cashout"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-dark-border bg-zinc-900/50 hover:bg-zinc-900/80 hover:text-white px-8 py-4 text-base font-bold text-zinc-300 transition-colors"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-dark-border bg-zinc-900/40 hover:bg-zinc-900/70 hover:text-white px-8 py-4 text-base font-bold text-zinc-300 transition-colors"
                 >
-                  View Payout Methods
+                  View Payouts
                 </Link>
               </div>
 
               {/* Trust Indicators */}
               <div className="flex items-center justify-center lg:justify-start gap-6 pt-4 text-xs text-zinc-500 font-semibold uppercase tracking-wider">
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="h-4 w-4 text-primary" /> Verified Tasks
+                  <ShieldCheck className="h-4 w-4 text-primary" /> Instant Verification
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" /> 4.8/5 Trust Score
+                  <Star className="h-4 w-4 text-accent-gold fill-accent-gold" /> 4.9/5 Trustpilot Score
                 </div>
               </div>
             </div>
@@ -105,51 +119,51 @@ export default function Home() {
             <div className="lg:col-span-5 space-y-6">
               {/* Stats Grid */}
               <div className="grid grid-cols-3 gap-3">
-                <div className="rounded-xl glass-card border border-dark-border p-4 text-center">
-                  <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Online</span>
-                  <span className="text-lg font-black text-white">{stats.usersOnline.toLocaleString()}</span>
+                <div className="rounded-2xl glass-card border border-dark-border p-4 text-center">
+                  <span className="block text-[10px] font-black text-zinc-500 uppercase tracking-wider mb-1">Online</span>
+                  <span className="text-base font-black text-white">{stats.usersOnline.toLocaleString()}</span>
                 </div>
-                <div className="rounded-xl glass-card border border-dark-border p-4 text-center">
-                  <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Paid Out</span>
-                  <span className="text-lg font-black text-primary">${stats.totalPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <div className="rounded-2xl glass-card border border-dark-border p-4 text-center">
+                  <span className="block text-[10px] font-black text-zinc-500 uppercase tracking-wider mb-1">Paid Out</span>
+                  <span className="text-base font-black text-primary">${stats.totalPaid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
-                <div className="rounded-xl glass-card border border-dark-border p-4 text-center">
-                  <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Completed</span>
-                  <span className="text-lg font-black text-secondary">{stats.offersCompleted.toLocaleString()}</span>
+                <div className="rounded-2xl glass-card border border-dark-border p-4 text-center">
+                  <span className="block text-[10px] font-black text-zinc-550 uppercase tracking-wider mb-1">Tasks Done</span>
+                  <span className="text-base font-black text-secondary">{stats.offersCompleted.toLocaleString()}</span>
                 </div>
               </div>
 
               {/* Live Ticker Box */}
-              <div className="rounded-2xl glass-card border border-dark-border p-5 shadow-xl">
-                <div className="flex items-center justify-between border-b border-dark-border pb-3 mb-4">
-                  <h3 className="text-sm font-bold text-zinc-200 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+              <div className="rounded-3xl glass-card border border-dark-border p-5 shadow-2xl relative overflow-hidden">
+                <div className="flex items-center justify-between border-b border-dark-border/40 pb-3 mb-4">
+                  <h3 className="text-xs font-bold text-zinc-300 flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-primary animate-ping" />
                     Live Activity Ticker
                   </h3>
-                  <span className="text-xs font-bold text-zinc-500 uppercase">Updates Live</span>
+                  <span className="text-[10px] font-bold text-zinc-550 uppercase">Instant Payouts</span>
                 </div>
 
                 <div className="space-y-3 max-h-[220px] overflow-hidden">
                   {liveFeed.map((item, idx) => (
                     <div 
                       key={item.id || idx} 
-                      className="flex items-center justify-between rounded-xl bg-zinc-950/60 p-3 border border-dark-border/40 animate-pulse-slow"
+                      className="flex items-center justify-between rounded-2xl bg-zinc-950/40 p-3 border border-dark-border/40 hover:border-primary/10 transition-colors"
                     >
-                      <div className="flex items-center gap-2.5">
-                        <div className="rounded-full bg-zinc-900 border border-dark-border p-1.5 text-zinc-400">
-                          <Users className="h-4 w-4" />
+                      <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-secondary/20 to-primary/20 border border-dark-border/60 flex items-center justify-center text-xs font-bold text-primary">
+                          {item.username.substring(0, 2).toUpperCase()}
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-zinc-300">
-                            {item.username} <span className="font-medium text-zinc-500">completed</span>
+                          <p className="text-xs font-bold text-zinc-355">
+                            {item.username} <span className="font-semibold text-zinc-550">earned</span>
                           </p>
-                          <p className="text-xs font-semibold text-zinc-200">
+                          <p className="text-[11px] font-semibold text-zinc-400">
                             {item.offer_title}
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-1.5 rounded-lg bg-emerald-950/30 border border-emerald-900/50 px-2 py-1 text-xs font-bold text-primary">
-                        <Coins className="h-3.5 w-3.5 text-yellow-500" />
+                      <div className="flex items-center gap-1 rounded-xl bg-primary/5 border border-primary/20 px-2.5 py-1 text-xs font-bold text-primary">
+                        <Coins className="h-3.5 w-3.5 text-primary" />
                         +{item.coins}
                       </div>
                     </div>
@@ -162,61 +176,62 @@ export default function Home() {
       </section>
 
       {/* How it Works Section */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-dark-border">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-b border-dark-border">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="text-3xl font-black text-white">
             Earning Cash Has Never Been <span className="text-gradient">This Simple</span>
           </h2>
-          <p className="text-zinc-400 text-sm sm:text-base">
+          <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
             Get started in less than 3 minutes. Follow three basic steps to convert your free time into rewards.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Step 1 */}
-          <div className="relative rounded-2xl glass-card border border-dark-border p-6 hover:border-primary/20 transition-all group">
-            <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/40">01</div>
-            <div className="rounded-xl bg-zinc-900 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-115 transition-transform">
+          <div className="relative rounded-3xl glass-card border border-dark-border p-6 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(56,189,248,0.05)] transition-all group">
+            <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/20 group-hover:text-primary/20 transition-colors">01</div>
+            <div className="rounded-2xl bg-zinc-900/60 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
               <Users className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-lg font-bold text-zinc-150 mb-2">Create Account</h3>
-            <p className="text-sm text-zinc-400">
+            <h3 className="text-lg font-bold text-white mb-2">Create Account</h3>
+            <p className="text-sm text-zinc-400 leading-relaxed">
               Sign up with your email username in under 15 seconds. Instantly unlock all offers and daily bonuses.
             </p>
           </div>
 
           {/* Step 2 */}
-          <div className="relative rounded-2xl glass-card border border-dark-border p-6 hover:border-primary/20 transition-all group">
-            <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/40">02</div>
-            <div className="rounded-xl bg-zinc-900 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-115 transition-transform">
+          <div className="relative rounded-3xl glass-card border border-dark-border p-6 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(56,189,248,0.05)] transition-all group">
+            <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/20 group-hover:text-secondary/20 transition-colors">02</div>
+            <div className="rounded-2xl bg-zinc-900/60 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
               <Coins className="h-6 w-6 text-secondary" />
             </div>
-            <h3 className="text-lg font-bold text-zinc-150 mb-2">Complete Offers</h3>
-            <p className="text-sm text-zinc-400">
+            <h3 className="text-lg font-bold text-white mb-2">Complete Offers</h3>
+            <p className="text-sm text-zinc-400 leading-relaxed">
               Select tasks like playing a game level, taking surveys, or downloading apps. Verify your submission instantly.
             </p>
           </div>
 
           {/* Step 3 */}
-          <div className="relative rounded-2xl glass-card border border-dark-border p-6 hover:border-primary/20 transition-all group">
-            <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/40">03</div>
-            <div className="rounded-xl bg-zinc-900 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-115 transition-transform">
-              <Wallet className="h-6 w-6 text-yellow-500" />
+          <div className="relative rounded-3xl glass-card border border-dark-border p-6 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(56,189,248,0.05)] transition-all group">
+            <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/20 group-hover:text-primary/20 transition-colors">03</div>
+            <div className="rounded-2xl bg-zinc-900/60 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+              <Wallet className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-lg font-bold text-zinc-150 mb-2">Get Paid</h3>
-            <p className="text-sm text-zinc-400">
-              Redeem your coins for PayPal money, LTC, BTC, or gift cards. Payments are verified and sent within 24 hours.
+            <h3 className="text-lg font-bold text-white mb-2">Instant Payout</h3>
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              Redeem your coins for cash rewards starting at just $1.00 USD. Cashouts are processed within minutes.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Features Showcase */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-b border-dark-border">
+      {/* Feature Highlight Section */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h2 className="text-3xl font-black text-white">
-              Why Users Choose <span className="text-gradient">RewardCash</span>
+            <h2 className="text-3xl font-black text-white leading-tight">
+              Many Ways to Earn, <br />
+              <span className="text-gradient">Choose What You Love</span>
             </h2>
             <p className="text-zinc-400">
               We offer some of the highest payout percentages in the industry by keeping our operational margins extremely low. Your success is our success.

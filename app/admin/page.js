@@ -163,20 +163,21 @@ export default function AdminDashboard() {
     return (
       <div className="mx-auto max-w-md px-4 py-20 flex-1 flex flex-col justify-center items-center text-center">
         <div className="rounded-full bg-red-950/20 border border-red-900/50 p-4 text-red-500 mb-6">
-          <Lock className="h-8 w-8" />
+          <Lock className="h-8 w-8 text-red-500 animate-pulse" />
         </div>
-        <h1 className="text-2xl font-black text-white mb-2">Access Denied</h1>
-        <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
+        <h1 className="text-2xl font-black text-white mb-2 tracking-tight">Access Denied</h1>
+        <p className="text-xs text-zinc-400 mb-6 leading-relaxed">
           You must be logged in as an Administrator to view this control panel.
         </p>
-        <div className="rounded-xl bg-zinc-950/80 border border-dark-border p-5 text-xs text-zinc-500 w-full space-y-2">
-          <p className="font-bold text-zinc-400">Demo Administrator Account:</p>
-          <div className="flex justify-between border-t border-dark-border/40 pt-2 mt-1">
-            <span>Email:</span>
+        
+        <div className="rounded-xl border border-dark-border bg-dark-card p-5 text-xs text-zinc-450 w-full space-y-2.5 text-zinc-400">
+          <p className="font-bold text-white border-b border-dark-border/40 pb-2">Demo Administrator Account:</p>
+          <div className="flex justify-between text-left">
+            <span className="text-zinc-500 font-semibold">Email:</span>
             <span className="font-mono text-primary font-bold">admin@rewardcash.co</span>
           </div>
-          <div className="flex justify-between">
-            <span>Password:</span>
+          <div className="flex justify-between text-left">
+            <span className="text-zinc-500 font-semibold">Password:</span>
             <span className="font-mono text-secondary font-bold">admin123</span>
           </div>
         </div>
@@ -192,17 +193,19 @@ export default function AdminDashboard() {
     .reduce((sum, w) => sum + parseFloat(w.amount_usd), 0);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
       
       {/* Header */}
-      <div className="mb-10 text-center md:text-left space-y-2">
-        <h1 className="text-3xl font-black text-white flex items-center justify-center md:justify-start gap-2">
-          <ShieldAlert className="h-7 w-7 text-red-500" />
-          Admin Control Panel
-        </h1>
-        <p className="text-sm text-zinc-400 max-w-2xl">
-          Manage payout requests, audit user balances, and approve withdrawals. Changes update user balances in real time.
-        </p>
+      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
+            <ShieldAlert className="h-7 w-7 text-red-500 animate-pulse" />
+            Admin Dashboard
+          </h1>
+          <p className="text-sm text-zinc-400 mt-1">
+            Audit withdrawals, check support logs, and manage player accounts.
+          </p>
+        </div>
       </div>
 
       {successMsg && (
@@ -213,140 +216,143 @@ export default function AdminDashboard() {
       )}
 
       {errorMsg && (
-        <div className="mb-6 flex items-center gap-3 rounded-xl bg-red-950/40 border border-red-900/60 p-4 text-red-400">
+        <div className="mb-6 flex items-center gap-3 rounded-xl bg-red-950/40 border border-red-900/60 p-4 text-red-400 animate-pulse">
           <AlertCircle className="h-5 w-5 shrink-0" />
           <span className="text-sm font-bold">{errorMsg}</span>
         </div>
       )}
 
       {loading ? (
-        <div className="flex-1 flex items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <div className="flex-1 flex flex-col items-center justify-center py-20">
+          <Loader2 className="h-8 w-8 animate-spin text-primary mb-3" />
+          <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest animate-pulse">
+            Loading Admin Panel...
+          </span>
         </div>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-6">
           
           {/* Quick Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="rounded-2xl glass-card border border-dark-border p-5 flex items-center gap-4">
-              <div className="rounded-xl bg-yellow-950/30 border border-yellow-900/50 p-3 text-yellow-500">
-                <Wallet className="h-6 w-6" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="rounded-xl border border-dark-border bg-dark-card p-5 flex items-center gap-4 hover:border-primary/10 transition-all">
+              <div className="rounded-lg bg-yellow-500/10 border border-yellow-500/20 p-2.5 text-yellow-500">
+                <Wallet className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Pending Requests</span>
-                <span className="text-xl font-black text-white">{pendingWithdrawals.length} Cashouts</span>
+                <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Pending Cashouts</span>
+                <span className="text-base font-black text-white">{pendingWithdrawals.length} Requests</span>
               </div>
             </div>
 
-            <div className="rounded-2xl glass-card border border-dark-border p-5 flex items-center gap-4">
-              <div className="rounded-xl bg-primary/10 border border-primary/20 p-3 text-primary">
-                <Users className="h-6 w-6" />
+            <div className="rounded-xl border border-dark-border bg-dark-card p-5 flex items-center gap-4 hover:border-primary/10 transition-all">
+              <div className="rounded-lg bg-primary/10 border border-primary/20 p-2.5 text-primary">
+                <Users className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Registered Users</span>
-                <span className="text-xl font-black text-white">{usersList.length} Accounts</span>
+                <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">User Base</span>
+                <span className="text-base font-black text-white">{usersList.length} Accounts</span>
               </div>
             </div>
 
-            <div className="rounded-2xl glass-card border border-dark-border p-5 flex items-center gap-4">
-              <div className="rounded-xl bg-purple-950/30 border border-purple-900/50 p-3 text-purple-400">
-                <MessageSquare className="h-6 w-6" />
+            <div className="rounded-xl border border-dark-border bg-dark-card p-5 flex items-center gap-4 hover:border-primary/10 transition-all">
+              <div className="rounded-lg bg-purple-500/10 border border-purple-500/20 p-2.5 text-purple-400">
+                <MessageSquare className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Pending Tickets</span>
-                <span className="text-xl font-black text-white">{pendingTickets.length} Support</span>
+                <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Pending Support</span>
+                <span className="text-base font-black text-white">{pendingTickets.length} Tickets</span>
               </div>
             </div>
 
-            <div className="rounded-2xl glass-card border border-dark-border p-5 flex items-center gap-4">
-              <div className="rounded-xl bg-secondary/10 border border-secondary/20 p-3 text-secondary">
-                <Coins className="h-6 w-6" />
+            <div className="rounded-xl border border-dark-border bg-dark-card p-5 flex items-center gap-4 hover:border-primary/10 transition-all">
+              <div className="rounded-lg bg-secondary/10 border border-secondary/20 p-2.5 text-secondary">
+                <Coins className="h-5.5 w-5.5 animate-pulse" />
               </div>
               <div>
-                <span className="block text-xs font-bold text-zinc-500 uppercase tracking-wide">Approved Payouts</span>
-                <span className="text-xl font-black text-white">${totalVolumeUSD.toFixed(2)} USD</span>
+                <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Paid Payouts</span>
+                <span className="text-base font-black text-white">${totalVolumeUSD.toFixed(2)} USD</span>
               </div>
             </div>
           </div>
 
-          {/* Admin Tabs */}
-          <div className="flex gap-4 border-b border-dark-border pb-3">
+          {/* Admin Tabs Navigation */}
+          <div className="flex gap-4 border-b border-dark-border pb-2.5">
             <button
               onClick={() => setActiveTab('withdrawals')}
-              className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
+              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
                 activeTab === 'withdrawals' 
                   ? 'border-primary text-primary' 
-                  : 'border-transparent text-zinc-500 hover:text-zinc-300'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-350'
               }`}
             >
-              Withdrawal Requests ({withdrawals.length})
+              Withdrawal Queue ({withdrawals.length})
             </button>
             <button
               onClick={() => setActiveTab('users')}
-              className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
+              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
                 activeTab === 'users' 
                   ? 'border-primary text-primary' 
-                  : 'border-transparent text-zinc-500 hover:text-zinc-300'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-350'
               }`}
             >
-              User Accounts Directory ({usersList.length})
+              User Directory ({usersList.length})
             </button>
             <button
               onClick={() => setActiveTab('tickets')}
-              className={`pb-2 text-sm font-semibold border-b-2 transition-all ${
+              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
                 activeTab === 'tickets' 
                   ? 'border-primary text-primary' 
-                  : 'border-transparent text-zinc-500 hover:text-zinc-300'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-350'
               }`}
             >
-              Support Tickets ({tickets.length})
+              Support Inbox ({tickets.length})
             </button>
           </div>
 
           {/* Tab Content */}
           {activeTab === 'withdrawals' ? (
-            <div className="rounded-2xl glass-card border border-dark-border p-6">
+            <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
               {withdrawals.length === 0 ? (
-                <div className="text-center py-12 text-zinc-500 text-sm">
-                  No withdrawal requests found.
+                <div className="text-center py-10 text-xs text-zinc-550 font-bold uppercase tracking-wide">
+                  No payout requests currently queued.
                 </div>
               ) : (
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto text-xs">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-dark-border text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                      <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                         <th className="pb-3 pr-4">User</th>
                         <th className="pb-3 px-4">Method</th>
-                        <th className="pb-3 px-4">Amount</th>
-                        <th className="pb-3 px-4">Spent Coins</th>
-                        <th className="pb-3 px-4">Payout Address</th>
-                        <th className="pb-3 px-4">Date</th>
+                        <th className="pb-3 px-4">USD Value</th>
+                        <th className="pb-3 px-4">Coins Required</th>
+                        <th className="pb-3 px-4">Payout Account Address</th>
+                        <th className="pb-3 px-4">Request Date</th>
                         <th className="pb-3 px-4">Status</th>
                         <th className="pb-3 pl-4 text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-dark-border/40 text-sm">
+                    <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                       {withdrawals.map((w) => (
-                        <tr key={w.id} className="group">
-                          <td className="py-3.5 pr-4 font-bold text-white">{w.username}</td>
-                          <td className="py-3.5 px-4 font-semibold text-zinc-400 uppercase">{w.payment_method}</td>
-                          <td className="py-3.5 px-4 text-primary font-bold">${parseFloat(w.amount_usd).toFixed(2)}</td>
-                          <td className="py-3.5 px-4 text-zinc-300">{w.coins_spent?.toLocaleString()}</td>
-                          <td className="py-3.5 px-4 font-mono text-xs text-zinc-500 max-w-[150px] truncate" title={w.payment_address}>{w.payment_address}</td>
-                          <td className="py-3.5 px-4 text-zinc-500 text-xs">{new Date(w.created_at).toLocaleDateString()}</td>
-                          <td className="py-3.5 px-4">
-                            {w.status === 'approved' && <span className="text-xs font-bold text-primary bg-emerald-950/20 px-2 py-0.5 rounded border border-emerald-900/50">Approved</span>}
-                            {w.status === 'rejected' && <span className="text-xs font-bold text-red-400 bg-red-950/20 px-2 py-0.5 rounded border border-red-900/50">Rejected</span>}
-                            {w.status === 'pending' && <span className="text-xs font-bold text-yellow-500 bg-amber-950/20 px-2 py-0.5 rounded border border-amber-900/50">Pending</span>}
+                        <tr key={w.id} className="group hover:bg-zinc-900/10 transition-colors">
+                          <td className="py-3 pr-4 font-bold text-white">{w.username}</td>
+                          <td className="py-3 px-4 font-semibold text-zinc-450 uppercase">{w.payment_method}</td>
+                          <td className="py-3 px-4 text-primary font-extrabold">${parseFloat(w.amount_usd).toFixed(2)}</td>
+                          <td className="py-3 px-4 text-zinc-400 font-medium">{w.coins_spent?.toLocaleString()}</td>
+                          <td className="py-3 px-4 font-mono text-[10px] text-zinc-500 max-w-[150px] truncate" title={w.payment_address}>{w.payment_address}</td>
+                          <td className="py-3 px-4 text-zinc-500">{new Date(w.created_at).toLocaleDateString()}</td>
+                          <td className="py-3 px-4">
+                            {w.status === 'approved' && <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[9px] font-bold text-primary uppercase">Approved</span>}
+                            {w.status === 'rejected' && <span className="rounded bg-red-950/40 border border-red-900/60 px-2 py-0.5 text-[9px] font-bold text-red-400 uppercase">Rejected</span>}
+                            {w.status === 'pending' && <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[9px] font-bold text-yellow-500 uppercase animate-pulse">Pending</span>}
                           </td>
-                          <td className="py-3.5 pl-4 text-right">
+                          <td className="py-3 pl-4 text-right">
                             {w.status === 'pending' && (
                               <div className="flex justify-end gap-1.5">
                                 <button
                                   onClick={() => handleUpdateStatus(w.id, 'approved')}
                                   disabled={processingId !== null}
-                                  className="rounded bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-800 p-1 text-primary disabled:opacity-50 transition-colors"
-                                  title="Approve Withdrawal"
+                                  className="rounded-lg bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-800 p-1 text-primary disabled:opacity-50 transition-all active:scale-90"
+                                  title="Approve & Clear Payout"
                                 >
                                   {processingId === w.id ? (
                                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -357,7 +363,7 @@ export default function AdminDashboard() {
                                 <button
                                   onClick={() => handleUpdateStatus(w.id, 'rejected')}
                                   disabled={processingId !== null}
-                                  className="rounded bg-red-950/40 hover:bg-red-900 border border-red-800 p-1 text-red-400 disabled:opacity-50 transition-colors"
+                                  className="rounded-lg bg-red-950/40 hover:bg-red-900/60 border border-red-800 p-1 text-red-400 disabled:opacity-50 transition-all active:scale-90"
                                   title="Reject & Refund Coins"
                                 >
                                   {processingId === w.id ? (
@@ -377,42 +383,42 @@ export default function AdminDashboard() {
               )}
             </div>
           ) : activeTab === 'users' ? (
-            <div className="rounded-2xl glass-card border border-dark-border p-6">
-              <div className="overflow-x-auto">
+            <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
+              <div className="overflow-x-auto text-xs">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-dark-border text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                      <th className="pb-3 pr-4">User</th>
+                    <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                      <th className="pb-3 pr-4">User account</th>
                       <th className="pb-3 px-4">Email</th>
                       <th className="pb-3 px-4">Register Date</th>
-                      <th className="pb-3 px-4 text-right">Current Balance</th>
-                      <th className="pb-3 pl-4 text-right">Total Coins Earned</th>
+                      <th className="pb-3 px-4 text-right">Available Balance</th>
+                      <th className="pb-3 pl-4 text-right">Total Earnings</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-dark-border/40 text-sm">
+                  <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                     {usersList.map((usr) => (
-                      <tr key={usr.id} className="group">
+                      <tr key={usr.id} className="group hover:bg-zinc-900/10 transition-colors">
                         <td className="py-3.5 pr-4">
                           <div className="flex items-center gap-2.5">
                             <img 
                               src={usr.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
                               alt={usr.username}
-                              className="h-7 w-7 rounded-full border border-dark-border"
+                              className="h-7 w-7 rounded-full border border-dark-border object-cover"
                             />
                             <span className="font-bold text-white">{usr.username}</span>
                           </div>
                         </td>
-                        <td className="py-3.5 px-4 text-zinc-400 font-mono text-xs">{usr.email}</td>
-                        <td className="py-3.5 px-4 text-zinc-500 text-xs">{new Date(usr.created_at).toLocaleDateString()}</td>
-                        <td className="py-3.5 px-4 text-right font-semibold text-primary">
+                        <td className="py-3.5 px-4 text-zinc-400 font-mono">{usr.email}</td>
+                        <td className="py-3.5 px-4 text-zinc-500">{new Date(usr.created_at).toLocaleDateString()}</td>
+                        <td className="py-3.5 px-4 text-right font-extrabold text-primary">
                           <div className="flex items-center justify-end gap-1">
-                            <Coins className="h-3.5 w-3.5 text-yellow-500" />
+                            <Coins className="h-3.5 w-3.5 text-primary" />
                             {usr.balance_coins?.toLocaleString()}
                           </div>
                         </td>
-                        <td className="py-3.5 pl-4 text-right font-semibold text-white">
+                        <td className="py-3.5 pl-4 text-right font-extrabold text-white">
                           <div className="flex items-center justify-end gap-1">
-                            <Coins className="h-3.5 w-3.5 text-yellow-500" />
+                            <Coins className="h-3.5 w-3.5 text-primary" />
                             {usr.total_earned_coins?.toLocaleString()}
                           </div>
                         </td>
@@ -423,22 +429,22 @@ export default function AdminDashboard() {
               </div>
             </div>
           ) : selectedTicket ? (
-            <div className="rounded-2xl glass-card border border-dark-border p-6 flex flex-col h-[500px]">
+            <div className="rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col h-[500px] relative overflow-hidden shadow-xl">
               {/* Chat Header */}
               <div className="flex items-center justify-between border-b border-dark-border/40 pb-4 mb-4 shrink-0">
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setSelectedTicket(null)}
-                    className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors py-1.5 px-3 rounded-lg bg-zinc-900 border border-dark-border"
+                    className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-all py-1.5 px-3 rounded-xl bg-zinc-950 border border-dark-border active:scale-95"
                   >
-                    <ArrowLeft className="h-4 w-4" /> Back to list
+                    <ArrowLeft className="h-3.5 w-3.5" /> Back
                   </button>
                   <div>
                     <h3 className="text-sm font-bold text-white leading-none">
-                      Support Ticket with {selectedTicket.username}
+                      Support conversation with {selectedTicket.username}
                     </h3>
                     <span className="text-[10px] text-zinc-500 mt-1 block">
-                      User Email: <span className="font-mono text-zinc-400">{selectedTicket.email}</span>
+                      Account: <span className="font-mono text-zinc-400">{selectedTicket.email}</span>
                     </span>
                   </div>
                 </div>
@@ -450,7 +456,7 @@ export default function AdminDashboard() {
                       Resolved
                     </span>
                   ) : (
-                    <span className="text-[10px] font-black uppercase tracking-wider text-yellow-500 bg-amber-950/20 px-2.5 py-1 rounded border border-amber-900/50 animate-pulse-slow">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-yellow-500 bg-amber-950/20 px-2.5 py-1 rounded border border-amber-900/50 animate-pulse">
                       Pending
                     </span>
                   )}
@@ -459,18 +465,18 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => handleToggleTicketStatus(selectedTicket.id, selectedTicket.status)}
                     disabled={processingId !== null}
-                    className={`rounded-xl px-4 py-1.5 text-xs font-bold transition-all border ${
+                    className={`rounded-xl px-4 py-1.5 text-xs font-bold transition-all border active:scale-95 ${
                       selectedTicket.status === 'resolved'
                         ? 'bg-amber-950/20 hover:bg-amber-900/40 text-yellow-500 border-amber-900/50'
                         : 'bg-emerald-950/20 hover:bg-emerald-900/40 text-primary border-emerald-900/50'
                     }`}
                   >
                     {processingId === selectedTicket.id ? (
-                      <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                     ) : selectedTicket.status === 'resolved' ? (
                       'Reopen Ticket'
                     ) : (
-                      'Mark as Resolved'
+                      'Resolve Ticket'
                     )}
                   </button>
                 </div>
@@ -482,14 +488,14 @@ export default function AdminDashboard() {
                 <div className="flex items-start gap-2.5 max-w-[85%]">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className="font-bold text-zinc-350">{selectedTicket.username}</span>
-                      <span className="text-[9px] text-zinc-500">
-                        {new Date(selectedTicket.created_at).toLocaleDateString()} at {new Date(selectedTicket.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      <span className="font-bold text-zinc-400">{selectedTicket.username}</span>
+                      <span className="text-[9px] text-zinc-550">
+                        {new Date(selectedTicket.created_at).toLocaleDateString()}
                       </span>
                     </div>
-                    <div className="bg-zinc-900/40 border border-dark-border/20 rounded-2xl rounded-tl-none px-3.5 py-2.5 text-zinc-300 leading-relaxed select-text">
-                      <div className="font-bold text-zinc-200 mb-1 border-b border-dark-border/10 pb-1">
-                        Topic: {selectedTicket.subject}
+                    <div className="bg-zinc-950 border border-dark-border/60 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-300 leading-relaxed shadow-sm">
+                      <div className="font-bold text-white mb-1.5 border-b border-dark-border/40 pb-1 flex justify-between gap-4">
+                        <span>Subject: {selectedTicket.subject}</span>
                       </div>
                       {selectedTicket.message}
                     </div>
@@ -505,17 +511,17 @@ export default function AdminDashboard() {
                       className={`flex flex-col max-w-[85%] ${isUserMsg ? 'items-start' : 'items-end ml-auto'}`}
                     >
                       <div className={`flex items-center gap-2 mb-1 flex-wrap ${!isUserMsg && 'justify-end'}`}>
-                        <span className={`font-bold ${isUserMsg ? 'text-zinc-355' : 'text-primary'}`}>
+                        <span className={`font-bold ${isUserMsg ? 'text-zinc-400' : 'text-primary'}`}>
                           {isUserMsg ? msg.sender_username : 'Admin Support'}
                         </span>
-                        <span className="text-[9px] text-zinc-500">
+                        <span className="text-[9px] text-zinc-550">
                           {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
-                      <p className={`px-3.5 py-2.5 rounded-2xl leading-relaxed select-text border ${
+                      <p className={`px-4 py-2.5 rounded-2xl leading-relaxed border ${
                         isUserMsg 
-                          ? 'bg-zinc-900/40 border-dark-border/20 rounded-tl-none text-zinc-300' 
-                          : 'bg-primary/5 border-primary/10 rounded-tr-none text-white'
+                          ? 'bg-zinc-950 border-dark-border/60 rounded-tl-none text-zinc-300' 
+                          : 'bg-primary/5 border-primary/20 rounded-tr-none text-white'
                       }`}>
                         {msg.message}
                       </p>
@@ -537,8 +543,8 @@ export default function AdminDashboard() {
                   required
                   value={replyMessage}
                   onChange={(e) => setReplyMessage(e.target.value)}
-                  placeholder={selectedTicket.status === 'resolved' ? "Reopen ticket or type to reply..." : "Type reply to user..."}
-                  className="flex-1 rounded-xl bg-zinc-950 border border-dark-border px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
+                  placeholder={selectedTicket.status === 'resolved' ? "Reopen ticket or type reply..." : "Type reply to user..."}
+                  className="flex-1 rounded-xl bg-zinc-950 border border-dark-border px-3.5 py-2.5 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
                 />
                 <button
                   type="submit"
@@ -548,65 +554,64 @@ export default function AdminDashboard() {
                   {sendingReply ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    <Send className="h-4 w-4 fill-black text-black" />
+                    <Send className="h-4 w-4 text-black fill-black" />
                   )}
                 </button>
               </form>
             </div>
           ) : (
-            <div className="rounded-2xl glass-card border border-dark-border p-6">
+            <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
               {tickets.length === 0 ? (
-                <div className="text-center py-12 text-zinc-500 text-sm">
-                  No support tickets found.
+                <div className="text-center py-10 text-xs text-zinc-550 font-bold uppercase tracking-wide">
+                  No support tickets present.
                 </div>
               ) : (
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto text-xs">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-dark-border text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                      <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                         <th className="pb-3 pr-4">User</th>
                         <th className="pb-3 px-4">Email</th>
                         <th className="pb-3 px-4">Subject</th>
-                        <th className="pb-3 px-4">Message</th>
+                        <th className="pb-3 px-4">Message Preview</th>
                         <th className="pb-3 px-4">Date</th>
                         <th className="pb-3 px-4">Status</th>
                         <th className="pb-3 pl-4 text-right">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-dark-border/40 text-sm">
+                    <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                       {tickets.map((t) => (
-                        <tr key={t.id} className="group">
+                        <tr key={t.id} className="group hover:bg-zinc-900/10 transition-colors">
                           <td className="py-3.5 pr-4 font-bold text-white">{t.username}</td>
-                          <td className="py-3.5 px-4 font-mono text-xs text-zinc-400">{t.email}</td>
+                          <td className="py-3.5 px-4 font-mono text-[10px] text-zinc-500">{t.email}</td>
                           <td className="py-3.5 px-4 text-zinc-200 font-semibold">{t.subject}</td>
                           <td className="py-3.5 px-4 text-zinc-400 max-w-[250px] truncate" title={t.message}>{t.message}</td>
-                          <td className="py-3.5 px-4 text-zinc-500 text-xs">{new Date(t.created_at).toLocaleDateString()}</td>
+                          <td className="py-3.5 px-4 text-zinc-500">{new Date(t.created_at).toLocaleDateString()}</td>
                           <td className="py-3.5 px-4">
                             {t.status === 'resolved' ? (
-                              <span className="text-xs font-bold text-primary bg-emerald-950/20 px-2 py-0.5 rounded border border-emerald-900/50">Resolved</span>
+                              <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[9px] font-bold text-primary uppercase">Resolved</span>
                             ) : (
-                              <span className="text-xs font-bold text-yellow-500 bg-amber-950/20 px-2 py-0.5 rounded border border-amber-900/50">Pending</span>
+                              <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[9px] font-bold text-yellow-500 uppercase animate-pulse">Pending</span>
                             )}
                           </td>
                           <td className="py-3.5 pl-4 text-right">
                             <div className="flex justify-end gap-1.5">
-                              {/* Open Chat/Messages thread button */}
                               <button
                                 onClick={() => {
                                   setSelectedTicket(t);
                                   loadChatMessages(t.id);
                                 }}
-                                className="rounded bg-zinc-950 border border-dark-border hover:bg-zinc-800 p-1.5 text-zinc-350 transition-colors"
-                                title="Open Chat Thread"
+                                className="rounded-lg bg-zinc-950 border border-dark-border hover:bg-zinc-900 p-1.5 text-zinc-400 hover:text-primary transition-all active:scale-90"
+                                title="Open Message Thread"
                               >
                                 <MessageSquare className="h-3.5 w-3.5" />
                               </button>
-
+ 
                               {t.status === 'pending' && (
                                 <button
                                   onClick={() => handleResolveTicket(t.id)}
                                   disabled={processingId !== null}
-                                  className="rounded bg-emerald-950/40 hover:bg-emerald-900 border border-emerald-800 p-1.5 text-primary disabled:opacity-50 transition-colors"
+                                  className="rounded-lg bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-800 p-1.5 text-primary disabled:opacity-50 transition-all active:scale-90"
                                   title="Mark as Resolved"
                                 >
                                   {processingId === t.id ? (

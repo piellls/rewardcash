@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
-import { Trophy, Medal, Coins, Flame, Award, Users, TrendingUp } from 'lucide-react';
+import { Trophy, Award, Coins, Users, Crown, ChevronUp } from 'lucide-react';
 
 export default function Leaderboard() {
   const { user } = useAuth();
@@ -25,141 +25,175 @@ export default function Leaderboard() {
   }, []);
 
   // Top 3 Podium spots
-  const podium = leaderboard.slice(0, 3);
+  const podium = [];
+  if (leaderboard[1]) podium.push({ ...leaderboard[1], rank: 2 }); // Second place on left
+  if (leaderboard[0]) podium.push({ ...leaderboard[0], rank: 1 }); // First place in middle
+  if (leaderboard[2]) podium.push({ ...leaderboard[2], rank: 3 }); // Third place on right
+
   const remainingList = leaderboard.slice(3);
 
-  const getTrophyColor = (index) => {
-    switch (index) {
-      case 0: return 'text-yellow-500 bg-yellow-950/40 border-yellow-800/40'; // Gold
-      case 1: return 'text-slate-350 bg-slate-900 border-slate-700/40'; // Silver
-      case 2: return 'text-amber-700 bg-amber-950/40 border-amber-900/40'; // Bronze
-      default: return 'text-zinc-500';
-    }
-  };
-
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
       
       {/* Header */}
-      <div className="mb-10 text-center md:text-left space-y-2">
-        <h1 className="text-3xl font-black text-white flex items-center justify-center md:justify-start gap-2">
-          <Trophy className="h-7 w-7 text-yellow-500" />
-          Leaderboard
-        </h1>
-        <p className="text-sm text-zinc-400 max-w-2xl">
-          Check out the top earners on RewardCash. Complete offers to claim your spot and win weekly prizes.
-        </p>
+      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
+            <Trophy className="h-7 w-7 text-yellow-500 animate-pulse" />
+            Global Leaderboard
+          </h1>
+          <p className="text-sm text-zinc-400 mt-1">
+            Compete with the top earners on RewardCash. Play games, complete surveys, and climb the ranks.
+          </p>
+        </div>
       </div>
 
-      {/* Bonus Banner */}
-      <div className="mb-12 flex flex-col md:flex-row items-center justify-between gap-4 rounded-2xl bg-zinc-950 border border-dark-border p-5 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="flex items-center gap-4 text-center md:text-left">
-          <div className="rounded-xl bg-primary/10 border border-primary/20 p-3 text-primary">
-            <Award className="h-7 w-7" />
+      {/* Weekly Payout Banner */}
+      <div className="mb-8 rounded-2xl border border-dark-border bg-dark-card p-6 relative overflow-hidden shadow-xl">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-primary/10 to-secondary/5 rounded-full filter blur-[80px] pointer-events-none" />
+        
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4 text-center lg:text-left">
+            <div className="rounded-xl bg-gradient-to-tr from-secondary/20 to-primary/20 p-3 text-primary shrink-0 border border-primary/20">
+              <Award className="h-7 w-7" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white">Weekly Leaderboard Prizes</h3>
+              <p className="text-xs text-zinc-400 max-w-xl mt-1">
+                Climb to the top before Sunday midnight! The top 3 earners receive huge coin bonuses directly credited into their balances.
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-base font-bold text-white">Weekly Payout Bonus</h3>
-            <p className="text-xs text-zinc-400 max-w-md">
-              Top 3 weekly earners receive massive coin bonuses directly in their balances every Sunday at midnight!
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-wider text-zinc-400">
-          <div className="text-center rounded-xl bg-zinc-900 border border-dark-border px-4 py-2">
-            <span className="block text-yellow-500">1st Place</span>
-            <span className="text-white font-black">+5,000 Coins</span>
-          </div>
-          <div className="text-center rounded-xl bg-zinc-900 border border-dark-border px-4 py-2">
-            <span className="block text-slate-400">2nd Place</span>
-            <span className="text-white font-black">+2,500 Coins</span>
-          </div>
-          <div className="text-center rounded-xl bg-zinc-900 border border-dark-border px-4 py-2">
-            <span className="block text-amber-600">3rd Place</span>
-            <span className="text-white font-black">+1,000 Coins</span>
+          
+          <div className="grid grid-cols-3 gap-2.5 w-full lg:w-auto text-center text-xs font-bold uppercase tracking-wider">
+            <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
+              <span className="block text-yellow-500 text-[10px] mb-1">1st Place</span>
+              <span className="text-white font-black text-sm">+5,000</span>
+              <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
+            </div>
+            <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
+              <span className="block text-slate-400 text-[10px] mb-1">2nd Place</span>
+              <span className="text-white font-black text-sm">+2,500</span>
+              <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
+            </div>
+            <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
+              <span className="block text-amber-600 text-[10px] mb-1">3rd Place</span>
+              <span className="text-white font-black text-sm">+1,000</span>
+              <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
+            </div>
           </div>
         </div>
       </div>
 
       {loading ? (
-        <div className="flex-1 flex items-center justify-center py-20">
+        <div className="flex-1 flex flex-col items-center justify-center py-20">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-3 animate-pulse">
+            Loading Rankings...
+          </span>
         </div>
       ) : (
-        <div className="space-y-12">
+        <div className="space-y-8">
           
-          {/* Podium (Top 3 Players) */}
-          {podium.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+          {/* Podium towers (Top 3 Players) */}
+          {leaderboard.length > 0 && (
+            <div className="flex flex-col md:flex-row md:items-end justify-center gap-6 mt-8">
               
-              {/* Rank 2 (Left) */}
-              {podium[1] && (
-                <div className="rounded-2xl glass-card border border-dark-border p-6 text-center md:order-1 relative overflow-hidden group">
-                  <div className="absolute top-0 inset-x-0 h-1.5 bg-slate-500" />
-                  <div className="flex justify-center mb-4 relative">
-                    <img 
-                      src={podium[1].avatar_url || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150'} 
-                      alt={podium[1].username}
-                      className="h-20 w-20 rounded-full border-2 border-slate-600"
-                    />
-                    <span className="absolute bottom-0 translate-y-1/3 rounded-full bg-slate-900 border border-slate-700 px-3 py-0.5 text-xs font-bold text-slate-400">
-                      Rank 2
-                    </span>
+              {/* Render Rank 2 (Left) */}
+              {leaderboard[1] && (
+                <div className="w-full md:w-64 rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group shadow-lg min-h-[260px] md:h-64 md:order-1">
+                  <div className="absolute top-0 inset-x-0 h-[3px] bg-slate-400/40" />
+                  
+                  <div className="flex flex-col items-center">
+                    <div className="relative mb-3">
+                      <img 
+                        src={leaderboard[1].avatar_url || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150'} 
+                        alt={leaderboard[1].username}
+                        className="h-16 w-16 rounded-full border-2 border-slate-500/50 object-cover"
+                      />
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-slate-500 px-2.5 py-0.5 text-[9px] font-bold text-slate-400">
+                        Rank 2
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-bold text-white group-hover:text-primary transition-colors mt-2">{leaderboard[1].username}</h3>
                   </div>
-                  <h3 className="text-lg font-black text-white group-hover:text-primary transition-colors">{podium[1].username}</h3>
-                  <div className="flex items-center justify-center gap-1 mt-3">
-                    <Coins className="h-4 w-4 text-yellow-500" />
-                    <span className="text-sm font-bold text-zinc-200">{podium[1].total_earned_coins?.toLocaleString()}</span>
-                    <span className="text-[10px] text-zinc-500 uppercase font-semibold">Earned</span>
+
+                  <div className="w-full mt-4">
+                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2">
+                      <div className="rounded-full bg-primary/10 p-0.5">
+                        <Coins className="h-3.5 w-3.5 text-primary" />
+                      </div>
+                      <span className="text-xs font-black text-white">{leaderboard[1].total_earned_coins?.toLocaleString()}</span>
+                      <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
+                    </div>
+                    <span className="block text-[8px] text-emerald-400 mt-2 font-bold uppercase tracking-wider">+2,500 Coins Prize Pending</span>
                   </div>
                 </div>
               )}
 
-              {/* Rank 1 (Center - Elevated) */}
-              {podium[0] && (
-                <div className="rounded-2xl glass-card border-2 border-yellow-500/30 p-8 text-center md:order-2 md:scale-105 relative overflow-hidden shadow-2xl group">
-                  <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-yellow-500 to-amber-500" />
-                  <div className="flex justify-center mb-6 relative">
-                    <img 
-                      src={podium[0].avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                      alt={podium[0].username}
-                      className="h-24 w-24 rounded-full border-2 border-yellow-500"
-                    />
-                    <span className="absolute bottom-0 translate-y-1/3 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 px-4 py-1 text-xs font-black text-black">
-                      Rank 1
-                    </span>
+              {/* Render Rank 1 (Center - Elevated) */}
+              {leaderboard[0] && (
+                <div className="w-full md:w-72 rounded-2xl border-2 border-yellow-500/30 bg-dark-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group shadow-2xl min-h-[300px] md:h-76 md:order-2 shadow-yellow-500/[0.03]">
+                  <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-yellow-500 to-amber-500" />
+                  
+                  <div className="flex flex-col items-center">
+                    <Crown className="h-6 w-6 text-yellow-500 animate-bounce mb-1" />
+                    <div className="relative mb-3">
+                      <img 
+                        src={leaderboard[0].avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                        alt={leaderboard[0].username}
+                        className="h-20 w-20 rounded-full border-2 border-yellow-500 object-cover"
+                      />
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 px-3.5 py-0.5 text-[9px] font-black text-black uppercase tracking-wider">
+                        Winner
+                      </span>
+                    </div>
+                    <h3 className="text-base font-black text-white group-hover:text-primary transition-colors flex items-center gap-1">
+                      {leaderboard[0].username}
+                    </h3>
                   </div>
-                  <h3 className="text-xl font-black text-white group-hover:text-primary transition-colors flex items-center justify-center gap-1.5">
-                    <Trophy className="h-5 w-5 text-yellow-500 animate-bounce" />
-                    {podium[0].username}
-                  </h3>
-                  <div className="flex items-center justify-center gap-1 mt-3">
-                    <Coins className="h-4.5 w-4.5 text-yellow-500" />
-                    <span className="text-base font-black text-white">{podium[0].total_earned_coins?.toLocaleString()}</span>
-                    <span className="text-xs text-zinc-400 uppercase font-bold tracking-wider">Earned</span>
+
+                  <div className="w-full mt-4">
+                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2.5 shadow-inner">
+                      <div className="rounded-full bg-primary/10 p-0.5">
+                        <Coins className="h-4 w-4 text-primary" />
+                      </div>
+                      <span className="text-sm font-black text-white">{leaderboard[0].total_earned_coins?.toLocaleString()}</span>
+                      <span className="text-[10px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
+                    </div>
+                    <span className="block text-[8px] text-yellow-500 mt-2.5 font-bold uppercase tracking-widest animate-pulse">+5,000 Coins Prize Pending</span>
                   </div>
                 </div>
               )}
 
-              {/* Rank 3 (Right) */}
-              {podium[2] && (
-                <div className="rounded-2xl glass-card border border-dark-border p-6 text-center md:order-3 relative overflow-hidden group">
-                  <div className="absolute top-0 inset-x-0 h-1.5 bg-amber-700" />
-                  <div className="flex justify-center mb-4 relative">
-                    <img 
-                      src={podium[2].avatar_url || 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150'} 
-                      alt={podium[2].username}
-                      className="h-20 w-20 rounded-full border-2 border-amber-800"
-                    />
-                    <span className="absolute bottom-0 translate-y-1/3 rounded-full bg-slate-900 border border-amber-900 px-3 py-0.5 text-xs font-bold text-amber-600">
-                      Rank 3
-                    </span>
+              {/* Render Rank 3 (Right) */}
+              {leaderboard[2] && (
+                <div className="w-full md:w-64 rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group shadow-lg min-h-[260px] md:h-64 md:order-3">
+                  <div className="absolute top-0 inset-x-0 h-[3px] bg-amber-700/50" />
+                  
+                  <div className="flex flex-col items-center">
+                    <div className="relative mb-3">
+                      <img 
+                        src={leaderboard[2].avatar_url || 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150'} 
+                        alt={leaderboard[2].username}
+                        className="h-16 w-16 rounded-full border-2 border-amber-800/50 object-cover"
+                      />
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-amber-900 px-2.5 py-0.5 text-[9px] font-bold text-amber-600">
+                        Rank 3
+                      </span>
+                    </div>
+                    <h3 className="text-sm font-bold text-white group-hover:text-primary transition-colors mt-2">{leaderboard[2].username}</h3>
                   </div>
-                  <h3 className="text-lg font-black text-white group-hover:text-primary transition-colors">{podium[2].username}</h3>
-                  <div className="flex items-center justify-center gap-1 mt-3">
-                    <Coins className="h-4 w-4 text-yellow-500" />
-                    <span className="text-sm font-bold text-zinc-200">{podium[2].total_earned_coins?.toLocaleString()}</span>
-                    <span className="text-[10px] text-zinc-500 uppercase font-semibold">Earned</span>
+
+                  <div className="w-full mt-4">
+                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2">
+                      <div className="rounded-full bg-primary/10 p-0.5">
+                        <Coins className="h-3.5 w-3.5 text-primary" />
+                      </div>
+                      <span className="text-xs font-black text-white">{leaderboard[2].total_earned_coins?.toLocaleString()}</span>
+                      <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
+                    </div>
+                    <span className="block text-[8px] text-emerald-400 mt-2 font-bold uppercase tracking-wider">+1,000 Coins Prize Pending</span>
                   </div>
                 </div>
               )}
@@ -168,51 +202,61 @@ export default function Leaderboard() {
           )}
 
           {/* Leaderboard Table (Ranks 4-10) */}
-          {remainingList.length > 0 && (
-            <div className="rounded-2xl glass-card border border-dark-border p-6">
-              <h2 className="text-base font-bold text-white mb-6 flex items-center gap-2">
-                <Users className="h-5 w-5 text-primary" />
-                Remaining Rankings
-              </h2>
+          <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
+            <h2 className="text-base font-bold text-white mb-5 flex items-center gap-2">
+              <Users className="h-4.5 w-4.5 text-primary" />
+              Remaining Earners List
+            </h2>
 
-              <div className="overflow-x-auto">
+            {remainingList.length === 0 ? (
+              <div className="text-center py-8 text-xs text-zinc-500 font-bold">
+                Climb the ranks! Only the top players are listed.
+              </div>
+            ) : (
+              <div className="overflow-x-auto text-xs">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-dark-border text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                      <th className="pb-3 pr-4">Rank</th>
+                    <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                      <th className="pb-3 pr-4 w-12">Rank</th>
                       <th className="pb-3 px-4">User</th>
-                      <th className="pb-3 px-4 text-right">Total Coins Earned</th>
+                      <th className="pb-3 px-4 text-right">Coins Earned</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-dark-border/40 text-sm">
+                  <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                     {remainingList.map((player, idx) => {
                       const rank = idx + 4;
                       const isCurrent = user && user.username === player.username;
                       return (
                         <tr 
                           key={player.username} 
-                          className={`group hover:bg-zinc-900/30 transition-colors ${
+                          className={`group hover:bg-zinc-900/10 transition-colors ${
                             isCurrent ? 'bg-primary/5 border-l-2 border-primary' : ''
                           }`}
                         >
-                          <td className="py-3.5 pr-4 font-bold text-zinc-400">#{rank}</td>
-                          <td className="py-3.5 px-4">
-                            <div className="flex items-center gap-2.5">
+                          <td className="py-3 pr-4 font-bold text-zinc-400 text-center">#{rank}</td>
+                          <td className="py-3 px-4">
+                            <div className="flex items-center gap-3">
                               <img 
                                 src={player.avatar_url || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150'} 
                                 alt={player.username}
-                                className="h-7 w-7 rounded-full border border-dark-border"
+                                className="h-7 w-7 rounded-full border border-dark-border object-cover"
                               />
-                              <span className={`font-bold ${isCurrent ? 'text-primary' : 'text-zinc-200'}`}>
+                              <span className={`font-bold ${isCurrent ? 'text-primary' : 'text-zinc-200 group-hover:text-white transition-colors'}`}>
                                 {player.username}
-                                {isCurrent && <span className="ml-2 rounded bg-primary/20 border border-primary/40 px-1 py-0.5 text-[9px] font-bold text-primary uppercase">You</span>}
+                                {isCurrent && (
+                                  <span className="ml-2 rounded bg-primary/20 border border-primary/45 px-1.5 py-0.5 text-[8px] font-bold text-primary uppercase">
+                                    You
+                                  </span>
+                                )}
                               </span>
                             </div>
                           </td>
-                          <td className="py-3.5 px-4 text-right font-semibold text-white">
+                          <td className="py-3 px-4 text-right">
                             <div className="flex items-center justify-end gap-1.5">
-                              <Coins className="h-3.5 w-3.5 text-yellow-500" />
-                              {player.total_earned_coins?.toLocaleString()}
+                              <div className="rounded-full bg-primary/10 p-0.5">
+                                <Coins className="h-3.5 w-3.5 text-primary" />
+                              </div>
+                              <span className="font-extrabold text-white">{player.total_earned_coins?.toLocaleString()}</span>
                             </div>
                           </td>
                         </tr>
@@ -221,8 +265,8 @@ export default function Leaderboard() {
                   </tbody>
                 </table>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>
