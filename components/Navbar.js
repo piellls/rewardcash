@@ -196,7 +196,9 @@ export default function Navbar() {
                   className="flex w-full items-center justify-between text-sm font-semibold tracking-wide text-zinc-400 hover:text-white hover:bg-zinc-900/30 py-2.5 px-4 rounded-xl transition-all cursor-pointer border-none bg-transparent text-left group"
                 >
                   <div className="flex items-center gap-3">
-                    <Icon className="h-4.5 w-4.5 text-zinc-500 group-hover:text-primary transition-colors" />
+                    <div className="p-1.5 rounded-lg bg-transparent text-zinc-500 group-hover:bg-zinc-900/50 group-hover:text-primary transition-colors border border-transparent group-hover:border-zinc-800/40">
+                      <Icon className="h-4.5 w-4.5" />
+                    </div>
                     {item.name}
                   </div>
                   <ChevronRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-zinc-550" />
@@ -215,10 +217,16 @@ export default function Navbar() {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Icon className={`h-4.5 w-4.5 transition-colors ${isActive ? 'text-primary' : 'text-zinc-500 group-hover:text-primary'}`} />
+                  <div className={`p-1.5 rounded-lg transition-all border ${
+                    isActive 
+                      ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(56,189,248,0.15)]' 
+                      : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-zinc-900/50 group-hover:text-primary group-hover:border-zinc-800/40'
+                  }`}>
+                    <Icon className="h-4.5 w-4.5" />
+                  </div>
                   {item.name}
                 </div>
-                <ChevronRight className={`h-3.5 w-3.5 transition-all ${isActive ? 'opacity-100 text-primary' : 'opacity-0 group-hover:opacity-100 text-zinc-550'}`} />
+                <ChevronRight className={`h-3.5 w-3.5 transition-all ${isActive ? 'opacity-100 text-primary' : 'opacity-0 group-hover:opacity-100 text-zinc-555'}`} />
               </Link>
             );
           })}
@@ -253,10 +261,12 @@ export default function Navbar() {
               <button
                 key={item.name}
                 onClick={() => setIsSupportOpen(true)}
-                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-white transition-colors cursor-pointer border-none bg-transparent"
+                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-white transition-colors cursor-pointer border-none bg-transparent group"
               >
-                <Icon className="h-5 w-5 mb-0.5 text-zinc-500" />
-                <span className="text-[10px] font-bold tracking-wide">
+                <div className="p-1 rounded-lg bg-transparent text-zinc-500 group-hover:bg-zinc-900/40 group-hover:text-primary transition-colors mb-0.5">
+                  <Icon className="h-4.5 w-4.5" />
+                </div>
+                <span className="text-[9px] font-bold tracking-wide">
                   {item.name}
                 </span>
               </button>
@@ -267,14 +277,20 @@ export default function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${
+              className={`flex flex-col items-center justify-center flex-1 py-1 transition-colors group ${
                 isActive 
                   ? 'text-primary font-bold' 
                   : 'text-zinc-500 hover:text-white'
               }`}
             >
-              <Icon className={`h-5 w-5 mb-0.5 ${isActive ? 'text-primary' : 'text-zinc-500'}`} />
-              <span className="text-[10px] font-bold tracking-wide">
+              <div className={`p-1 rounded-lg transition-all border ${
+                isActive 
+                  ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(56,189,248,0.15)]' 
+                  : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-zinc-900/40 group-hover:text-primary'
+              } mb-0.5`}>
+                <Icon className="h-4.5 w-4.5" />
+              </div>
+              <span className="text-[9px] font-bold tracking-wide">
                 {item.name}
               </span>
             </Link>

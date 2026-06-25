@@ -231,10 +231,10 @@ export default function Earn() {
   };
 
   const partnerWalls = [
-    { name: 'AdBlueMedia', desc: 'Highest paying surveys & mobile apps', badge: '1.5x Boost', logo: Globe, logoColor: 'text-sky-400 bg-sky-500/10 border-sky-500/20', active: true },
-    { name: 'CPALead', desc: 'Fast mobile app installs & fast completions', badge: 'Popular', logo: Target, logoColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', active: false },
-    { name: 'Lootably', desc: 'Watch videos, play games and complete quizzes', badge: 'New', logo: Play, logoColor: 'text-amber-500 bg-amber-500/10 border-amber-500/20', active: false },
-    { name: 'CPX Research', desc: 'Best and highest qualifying global surveys', badge: 'Hot', logo: FileText, logoColor: 'text-violet-400 bg-violet-500/10 border-violet-500/20', active: false }
+    { name: 'AdBlueMedia', desc: 'Highest paying surveys & mobile apps', badge: '1.5x Boost', logo: Globe, logoColor: 'text-primary bg-primary/10 border-primary/20', active: true },
+    { name: 'CPALead', desc: 'Fast mobile app installs & fast completions', badge: 'Popular', logo: Target, logoColor: 'text-secondary bg-secondary/10 border-secondary/20', active: false },
+    { name: 'Lootably', desc: 'Watch videos, play games and complete quizzes', badge: 'New', logo: Play, logoColor: 'text-primary bg-primary/10 border-primary/20', active: false },
+    { name: 'CPX Research', desc: 'Best and highest qualifying global surveys', badge: 'Hot', logo: FileText, logoColor: 'text-secondary bg-secondary/10 border-secondary/20', active: false }
   ];
 
   return (
@@ -244,7 +244,9 @@ export default function Earn() {
       <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
-            <Sparkles className="h-7 w-7 text-primary animate-pulse" />
+            <div className="icon-wrapper-primary p-2">
+              <Sparkles className="h-6 w-6 animate-pulse" />
+            </div>
             Earn Center
           </h1>
           <p className="text-sm text-zinc-400 mt-1">
@@ -275,7 +277,7 @@ export default function Earn() {
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-dark-border/40 pb-4">
           <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-gradient-to-tr from-secondary/20 to-primary/20 p-2.5">
+            <div className="icon-wrapper-gradient p-2.5">
               <Flame className="h-6 w-6 text-primary animate-pulse" />
             </div>
             <div>
@@ -364,15 +366,15 @@ export default function Earn() {
 
                 <div className="my-4 flex items-center justify-center">
                   {isClaimed ? (
-                    <div className="rounded-full bg-emerald-500/20 p-2 border border-emerald-500/30">
+                    <div className="icon-wrapper-secondary p-2 shadow-inner border-emerald-500/30 bg-emerald-500/5">
                       <Check className="h-5 w-5 text-emerald-400" />
                     </div>
                   ) : isLocked ? (
-                    <div className="rounded-full bg-zinc-900 p-2 border border-dark-border">
-                      <Lock className="h-5 w-5 text-zinc-650" />
+                    <div className="icon-wrapper-primary p-2 opacity-40 border-dark-border bg-zinc-950/80">
+                      <Lock className="h-5 w-5 text-zinc-500" />
                     </div>
                   ) : (
-                    <div className="rounded-full bg-primary/10 p-2 border border-primary/20 animate-bounce">
+                    <div className="icon-wrapper-gradient p-2 animate-bounce">
                       <Flame className="h-5 w-5 text-primary" />
                     </div>
                   )}
@@ -401,7 +403,9 @@ export default function Earn() {
       {/* 2. PARTNER WALLS GRID */}
       <div className="mb-10">
         <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <Gamepad2 className="h-5 w-5 text-secondary" />
+          <div className="icon-wrapper-secondary p-1.5 border-none">
+            <Gamepad2 className="h-4.5 w-4.5" />
+          </div>
           Partner Offerwalls
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -434,10 +438,14 @@ export default function Earn() {
               </div>
 
               <div>
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center border mb-3 ${wall.logoColor}`}>
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center border mb-3 transition-colors ${
+                  wall.active 
+                    ? 'bg-primary/10 border-primary/20 text-primary shadow-[0_0_8px_rgba(56,189,248,0.1)] group-hover:border-primary/45 group-hover:shadow-[0_0_12px_rgba(56,189,248,0.2)]' 
+                    : 'bg-zinc-900 border-dark-border text-zinc-500'
+                }`}>
                   {(() => {
                     const LogoIcon = wall.logo;
-                    return <LogoIcon className="h-5 w-5" />;
+                    return <LogoIcon className="h-5.5 w-5.5" />;
                   })()}
                 </div>
                 <h3 className="text-base font-bold text-white group-hover:text-primary transition-colors">
@@ -463,7 +471,9 @@ export default function Earn() {
       <div id="direct-tasks" className="scroll-mt-6 flex-1 flex flex-col">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-dark-border pb-4">
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Coins className="h-5 w-5 text-primary" />
+            <div className="icon-wrapper-primary p-1.5 border-none">
+              <Coins className="h-4.5 w-4.5" />
+            </div>
             Direct Tasks
           </h2>
 
@@ -517,13 +527,13 @@ export default function Earn() {
                         className="h-11 w-11 rounded-lg border border-dark-border/80 object-cover bg-zinc-950"
                       />
                     ) : (
-                      <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-dark-border flex items-center justify-center">
+                      <div className="p-2.5 rounded-lg bg-zinc-950 border border-dark-border flex items-center justify-center group-hover:border-primary/20 transition-all">
                         {(() => {
                           const iconKey = (offer.icon || offer.category || '').toLowerCase();
-                          if (iconKey === 'game') return <Gamepad2 className="h-5 w-5 text-amber-400" />;
-                          if (iconKey === 'survey') return <FileText className="h-5 w-5 text-sky-400" />;
-                          if (iconKey === 'app') return <Smartphone className="h-5 w-5 text-emerald-400" />;
-                          return <Gamepad2 className="h-5 w-5 text-zinc-400" />;
+                          if (iconKey === 'game') return <Gamepad2 className="h-5 w-5 text-primary" />;
+                          if (iconKey === 'survey') return <FileText className="h-5 w-5 text-secondary" />;
+                          if (iconKey === 'app') return <Smartphone className="h-5 w-5 text-primary" />;
+                          return <Gamepad2 className="h-5 w-5 text-zinc-500" />;
                         })()}
                       </div>
                     )}
@@ -536,14 +546,14 @@ export default function Earn() {
                   <h3 className="text-sm font-bold text-white group-hover:text-primary transition-colors line-clamp-1">
                     {offer.title}
                   </h3>
-                  <p className="text-xs text-zinc-450 mt-1 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-zinc-455 mt-1 line-clamp-2 leading-relaxed">
                     {offer.description}
                   </p>
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-dark-border/40 flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <div className="rounded-full bg-primary/10 p-0.5">
+                    <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
                       <Coins className="h-3.5 w-3.5 text-primary" />
                     </div>
                     <span className="font-extrabold text-sm text-white">{offer.coins.toLocaleString()}</span>

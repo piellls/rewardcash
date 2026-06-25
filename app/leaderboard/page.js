@@ -39,7 +39,9 @@ export default function Leaderboard() {
       <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
-            <Trophy className="h-7 w-7 text-yellow-500 animate-pulse" />
+            <div className="icon-wrapper-primary p-2">
+              <Trophy className="h-6 w-6" />
+            </div>
             Global Leaderboard
           </h1>
           <p className="text-sm text-zinc-400 mt-1">
@@ -54,7 +56,7 @@ export default function Leaderboard() {
         
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-center lg:text-left">
-            <div className="rounded-xl bg-gradient-to-tr from-secondary/20 to-primary/20 p-3 text-primary shrink-0 border border-primary/20">
+            <div className="icon-wrapper-gradient p-3 shrink-0">
               <Award className="h-7 w-7" />
             </div>
             <div>
@@ -67,17 +69,17 @@ export default function Leaderboard() {
           
           <div className="grid grid-cols-3 gap-2.5 w-full lg:w-auto text-center text-xs font-bold uppercase tracking-wider">
             <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
-              <span className="block text-yellow-500 text-[10px] mb-1">1st Place</span>
+              <span className="block text-secondary text-[10px] mb-1">1st Place</span>
               <span className="text-white font-black text-sm">+5,000</span>
               <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
             </div>
             <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
-              <span className="block text-slate-400 text-[10px] mb-1">2nd Place</span>
+              <span className="block text-primary text-[10px] mb-1">2nd Place</span>
               <span className="text-white font-black text-sm">+2,500</span>
               <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
             </div>
             <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
-              <span className="block text-amber-600 text-[10px] mb-1">3rd Place</span>
+              <span className="block text-secondary text-[10px] mb-1">3rd Place</span>
               <span className="text-white font-black text-sm">+1,000</span>
               <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
             </div>
@@ -102,16 +104,16 @@ export default function Leaderboard() {
               {/* Render Rank 2 (Left) */}
               {leaderboard[1] && (
                 <div className="w-full md:w-64 rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group shadow-lg min-h-[260px] md:h-64 md:order-1">
-                  <div className="absolute top-0 inset-x-0 h-[3px] bg-slate-400/40" />
+                  <div className="absolute top-0 inset-x-0 h-[3px] bg-primary/40" />
                   
                   <div className="flex flex-col items-center">
                     <div className="relative mb-3">
                       <img 
                         src={leaderboard[1].avatar_url || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150'} 
                         alt={leaderboard[1].username}
-                        className="h-16 w-16 rounded-full border-2 border-slate-500/50 object-cover"
+                        className="h-16 w-16 rounded-full border-2 border-primary/50 object-cover"
                       />
-                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-slate-500 px-2.5 py-0.5 text-[9px] font-bold text-slate-400">
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-primary px-2.5 py-0.5 text-[9px] font-bold text-primary">
                         Rank 2
                       </span>
                     </div>
@@ -120,31 +122,31 @@ export default function Leaderboard() {
 
                   <div className="w-full mt-4">
                     <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2">
-                      <div className="rounded-full bg-primary/10 p-0.5">
+                      <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
                         <Coins className="h-3.5 w-3.5 text-primary" />
                       </div>
                       <span className="text-xs font-black text-white">{leaderboard[1].total_earned_coins?.toLocaleString()}</span>
                       <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
                     </div>
-                    <span className="block text-[8px] text-emerald-400 mt-2 font-bold uppercase tracking-wider">+2,500 Coins Prize Pending</span>
+                    <span className="block text-[8px] text-secondary mt-2 font-bold uppercase tracking-wider">+2,500 Coins Prize Pending</span>
                   </div>
                 </div>
               )}
 
               {/* Render Rank 1 (Center - Elevated) */}
               {leaderboard[0] && (
-                <div className="w-full md:w-72 rounded-2xl border-2 border-yellow-500/30 bg-dark-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group shadow-2xl min-h-[300px] md:h-76 md:order-2 shadow-yellow-500/[0.03]">
-                  <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-yellow-500 to-amber-500" />
+                <div className="w-full md:w-72 rounded-2xl border-2 border-secondary/30 bg-dark-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group shadow-2xl min-h-[300px] md:h-76 md:order-2 shadow-secondary/[0.03]">
+                  <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-secondary to-primary" />
                   
                   <div className="flex flex-col items-center">
-                    <Crown className="h-6 w-6 text-yellow-500 animate-bounce mb-1" />
+                    <Crown className="h-6 w-6 text-secondary mb-1" />
                     <div className="relative mb-3">
                       <img 
                         src={leaderboard[0].avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
                         alt={leaderboard[0].username}
-                        className="h-20 w-20 rounded-full border-2 border-yellow-500 object-cover"
+                        className="h-20 w-20 rounded-full border-2 border-secondary object-cover"
                       />
-                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 px-3.5 py-0.5 text-[9px] font-black text-black uppercase tracking-wider">
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-secondary to-primary px-3.5 py-0.5 text-[9px] font-black text-black uppercase tracking-wider">
                         Winner
                       </span>
                     </div>
@@ -155,13 +157,13 @@ export default function Leaderboard() {
 
                   <div className="w-full mt-4">
                     <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2.5 shadow-inner">
-                      <div className="rounded-full bg-primary/10 p-0.5">
+                      <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
                         <Coins className="h-4 w-4 text-primary" />
                       </div>
                       <span className="text-sm font-black text-white">{leaderboard[0].total_earned_coins?.toLocaleString()}</span>
                       <span className="text-[10px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
                     </div>
-                    <span className="block text-[8px] text-yellow-500 mt-2.5 font-bold uppercase tracking-widest animate-pulse">+5,000 Coins Prize Pending</span>
+                    <span className="block text-[8px] text-secondary mt-2.5 font-bold uppercase tracking-widest animate-pulse">+5,000 Coins Prize Pending</span>
                   </div>
                 </div>
               )}
@@ -169,16 +171,16 @@ export default function Leaderboard() {
               {/* Render Rank 3 (Right) */}
               {leaderboard[2] && (
                 <div className="w-full md:w-64 rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group shadow-lg min-h-[260px] md:h-64 md:order-3">
-                  <div className="absolute top-0 inset-x-0 h-[3px] bg-amber-700/50" />
+                  <div className="absolute top-0 inset-x-0 h-[3px] bg-primary/40" />
                   
                   <div className="flex flex-col items-center">
                     <div className="relative mb-3">
                       <img 
                         src={leaderboard[2].avatar_url || 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150'} 
                         alt={leaderboard[2].username}
-                        className="h-16 w-16 rounded-full border-2 border-amber-800/50 object-cover"
+                        className="h-16 w-16 rounded-full border-2 border-primary/50 object-cover"
                       />
-                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-amber-900 px-2.5 py-0.5 text-[9px] font-bold text-amber-600">
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-primary px-2.5 py-0.5 text-[9px] font-bold text-primary">
                         Rank 3
                       </span>
                     </div>
@@ -187,13 +189,13 @@ export default function Leaderboard() {
 
                   <div className="w-full mt-4">
                     <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2">
-                      <div className="rounded-full bg-primary/10 p-0.5">
+                      <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
                         <Coins className="h-3.5 w-3.5 text-primary" />
                       </div>
                       <span className="text-xs font-black text-white">{leaderboard[2].total_earned_coins?.toLocaleString()}</span>
                       <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
                     </div>
-                    <span className="block text-[8px] text-emerald-400 mt-2 font-bold uppercase tracking-wider">+1,000 Coins Prize Pending</span>
+                    <span className="block text-[8px] text-secondary mt-2 font-bold uppercase tracking-wider">+1,000 Coins Prize Pending</span>
                   </div>
                 </div>
               )}
@@ -204,7 +206,9 @@ export default function Leaderboard() {
           {/* Leaderboard Table (Ranks 4-10) */}
           <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
             <h2 className="text-base font-bold text-white mb-5 flex items-center gap-2">
-              <Users className="h-4.5 w-4.5 text-primary" />
+              <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+                <Users className="h-4 w-4" />
+              </div>
               Remaining Earners List
             </h2>
 

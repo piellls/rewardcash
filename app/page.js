@@ -132,7 +132,7 @@ export default function Home() {
                   <ShieldCheck className="h-4 w-4 text-primary" /> Instant Verification
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Star className="h-4 w-4 text-accent-gold fill-accent-gold" /> 4.9/5 Trustpilot Score
+                  <Star className="h-4 w-4 text-secondary fill-secondary" /> 4.9/5 Trustpilot Score
                 </div>
               </div>
             </div>
@@ -212,8 +212,8 @@ export default function Home() {
           {/* Step 1 */}
           <div className="relative rounded-3xl glass-card border border-dark-border p-6 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(56,189,248,0.05)] transition-all group">
             <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/20 group-hover:text-primary/20 transition-colors">01</div>
-            <div className="rounded-2xl bg-zinc-900/60 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-              <Users className="h-6 w-6 text-primary" />
+            <div className="icon-wrapper-primary h-12 w-12 flex mb-6 group-hover:scale-105 transition-transform">
+              <Users className="h-5.5 w-5.5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Create Account</h3>
             <p className="text-sm text-zinc-400 leading-relaxed">
@@ -224,8 +224,8 @@ export default function Home() {
           {/* Step 2 */}
           <div className="relative rounded-3xl glass-card border border-dark-border p-6 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(56,189,248,0.05)] transition-all group">
             <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/20 group-hover:text-secondary/20 transition-colors">02</div>
-            <div className="rounded-2xl bg-zinc-900/60 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-              <Coins className="h-6 w-6 text-secondary" />
+            <div className="icon-wrapper-secondary h-12 w-12 flex mb-6 group-hover:scale-105 transition-transform">
+              <Coins className="h-5.5 w-5.5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Complete Offers</h3>
             <p className="text-sm text-zinc-400 leading-relaxed">
@@ -236,8 +236,8 @@ export default function Home() {
           {/* Step 3 */}
           <div className="relative rounded-3xl glass-card border border-dark-border p-6 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(56,189,248,0.05)] transition-all group">
             <div className="absolute top-6 right-6 text-4xl font-black text-zinc-800/20 group-hover:text-primary/20 transition-colors">03</div>
-            <div className="rounded-2xl bg-zinc-900/60 border border-dark-border w-12 h-12 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-              <Wallet className="h-6 w-6 text-primary" />
+            <div className="icon-wrapper-primary h-12 w-12 flex mb-6 group-hover:scale-105 transition-transform">
+              <Wallet className="h-5.5 w-5.5" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Instant Payout</h3>
             <p className="text-sm text-zinc-400 leading-relaxed">
@@ -260,21 +260,27 @@ export default function Home() {
             </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div className="icon-wrapper-secondary p-0.5 shrink-0 mt-0.5 border-none shadow-[0_0_8px_rgba(16,185,129,0.1)]">
+                  <CheckCircle className="h-4 w-4" />
+                </div>
                 <div>
                   <h4 className="text-sm font-bold text-zinc-200">High Payout Rates</h4>
                   <p className="text-xs text-zinc-400">We pay out up to 85% of what advertisers pay us directly to you.</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div className="icon-wrapper-secondary p-0.5 shrink-0 mt-0.5 border-none shadow-[0_0_8px_rgba(16,185,129,0.1)]">
+                  <CheckCircle className="h-4 w-4" />
+                </div>
                 <div>
                   <h4 className="text-sm font-bold text-zinc-200">Low Withdrawal Minimums</h4>
                   <p className="text-xs text-zinc-400">Withdraw your cash once you reach only $1.00 USD (1000 coins).</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div className="icon-wrapper-secondary p-0.5 shrink-0 mt-0.5 border-none shadow-[0_0_8px_rgba(16,185,129,0.1)]">
+                  <CheckCircle className="h-4 w-4" />
+                </div>
                 <div>
                   <h4 className="text-sm font-bold text-zinc-200">24/7 Dedicated Support</h4>
                   <p className="text-xs text-zinc-400">Our team checks and processes payout requests around the clock.</p>
@@ -286,8 +292,8 @@ export default function Home() {
           {/* Testimonials */}
           <div className="space-y-4">
             <div className="rounded-2xl glass-card border border-dark-border p-5 relative">
-              <div className="flex items-center gap-1 text-yellow-500 mb-2">
-                {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-500" />)}
+              <div className="flex items-center gap-1 text-secondary mb-2">
+                {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-secondary" />)}
               </div>
               <p className="text-sm italic text-zinc-300 mb-4">
                 "I earned $20 on my first day simply by installing 2 games and playing them during my train commute. Cashout to Litecoin was processed in under 2 hours!"
@@ -299,8 +305,8 @@ export default function Home() {
             </div>
             
             <div className="rounded-2xl glass-card border border-dark-border p-5 relative">
-              <div className="flex items-center gap-1 text-yellow-500 mb-2">
-                {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-yellow-500" />)}
+              <div className="flex items-center gap-1 text-secondary mb-2">
+                {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-secondary" />)}
               </div>
               <p className="text-sm italic text-zinc-300 mb-4">
                 "RewardCash has the cleanest dashboard I've seen on any GPT site. No annoying popup ads and the coins actually credit instantly. Highly recommended."

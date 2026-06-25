@@ -6,14 +6,10 @@
   --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
 
   --color-primary: #38bdf8; /* EarnLab Sky Blue */
-  --color-secondary: #6366f1; /* EarnLab Indigo */
+  --color-secondary: #10b981; /* EarnLab Emerald Green */
   --color-dark-bg: #050811; /* EarnLab Deep Navy-Black */
   --color-dark-card: #0a0e1a; /* Elevated Slate Blue card */
   --color-dark-border: #141c30; /* Subtle border color */
-  
-  --color-accent-cyan: #0ddff2;
-  --color-accent-gold: #fb923c;
-  --color-accent-red: #ef4444;
   
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-glow: glow 2s ease-in-out infinite alternate;
@@ -79,7 +75,64 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #6366f1 0%, #38bdf8 50%, #0ddff2 100%);
+  background: linear-gradient(135deg, #10b981 0%, #38bdf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Branded Icon Wrappers */
+.icon-wrapper-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(16, 185, 129, 0.02) 100%);
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-wrapper-primary:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.15);
+  transform: translateY(-1px);
+}
+
+.icon-wrapper-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(16, 185, 129, 0.16);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(56, 189, 248, 0.02) 100%);
+  color: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-wrapper-secondary:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.15);
+  transform: translateY(-1px);
+}
+
+.icon-wrapper-gradient {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(56, 189, 248, 0.06) 100%);
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-wrapper-gradient:hover {
+  border-color: rgba(56, 189, 248, 0.38);
+  color: #10b981;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.18);
+  transform: translateY(-1px);
+}
+

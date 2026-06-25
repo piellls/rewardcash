@@ -22,16 +22,16 @@ export default function Referrals() {
   const [authTab, setAuthTab] = useState('login');
 
   const TIERS = [
-    { level: 1, commission: 5, reqUSD: 0, badge: Shield, color: 'text-zinc-400', badgeName: 'Tier 1' },
-    { level: 2, commission: 6, reqUSD: 10, badge: Swords, color: 'text-orange-400', badgeName: 'Tier 2' },
-    { level: 3, commission: 7, reqUSD: 25, badge: Zap, color: 'text-yellow-400', badgeName: 'Tier 3' },
-    { level: 4, commission: 8, reqUSD: 50, badge: Sparkles, color: 'text-cyan-400', badgeName: 'Tier 4' },
-    { level: 5, commission: 9, reqUSD: 100, badge: Star, color: 'text-teal-400', badgeName: 'Tier 5' },
-    { level: 6, commission: 10, reqUSD: 500, badge: Crown, color: 'text-amber-400', badgeName: 'Tier 6' },
-    { level: 7, commission: 15, reqUSD: 2500, req30dUSD: 300, badge: Gem, color: 'text-purple-400', badgeName: 'Tier 7' },
-    { level: 8, commission: 20, reqUSD: 10000, req30dUSD: 1200, badge: Award, color: 'text-indigo-400', badgeName: 'Tier 8' },
-    { level: 9, commission: 25, reqUSD: 50000, req30dUSD: 6000, badge: Flame, color: 'text-red-400', badgeName: 'Tier 9' },
-    { level: 10, commission: 30, reqUSD: 100005, req30dUSD: 12000, badge: Globe, color: 'text-pink-400', badgeName: 'Tier 10' }
+    { level: 1, commission: 5, reqUSD: 0, badge: Shield, color: 'text-secondary', badgeName: 'Tier 1' },
+    { level: 2, commission: 6, reqUSD: 10, badge: Swords, color: 'text-primary', badgeName: 'Tier 2' },
+    { level: 3, commission: 7, reqUSD: 25, badge: Zap, color: 'text-secondary', badgeName: 'Tier 3' },
+    { level: 4, commission: 8, reqUSD: 50, badge: Sparkles, color: 'text-primary', badgeName: 'Tier 4' },
+    { level: 5, commission: 9, reqUSD: 100, badge: Star, color: 'text-secondary', badgeName: 'Tier 5' },
+    { level: 6, commission: 10, reqUSD: 500, badge: Crown, color: 'text-primary', badgeName: 'Tier 6' },
+    { level: 7, commission: 15, reqUSD: 2500, req30dUSD: 300, badge: Gem, color: 'text-secondary', badgeName: 'Tier 7' },
+    { level: 8, commission: 20, reqUSD: 10000, req30dUSD: 1200, badge: Award, color: 'text-primary', badgeName: 'Tier 8' },
+    { level: 9, commission: 25, reqUSD: 50000, req30dUSD: 6000, badge: Flame, color: 'text-secondary', badgeName: 'Tier 9' },
+    { level: 10, commission: 30, reqUSD: 100005, req30dUSD: 12000, badge: Globe, color: 'text-primary', badgeName: 'Tier 10' }
   ];
 
   const loadReferralData = async () => {
@@ -132,19 +132,25 @@ export default function Referrals() {
         {/* Highlight Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-4xl mb-12">
           <div className="rounded-xl border border-dark-border bg-dark-card p-6 text-center hover:border-primary/10 transition-all relative overflow-hidden group">
-            <Share2 className="h-6 w-6 text-primary mx-auto mb-3 group-hover:scale-105 transition-transform" />
+            <div className="icon-wrapper-primary h-12 w-12 flex mx-auto mb-3 group-hover:scale-105 transition-transform">
+              <Share2 className="h-5.5 w-5.5" />
+            </div>
             <h3 className="text-sm font-bold text-white mb-1.5">1. Share Your Link</h3>
             <p className="text-xs text-zinc-450 leading-relaxed">Send your unique affiliate invite link to friends, forums, or social networks.</p>
           </div>
           
           <div className="rounded-xl border border-dark-border bg-dark-card p-6 text-center hover:border-primary/10 transition-all relative overflow-hidden group">
-            <Coins className="h-6 w-6 text-primary mx-auto mb-3 group-hover:scale-105 transition-transform" />
+            <div className="icon-wrapper-primary h-12 w-12 flex mx-auto mb-3 group-hover:scale-105 transition-transform">
+              <Coins className="h-5.5 w-5.5" />
+            </div>
             <h3 className="text-sm font-bold text-white mb-1.5">2. Signup Welcome</h3>
             <p className="text-xs text-zinc-450 leading-relaxed">Referred accounts immediately receive a +100 welcome coins bonus upon registration.</p>
           </div>
           
           <div className="rounded-xl border border-dark-border bg-dark-card p-6 text-center hover:border-primary/10 transition-all relative overflow-hidden group">
-            <TrendingUp className="h-6 w-6 text-secondary mx-auto mb-3 group-hover:scale-105 transition-transform" />
+            <div className="icon-wrapper-secondary h-12 w-12 flex mx-auto mb-3 group-hover:scale-105 transition-transform">
+              <TrendingUp className="h-5.5 w-5.5" />
+            </div>
             <h3 className="text-sm font-bold text-white mb-1.5">3. Tier Payout Shares</h3>
             <p className="text-xs text-zinc-450 leading-relaxed">Earn from 5% up to 30% commission on every offer, survey, or download they complete.</p>
           </div>
@@ -171,14 +177,17 @@ export default function Referrals() {
       
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-black text-white tracking-tight">
+        <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
+          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+            <Users className="h-5.5 w-5.5" />
+          </div>
           Affiliates
         </h1>
         <button 
           onClick={() => alert("Affiliate guidelines: Share your URL, earn commission percentage based on Tiers 1-10 on completions. Commissions can be claimed at any time to your active coin balance.")}
-          className="rounded-xl border border-dark-border bg-zinc-950 px-4 py-2 text-xs font-bold text-zinc-350 hover:bg-zinc-900 transition-colors flex items-center gap-1.5"
+          className="rounded-xl border border-dark-border bg-zinc-950 px-4 py-2 text-xs font-bold text-zinc-355 hover:bg-zinc-900 transition-colors flex items-center gap-1.5"
         >
-          <Info className="h-4 w-4 text-zinc-450" />
+          <Info className="h-4 w-4 text-zinc-455" />
           How it works
         </button>
       </div>
@@ -215,10 +224,12 @@ export default function Referrals() {
                   </h2>
                   <div className="flex items-center gap-2.5 text-[11px] font-bold text-zinc-400">
                     <span className="flex items-center gap-1">
-                      {(() => {
-                        const BadgeIcon = currentTier.badge;
-                        return <BadgeIcon className={`h-4 w-4 ${currentTier.color}`} />;
-                      })()}
+                      <div className="p-1 rounded bg-zinc-950 border border-dark-border/40 inline-flex items-center justify-center mr-1">
+                        {(() => {
+                          const BadgeIcon = currentTier.badge;
+                          return <BadgeIcon className={`h-3.5 w-3.5 ${currentTier.color}`} />;
+                        })()}
+                      </div>
                       {currentTier.badgeName}
                     </span>
                     <span>•</span>
@@ -230,8 +241,8 @@ export default function Referrals() {
               {/* Claim Box */}
               <div className="flex flex-col items-end gap-1.5 shrink-0 border-l border-dark-border/40 pl-6">
                 <div className="flex items-center gap-1 text-xs text-zinc-400">
-                  <div className="rounded-full bg-emerald-500/10 p-0.5">
-                    <Coins className="h-4 w-4 text-emerald-400" />
+                  <div className="icon-wrapper-secondary p-0.5 border-none rounded-full shrink-0">
+                    <Coins className="h-4 w-4" />
                   </div>
                   <span className="font-extrabold text-white">{claimableCoins.toLocaleString()}</span>
                   <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Available</span>
@@ -250,15 +261,17 @@ export default function Referrals() {
             {/* Right Card: Statistics Grid */}
             <div className="lg:col-span-7 rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col justify-between">
               <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
-                <TrendingUp className="h-4 w-4 text-primary" />
+                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+                  <TrendingUp className="h-3.5 w-3.5" />
+                </div>
                 Statistics
               </h3>
               
               <div className="grid grid-cols-3 gap-4">
                 {/* Stat 1 */}
                 <div className="flex items-center gap-3">
-                  <div className="rounded-xl bg-primary/10 p-2.5 text-primary shrink-0 border border-primary/10">
-                    <DollarSign className="h-5.5 w-5.5 text-primary" />
+                  <div className="icon-wrapper-primary p-2.5 shrink-0">
+                    <DollarSign className="h-5.5 w-5.5" />
                   </div>
                   <div>
                     <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wide">Total Earnings</span>
@@ -268,8 +281,8 @@ export default function Referrals() {
 
                 {/* Stat 2 */}
                 <div className="flex items-center gap-3">
-                  <div className="rounded-xl bg-primary/10 p-2.5 text-primary shrink-0 border border-primary/10">
-                    <Users className="h-5.5 w-5.5 text-primary" />
+                  <div className="icon-wrapper-primary p-2.5 shrink-0">
+                    <Users className="h-5.5 w-5.5" />
                   </div>
                   <div>
                     <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wide">Users Referred</span>
@@ -279,8 +292,8 @@ export default function Referrals() {
 
                 {/* Stat 3 */}
                 <div className="flex items-center gap-3">
-                  <div className="rounded-xl bg-primary/10 p-2.5 text-primary shrink-0 border border-primary/10">
-                    <Clock className="h-5.5 w-5.5 text-primary" />
+                  <div className="icon-wrapper-primary p-2.5 shrink-0">
+                    <Clock className="h-5.5 w-5.5" />
                   </div>
                   <div>
                     <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wide">Last 30 Days</span>
@@ -429,10 +442,12 @@ export default function Referrals() {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-4">
                           <span className="text-sm font-bold text-white flex items-center gap-1.5">
-                            {(() => {
-                              const BadgeIcon = tier.badge;
-                              return <BadgeIcon className={`h-4.5 w-4.5 ${tier.color}`} />;
-                            })()}
+                            <div className="p-1.5 rounded-lg bg-zinc-950 border border-dark-border/80 flex items-center justify-center shrink-0 group-hover:border-primary/25 transition-colors shadow-inner mr-1.5">
+                              {(() => {
+                                const BadgeIcon = tier.badge;
+                                return <BadgeIcon className={`h-4 w-4 ${tier.color}`} />;
+                              })()}
+                            </div>
                             {tier.badgeName}
                           </span>
                           <span className="rounded-full bg-zinc-950 border border-dark-border px-2.5 py-0.5 text-[9px] font-bold text-primary uppercase">
@@ -479,7 +494,9 @@ export default function Referrals() {
           ) : activeTab === 'Affiliates' ? (
             <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
               <div className="flex items-center gap-2 mb-5 border-b border-dark-border/40 pb-3">
-                <Users className="h-4.5 w-4.5 text-primary" />
+                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+                  <Users className="h-4 w-4" />
+                </div>
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">Affiliate Invites Directory</h3>
               </div>
 
