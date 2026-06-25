@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db, isMockMode } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Coins, Flame, Award, Gamepad2, Play, Sparkles, CheckCircle, Loader2, Lock, Check, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Coins, Flame, Award, Gamepad2, Play, Sparkles, CheckCircle, Loader2, Lock, Check, TrendingUp, AlertTriangle, Globe, Target, FileText, Smartphone, Swords, MessageSquare, Music } from 'lucide-react';
 
 export default function Earn() {
   const { user, earnCoinsSimulated } = useAuth();
@@ -231,10 +231,10 @@ export default function Earn() {
   };
 
   const partnerWalls = [
-    { name: 'AdBlueMedia', desc: 'Highest paying surveys & mobile apps', badge: '1.5x Boost', logo: '🔵', active: true },
-    { name: 'CPALead', desc: 'Fast mobile app installs & fast completions', badge: 'Popular', logo: '🟢', active: false },
-    { name: 'Lootably', desc: 'Watch videos, play games and complete quizzes', badge: 'New', logo: '🟠', active: false },
-    { name: 'CPX Research', desc: 'Best and highest qualifying global surveys', badge: 'Hot', logo: '🟣', active: false }
+    { name: 'AdBlueMedia', desc: 'Highest paying surveys & mobile apps', badge: '1.5x Boost', logo: Globe, logoColor: 'text-sky-400 bg-sky-500/10 border-sky-500/20', active: true },
+    { name: 'CPALead', desc: 'Fast mobile app installs & fast completions', badge: 'Popular', logo: Target, logoColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', active: false },
+    { name: 'Lootably', desc: 'Watch videos, play games and complete quizzes', badge: 'New', logo: Play, logoColor: 'text-amber-500 bg-amber-500/10 border-amber-500/20', active: false },
+    { name: 'CPX Research', desc: 'Best and highest qualifying global surveys', badge: 'Hot', logo: FileText, logoColor: 'text-violet-400 bg-violet-500/10 border-violet-500/20', active: false }
   ];
 
   return (
@@ -434,7 +434,12 @@ export default function Earn() {
               </div>
 
               <div>
-                <span className="text-3xl mb-3 block">{wall.logo}</span>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center border mb-3 ${wall.logoColor}`}>
+                  {(() => {
+                    const LogoIcon = wall.logo;
+                    return <LogoIcon className="h-5 w-5" />;
+                  })()}
+                </div>
                 <h3 className="text-base font-bold text-white group-hover:text-primary transition-colors">
                   {wall.name}
                 </h3>
@@ -512,9 +517,15 @@ export default function Earn() {
                         className="h-11 w-11 rounded-lg border border-dark-border/80 object-cover bg-zinc-950"
                       />
                     ) : (
-                      <span className="text-2xl p-2 rounded-lg bg-zinc-950/60 border border-dark-border">
-                        🎮
-                      </span>
+                      <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-dark-border flex items-center justify-center">
+                        {(() => {
+                          const iconKey = (offer.icon || offer.category || '').toLowerCase();
+                          if (iconKey === 'game') return <Gamepad2 className="h-5 w-5 text-amber-400" />;
+                          if (iconKey === 'survey') return <FileText className="h-5 w-5 text-sky-400" />;
+                          if (iconKey === 'app') return <Smartphone className="h-5 w-5 text-emerald-400" />;
+                          return <Gamepad2 className="h-5 w-5 text-zinc-400" />;
+                        })()}
+                      </div>
                     )}
                     
                     <span className="rounded-full bg-zinc-900 border border-dark-border/60 px-2.5 py-0.5 text-[9px] font-bold text-zinc-400 uppercase tracking-wider">

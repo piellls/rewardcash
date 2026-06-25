@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Users, Coins, Share2, Copy, Check, Award, TrendingUp, Calendar, Info, Clock, DollarSign, Star } from 'lucide-react';
+import { Users, Coins, Share2, Copy, Check, Award, TrendingUp, Calendar, Info, Clock, DollarSign, Star, Shield, Swords, Zap, Sparkles, Crown, Gem, Flame, Globe } from 'lucide-react';
 
 export default function Referrals() {
   const { user, earnCoinsSimulated } = useAuth();
@@ -22,16 +22,16 @@ export default function Referrals() {
   const [authTab, setAuthTab] = useState('login');
 
   const TIERS = [
-    { level: 1, commission: 5, reqUSD: 0, badge: '🛡️', badgeName: 'Tier 1' },
-    { level: 2, commission: 6, reqUSD: 10, badge: '⚔️', badgeName: 'Tier 2' },
-    { level: 3, commission: 7, reqUSD: 25, badge: '🏹', badgeName: 'Tier 3' },
-    { level: 4, commission: 8, reqUSD: 50, badge: '🔮', badgeName: 'Tier 4' },
-    { level: 5, commission: 9, reqUSD: 100, badge: '🌟', badgeName: 'Tier 5' },
-    { level: 6, commission: 10, reqUSD: 500, badge: '👑', badgeName: 'Tier 6' },
-    { level: 7, commission: 15, reqUSD: 2500, req30dUSD: 300, badge: '💎', badgeName: 'Tier 7' },
-    { level: 8, commission: 20, reqUSD: 10000, req30dUSD: 1200, badge: '⚜️', badgeName: 'Tier 8' },
-    { level: 9, commission: 25, reqUSD: 50000, req30dUSD: 6000, badge: '🔥', badgeName: 'Tier 9' },
-    { level: 10, commission: 30, reqUSD: 100005, req30dUSD: 12000, badge: '🌌', badgeName: 'Tier 10' }
+    { level: 1, commission: 5, reqUSD: 0, badge: Shield, color: 'text-zinc-400', badgeName: 'Tier 1' },
+    { level: 2, commission: 6, reqUSD: 10, badge: Swords, color: 'text-orange-400', badgeName: 'Tier 2' },
+    { level: 3, commission: 7, reqUSD: 25, badge: Zap, color: 'text-yellow-400', badgeName: 'Tier 3' },
+    { level: 4, commission: 8, reqUSD: 50, badge: Sparkles, color: 'text-cyan-400', badgeName: 'Tier 4' },
+    { level: 5, commission: 9, reqUSD: 100, badge: Star, color: 'text-teal-400', badgeName: 'Tier 5' },
+    { level: 6, commission: 10, reqUSD: 500, badge: Crown, color: 'text-amber-400', badgeName: 'Tier 6' },
+    { level: 7, commission: 15, reqUSD: 2500, req30dUSD: 300, badge: Gem, color: 'text-purple-400', badgeName: 'Tier 7' },
+    { level: 8, commission: 20, reqUSD: 10000, req30dUSD: 1200, badge: Award, color: 'text-indigo-400', badgeName: 'Tier 8' },
+    { level: 9, commission: 25, reqUSD: 50000, req30dUSD: 6000, badge: Flame, color: 'text-red-400', badgeName: 'Tier 9' },
+    { level: 10, commission: 30, reqUSD: 100005, req30dUSD: 12000, badge: Globe, color: 'text-pink-400', badgeName: 'Tier 10' }
   ];
 
   const loadReferralData = async () => {
@@ -215,7 +215,10 @@ export default function Referrals() {
                   </h2>
                   <div className="flex items-center gap-2.5 text-[11px] font-bold text-zinc-400">
                     <span className="flex items-center gap-1">
-                      <span className="text-primary">{currentTier.badge}</span>
+                      {(() => {
+                        const BadgeIcon = currentTier.badge;
+                        return <BadgeIcon className={`h-4 w-4 ${currentTier.color}`} />;
+                      })()}
                       {currentTier.badgeName}
                     </span>
                     <span>•</span>
@@ -327,36 +330,48 @@ export default function Referrals() {
                   href={`https://api.whatsapp.com/send?text=Join RewardCash and earn coins! ${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-primary/40 flex items-center justify-center text-xs font-bold text-zinc-450 hover:text-primary transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-emerald-500/50 hover:bg-emerald-500/5 flex items-center justify-center text-zinc-450 hover:text-emerald-400 transition-all active:scale-90"
+                  title="Share on WhatsApp"
                 >
-                  💬
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.959-1.856-1.857-4.325-2.88-6.953-2.881-5.438 0-9.864 4.42-9.867 9.864-.001 1.757.485 3.468 1.411 4.966l-.99 3.619 3.701-.971zm11.367-7.251c-.302-.151-1.787-.882-2.058-.981-.271-.099-.468-.151-.664.151-.196.3-.76.981-.931 1.18-.171.199-.343.226-.644.076-.301-.15-1.272-.469-2.422-1.494-.894-.798-1.498-1.784-1.674-2.086-.176-.301-.019-.464.132-.613.136-.134.301-.351.452-.527.151-.176.201-.301.301-.502.1-.201.05-.377-.025-.527-.075-.15-.664-1.609-.91-2.201-.24-.578-.484-.5-.664-.51-.171-.009-.368-.01-.565-.01-.196 0-.518.075-.789.377-.271.301-1.036 1.015-1.036 2.475 0 1.46 1.063 2.874 1.214 3.074.15.201 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.787-.732 2.039-1.439.252-.707.252-1.314.177-1.439-.076-.126-.272-.201-.573-.351z"/>
+                  </svg>
                 </a>
                 {/* Twitter */}
                 <a 
                   href={`https://twitter.com/intent/tweet?text=Join RewardCash and earn coins! ${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-primary/40 flex items-center justify-center text-xs font-bold text-zinc-450 hover:text-primary transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-sky-500/50 hover:bg-sky-500/5 flex items-center justify-center text-zinc-450 hover:text-sky-400 transition-all active:scale-90"
+                  title="Share on X"
                 >
-                  🐦
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
                 </a>
                 {/* Facebook */}
                 <a 
                   href={`https://www.facebook.com/sharer/sharer.php?u=${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-primary/40 flex items-center justify-center text-xs font-bold text-zinc-450 hover:text-primary transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-blue-600/50 hover:bg-blue-600/5 flex items-center justify-center text-zinc-450 hover:text-blue-500 transition-all active:scale-90"
+                  title="Share on Facebook"
                 >
-                  👤
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                  </svg>
                 </a>
                 {/* Telegram */}
                 <a 
                   href={`https://t.me/share/url?url=${getReferralLink()}&text=Join RewardCash and earn coins!`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-primary/40 flex items-center justify-center text-xs font-bold text-zinc-450 hover:text-primary transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-cyan-500/50 hover:bg-cyan-500/5 flex items-center justify-center text-zinc-450 hover:text-cyan-400 transition-all active:scale-90"
+                  title="Share on Telegram"
                 >
-                  ✈️
+                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.58.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.24-5.54 3.65-.52.36-.99.53-1.41.52-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.37-.49 1.03-.75 4.04-1.76 6.74-2.92 8.1-3.48 3.85-1.58 4.65-1.86 5.17-1.87.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.19z"/>
+                  </svg>
                 </a>
               </div>
             </div>
@@ -414,7 +429,10 @@ export default function Referrals() {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-4">
                           <span className="text-sm font-bold text-white flex items-center gap-1.5">
-                            <span className="text-lg">{tier.badge}</span>
+                            {(() => {
+                              const BadgeIcon = tier.badge;
+                              return <BadgeIcon className={`h-4.5 w-4.5 ${tier.color}`} />;
+                            })()}
                             {tier.badgeName}
                           </span>
                           <span className="rounded-full bg-zinc-950 border border-dark-border px-2.5 py-0.5 text-[9px] font-bold text-primary uppercase">

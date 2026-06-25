@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Coins, Wallet, History, AlertCircle, CheckCircle2, ChevronRight, Loader2, ArrowUpRight, DollarSign, Clock, Percent } from 'lucide-react';
+import { Coins, Wallet, History, AlertCircle, CheckCircle2, ChevronRight, Loader2, ArrowUpRight, DollarSign, Clock, Percent, CreditCard } from 'lucide-react';
 
 export default function Cashout() {
   const { user, refreshUser } = useAuth();
@@ -83,7 +83,7 @@ export default function Cashout() {
       name: 'Visa Virtual Card',
       description: 'Get a virtual prepaid Visa card to shop online globally.',
       logoColor: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
-      logoChar: '💳',
+      logoChar: <CreditCard className="h-5 w-5" />,
       badge: 'Shopping',
       fee: '0%',
       time: '1 - 12 Hours',
