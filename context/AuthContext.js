@@ -116,8 +116,19 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateAvatar = async (avatarUrl) => {
+    if (!user) return;
+    try {
+      await db.updateProfileAvatar(user.id, avatarUrl);
+      await refreshUser();
+    } catch (err) {
+      console.error('Failed to update avatar:', err);
+      throw err;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, earnCoinsSimulated, signInWithSocial }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, earnCoinsSimulated, signInWithSocial, updateAvatar }}>
       {children}
     </AuthContext.Provider>
   );

@@ -2,6 +2,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AvatarSelectorModal from "@/components/AvatarSelectorModal";
 
 export const metadata = {
   title: "RewardCash - Earn Free Coins & Cashout Payouts",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
             </main>
             <Footer />
           </div>
+          <AvatarSelectorModal />
         </AuthProvider>
       </body>
     </html>
