@@ -10,7 +10,8 @@ const AuthContext = createContext({
   register: async () => {},
   logout: async () => {},
   refreshUser: async () => {},
-  earnCoinsSimulated: async () => {}
+  earnCoinsSimulated: async () => {},
+  signInWithSocial: async () => {}
 });
 
 export function AuthProvider({ children }) {
@@ -77,6 +78,20 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const signInWithSocial = async (provider) => {
+    setLoading(true);
+    try {
+      const u = await db.signInWithSocial(provider);
+      if (u) {
+        setUser(u);
+      }
+      return u;
+    } catch (err) {
+      setLoading(false);
+      throw err;
+    }
+  };
+
   const logout = async () => {
     setLoading(true);
     try {
@@ -102,7 +117,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, earnCoinsSimulated }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, earnCoinsSimulated, signInWithSocial }}>
       {children}
     </AuthContext.Provider>
   );
