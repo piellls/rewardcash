@@ -5,14 +5,16 @@ import { useAuth } from '@/context/AuthContext';
 import { User, Check, Loader2, Sparkles } from 'lucide-react';
 
 const AVATARS = [
-  { id: 'av1', url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150', name: 'Casual Boy' },
-  { id: 'av2', url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150', name: 'Happy Girl' },
-  { id: 'av3', url: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150', name: 'Smart Guy' },
-  { id: 'av4', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', name: 'Friendly Boy' },
-  { id: 'av5', url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150', name: 'Cool Girl' },
-  { id: 'av6', url: 'https://images.unsplash.com/photo-1628157582853-a796fa650a6a?w=150', name: 'Young Boy' },
-  { id: 'av7', url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150', name: 'Chic Girl' },
-  { id: 'av8', url: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150', name: 'Modern Guy' }
+  { id: 'av1', url: '/avatars/avatar_1.png', name: 'Excited' },
+  { id: 'av2', url: '/avatars/avatar_2.png', name: 'Skeptical' },
+  { id: 'av3', url: '/avatars/avatar_3.png', name: 'Sleepy Glasses' },
+  { id: 'av4', url: '/avatars/avatar_4.png', name: 'Cool' },
+  { id: 'av5', url: '/avatars/avatar_5.png', name: 'Shocked' },
+  { id: 'av6', url: '/avatars/avatar_6.png', name: 'Wink' },
+  { id: 'av7', url: '/avatars/avatar_7.png', name: 'Angry' },
+  { id: 'av8', url: '/avatars/avatar_8.png', name: 'Love' },
+  { id: 'av9', url: '/avatars/avatar_9.png', name: 'Nerd' },
+  { id: 'av10', url: '/avatars/avatar_10.png', name: 'Meh' }
 ];
 
 export default function AvatarSelectorModal() {
@@ -72,7 +74,7 @@ export default function AvatarSelectorModal() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Grid of avatars */}
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-5 gap-4">
             {AVATARS.map((av) => {
               const isSelected = selectedUrl === av.url;
               return (
