@@ -6,7 +6,7 @@ import { X, Mail, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
 
 export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
   const [tab, setTab] = useState(initialTab);
-  const { login, register, signInWithSocial } = useAuth();
+  const { login, register } = useAuth();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,21 +14,6 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
   
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const handleSocialLogin = async (provider) => {
-    setError('');
-    setLoading(true);
-    try {
-      const u = await signInWithSocial(provider);
-      if (u) {
-        onClose();
-      }
-    } catch (err) {
-      setError(err.message || `Failed to sign in with ${provider}`);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (!isOpen) return null;
 
@@ -110,35 +95,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
               </p>
             </div>
 
-            {/* Social Oauth Buttons */}
-            <div className="grid grid-cols-2 gap-2.5 mb-5">
-              <button 
-                type="button" 
-                onClick={() => handleSocialLogin('google')} 
-                className="rounded-xl border border-dark-border bg-zinc-950/80 py-2.5 hover:border-zinc-700 hover:bg-zinc-900 transition-colors flex items-center justify-center gap-1.5 text-[11px] font-bold text-white cursor-pointer active:scale-95"
-              >
-                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24"><path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.08-5.171 4.08-3.415 0-6.19-2.774-6.19-6.19 0-3.415 2.775-6.19 6.19-6.19 1.483 0 2.844.526 3.918 1.402l2.97-2.97C18.89 1.95 15.753 1 12.24 1c-6.075 0-11 4.925-11 11s4.925 11 11 11c5.96 0 10.91-4.28 10.91-11 0-.68-.08-1.33-.24-1.815H12.24z"/></svg>
-                Google
-              </button>
-              
-              <button 
-                type="button" 
-                onClick={() => handleSocialLogin('facebook')} 
-                className="rounded-xl border border-dark-border bg-zinc-950/80 py-2.5 hover:border-zinc-700 hover:bg-zinc-900 transition-colors flex items-center justify-center gap-1.5 text-[11px] font-bold text-white cursor-pointer active:scale-95"
-              >
-                <svg className="h-3.5 w-3.5 fill-[#1877F2]" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                Facebook
-              </button>
-            </div>
 
-            {/* OR separator */}
-            <div className="relative flex items-center justify-center my-4">
-              <div className="flex-grow border-t border-dark-border/60"></div>
-              <span className="flex-shrink mx-4 text-[9px] font-bold text-zinc-550 uppercase tracking-widest bg-dark-card px-2">OR</span>
-              <div className="flex-grow border-t border-dark-border/60"></div>
-            </div>
 
             {/* Error Alert */}
             {error && (
