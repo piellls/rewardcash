@@ -295,108 +295,6 @@ export default function Cashout() {
       ],
       placeholder: 'Solana (SOL) Wallet Address',
       type: 'text'
-    },
-    {
-      id: 'doge',
-      category: 'crypto',
-      name: 'Dogecoin',
-      description: 'Instant meme coin transfer directly to your Dogecoin address.',
-      badge: 'Popular',
-      fee: '0%',
-      time: 'Instant',
-      amounts: [
-        { usd: 3, coins: 3000 },
-        { usd: 5, coins: 5000 },
-        { usd: 10, coins: 10000 },
-        { usd: 25, coins: 25000 }
-      ],
-      placeholder: 'Dogecoin (DOGE) Wallet Address',
-      type: 'text'
-    },
-    {
-      id: 'amazon',
-      category: 'giftcard',
-      name: 'Amazon',
-      description: 'Shop millions of products on Amazon with your balance.',
-      badge: 'Popular',
-      fee: '0%',
-      time: '1 - 12 Hours',
-      amounts: [
-        { usd: 5, coins: 5000 },
-        { usd: 10, coins: 10000 },
-        { usd: 25, coins: 25000 },
-        { usd: 50, coins: 50000 }
-      ],
-      placeholder: 'Delivery Email Address',
-      type: 'email'
-    },
-    {
-      id: 'steam',
-      category: 'giftcard',
-      name: 'Steam',
-      description: 'Top up your Steam wallet to buy games, skins, and DLCs.',
-      badge: 'Gaming',
-      fee: '0%',
-      time: '1 - 12 Hours',
-      amounts: [
-        { usd: 5, coins: 5000 },
-        { usd: 10, coins: 10000 },
-        { usd: 25, coins: 25000 },
-        { usd: 50, coins: 50000 }
-      ],
-      placeholder: 'Delivery Email Address',
-      type: 'email'
-    },
-    {
-      id: 'googleplay',
-      category: 'giftcard',
-      name: 'Google Play',
-      description: 'Purchase apps, games, books, and movies on Android.',
-      badge: 'Android',
-      fee: '0%',
-      time: '1 - 12 Hours',
-      amounts: [
-        { usd: 5, coins: 5000 },
-        { usd: 10, coins: 10000 },
-        { usd: 25, coins: 25000 },
-        { usd: 50, coins: 50000 }
-      ],
-      placeholder: 'Delivery Email Address',
-      type: 'email'
-    },
-    {
-      id: 'apple',
-      category: 'giftcard',
-      name: 'Apple',
-      description: 'Buy devices, apps, games, music, movies, or iCloud space.',
-      badge: 'iOS/Mac',
-      fee: '0%',
-      time: '1 - 12 Hours',
-      amounts: [
-        { usd: 5, coins: 5000 },
-        { usd: 10, coins: 10000 },
-        { usd: 25, coins: 25000 },
-        { usd: 50, coins: 50000 }
-      ],
-      placeholder: 'Delivery Email Address',
-      type: 'email'
-    },
-    {
-      id: 'netflix',
-      category: 'giftcard',
-      name: 'Netflix',
-      description: 'Subscribe to Netflix and watch your favorite shows & movies.',
-      badge: 'Streaming',
-      fee: '0%',
-      time: '1 - 12 Hours',
-      amounts: [
-        { usd: 5, coins: 5000 },
-        { usd: 10, coins: 10000 },
-        { usd: 25, coins: 25000 },
-        { usd: 50, coins: 50000 }
-      ],
-      placeholder: 'Delivery Email Address',
-      type: 'email'
     }
   ];
 
@@ -561,18 +459,6 @@ export default function Cashout() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {methods.filter(m => m.category === 'crypto').map((method) => renderMethodCard(method))}
-        </div>
-      </div>
-
-      {/* 3. Gift Cards Section */}
-      <div className="mb-10">
-        <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-          Gift Cards
-          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-zinc-950 px-2 py-0.5 rounded-md border border-dark-border">Virtual Delivery</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {methods.filter(m => m.category === 'giftcard').map((method) => renderMethodCard(method))}
         </div>
       </div>
 
