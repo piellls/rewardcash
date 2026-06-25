@@ -157,27 +157,69 @@ export default function Earn() {
     };
   }, []);
 
-  // Fetch offers – call AdBlueMedia DIRECTLY from browser so real user IP is used
+  // Fetch offers – fetch AdBlueMedia & OGAds concurrently and merge
   useEffect(() => {
     const fetchOffers = async () => {
       setLoading(true);
       try {
         const s1  = user ? user.id : 'guest';
-        const url = `${ABM_FEED}?user_id=${ABM_USER_ID}&api_key=${ABM_API_KEY}&s1=${s1}&s2=`;
-        const raw = await fetchJSONP(url);
-        const mapped = (Array.isArray(raw) ? raw : []).map(mapOffer);
-        setOffers(mapped);
-        console.log(`[OFFERS] Loaded ${mapped.length} offers from AdBlueMedia`);
-      } catch (err) {
-        console.warn('[OFFERS] JSONP failed, trying server proxy:', err.message);
-        // Fallback: server-side proxy (may have IP mismatch in dev)
+        
+        let abmOffers = [];
+        let ogAdsOffers = [];
+
+        // 1. Fetch AdBlueMedia
         try {
-          const res  = await fetch(`/api/offers?s1=${user ? user.id : 'guest'}`);
-          const data = await res.json();
-          setOffers((Array.isArray(data) ? data : []).map(mapOffer));
-        } catch (e) {
-          console.error('[OFFERS] Both methods failed:', e.message);
+          const url = `${ABM_FEED}?user_id=${ABM_USER_ID}&api_key=${ABM_API_KEY}&s1=${s1}&s2=`;
+          const raw = await fetchJSONP(url);
+          abmOffers = (Array.isArray(raw) ? raw : []).map(mapOffer);
+        } catch (err) {
+          console.warn('[OFFERS] AdBlueMedia JSONP failed, trying server proxy:', err.message);
+          try {
+            const res  = await fetch(`/api/offers?s1=${s1}`);
+            const data = await res.json();
+            abmOffers = (Array.isArray(data) ? data : []).map(mapOffer);
+          } catch (e) {
+            console.error('[OFFERS] AdBlueMedia both methods failed:', e.message);
+          }
         }
+
+        // 2. Fetch OGAds
+        try {
+          const res = await fetch(`/api/offers/ogads?s1=${s1}`);
+          if (res.ok) {
+            const data = await res.json();
+            const rawOffers = Array.isArray(data) ? data : (data.offers || []);
+            
+            ogAdsOffers = rawOffers.map(offer => {
+              const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
+              const coins = Math.round(rawPayout * 1000);
+              const isGame = (offer.name || '').toLowerCase().includes('game') || (offer.adcopy || '').toLowerCase().includes('level');
+              
+              return {
+                id: offer.id || `og_${Math.random()}`,
+                title: offer.name_short || offer.name || 'OGAds Task',
+                description: offer.adcopy || offer.conversion || 'Complete the task steps to earn your reward.',
+                coins,
+                payout: rawPayout,
+                provider: 'OGAds',
+                icon: offer.picture || null,
+                category: isGame ? 'Game' : 'App',
+                url: offer.link || offer.url,
+                anchor: offer.anchor || 'Install Now',
+              };
+            });
+            console.log(`[OFFERS] Loaded ${ogAdsOffers.length} offers from OGAds`);
+          }
+        } catch (err) {
+          console.error('[OFFERS] Failed to load OGAds:', err.message);
+        }
+
+        // Combine and shuffle/sort based on payout
+        const allOffers = [...abmOffers, ...ogAdsOffers].sort((a, b) => b.payout - a.payout);
+        setOffers(allOffers);
+
+      } catch (err) {
+        console.error("Critical error in fetchOffers:", err);
       } finally {
         setLoading(false);
       }
@@ -287,9 +329,9 @@ export default function Earn() {
 
   const partnerWalls = [
     { name: 'AdBlueMedia', desc: 'Highest paying surveys & mobile apps', badge: '1.5x Boost', logo: Globe, logoColor: 'text-primary bg-primary/10 border-primary/20', active: true },
+    { name: 'OGAds', desc: 'Premium gaming and app install offers', badge: 'New', logo: Smartphone, logoColor: 'text-secondary bg-secondary/10 border-secondary/20', active: true },
     { name: 'CPALead', desc: 'Fast mobile app installs & fast completions', badge: 'Popular', logo: Target, logoColor: 'text-secondary bg-secondary/10 border-secondary/20', active: false },
-    { name: 'Lootably', desc: 'Watch videos, play games and complete quizzes', badge: 'New', logo: Play, logoColor: 'text-primary bg-primary/10 border-primary/20', active: false },
-    { name: 'CPX Research', desc: 'Best and highest qualifying global surveys', badge: 'Hot', logo: FileText, logoColor: 'text-secondary bg-secondary/10 border-secondary/20', active: false }
+    { name: 'Lootably', desc: 'Watch videos, play games and complete quizzes', badge: 'Hot', logo: Play, logoColor: 'text-primary bg-primary/10 border-primary/20', active: false },
   ];
 
   return (
