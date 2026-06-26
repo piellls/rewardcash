@@ -113,7 +113,7 @@ export default function LiveFeedBanner() {
       </div>
 
       {/* Feed Container */}
-      <div className="flex items-center gap-2.5 overflow-hidden flex-1 pl-4 h-full">
+      <div className="flex items-center gap-2.5 overflow-hidden flex-1 min-w-0 pl-4 h-full">
         {feed.map((item, index) => {
           const isWithdrawal = item.type === 'withdrawal';
           
