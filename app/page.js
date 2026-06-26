@@ -153,7 +153,7 @@ export default function Home() {
           {/* Trust row */}
           <div className="hero-trust">
             <div className="hero-trust-item"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> No Credit Card</div>
-            <div className="hero-trust-item"><Star className="h-3.5 w-3.5 text-secondary fill-secondary" /> 4.9 / 5 Trustpilot</div>
+            <div className="hero-trust-item"><Star className="h-3.5 w-3.5 text-primary fill-primary" /> 4.9 / 5 Trustpilot</div>
             <div className="hero-trust-item"><Zap className="h-3.5 w-3.5 text-primary" /> Instant Payouts</div>
           </div>
         </div>
@@ -279,11 +279,11 @@ export default function Home() {
             ].map(({ stars, text, user: u, name }, i) => (
               <div key={i} className="testimonial-card">
                 <div className="flex gap-0.5 mb-2">
-                  {[...Array(stars)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-secondary text-secondary" />)}
+                  {[...Array(stars)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-primary text-primary" />)}
                 </div>
                 <p className="testimonial-text">{text}</p>
                 <div className="flex items-center gap-2 mt-3">
-                  <div className="h-7 w-7 rounded-full bg-zinc-800 flex items-center justify-center font-bold text-xs text-white">{u}</div>
+                  <div className="h-7 w-7 rounded-full bg-dark-border flex items-center justify-center font-bold text-xs text-white">{u}</div>
                   <span className="text-xs font-semibold text-zinc-400">{name}</span>
                 </div>
               </div>

@@ -394,9 +394,9 @@ export default function Cashout() {
         {/* Payout Progress Area */}
         <div className="w-full mt-2 space-y-2">
           {/* Progress bar */}
-          <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden p-[1px] border border-dark-border">
+          <div className="h-1.5 w-full bg-dark-bg rounded-full overflow-hidden p-[1px] border border-dark-border">
             <div 
-              className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500" 
+              className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500 shadow-[0_0_6px_rgba(0,231,1,0.4)]" 
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -443,7 +443,7 @@ export default function Cashout() {
         <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
           <div className="h-1.5 w-1.5 rounded-full bg-primary" />
           Withdraw Cash
-          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-zinc-950 px-2 py-0.5 rounded-md border border-dark-border">Direct Payouts</span>
+          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-dark-bg px-2 py-0.5 rounded-md border border-dark-border">Direct Payouts</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {methods.filter(m => m.category === 'cash').map((method) => renderMethodCard(method))}
@@ -455,7 +455,7 @@ export default function Cashout() {
         <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
           <div className="h-1.5 w-1.5 rounded-full bg-secondary" />
           Cryptocurrencies
-          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-zinc-950 px-2 py-0.5 rounded-md border border-dark-border">Instant Blockchain</span>
+          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-dark-bg px-2 py-0.5 rounded-md border border-dark-border">Instant Blockchain</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {methods.filter(m => m.category === 'crypto').map((method) => renderMethodCard(method))}
@@ -606,12 +606,12 @@ export default function Cashout() {
                         onClick={() => setSelectedAmount(amount)}
                         className={`rounded-xl p-3 text-center border active:scale-95 hover:scale-[1.02] transition-all flex flex-col items-center justify-center gap-0.5 ${
                           isSelected
-                            ? 'bg-[#38bdf8] border-[#38bdf8] text-black shadow-[0_0_12px_rgba(56,189,248,0.4)] font-bold'
-                            : 'bg-zinc-950 border-dark-border text-white hover:border-primary/40'
+                            ? 'bg-primary border-primary text-black shadow-[0_0_12px_rgba(0,231,1,0.4)] font-bold'
+                            : 'bg-dark-bg border-dark-border text-white hover:border-primary/40'
                         } ${!canAfford && !isSelected ? 'opacity-40' : ''}`}
                       >
                         <span className="text-sm font-bold">${amount.usd.toFixed(2)}</span>
-                        <span className={`text-[10px] ${isSelected ? 'text-black/70 font-bold' : 'text-zinc-555'}`}>
+                        <span className={`text-[10px] ${isSelected ? 'text-black/70 font-bold' : 'text-zinc-400'}`}>
                           {amount.coins.toLocaleString()} Coins
                         </span>
                       </button>
@@ -631,16 +631,16 @@ export default function Cashout() {
                   placeholder={selectedMethod.placeholder}
                   value={paymentAddress}
                   onChange={(e) => setPaymentAddress(e.target.value)}
-                  className="w-full rounded-xl bg-zinc-950 border border-dark-border py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
+                  className="w-full rounded-xl bg-dark-bg border border-dark-border py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
                 />
               </div>
 
               {/* User Balance Status */}
-              <div className="flex items-center justify-between text-xs rounded-xl bg-zinc-900 border border-dark-border/80 px-4 py-3">
+              <div className="flex items-center justify-between text-xs rounded-xl bg-dark-bg border border-dark-border/80 px-4 py-3">
                 <span className="text-zinc-400 font-semibold uppercase tracking-wide">Your Balance:</span>
                 <span className="font-bold text-white flex items-center gap-1">
                   <Coins className="h-3.5 w-3.5 text-primary" />
-                  {user.balance_coins.toLocaleString()} / {selectedAmount?.coins.toLocaleString()}
+                  {user.balance_coins.toLocaleString()} / {selectedAmount ? selectedAmount.coins.toLocaleString() : '0'}
                 </span>
               </div>
 

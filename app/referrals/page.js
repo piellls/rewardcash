@@ -178,7 +178,7 @@ export default function Referrals() {
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
             <Users className="h-5.5 w-5.5" />
           </div>
           Affiliates
@@ -187,7 +187,7 @@ export default function Referrals() {
           onClick={() => alert("Affiliate guidelines: Share your URL, earn commission percentage based on Tiers 1-10 on completions. Commissions can be claimed at any time to your active coin balance.")}
           className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs flex items-center gap-1.5"
         >
-          <Info className="h-4 w-4 text-[#38bdf8]" />
+          <Info className="h-4 w-4 text-primary" />
           How it works
         </button>
       </div>
@@ -316,13 +316,13 @@ export default function Referrals() {
                   type="text"
                   readOnly
                   value={getReferralLink()}
-                  className="flex-1 rounded-xl bg-zinc-950 border border-dark-border px-3.5 py-2.5 text-xs text-zinc-300 select-all focus:outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.6)] font-semibold"
+                  className="flex-1 rounded-xl bg-dark-bg border border-dark-border px-3.5 py-2.5 text-xs text-zinc-350 select-all focus:outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.6)] font-semibold"
                 />
                 <button
                   onClick={handleCopyLink}
                   className={`flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-extrabold shrink-0 ${
                     copied 
-                      ? 'btn-gaming shadow-[0_0_10px_rgba(56,189,248,0.35)]' 
+                      ? 'btn-gaming shadow-[0_0_10px_rgba(0,231,1,0.35)]' 
                       : 'btn-gaming-secondary'
                   }`}
                 >
@@ -334,7 +334,7 @@ export default function Referrals() {
 
             {/* Social Share logos */}
             <div className="shrink-0 space-y-1.5">
-              <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider md:text-right">
+              <span className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider md:text-right">
                 Share your referral link
               </span>
               <div className="flex gap-2">
@@ -343,7 +343,7 @@ export default function Referrals() {
                   href={`https://api.whatsapp.com/send?text=Join RewardCash and earn coins! ${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-emerald-500/50 hover:bg-emerald-500/5 flex items-center justify-center text-zinc-450 hover:text-emerald-400 transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center text-zinc-400 hover:text-primary transition-all active:scale-90"
                   title="Share on WhatsApp"
                 >
                   <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -355,7 +355,7 @@ export default function Referrals() {
                   href={`https://twitter.com/intent/tweet?text=Join RewardCash and earn coins! ${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-sky-500/50 hover:bg-sky-500/5 flex items-center justify-center text-zinc-450 hover:text-sky-400 transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-[#00b2ff]/50 hover:bg-[#00b2ff]/5 flex items-center justify-center text-zinc-400 hover:text-[#00b2ff] transition-all active:scale-90"
                   title="Share on X"
                 >
                   <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -367,7 +367,7 @@ export default function Referrals() {
                   href={`https://www.facebook.com/sharer/sharer.php?u=${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-blue-600/50 hover:bg-blue-600/5 flex items-center justify-center text-zinc-450 hover:text-blue-500 transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-blue-600/50 hover:bg-blue-600/5 flex items-center justify-center text-zinc-400 hover:text-blue-500 transition-all active:scale-90"
                   title="Share on Facebook"
                 >
                   <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -379,7 +379,7 @@ export default function Referrals() {
                   href={`https://t.me/share/url?url=${getReferralLink()}&text=Join RewardCash and earn coins!`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-zinc-950 border border-dark-border/80 hover:border-cyan-500/50 hover:bg-cyan-500/5 flex items-center justify-center text-zinc-450 hover:text-cyan-400 transition-all active:scale-90"
+                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-[#00b2ff]/50 hover:bg-[#00b2ff]/5 flex items-center justify-center text-zinc-400 hover:text-[#00b2ff] transition-all active:scale-90"
                   title="Share on Telegram"
                 >
                   <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
@@ -391,14 +391,14 @@ export default function Referrals() {
           </div>
 
           {/* Sub-tab Navigation */}
-          <div className="flex gap-2.5 bg-zinc-950/40 p-1.5 rounded-xl border border-dark-border max-w-sm">
+          <div className="flex gap-2.5 bg-dark-bg/60 p-1.5 rounded-xl border border-dark-border max-w-sm">
             {['Tiers', 'Affiliates', 'Leaderboard'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 rounded-lg py-1.5 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all ${
                   activeTab === tab 
-                    ? 'bg-[#38bdf8] text-black shadow-[0_0_10px_rgba(56,189,248,0.3)]' 
+                    ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,231,1,0.35)]' 
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
@@ -426,14 +426,13 @@ export default function Referrals() {
                     <div 
                       key={tier.level}
                       className={`relative flex flex-col justify-between rounded-xl border p-5 transition-all bg-dark-card ${
-                        isActive
-                          ? 'border-emerald-500 bg-emerald-500/[0.02] shadow-[0_0_20px_rgba(16,185,129,0.1)]'
+                        isActive                          ? 'border-primary bg-primary/[0.02] shadow-[0_0_20px_rgba(0,231,1,0.1)]'
                           : 'border-dark-border bg-dark-card/85'
                       }`}
                     >
                       {/* Active Tag */}
                       {isActive && (
-                        <div className="absolute -top-2.5 left-6 rounded-full bg-emerald-500 text-[8px] font-black text-black px-2.5 py-0.5 uppercase tracking-widest border border-emerald-400">
+                        <div className="absolute -top-2.5 left-6 rounded-full bg-primary text-[8px] font-black text-black px-2.5 py-0.5 uppercase tracking-widest border border-primary">
                           Active
                         </div>
                       )}
@@ -442,7 +441,7 @@ export default function Referrals() {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-4">
                           <span className="text-sm font-bold text-white flex items-center gap-1.5">
-                            <div className="p-1.5 rounded-lg bg-zinc-950 border border-dark-border/80 flex items-center justify-center shrink-0 group-hover:border-primary/25 transition-colors shadow-inner mr-1.5">
+                            <div className="p-1.5 rounded-lg bg-dark-bg border border-dark-border/80 flex items-center justify-center shrink-0 group-hover:border-primary/25 transition-colors shadow-inner mr-1.5">
                               {(() => {
                                 const BadgeIcon = tier.badge;
                                 return <BadgeIcon className={`h-4 w-4 ${tier.color}`} />;
@@ -450,7 +449,7 @@ export default function Referrals() {
                             </div>
                             {tier.badgeName}
                           </span>
-                          <span className="rounded-full bg-zinc-950 border border-dark-border px-2.5 py-0.5 text-[9px] font-bold text-primary uppercase">
+                          <span className="rounded-full bg-dark-bg border border-dark-border px-2.5 py-0.5 text-[9px] font-bold text-primary uppercase">
                             {tier.commission}% commission
                           </span>
                         </div>
@@ -463,7 +462,7 @@ export default function Referrals() {
                           <div className="flex items-center gap-2 text-zinc-300">
                             <div className={`rounded-full p-0.5 border ${
                               isCompleted 
-                                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
+                                ? 'bg-primary/10 border-primary/30 text-primary' 
                                 : 'border-dark-border text-zinc-650'
                             }`}>
                               {isCompleted ? (
@@ -494,14 +493,14 @@ export default function Referrals() {
           ) : activeTab === 'Affiliates' ? (
             <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
               <div className="flex items-center gap-2 mb-5 border-b border-dark-border/40 pb-3">
-                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
                   <Users className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">Affiliate Invites Directory</h3>
               </div>
 
               {referralsList.length === 0 ? (
-                <div className="text-center py-10 rounded-xl bg-zinc-950/20 border border-dashed border-dark-border">
+                <div className="text-center py-10 rounded-xl bg-dark-bg/20 border border-dashed border-dark-border">
                   <p className="text-xs text-zinc-500 font-bold">No invites listed yet.</p>
                   <p className="text-[10px] text-zinc-650 mt-1 uppercase tracking-wider font-semibold">Share your URL above to invite your first user!</p>
                 </div>
@@ -517,7 +516,7 @@ export default function Referrals() {
                     </thead>
                     <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                       {referralsList.map((refUser, idx) => (
-                        <tr key={idx} className="group hover:bg-zinc-900/10 transition-colors">
+                        <tr key={idx} className="group hover:bg-dark-bg/40 transition-colors">
                           <td className="py-3 pr-4 font-bold text-white">{refUser.username}</td>
                           <td className="py-3 px-4 text-zinc-500">
                             <div className="flex items-center gap-1.5">
@@ -544,7 +543,7 @@ export default function Referrals() {
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">Top Affiliate Earners</h3>
               </div>
               
-              <div className="text-center py-10 rounded-xl bg-zinc-950/20 border border-dashed border-dark-border text-xs text-zinc-500 font-bold uppercase tracking-wide">
+              <div className="text-center py-10 rounded-xl bg-dark-bg/20 border border-dashed border-dark-border text-xs text-zinc-500 font-bold uppercase tracking-wide">
                 Leaderboard statistics update every Sunday. Start referring to compete!
               </div>
             </div>

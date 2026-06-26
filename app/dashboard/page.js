@@ -127,7 +127,7 @@ export default function Dashboard() {
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
             <User className="h-5.5 w-5.5" />
           </div>
           My Profile
@@ -136,7 +136,7 @@ export default function Dashboard() {
           onClick={() => alert("Profile Settings: Updates coming soon!")}
           className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs flex items-center gap-1.5"
         >
-          <div className="icon-wrapper-secondary p-1 border-none mr-0.5 text-[#38bdf8] bg-transparent">
+          <div className="icon-wrapper-primary p-1 border-none mr-0.5 text-primary bg-transparent">
             <Settings className="h-3.5 w-3.5" />
           </div>
           Settings
@@ -178,9 +178,9 @@ export default function Dashboard() {
                     Joined {Math.max(0, Math.floor((new Date() - new Date(user.created_at || Date.now())) / (1000 * 60 * 60 * 24)))}D ago
                   </span>
                   
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#10b981] pt-1">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-primary pt-1">
                     <span>Level</span>
-                    <svg className="h-4 w-4 fill-current text-[#10b981]" viewBox="0 0 24 24">
+                    <svg className="h-4 w-4 fill-current text-primary" viewBox="0 0 24 24">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
                     <span>{levelData.level}</span>
@@ -196,9 +196,9 @@ export default function Dashboard() {
                     {coinsToLevelUp.toLocaleString()} coins to level up
                   </span>
                 </div>
-                <div className="h-2 w-full rounded-full bg-zinc-950/80 border border-dark-border overflow-hidden p-[2px]">
+                <div className="h-2 w-full rounded-full bg-dark-bg/85 border border-dark-border overflow-hidden p-[2px]">
                   <div 
-                    className="h-full rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_8px_rgba(56,189,248,0.4)] transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_8px_rgba(0,231,1,0.4)] transition-all duration-500"
                     style={{ width: `${levelData.percentage}%` }}
                   />
                 </div>
@@ -210,7 +210,7 @@ export default function Dashboard() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
                 
                 {/* Stat 1: Total Earnings */}
-                <div className="rounded-xl border border-dark-border bg-zinc-950/20 p-4 flex items-center gap-4 hover:border-emerald-500/10 transition-colors">
+                <div className="rounded-xl border border-dark-border bg-dark-bg/60 p-4 flex items-center gap-4 hover:border-primary/20 transition-all">
                   <div className="icon-wrapper-secondary h-11 w-11 flex shrink-0">
                     <Wallet className="h-5 w-5" />
                   </div>
@@ -221,7 +221,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Stat 2: Completed Offers */}
-                <div className="rounded-xl border border-dark-border bg-zinc-950/20 p-4 flex items-center gap-4 hover:border-emerald-500/10 transition-colors">
+                <div className="rounded-xl border border-dark-border bg-dark-bg/60 p-4 flex items-center gap-4 hover:border-primary/20 transition-all">
                   <div className="icon-wrapper-secondary h-11 w-11 flex shrink-0">
                     <Shield className="h-5 w-5" />
                   </div>
@@ -232,7 +232,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Stat 3: Users Referred */}
-                <div className="rounded-xl border border-dark-border bg-zinc-950/20 p-4 flex items-center gap-4 hover:border-emerald-500/10 transition-colors">
+                <div className="rounded-xl border border-dark-border bg-dark-bg/60 p-4 flex items-center gap-4 hover:border-primary/20 transition-all">
                   <div className="icon-wrapper-secondary h-11 w-11 flex shrink-0">
                     <Users className="h-5 w-5" />
                   </div>
@@ -243,7 +243,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Stat 4: Earnings last 30 days */}
-                <div className="rounded-xl border border-dark-border bg-zinc-950/20 p-4 flex items-center gap-4 hover:border-emerald-500/10 transition-colors">
+                <div className="rounded-xl border border-dark-border bg-dark-bg/60 p-4 flex items-center gap-4 hover:border-primary/20 transition-all">
                   <div className="icon-wrapper-secondary h-11 w-11 flex shrink-0">
                     <Clock className="h-5 w-5" />
                   </div>
@@ -268,8 +268,8 @@ export default function Dashboard() {
                   onClick={() => setActiveMainTab(tab)}
                   className={`rounded-xl px-5 py-2 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all cursor-pointer ${
                     isActive 
-                      ? 'bg-[#38bdf8]/15 text-[#38bdf8] border border-[#38bdf8]/20 shadow-[0_0_12px_rgba(56,189,248,0.15)]' 
-                      : 'bg-zinc-950/40 border border-dark-border text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/40'
+                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(0,231,1,0.2)]' 
+                      : 'bg-dark-bg/60 border border-dark-border text-zinc-400 hover:text-zinc-200 hover:bg-dark-card'
                   }`}
                 >
                   {tab}
@@ -292,13 +292,13 @@ export default function Dashboard() {
                         onClick={() => setActiveSubTab(sub)}
                         className={`relative py-2 text-xs font-extrabold active:scale-95 transition-all cursor-pointer ${
                           isActive 
-                            ? 'text-[#38bdf8]' 
+                            ? 'text-primary' 
                             : 'text-zinc-500 hover:text-zinc-350'
                         }`}
                       >
                         {sub}
                         {isActive && (
-                          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#10b981] rounded-full" />
+                          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full" />
                         )}
                       </button>
                     );
@@ -313,13 +313,13 @@ export default function Dashboard() {
                       <span className="font-bold text-zinc-500">Show pending surveys only</span>
                       <button
                         onClick={() => setShowPendingOnly(!showPendingOnly)}
-                        className={`w-9 h-5 rounded-full p-[2px] transition-colors relative focus:outline-none cursor-pointer ${
-                          showPendingOnly ? 'bg-[#10b981]' : 'bg-zinc-800 border border-dark-border'
+                        className={`w-9 h-5 rounded-full p-[2px] transition-all relative focus:outline-none cursor-pointer shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] ${
+                          showPendingOnly ? 'bg-primary shadow-[0_0_8px_rgba(0,231,1,0.3)]' : 'bg-dark-bg border border-dark-border'
                         }`}
                       >
                         <div 
-                          className={`w-3.5 h-3.5 rounded-full bg-white transition-transform ${
-                            showPendingOnly ? 'translate-x-4' : 'translate-x-0'
+                          className={`w-3.5 h-3.5 rounded-full transition-transform duration-300 ${
+                            showPendingOnly ? 'translate-x-4 bg-dark-bg' : 'translate-x-0 bg-zinc-400'
                           }`}
                         />
                       </button>
@@ -330,12 +330,12 @@ export default function Dashboard() {
                       <select
                         value={partnerFilter}
                         onChange={(e) => setPartnerFilter(e.target.value)}
-                        className="appearance-none rounded-xl bg-zinc-950 border border-dark-border pl-3.5 pr-8 py-2 font-bold text-zinc-350 focus:outline-none text-[11px] cursor-pointer"
+                        className="appearance-none rounded-xl bg-dark-bg border border-dark-border pl-3.5 pr-8 py-2 font-bold text-zinc-300 focus:outline-none text-[11px] cursor-pointer hover:border-dark-hover focus:border-primary/50 transition-all"
                       >
-                        <option value="All">All offer partners</option>
-                        <option value="AdBlueMedia">AdBlueMedia</option>
-                        <option value="CPALead">CPALead</option>
-                        <option value="Lootably">Lootably</option>
+                        <option value="All" className="bg-dark-card text-white">All offer partners</option>
+                        <option value="AdBlueMedia" className="bg-dark-card text-white">AdBlueMedia</option>
+                        <option value="CPALead" className="bg-dark-card text-white">CPALead</option>
+                        <option value="Lootably" className="bg-dark-card text-white">Lootably</option>
                       </select>
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
                         <svg className="h-3 w-3 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
@@ -347,7 +347,7 @@ export default function Dashboard() {
 
               {/* Lists / Tables */}
               {activeSubTab === 'Surveys' ? (
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5">
+                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
                   {surveysList.length === 0 ? (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No surveys have been completed yet</p>
@@ -366,8 +366,8 @@ export default function Dashboard() {
                         </thead>
                         <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                           {surveysList.map((c) => (
-                            <tr key={c.id} className="group hover:bg-zinc-900/10 transition-colors">
-                              <td className="py-3 pr-4 font-bold text-white">{c.offer_title}</td>
+                            <tr key={c.id} className="group hover:bg-dark-hover/40 transition-all duration-200">
+                              <td className="py-3 pr-4 font-bold text-white group-hover:text-primary transition-colors">{c.offer_title}</td>
                               <td className="py-3 px-4 font-extrabold text-primary">
                                 <span className="flex items-center gap-1">
                                   <Coins className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
@@ -385,7 +385,7 @@ export default function Dashboard() {
                   )}
                 </div>
               ) : activeSubTab === 'Offers' ? (
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5">
+                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
                   {offersList.length === 0 ? (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No offers have been completed yet</p>
@@ -404,8 +404,8 @@ export default function Dashboard() {
                         </thead>
                         <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                           {offersList.map((c) => (
-                            <tr key={c.id} className="group hover:bg-zinc-900/10 transition-colors">
-                              <td className="py-3 pr-4 font-bold text-white">{c.offer_title}</td>
+                            <tr key={c.id} className="group hover:bg-dark-hover/40 transition-all duration-200">
+                              <td className="py-3 pr-4 font-bold text-white group-hover:text-primary transition-colors">{c.offer_title}</td>
                               <td className="py-3 px-4 font-extrabold text-primary">
                                 <span className="flex items-center gap-1">
                                   <Coins className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
@@ -423,14 +423,14 @@ export default function Dashboard() {
                   )}
                 </div>
               ) : activeSubTab === 'Rewards' ? (
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5">
+                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
                   <div className="text-center py-12">
                     <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No rewards claimed yet</p>
                   </div>
                 </div>
               ) : (
                 /* Referrals sub tab */
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5">
+                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
                   {referralsCount === 0 ? (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No users referred yet</p>
@@ -439,28 +439,28 @@ export default function Dashboard() {
                   ) : (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-400 font-bold">You have referred {referralsCount} users.</p>
-                      <Link href="/referrals" className="text-[10px] text-[#10b981] hover:underline font-bold mt-1.5 uppercase block">View Invites Directory</Link>
+                      <Link href="/referrals" className="text-[10px] text-primary hover:underline font-bold mt-1.5 uppercase block">View Invites Directory</Link>
                     </div>
                   )}
                 </div>
               )}
             </div>
           ) : activeMainTab === 'Started offers' ? (
-            <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
+            <div className="rounded-2xl border border-dark-border bg-dark-card p-6 shadow-custom-card">
               <div className="text-center py-12">
                 <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-2">No offers started yet</p>
-                <Link href="/earn" className="text-[10px] text-[#10b981] hover:underline font-extrabold uppercase tracking-wider">
+                <Link href="/earn" className="text-[10px] text-primary hover:underline font-extrabold uppercase tracking-wider">
                   Browse Offers
                 </Link>
               </div>
             </div>
           ) : (
             /* Withdrawals Tab */
-            <div className="rounded-2xl border border-dark-border bg-dark-card p-5">
+            <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
               {withdrawals.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-2">No cashout payouts requested yet</p>
-                  <Link href="/cashout" className="text-[10px] text-[#10b981] hover:underline font-extrabold uppercase tracking-wider">
+                  <Link href="/cashout" className="text-[10px] text-primary hover:underline font-extrabold uppercase tracking-wider">
                     Browse Cashouts
                   </Link>
                 </div>
@@ -468,7 +468,7 @@ export default function Dashboard() {
                 <div className="overflow-x-auto text-xs">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-550 uppercase tracking-widest pb-3">
+                      <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                         <th className="pb-3 pr-4">Payout Method</th>
                         <th className="pb-3 px-4">Address</th>
                         <th className="pb-3 px-4 text-center">Amount (USD)</th>
@@ -478,12 +478,12 @@ export default function Dashboard() {
                     </thead>
                     <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                       {withdrawals.map((w) => (
-                        <tr key={w.id} className="group hover:bg-zinc-900/10 transition-colors">
-                          <td className="py-3 pr-4 font-bold text-white uppercase">{w.payment_method} Payout</td>
-                          <td className="py-3 px-4 font-semibold text-zinc-400 select-all">{w.payment_address}</td>
+                        <tr key={w.id} className="group hover:bg-dark-hover/40 transition-colors">
+                          <td className="py-3 pr-4 font-bold text-white uppercase group-hover:text-primary transition-colors">{w.payment_method} Payout</td>
+                          <td className="py-3 px-4 font-semibold text-zinc-450 select-all">{w.payment_address}</td>
                           <td className="py-3 px-4 text-center font-extrabold text-white">${parseFloat(w.amount_usd).toFixed(2)}</td>
                           <td className="py-3 px-4 text-center font-bold">
-                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-emerald-950/30 border border-emerald-900/40 px-2 py-0.5 rounded">Paid</span>}
+                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(0,231,1,0.1)]">Paid</span>}
                             {w.status === 'rejected' && <span className="text-[9px] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-2 py-0.5 rounded">Rejected</span>}
                             {w.status === 'pending' && <span className="text-[9px] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded">Pending</span>}
                           </td>

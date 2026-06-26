@@ -68,20 +68,20 @@ export default function Leaderboard() {
           </div>
           
           <div className="grid grid-cols-3 gap-2.5 w-full lg:w-auto text-center text-xs font-bold uppercase tracking-wider">
-            <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
+            <div className="rounded-xl bg-dark-bg border border-dark-border p-3 shadow-md">
               <span className="block text-secondary text-[10px] mb-1">1st Place</span>
               <span className="text-white font-black text-sm">+5,000</span>
-              <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
+              <span className="block text-[8px] text-zinc-500 mt-0.5">Coins</span>
             </div>
-            <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
+            <div className="rounded-xl bg-dark-bg border border-dark-border p-3 shadow-md">
               <span className="block text-primary text-[10px] mb-1">2nd Place</span>
               <span className="text-white font-black text-sm">+2,500</span>
-              <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
+              <span className="block text-[8px] text-zinc-500 mt-0.5">Coins</span>
             </div>
-            <div className="rounded-xl bg-zinc-950 border border-dark-border/60 p-3 shadow-md">
+            <div className="rounded-xl bg-dark-bg border border-dark-border p-3 shadow-md">
               <span className="block text-secondary text-[10px] mb-1">3rd Place</span>
               <span className="text-white font-black text-sm">+1,000</span>
-              <span className="block text-[8px] text-zinc-550 mt-0.5">Coins</span>
+              <span className="block text-[8px] text-zinc-500 mt-0.5">Coins</span>
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function Leaderboard() {
                         alt={leaderboard[1].username}
                         className="h-16 w-16 rounded-full border-2 border-primary/50 object-cover"
                       />
-                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-primary px-2.5 py-0.5 text-[9px] font-bold text-primary">
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-dark-bg border border-primary px-2.5 py-0.5 text-[9px] font-bold text-primary">
                         Rank 2
                       </span>
                     </div>
@@ -121,12 +121,12 @@ export default function Leaderboard() {
                   </div>
 
                   <div className="w-full mt-4">
-                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2">
+                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-dark-bg border border-dark-border/40 py-2">
                       <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
                         <Coins className="h-3.5 w-3.5 text-primary" />
                       </div>
                       <span className="text-xs font-black text-white">{leaderboard[1].total_earned_coins?.toLocaleString()}</span>
-                      <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
+                      <span className="text-[9px] text-zinc-500 font-bold uppercase tracking-wider">Earned</span>
                     </div>
                     <span className="block text-[8px] text-secondary mt-2 font-bold uppercase tracking-wider">+2,500 Coins Prize Pending</span>
                   </div>
@@ -156,12 +156,12 @@ export default function Leaderboard() {
                   </div>
 
                   <div className="w-full mt-4">
-                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2.5 shadow-inner">
+                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-dark-bg border border-dark-border/40 py-2.5 shadow-inner">
                       <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
                         <Coins className="h-4 w-4 text-primary" />
                       </div>
                       <span className="text-sm font-black text-white">{leaderboard[0].total_earned_coins?.toLocaleString()}</span>
-                      <span className="text-[10px] text-zinc-550 font-bold uppercase tracking-wider">Earned</span>
+                      <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Earned</span>
                     </div>
                     <span className="block text-[8px] text-secondary mt-2.5 font-bold uppercase tracking-widest animate-pulse">+5,000 Coins Prize Pending</span>
                   </div>
@@ -180,7 +180,7 @@ export default function Leaderboard() {
                         alt={leaderboard[2].username}
                         className="h-16 w-16 rounded-full border-2 border-primary/50 object-cover"
                       />
-                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-zinc-950 border border-primary px-2.5 py-0.5 text-[9px] font-bold text-primary">
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-dark-bg border border-primary px-2.5 py-0.5 text-[9px] font-bold text-primary">
                         Rank 3
                       </span>
                     </div>
@@ -188,7 +188,7 @@ export default function Leaderboard() {
                   </div>
 
                   <div className="w-full mt-4">
-                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-zinc-950 border border-dark-border/40 py-2">
+                    <div className="flex items-center justify-center gap-1.5 rounded-xl bg-dark-bg border border-dark-border/40 py-2">
                       <div className="icon-wrapper-primary p-0.5 border-none rounded-full shrink-0">
                         <Coins className="h-3.5 w-3.5 text-primary" />
                       </div>
@@ -206,7 +206,7 @@ export default function Leaderboard() {
           {/* Leaderboard Table (Ranks 4-10) */}
           <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
             <h2 className="text-base font-bold text-white mb-5 flex items-center gap-2">
-              <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
+              <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
                 <Users className="h-4 w-4" />
               </div>
               Remaining Earners List
@@ -233,7 +233,7 @@ export default function Leaderboard() {
                       return (
                         <tr 
                           key={player.username} 
-                          className={`group hover:bg-zinc-900/10 transition-colors ${
+                          className={`group hover:bg-dark-bg/40 transition-colors ${
                             isCurrent ? 'bg-primary/5 border-l-2 border-primary' : ''
                           }`}
                         >

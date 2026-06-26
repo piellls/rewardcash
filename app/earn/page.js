@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
-import { Coins, Flame, Award, Gamepad2, Play, Sparkles, CheckCircle, Loader2, Lock, Check, TrendingUp, Globe, Target, FileText, Smartphone } from 'lucide-react';
+import { Coins, Flame, Award, Gamepad2, Play, Sparkles, CheckCircle, Loader2, Lock, Check, TrendingUp, Globe, Target, FileText, Smartphone, AlertTriangle } from 'lucide-react';
 
 // AdBlueMedia credentials
 const ABM_USER_ID = '199180';
@@ -440,10 +440,10 @@ export default function Earn() {
                 key={reward.day}
                 className={`relative flex flex-col items-center justify-between rounded-xl border p-4 transition-all overflow-hidden ${
                   isActive
-                    ? 'border-primary bg-primary/5 shadow-[0_0_15px_rgba(56,189,248,0.1)]'
+                    ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(0,231,1,0.25)]'
                     : isClaimed
-                    ? 'border-emerald-500/20 bg-emerald-500/5'
-                    : 'border-dark-border bg-zinc-950/40 opacity-70'
+                    ? 'border-primary/20 bg-primary/5'
+                    : 'border-dark-border bg-dark-bg/40 opacity-70'
                 }`}
               >
                 {/* Background Sparkles on Active/Claimed */}
@@ -452,15 +452,15 @@ export default function Earn() {
                 )}
 
                 <span className={`text-[10px] font-bold uppercase tracking-widest ${
-                  isActive ? 'text-primary' : isClaimed ? 'text-emerald-400' : 'text-zinc-550'
+                  isActive ? 'text-primary' : isClaimed ? 'text-primary' : 'text-zinc-500'
                 }`}>
                   Day {reward.day}
                 </span>
 
                 <div className="my-4 flex items-center justify-center">
                   {isClaimed ? (
-                    <div className="icon-wrapper-secondary p-2 shadow-inner border-emerald-500/30 bg-emerald-500/5">
-                      <Check className="h-5 w-5 text-emerald-400" />
+                    <div className="icon-wrapper-primary p-2 shadow-inner border-primary/30 bg-primary/5">
+                      <Check className="h-5 w-5 text-primary" />
                     </div>
                   ) : isLocked ? (
                     <div className="icon-wrapper-primary p-2 opacity-40 border-dark-border bg-zinc-950/80">
@@ -571,15 +571,15 @@ export default function Earn() {
           </h2>
 
           {/* Category Tabs */}
-          <div className="flex flex-wrap gap-1 bg-zinc-950 p-1 rounded-xl border border-dark-border">
+          <div className="flex flex-wrap gap-1 bg-dark-bg p-1 rounded-xl border border-dark-border">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`rounded-lg px-3.5 py-1.5 text-xs font-extrabold active:scale-[0.95] hover:scale-[1.02] transition-all ${
                   selectedCategory === cat 
-                    ? 'bg-[#38bdf8] text-black shadow-[0_0_10px_rgba(56,189,248,0.3)]' 
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900/40'
+                    ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,231,1,0.35)]' 
+                    : 'text-zinc-400 hover:text-white hover:bg-dark-card'
                 }`}
               >
                 {cat}
@@ -623,10 +623,10 @@ export default function Earn() {
                   <div
                     key={offer.id}
                     onClick={() => handleOfferClick(offer)}
-                    className="flex flex-col w-[165px] shrink-0 bg-dark-card border border-dark-border/80 p-3 rounded-2xl hover:border-primary/40 hover:shadow-[0_0_15px_rgba(56,189,248,0.1)] active:scale-[0.98] transition-all cursor-pointer group"
+                    className="flex flex-col w-[165px] shrink-0 bg-dark-card border border-dark-border/80 p-3 rounded-2xl hover:border-primary/40 hover:shadow-[0_0_15px_rgba(0,231,1,0.15)] active:scale-[0.98] transition-all cursor-pointer group"
                   >
                     {/* Card Image Container */}
-                    <div className="relative w-full aspect-square rounded-xl overflow-hidden mb-3 bg-zinc-950/60 border border-dark-border/40">
+                    <div className="relative w-full aspect-square rounded-xl overflow-hidden mb-3 bg-dark-bg/60 border border-dark-border/40">
                       {offer.icon && offer.icon.startsWith('http') ? (
                         <img 
                           src={offer.icon} 
@@ -634,7 +634,7 @@ export default function Earn() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-zinc-650 bg-zinc-950">
+                        <div className="w-full h-full flex items-center justify-center text-zinc-650 bg-dark-bg">
                           {offer.category === 'Survey' ? (
                             <FileText className="h-10 w-10 text-primary/30" />
                           ) : (
@@ -644,7 +644,7 @@ export default function Earn() {
                       )}
 
                       {/* Boost Badge (Top Left) */}
-                      <div className="absolute top-1.5 left-1.5 bg-[#38bdf8] text-black text-[9px] font-black px-1.5 py-0.5 rounded shadow-md">
+                      <div className="absolute top-1.5 left-1.5 bg-primary text-black text-[9px] font-black px-1.5 py-0.5 rounded shadow-md">
                         +{boostVal}%
                       </div>
 
@@ -686,7 +686,7 @@ export default function Earn() {
                           <h3 className="text-base font-black text-white tracking-tight">Featured Tasks</h3>
                           <p className="text-[11px] text-zinc-500">Featured tasks are the best tasks to complete, with the highest rewards</p>
                         </div>
-                        <button onClick={() => setSelectedCategory('All')} className="text-xs font-extrabold text-[#38bdf8] hover:underline active:scale-95 transition-all">View All</button>
+                        <button onClick={() => setSelectedCategory('All')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
                       </div>
                       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth">
                         {tasks.map(offer => renderOfferCard(offer))}
@@ -702,7 +702,7 @@ export default function Earn() {
                           <h3 className="text-base font-black text-white tracking-tight">Featured Surveys</h3>
                           <p className="text-[11px] text-zinc-500">Explore our handpicked selection of surveys just for you</p>
                         </div>
-                        <button onClick={() => setSelectedCategory('Survey')} className="text-xs font-extrabold text-[#38bdf8] hover:underline active:scale-95 transition-all">View All</button>
+                        <button onClick={() => setSelectedCategory('Survey')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
                       </div>
                       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth">
                         {surveys.map(offer => renderOfferCard(offer))}
@@ -734,17 +734,17 @@ export default function Earn() {
             </p>
             
             <div className="space-y-3.5 mb-5">
-              <div className="rounded-xl bg-zinc-950 p-4 border border-dark-border/60">
+              <div className="rounded-xl bg-dark-bg p-4 border border-dark-border/60">
                 <h4 className="text-[10px] font-bold uppercase text-zinc-500 tracking-wider mb-1">Offer Title</h4>
                 <p className="text-sm font-semibold text-white">{executingOffer.title}</p>
               </div>
 
-              <div className="rounded-xl bg-zinc-950 p-4 border border-dark-border/60">
+              <div className="rounded-xl bg-dark-bg p-4 border border-dark-border/60">
                 <h4 className="text-[10px] font-bold uppercase text-zinc-500 tracking-wider mb-1">Requirements</h4>
                 <p className="text-xs text-zinc-350 leading-relaxed">{executingOffer.description}</p>
               </div>
 
-              <div className="flex items-start gap-2.5 rounded-xl bg-zinc-900/60 border border-dark-border/60 p-3.5 text-xs text-zinc-400">
+              <div className="flex items-start gap-2.5 rounded-xl bg-dark-bg/60 border border-dark-border/60 p-3.5 text-xs text-zinc-400">
                 <AlertTriangle className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5" />
                 <span>
                   <strong>Sandbox Action:</strong> This is a simulation container. Clicking complete will award <strong>{executingOffer.coins.toLocaleString()} Coins</strong> to your wallet balance instantly. In production, this directs users to CPA target.
