@@ -8,8 +8,12 @@ export const metadata = {
   title: "RewardCash - Earn Free Coins & Cashout Payouts",
   description: "Complete simple surveys, play games, download apps, and earn coins to redeem for PayPal cash, Bitcoin, and Gift Cards.",
   icons: {
-    icon: "/favicon.ico",
-  }
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
+  openGraph: {
+    images: ["/logo.png"],
+  },
 };
 
 export const viewport = {

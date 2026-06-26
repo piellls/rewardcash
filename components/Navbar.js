@@ -60,13 +60,12 @@ export default function Navbar() {
       <header className="fixed top-0 right-0 left-0 md:left-64 z-30 h-16 glass-nav flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-dark-border">
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="rounded-lg bg-primary p-1.5 shadow-[0_0_12px_rgba(0,231,1,0.35)]">
-              <Coins className="h-5 w-5 text-black" />
-            </div>
-            <span className="text-lg font-bold tracking-wider text-gradient">
-              RewardCash
-            </span>
+          <Link href="/" className="flex items-center group">
+            <img
+              src="/logo.png"
+              alt="RewardCash"
+              className="h-9 w-auto object-contain group-hover:opacity-90 transition-opacity"
+            />
           </Link>
         </div>
 
@@ -172,14 +171,13 @@ export default function Navbar() {
       <LiveFeedBanner />      {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
       <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
         {/* Sidebar Logo Header */}
-        <div className="h-16 border-b border-dark-border/40 flex items-center px-6 shrink-0 justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="rounded-lg bg-gradient-to-tr from-secondary to-primary p-1.5 shadow-[0_0_12px_rgba(0,231,1,0.3)] transition-transform group-hover:scale-105">
-              <Coins className="h-5 w-5 text-black" />
-            </div>
-            <span className="text-xl font-bold tracking-wider text-gradient">
-              RewardCash
-            </span>
+        <div className="h-16 border-b border-dark-border/40 flex items-center px-4 shrink-0">
+          <Link href="/" className="flex items-center group w-full">
+            <img
+              src="/logo.png"
+              alt="RewardCash"
+              className="h-10 w-auto object-contain group-hover:opacity-90 transition-opacity"
+            />
           </Link>
         </div>
 
