@@ -234,7 +234,9 @@ export default function Earn() {
             Claim your daily rewards, unlock partner walls, or complete direct tasks to earn coins.
           </p>
         </div>
-              {/* Success Notification */}
+      </div>
+
+      {/* Success Notification */}
       {successMessage && (
         <div className="mb-6 flex items-center gap-3 rounded-xl bg-emerald-950/40 border border-emerald-900/60 p-4 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
           <CheckCircle className="h-5 w-5 shrink-0 text-primary" />
