@@ -699,7 +699,7 @@ export default function Earn() {
                 <>
                   {/* Featured Tasks Row */}
                   {tasks.length > 0 && (
-                    <div>
+                    <div className="w-full max-w-full overflow-hidden">
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className="text-base font-black text-white tracking-tight">Featured Tasks</h3>
@@ -707,7 +707,7 @@ export default function Earn() {
                         </div>
                         <button onClick={() => setSelectedCategory('All')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
                       </div>
-                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth">
+                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth w-full">
                         {tasks.map(offer => renderOfferCard(offer))}
                       </div>
                     </div>
@@ -715,7 +715,7 @@ export default function Earn() {
 
                   {/* Featured Surveys Row */}
                   {surveys.length > 0 && (
-                    <div>
+                    <div className="w-full max-w-full overflow-hidden">
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className="text-base font-black text-white tracking-tight">Featured Surveys</h3>
@@ -723,7 +723,7 @@ export default function Earn() {
                         </div>
                         <button onClick={() => setSelectedCategory('Survey')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
                       </div>
-                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth">
+                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth w-full">
                         {surveys.map(offer => renderOfferCard(offer))}
                       </div>
                     </div>
