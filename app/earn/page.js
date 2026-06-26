@@ -335,10 +335,10 @@ export default function Earn() {
   };
 
   const partnerWalls = [
-    { name: 'AdBlueMedia', desc: 'Highest paying surveys & mobile apps', badge: '1.5x Boost', logo: Globe, logoColor: 'text-primary bg-primary/10 border-primary/20', active: true },
-    { name: 'OGAds', desc: 'Premium gaming and app install offers', badge: 'New', logo: Smartphone, logoColor: 'text-secondary bg-secondary/10 border-secondary/20', active: true },
-    { name: 'CPALead', desc: 'Fast mobile app installs & fast completions', badge: 'Popular', logo: Target, logoColor: 'text-secondary bg-secondary/10 border-secondary/20', active: false },
-    { name: 'Lootably', desc: 'Watch videos, play games and complete quizzes', badge: 'Hot', logo: Play, logoColor: 'text-primary bg-primary/10 border-primary/20', active: false },
+    { name: 'AdBlueMedia', desc: 'Highest paying surveys', badge: 'Daily Tasks', banner: '/banners/adbluemedia.png', active: true },
+    { name: 'OGAds', desc: 'Premium app installs', badge: 'Bonus Offers', banner: '/banners/ogads.png', active: true },
+    { name: 'CPALead', desc: 'Fast completions', badge: 'Mega Prizes', banner: '/banners/cpalead.png', active: false },
+    { name: 'Lootably', desc: 'Watch videos & play', badge: 'Big Rewards', banner: '/banners/lootably.png', active: false },
   ];
 
   return (
@@ -500,7 +500,7 @@ export default function Earn() {
         </div>
       </div>
 
-      {/* 2. PARTNER WALLS GRID */}
+      {/* 2. PARTNER WALLS GRID (BANNERS) */}
       <div className="mb-10">
         <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
           <div className="icon-wrapper-secondary p-1.5 border-none">
@@ -517,51 +517,63 @@ export default function Earn() {
                   const target = document.getElementById('direct-tasks');
                   if (target) target.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                  alert(`${wall.name} is currently in sandbox mode. Please complete the live AdBlueMedia offers in the list below.`);
+                  alert(`${wall.name} is currently in sandbox mode. Please complete the live offers in the list below.`);
                 }
               }}
-              className={`rounded-xl border p-5 flex flex-col justify-between transition-all cursor-pointer relative overflow-hidden group ${
+              className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full h-36 ${
                 wall.active 
-                  ? 'border-primary/20 bg-dark-card hover:border-primary/40 hover:shadow-[0_0_15px_rgba(56,189,248,0.1)] active:scale-[0.98]'
-                  : 'border-dark-border bg-dark-card/60 opacity-80 hover:opacity-100 hover:border-zinc-800 active:scale-[0.98] transition-all'
+                  ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,231,1,0.2)] hover:-translate-y-1'
+                  : 'border-dark-border opacity-70 hover:opacity-100 hover:border-zinc-700 hover:-translate-y-1'
               }`}
             >
-              {/* Badge */}
-              <div className="absolute top-3 right-3">
-                <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wide ${
-                  wall.active 
-                    ? 'bg-primary/10 text-primary border-primary/20' 
-                    : 'bg-zinc-900 text-zinc-400 border-dark-border'
-                }`}>
-                  {wall.badge}
-                </span>
-              </div>
-
-              <div>
-                <div className={`w-11 h-11 rounded-xl flex items-center justify-center border mb-3 transition-colors ${
-                  wall.active 
-                    ? 'bg-primary/10 border-primary/20 text-primary shadow-[0_0_8px_rgba(56,189,248,0.1)] group-hover:border-primary/45 group-hover:shadow-[0_0_12px_rgba(56,189,248,0.2)]' 
-                    : 'bg-zinc-900 border-dark-border text-zinc-500'
-                }`}>
-                  {(() => {
-                    const LogoIcon = wall.logo;
-                    return <LogoIcon className="h-5.5 w-5.5" />;
-                  })()}
+              {/* Banner Image */}
+              <img 
+                src={wall.banner} 
+                alt={wall.name} 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              
+              {/* Dark Gradient Overlay for Text Visibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
+              
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <div className="flex items-end justify-between">
+                  <div>
+                    <h3 className="text-lg font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] group-hover:text-primary transition-colors">
+                      {wall.name}
+                    </h3>
+                    <p className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider drop-shadow-md">
+                      {wall.desc}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-base font-bold text-white group-hover:text-primary transition-colors">
-                  {wall.name}
-                </h3>
-                <p className="text-xs text-zinc-450 mt-1 leading-relaxed">
-                  {wall.desc}
-                </p>
               </div>
 
-              <div className="mt-5 pt-3 border-t border-dark-border/40 flex items-center justify-between">
-                <span className="text-[10px] text-zinc-550 uppercase tracking-widest font-bold">
-                  {wall.active ? 'Open Wall' : 'Sandbox'}
-                </span>
-                <Play className="h-3 w-3 text-zinc-550 group-hover:text-primary group-hover:translate-x-0.5 transition-all fill-zinc-550 group-hover:fill-primary" />
+              {/* Status Badge (Sandbox/Open) */}
+              <div className="absolute top-3 left-3 shadow-lg">
+                <div className={`px-2 py-1 rounded-md backdrop-blur-md border ${
+                  wall.active ? 'bg-primary/20 border-primary/40 text-primary shadow-[0_0_10px_rgba(0,231,1,0.2)]' : 'bg-black/60 border-dark-border text-zinc-400'
+                }`}>
+                  <span className="text-[9px] font-black uppercase flex items-center gap-1">
+                    {wall.active ? <Play className="h-2.5 w-2.5 fill-primary" /> : <Lock className="h-2.5 w-2.5" />}
+                    {wall.active ? 'OPEN' : 'SANDBOX'}
+                  </span>
+                </div>
               </div>
+
+              {/* Promo Badge */}
+              {wall.badge && (
+                <div className="absolute top-3 right-3 shadow-lg">
+                  <span className={`text-[10px] font-black px-2.5 py-1 rounded-md border uppercase tracking-wider ${
+                    wall.active 
+                      ? 'bg-black/70 text-white border-primary/50 backdrop-blur-md shadow-[0_0_10px_rgba(0,0,0,0.5)]' 
+                      : 'bg-black/70 text-zinc-400 border-dark-border backdrop-blur-md'
+                  }`}>
+                    {wall.badge}
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
