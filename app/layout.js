@@ -16,6 +16,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({ children }) {
@@ -25,9 +26,6 @@ export default function RootLayout({ children }) {
       className="h-full antialiased dark overflow-x-hidden max-w-[100vw]"
       style={{ colorScheme: 'dark' }}
     >
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </head>
       <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[120px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
         <AuthProvider>
           <Navbar />
