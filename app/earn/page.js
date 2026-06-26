@@ -47,29 +47,49 @@ export default function Earn() {
   const [loadingOfferId, setLoadingOfferId] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
 
-  // 24H Offer Cooldown Lock state
-  const [lockedOffers, setLockedOffers] = useState({}); // { offerId: timestampClicked }
+  // Smart Offer Protection State
+  // clickCounts: { offerId: number }  — how many times clicked without completing
+  // lockedOffers: { offerId: lockedAtTimestamp } — locked after 5 clicks OR after completion
+  const [clickCounts, setClickCounts] = useState({});
+  const [lockedOffers, setLockedOffers] = useState({});
 
-  // Load locked offers from localStorage on mount
+  const MAX_CLICKS = 5; // lock after 5 clicks without completion
+
+  // Load saved state from localStorage on mount/user change
   useEffect(() => {
     if (!user) return;
-    const key = `rc_locked_offers_${user.id}`;
-    const stored = localStorage.getItem(key);
-    if (stored) {
-      try {
+    const countKey = `rc_offer_clicks_${user.id}`;
+    const lockKey  = `rc_locked_offers_${user.id}`;
+
+    // Load click counts
+    try {
+      const stored = localStorage.getItem(countKey);
+      if (stored) setClickCounts(JSON.parse(stored));
+    } catch {}
+
+    // Load locks + clean expired ones
+    try {
+      const stored = localStorage.getItem(lockKey);
+      if (stored) {
         const parsed = JSON.parse(stored);
-        // Clean up expired locks (> 24h old)
         const now = Date.now();
         const cleaned = {};
         Object.entries(parsed).forEach(([id, ts]) => {
           if (now - ts < 24 * 60 * 60 * 1000) cleaned[id] = ts;
         });
         setLockedOffers(cleaned);
-        localStorage.setItem(key, JSON.stringify(cleaned));
-      } catch {}
-    }
+        localStorage.setItem(lockKey, JSON.stringify(cleaned));
+      }
+    } catch {}
   }, [user?.id]);
 
+  // Save click counts to localStorage
+  const saveClickCounts = (updated) => {
+    if (!user) return;
+    localStorage.setItem(`rc_offer_clicks_${user.id}`, JSON.stringify(updated));
+  };
+
+  // Hard-lock an offer for 24H (called on 5th click or real completion)
   const lockOffer = (offerId) => {
     if (!user) return;
     const key = `rc_locked_offers_${user.id}`;
@@ -79,15 +99,31 @@ export default function Earn() {
     localStorage.setItem(key, JSON.stringify(updated));
   };
 
+  // Unlock an offer's click count (called after completion so counter resets)
+  const resetClickCount = (offerId) => {
+    const updated = { ...clickCounts };
+    delete updated[offerId];
+    setClickCounts(updated);
+    saveClickCounts(updated);
+  };
+
+  // Returns remaining lock time string, or null if not locked
   const getOfferLockInfo = (offerId) => {
     const ts = lockedOffers[offerId];
     if (!ts) return null;
-    const elapsed = Date.now() - ts;
-    const remaining = 24 * 60 * 60 * 1000 - elapsed;
+    const remaining = 24 * 60 * 60 * 1000 - (Date.now() - ts);
     if (remaining <= 0) return null;
     const h = Math.floor(remaining / (1000 * 60 * 60));
     const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
     return `${h}h ${m}m`;
+  };
+
+  // Returns how many clicks remain before lock, or null if not counting
+  const getClicksLeft = (offerId) => {
+    if (getOfferLockInfo(offerId)) return null; // already locked
+    const count = clickCounts[offerId] || 0;
+    const left = MAX_CLICKS - count;
+    return left > 0 ? left : 0;
   };
 
   // Map raw AdBlueMedia offer object → internal format
@@ -232,17 +268,23 @@ export default function Earn() {
       return;
     }
 
-    // Check 24H cooldown lock
+    // If hard-locked, block the click
     const lockInfo = getOfferLockInfo(offer.id);
-    if (lockInfo) {
-      alert(`⏳ You already clicked this offer. Please wait ${lockInfo} before trying again to avoid self-click detection.`);
-      return;
+    if (lockInfo) return;
+
+    // Increment click count
+    const currentCount = clickCounts[offer.id] || 0;
+    const newCount = currentCount + 1;
+    const updated = { ...clickCounts, [offer.id]: newCount };
+    setClickCounts(updated);
+    saveClickCounts(updated);
+
+    // If 5th click without completion → lock for 24H
+    if (newCount >= MAX_CLICKS) {
+      lockOffer(offer.id);
     }
 
-    // Lock the offer for 24H
-    lockOffer(offer.id);
-
-    // Open the real offer URL
+    // Always open the real offer URL
     window.open(offer.url, '_blank', 'noopener,noreferrer');
   };
 
@@ -437,6 +479,10 @@ export default function Earn() {
                 const originalPayout = offer.payout / (1 + boostVal / 100);
                 const lockInfo = getOfferLockInfo(offer.id);
                 const isLocked = !!lockInfo;
+                const clickCount = clickCounts[offer.id] || 0;
+                // Show warning when 3+ clicks used (2 or fewer remaining)
+                const showWarning = !isLocked && clickCount >= 3;
+                const clicksLeft = MAX_CLICKS - clickCount;
 
                 return (
                   <div
@@ -445,17 +491,26 @@ export default function Earn() {
                     className={`flex flex-col w-[165px] shrink-0 bg-dark-card border p-3 rounded-2xl transition-all relative overflow-hidden ${
                       isLocked
                         ? 'border-zinc-700/50 opacity-60 cursor-not-allowed'
+                        : showWarning
+                        ? 'border-amber-500/40 hover:border-amber-400/60 hover:shadow-[0_0_15px_rgba(245,158,11,0.2)] active:scale-[0.98] cursor-pointer group'
                         : 'border-dark-border/80 hover:border-primary/40 hover:shadow-[0_0_15px_rgba(0,231,1,0.15)] active:scale-[0.98] cursor-pointer group'
                     }`}
                   >
-                    {/* 24H Lock Overlay */}
+                    {/* 24H Lock Overlay — shown after 5 clicks */}
                     {isLocked && (
-                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/70 backdrop-blur-[2px] rounded-2xl gap-1.5">
+                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/75 backdrop-blur-[2px] rounded-2xl gap-1.5">
                         <div className="rounded-full bg-zinc-800 border border-zinc-700 p-2">
                           <Lock className="h-5 w-5 text-zinc-400" />
                         </div>
-                        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-wider">Cooldown</span>
+                        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-wider">Locked 24H</span>
                         <span className="text-[10px] font-black text-amber-400">{lockInfo}</span>
+                      </div>
+                    )}
+
+                    {/* Warning badge — shown when 3-4 clicks used */}
+                    {showWarning && !isLocked && (
+                      <div className="absolute top-2 right-2 z-10 bg-amber-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded-md shadow-lg">
+                        {clicksLeft} left
                       </div>
                     )}
 
