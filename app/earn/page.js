@@ -520,7 +520,7 @@ export default function Earn() {
                   alert(`${wall.name} is currently in sandbox mode. Please complete the live offers in the list below.`);
                 }
               }}
-              className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full h-36 ${
+              className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full aspect-[21/9] sm:aspect-[16/9] lg:aspect-auto lg:h-36 ${
                 wall.active 
                   ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,231,1,0.2)] hover:-translate-y-1'
                   : 'border-dark-border opacity-70 hover:opacity-100 hover:border-zinc-700 hover:-translate-y-1'
