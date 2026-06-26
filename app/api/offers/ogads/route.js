@@ -20,7 +20,7 @@ export async function GET(request) {
   
   // NOTE: User must set OGADS_API_KEY in .env.local
   // Fallback to placeholder if not set
-  const apiKey = process.env.OGADS_API_KEY || 'your-ogads-api-key-here';
+  const apiKey = process.env.OGADS_API_KEY || '45239|Ejln6P32fepqTE4BR6XvcMMoRcTxvQ84jvGZ3Z4J59c8fa64';
 
   try {
     const feedUrl = `https://appsave.store/api/v2?ip=${encodeURIComponent(clientIp)}&user_agent=${encodeURIComponent(userAgent)}&aff_sub4=${encodeURIComponent(s1)}`;
