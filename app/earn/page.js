@@ -47,6 +47,49 @@ export default function Earn() {
   const [loadingOfferId, setLoadingOfferId] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
 
+  // 24H Offer Cooldown Lock state
+  const [lockedOffers, setLockedOffers] = useState({}); // { offerId: timestampClicked }
+
+  // Load locked offers from localStorage on mount
+  useEffect(() => {
+    if (!user) return;
+    const key = `rc_locked_offers_${user.id}`;
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        // Clean up expired locks (> 24h old)
+        const now = Date.now();
+        const cleaned = {};
+        Object.entries(parsed).forEach(([id, ts]) => {
+          if (now - ts < 24 * 60 * 60 * 1000) cleaned[id] = ts;
+        });
+        setLockedOffers(cleaned);
+        localStorage.setItem(key, JSON.stringify(cleaned));
+      } catch {}
+    }
+  }, [user?.id]);
+
+  const lockOffer = (offerId) => {
+    if (!user) return;
+    const key = `rc_locked_offers_${user.id}`;
+    const now = Date.now();
+    const updated = { ...lockedOffers, [offerId]: now };
+    setLockedOffers(updated);
+    localStorage.setItem(key, JSON.stringify(updated));
+  };
+
+  const getOfferLockInfo = (offerId) => {
+    const ts = lockedOffers[offerId];
+    if (!ts) return null;
+    const elapsed = Date.now() - ts;
+    const remaining = 24 * 60 * 60 * 1000 - elapsed;
+    if (remaining <= 0) return null;
+    const h = Math.floor(remaining / (1000 * 60 * 60));
+    const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    return `${h}h ${m}m`;
+  };
+
   // Map raw AdBlueMedia offer object → internal format
   const mapOffer = useCallback((offer) => {
     const rawPayout = parseFloat(offer.user_payout || offer.payout || '0.20');
@@ -188,7 +231,18 @@ export default function Earn() {
       setIsAuthOpen(true);
       return;
     }
-    // Always open the real AdBlueMedia offer URL in a new tab
+
+    // Check 24H cooldown lock
+    const lockInfo = getOfferLockInfo(offer.id);
+    if (lockInfo) {
+      alert(`⏳ You already clicked this offer. Please wait ${lockInfo} before trying again to avoid self-click detection.`);
+      return;
+    }
+
+    // Lock the offer for 24H
+    lockOffer(offer.id);
+
+    // Open the real offer URL
     window.open(offer.url, '_blank', 'noopener,noreferrer');
   };
 
@@ -381,13 +435,30 @@ export default function Earn() {
               const renderOfferCard = (offer) => {
                 const boostVal = offer.coins >= 3000 ? 80 : 50;
                 const originalPayout = offer.payout / (1 + boostVal / 100);
+                const lockInfo = getOfferLockInfo(offer.id);
+                const isLocked = !!lockInfo;
 
                 return (
                   <div
                     key={offer.id}
                     onClick={() => handleOfferClick(offer)}
-                    className="flex flex-col w-[165px] shrink-0 bg-dark-card border border-dark-border/80 p-3 rounded-2xl hover:border-primary/40 hover:shadow-[0_0_15px_rgba(0,231,1,0.15)] active:scale-[0.98] transition-all cursor-pointer group"
+                    className={`flex flex-col w-[165px] shrink-0 bg-dark-card border p-3 rounded-2xl transition-all relative overflow-hidden ${
+                      isLocked
+                        ? 'border-zinc-700/50 opacity-60 cursor-not-allowed'
+                        : 'border-dark-border/80 hover:border-primary/40 hover:shadow-[0_0_15px_rgba(0,231,1,0.15)] active:scale-[0.98] cursor-pointer group'
+                    }`}
                   >
+                    {/* 24H Lock Overlay */}
+                    {isLocked && (
+                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/70 backdrop-blur-[2px] rounded-2xl gap-1.5">
+                        <div className="rounded-full bg-zinc-800 border border-zinc-700 p-2">
+                          <Lock className="h-5 w-5 text-zinc-400" />
+                        </div>
+                        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-wider">Cooldown</span>
+                        <span className="text-[10px] font-black text-amber-400">{lockInfo}</span>
+                      </div>
+                    )}
+
                     {/* Card Image Container */}
                     <div className="relative w-full aspect-square rounded-xl overflow-hidden mb-3 bg-dark-bg/60 border border-dark-border/40">
                       {offer.icon && offer.icon.startsWith('http') ? (
