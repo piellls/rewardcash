@@ -520,7 +520,7 @@ export default function Earn() {
                   alert(`${wall.name} is currently in sandbox mode. Please complete the live offers in the list below.`);
                 }
               }}
-              className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full aspect-[21/9] sm:aspect-[16/9] lg:aspect-auto lg:h-36 ${
+              className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full lg:h-36 flex flex-col justify-center ${
                 wall.active 
                   ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,231,1,0.2)] hover:-translate-y-1'
                   : 'border-dark-border opacity-70 hover:opacity-100 hover:border-zinc-700 hover:-translate-y-1'
@@ -530,7 +530,7 @@ export default function Earn() {
               <img 
                 src={wall.banner} 
                 alt={wall.name} 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-auto lg:h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               
               {/* Dark Gradient Overlay for Text Visibility */}
