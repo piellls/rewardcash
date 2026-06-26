@@ -239,7 +239,11 @@ export default function Earn() {
           leads.forEach(lead => {
             const earned = Math.round((parseFloat(lead.points) / 100) * 1000);
             totalCoins += earned;
-            console.log(`[LEAD] Offer #${lead.offer_id} → $${(parseFloat(lead.points)/100).toFixed(2)} → ${earned} coins`);
+            // Lock each completed offer for 24H + reset click counter
+            const offerId = String(lead.offer_id);
+            lockOffer(offerId);
+            resetClickCount(offerId);
+            console.log(`[LEAD] Offer #${offerId} → $${(parseFloat(lead.points)/100).toFixed(2)} → ${earned} coins — locked 24H`);
           });
           if (totalCoins > 0 && earnCoinsSimulated) {
             await earnCoinsSimulated({ id: `abm_leads_${Date.now()}`, title: 'AdBlueMedia Offer Completed', coins: totalCoins, payout: totalCoins / 1000 });
@@ -294,12 +298,12 @@ export default function Earn() {
     setLoadingOfferId(executingOffer.id);
     try {
       await earnCoinsSimulated(executingOffer);
-      setSuccessMessage(`Success! You have completed "${executingOffer.title}" and earned ${executingOffer.coins} coins.`);
+      // Lock offer 24H after real completion + reset click counter
+      lockOffer(executingOffer.id);
+      resetClickCount(executingOffer.id);
+      setSuccessMessage(`✅ Offer completed! You earned ${executingOffer.coins} coins. This offer is now locked for 24H.`);
       setExecutingOffer(null);
-      
-      setTimeout(() => {
-        setSuccessMessage('');
-      }, 5000);
+      setTimeout(() => setSuccessMessage(''), 6000);
     } catch (err) {
       alert(err.message || 'Failed to complete offer');
     } finally {
