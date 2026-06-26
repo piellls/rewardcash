@@ -22,10 +22,13 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className="h-full antialiased dark"
+      className="h-full antialiased dark overflow-x-hidden max-w-[100vw]"
       style={{ colorScheme: 'dark' }}
     >
-      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[120px] pb-16 md:pb-0 overflow-x-hidden">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      </head>
+      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[120px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
         <AuthProvider>
           <Navbar />
           <div className="flex-1 flex flex-col w-full md:pl-64">
