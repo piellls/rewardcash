@@ -11,6 +11,11 @@ export async function GET(request) {
   
   let clientIp = cfIp || (forwardedFor ? forwardedFor.split(',')[0].trim() : null) || realIp || '127.0.0.1';
 
+  // Fallback to public US IP if local/private network
+  if (clientIp === '127.0.0.1' || clientIp === '::1' || clientIp.startsWith('127.') || clientIp.startsWith('192.168.') || clientIp.startsWith('10.') || clientIp.startsWith('172.16.')) {
+    clientIp = '8.8.8.8';
+  }
+
   const userAgent = request.headers.get('user-agent') || 'Mozilla/5.0';
   
   // NOTE: User must set OGADS_API_KEY in .env.local
@@ -18,7 +23,7 @@ export async function GET(request) {
   const apiKey = process.env.OGADS_API_KEY || 'your-ogads-api-key-here';
 
   try {
-    const feedUrl = `https://appsave.store/api/v2?ip=${encodeURIComponent(clientIp)}&user_agent=${encodeURIComponent(userAgent)}&ctype=1&aff_sub4=${encodeURIComponent(s1)}`;
+    const feedUrl = `https://appsave.store/api/v2?ip=${encodeURIComponent(clientIp)}&user_agent=${encodeURIComponent(userAgent)}&aff_sub4=${encodeURIComponent(s1)}`;
     
     console.log(`[OGADS OFFERS] Fetching for IP: ${clientIp}, s1: ${s1}`);
     

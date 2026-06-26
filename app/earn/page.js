@@ -193,17 +193,24 @@ export default function Earn() {
             ogAdsOffers = rawOffers.map(offer => {
               const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
               const coins = Math.round(rawPayout * 1000);
-              const isGame = (offer.name || '').toLowerCase().includes('game') || (offer.adcopy || '').toLowerCase().includes('level');
+              const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
+              
+              let category = 'App';
+              if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
+                category = 'Game';
+              } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion') || text.includes('submit')) {
+                category = 'Survey';
+              }
               
               return {
-                id: offer.id || `og_${Math.random()}`,
+                id: offer.offerid || offer.id || `og_${Math.random()}`,
                 title: offer.name_short || offer.name || 'OGAds Task',
-                description: offer.adcopy || offer.conversion || 'Complete the task steps to earn your reward.',
+                description: offer.description || offer.adcopy || 'Complete the task steps to earn your reward.',
                 coins,
                 payout: rawPayout,
                 provider: 'OGAds',
                 icon: offer.picture || null,
-                category: isGame ? 'Game' : 'App',
+                category,
                 url: offer.link || offer.url,
                 anchor: offer.anchor || 'Install Now',
               };
