@@ -451,7 +451,10 @@ export default function Earn() {
                         </div>
                         <button onClick={() => setSelectedCategory('All')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
                       </div>
-                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth w-full">
+                      <div
+                        className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth"
+                        style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}
+                      >
                         {tasks.map(offer => renderOfferCard(offer))}
                       </div>
                     </div>
@@ -467,7 +470,10 @@ export default function Earn() {
                         </div>
                         <button onClick={() => setSelectedCategory('Survey')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
                       </div>
-                      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth w-full">
+                      <div
+                        className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth"
+                        style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}
+                      >
                         {surveys.map(offer => renderOfferCard(offer))}
                       </div>
                     </div>
