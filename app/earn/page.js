@@ -379,19 +379,7 @@ export default function Earn() {
               {/* Dark Gradient Overlay for Text Visibility */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
               
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <div className="flex items-end justify-between">
-                  <div>
-                    <h3 className="text-lg font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] group-hover:text-primary transition-colors">
-                      {wall.name}
-                    </h3>
-                    <p className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider drop-shadow-md">
-                      {wall.desc}
-                    </p>
-                  </div>
-                </div>
-              </div>
+
 
               {/* Status Badge (Sandbox/Open) */}
               <div className="absolute top-3 left-3 shadow-lg">
