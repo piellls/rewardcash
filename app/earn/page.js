@@ -312,9 +312,9 @@ export default function Earn() {
   };
 
   const partnerWalls = [
-    { name: 'AdBlueMedia', desc: 'Highest paying surveys', badge: 'Daily Tasks', banner: '/banners/adbluemedia.png', active: false },
+    { name: 'AdBlueMedia', desc: 'Highest paying surveys', badge: 'Daily Tasks', banner: '/banners/lootably.png', active: false },
     { name: 'OGAds', desc: 'Premium app installs', badge: 'Bonus Offers', banner: '/banners/ogads.png', active: false },
-    { name: 'Lootably', desc: 'Watch videos & play', badge: 'Big Rewards', banner: '/banners/lootably.png', active: false },
+    { name: 'Lootably', desc: 'Watch videos & play', badge: 'Big Rewards', banner: '/banners/adbluemedia.png', active: false },
   ];
 
   return (
