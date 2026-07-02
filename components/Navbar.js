@@ -61,11 +61,9 @@ export default function Navbar() {
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
           <Link href="/" className="flex items-center group">
-            <img
-              src="/logo.png"
-              alt="RewardCash"
-              className="h-9 w-auto object-contain group-hover:opacity-90 transition-opacity"
-            />
+            <span className="text-lg font-black tracking-wider text-white">
+              Reward<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
+            </span>
           </Link>
         </div>
 
@@ -173,11 +171,9 @@ export default function Navbar() {
         {/* Sidebar Logo Header */}
         <div className="h-16 border-b border-dark-border/40 flex items-center px-4 shrink-0">
           <Link href="/" className="flex items-center group w-full">
-            <img
-              src="/logo.png"
-              alt="RewardCash"
-              className="h-10 w-auto object-contain group-hover:opacity-90 transition-opacity"
-            />
+            <span className="text-xl font-black tracking-wider text-white">
+              Reward<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
+            </span>
           </Link>
         </div>
 

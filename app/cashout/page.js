@@ -475,7 +475,7 @@ export default function Cashout() {
             Payout Parameters & Fee Structures
           </h2>
           
-          <div className="overflow-x-auto text-xs">
+          <div className="overflow-x-auto text-xs" style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}>
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-550 uppercase tracking-widest pb-2">
@@ -535,7 +535,7 @@ export default function Cashout() {
               <p className="text-[10px] text-zinc-500 mt-1 uppercase tracking-wider font-semibold">Complete tasks on the earn page to claim payouts!</p>
             </div>
           ) : (
-            <div className="overflow-x-auto text-xs">
+            <div className="overflow-x-auto text-xs" style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}>
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-550 uppercase tracking-widest pb-3">
