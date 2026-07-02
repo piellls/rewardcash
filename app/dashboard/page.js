@@ -579,7 +579,6 @@ export default function Dashboard() {
                       >
                         <option value="All" className="bg-dark-card text-white">All offer partners</option>
                         <option value="AdBlueMedia" className="bg-dark-card text-white">AdBlueMedia</option>
-                        <option value="CPALead" className="bg-dark-card text-white">CPALead</option>
                         <option value="Lootably" className="bg-dark-card text-white">Lootably</option>
                       </select>
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
