@@ -382,16 +382,16 @@ export default function Earn() {
 
 
               {/* Status Badge (Sandbox/Open) */}
-              <div className="absolute top-3 left-3 shadow-lg">
-                <div className={`px-2 py-1 rounded-md backdrop-blur-md border ${
-                  wall.active ? 'bg-primary/20 border-primary/40 text-primary shadow-[0_0_10px_rgba(0,231,1,0.2)]' : 'bg-black/60 border-dark-border text-zinc-400'
-                }`}>
-                  <span className="text-[9px] font-black uppercase flex items-center gap-1">
-                    {wall.active ? <Play className="h-2.5 w-2.5 fill-primary" /> : <Lock className="h-2.5 w-2.5" />}
-                    {wall.active ? 'OPEN' : 'SANDBOX'}
-                  </span>
+              {wall.active && (
+                <div className="absolute top-3 left-3 shadow-lg">
+                  <div className="px-2 py-1 rounded-md backdrop-blur-md border bg-primary/20 border-primary/40 text-primary shadow-[0_0_10px_rgba(0,231,1,0.2)]">
+                    <span className="text-[9px] font-black uppercase flex items-center gap-1">
+                      <Play className="h-2.5 w-2.5 fill-primary" />
+                      OPEN
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Promo Badge */}
               {wall.badge && (
