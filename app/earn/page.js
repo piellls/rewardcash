@@ -360,30 +360,40 @@ export default function Earn() {
                   const target = document.getElementById('direct-tasks');
                   if (target) target.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                  alert(`${wall.name} is currently in sandbox mode. Please complete the live offers in the list below.`);
+                  alert(`${wall.name} is currently locked. Complete offers below to earn $2.50 and unlock.`);
                 }
               }}
               className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full h-36 flex flex-col justify-center ${
                 wall.active 
                   ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,231,1,0.2)] hover:-translate-y-1'
-                  : 'border-dark-border opacity-70 hover:opacity-100 hover:border-zinc-700 hover:-translate-y-1'
+                  : 'border-dark-border/40 hover:border-zinc-800'
               }`}
             >
               {/* Banner Image */}
               <img 
                 src={wall.banner} 
                 alt={wall.name} 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                  !wall.active ? 'blur-[4px]' : ''
+                }`}
               />
               
               {/* Dark Gradient Overlay for Text Visibility */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
               
-
+              {/* Locked Overlay */}
+              {!wall.active && (
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-[1.5px] flex flex-col items-center justify-center z-10">
+                  <Lock className="h-6 w-6 text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
+                  <span className="text-xs font-semibold text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    Earn $2.50 to unlock
+                  </span>
+                </div>
+              )}
 
               {/* Status Badge (Sandbox/Open) */}
               {wall.active && (
-                <div className="absolute top-3 left-3 shadow-lg">
+                <div className="absolute top-3 left-3 shadow-lg z-20">
                   <div className="px-2 py-1 rounded-md backdrop-blur-md border bg-primary/20 border-primary/40 text-primary shadow-[0_0_10px_rgba(0,231,1,0.2)]">
                     <span className="text-[9px] font-black uppercase flex items-center gap-1">
                       <Play className="h-2.5 w-2.5 fill-primary" />
@@ -395,7 +405,7 @@ export default function Earn() {
 
               {/* Promo Badge */}
               {wall.badge && (
-                <div className="absolute top-3 right-3 shadow-lg">
+                <div className="absolute top-3 right-3 shadow-lg z-20">
                   <span className={`text-[10px] font-black px-2.5 py-1 rounded-md border uppercase tracking-wider ${
                     wall.active 
                       ? 'bg-black/70 text-white border-primary/50 backdrop-blur-md shadow-[0_0_10px_rgba(0,0,0,0.5)]' 
