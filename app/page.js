@@ -239,12 +239,37 @@ export default function Home() {
 
   useEffect(() => {
     const words = ['playing games', 'testing apps', 'doing surveys', 'sharing links'];
-    let i = 0;
-    const interval = setInterval(() => {
-      i = (i + 1) % words.length;
-      setTypewriterText(words[i]);
-    }, 2500);
-    return () => clearInterval(interval);
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let timerId = null;
+
+    const tick = () => {
+      const currentWord = words[wordIndex];
+      let delay = isDeleting ? 40 : 100;
+
+      if (!isDeleting) {
+        setTypewriterText(currentWord.substring(0, charIndex + 1));
+        charIndex++;
+        if (charIndex === currentWord.length) {
+          isDeleting = true;
+          delay = 2000; // Pause when full word is typed
+        }
+      } else {
+        setTypewriterText(currentWord.substring(0, charIndex - 1));
+        charIndex--;
+        if (charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          delay = 500; // Pause when word is completely erased
+        }
+      }
+
+      timerId = setTimeout(tick, delay);
+    };
+
+    timerId = setTimeout(tick, 500);
+    return () => clearTimeout(timerId);
   }, []);
 
   const openRegister = () => { setAuthTab('register'); setIsAuthOpen(true); };
@@ -282,7 +307,7 @@ export default function Home() {
             <div className={`${user ? 'lg:col-span-8 lg:col-start-3 text-center flex flex-col items-center' : 'lg:col-span-7'} flex flex-col gap-6 w-full`}>
               <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-zinc-950 ${user ? 'text-center' : ''}`}>
                 Get paid now for <br />
-                <span className="hero-title-gradient">{typewriterText}</span>
+                <span className="hero-title-gradient">{typewriterText}</span><span className="text-primary font-light animate-pulse ml-1 select-none">|</span>
               </h1>
 
 
