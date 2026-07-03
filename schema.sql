@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   avatar_url TEXT,
   device_fingerprint TEXT,
   country TEXT DEFAULT 'Unknown',
+  is_banned BOOLEAN DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

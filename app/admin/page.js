@@ -37,6 +37,7 @@ export default function AdminDashboard() {
   const [adjusting, setAdjusting] = useState(false);
   const [adjustError, setAdjustError] = useState('');
   const [adjustSuccess, setAdjustSuccess] = useState('');
+  const [banning, setBanning] = useState(false);
 
   const handleInspectUser = async (usr) => {
     setInspectingUser(usr);
@@ -93,6 +94,33 @@ export default function AdminDashboard() {
       setAdjustError(err.message || 'Failed to adjust balance.');
     } finally {
       setAdjusting(false);
+    }
+  };
+
+  const handleToggleBan = async () => {
+    if (!inspectingUser) return;
+    const isCurrentlyBanned = !!inspectingUser.is_banned;
+    
+    setBanning(true);
+    setErrorMsg('');
+    setSuccessMsg('');
+    try {
+      await db.adminToggleBan(inspectingUser.id, !isCurrentlyBanned);
+      setSuccessMsg(`User successfully ${!isCurrentlyBanned ? 'banned' : 'unbanned'}!`);
+      
+      // Update inspectingUser state in modal
+      setInspectingUser(prev => prev ? { ...prev, is_banned: !isCurrentlyBanned } : null);
+      
+      await loadData();
+      
+      setTimeout(() => {
+        setSuccessMsg('');
+      }, 5000);
+    } catch (err) {
+      console.error(err);
+      setErrorMsg(err.message || 'Failed to toggle ban status.');
+    } finally {
+      setBanning(false);
     }
   };
 
@@ -472,6 +500,11 @@ export default function AdminDashboard() {
                                 className="h-7 w-7 rounded-full border border-dark-border object-cover"
                               />
                               <span className="font-bold text-white">{usr.username}</span>
+                              {usr.is_banned && (
+                                <span className="rounded bg-red-950/60 border border-red-900/60 px-1.5 py-0.5 text-[8px] font-black text-red-500 uppercase tracking-widest leading-none">
+                                  Banned
+                                </span>
+                              )}
                             </div>
                           </td>
                           <td className="py-3.5 px-4 text-zinc-400 font-mono">{usr.email}</td>
@@ -738,12 +771,27 @@ export default function AdminDashboard() {
                   <p className="text-[10px] text-zinc-500 font-semibold truncate max-w-sm sm:max-w-md">{inspectingUser.email}</p>
                 </div>
               </div>
-              <button 
-                onClick={() => setInspectingUser(null)}
-                className="rounded-xl border border-dark-border/60 bg-dark-bg/60 p-2 text-zinc-400 hover:text-white hover:bg-dark-bg transition-all active:scale-95"
-              >
-                <X className="h-4 w-4" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleToggleBan}
+                  disabled={banning}
+                  className={`rounded-xl border px-3 py-1.5 text-[10px] font-extrabold uppercase transition-all active:scale-95 flex items-center gap-1.5 ${
+                    inspectingUser.is_banned 
+                      ? 'border-emerald-850 bg-emerald-950/20 text-emerald-500 hover:bg-emerald-900/30' 
+                      : 'border-red-900 bg-red-950/20 text-red-500 hover:bg-red-900/30'
+                  }`}
+                >
+                  <ShieldAlert className="h-3.5 w-3.5" />
+                  {banning ? 'Updating...' : inspectingUser.is_banned ? 'Unban Account' : 'Ban Account'}
+                </button>
+
+                <button 
+                  onClick={() => setInspectingUser(null)}
+                  className="rounded-xl border border-dark-border/60 bg-dark-bg/60 p-2 text-zinc-400 hover:text-white hover:bg-dark-bg transition-all active:scale-95"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </div>
 
             {loadingDetails ? (

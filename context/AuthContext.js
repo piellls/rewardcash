@@ -23,6 +23,7 @@ export function AuthProvider({ children }) {
   const [deviceBlocked, setDeviceBlocked] = useState(false);
   const [blockedUsername, setBlockedUsername] = useState('');
   const [vpnBlocked, setVpnBlocked] = useState(false);
+  const [bannedBlocked, setBannedBlocked] = useState(false);
 
   const refreshUser = async () => {
     try {
@@ -42,6 +43,17 @@ export function AuthProvider({ children }) {
 
         // Fetch fresh profile data to get latest balance
         const profile = await db.getProfile(sessionUser.id);
+        
+        // Block banned users
+        if (profile && profile.is_banned) {
+          setBannedBlocked(true);
+          setUser(null);
+          await db.signOut();
+          return;
+        } else {
+          setBannedBlocked(false);
+        }
+
         setUser(profile);
 
         // Auto-detect and sync country if currently null or 'Unknown'
@@ -101,6 +113,16 @@ export function AuthProvider({ children }) {
     setLoading(true);
     try {
       const u = await db.signIn(email, password);
+      
+      // Check if user is banned
+      const profile = await db.getProfile(u.id);
+      if (profile && profile.is_banned) {
+        setBannedBlocked(true);
+        setUser(null);
+        await db.signOut();
+        throw new Error('Your account has been banned for violating our terms of service.');
+      }
+
       // Sync immediately on login
       const syncResult = await db.syncDeviceFingerprint(u.id);
       if (syncResult.blocked) {
@@ -311,6 +333,53 @@ export function AuthProvider({ children }) {
           <div className="pt-2 text-xs text-zinc-400 font-semibold animate-pulse">
             Please disconnect from your VPN/Proxy service and refresh the page to continue.
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If user is banned, show a block page
+  if (bannedBlocked) {
+    return (
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#09090b] p-4 text-center font-display select-none">
+        {/* Glowing Cyber Grid Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-20" style={{
+          backgroundImage: `
+            radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.15) 0px, transparent 60%),
+            linear-gradient(rgba(239, 68, 68, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(239, 68, 68, 0.08) 1px, transparent 1px)
+          `,
+          backgroundSize: '100% 100%, 35px 35px, 35px 35px'
+        }} />
+
+        <div className="relative w-full max-w-md rounded-2xl border border-red-950/40 bg-dark-card/95 p-8 shadow-2xl backdrop-blur-md space-y-6">
+          {/* Top warning line */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-primary to-red-600" />
+          
+          <div className="inline-flex rounded-full bg-red-500/10 p-4 text-red-500 animate-bounce">
+            <Lock className="h-10 w-10" />
+          </div>
+
+          <div className="space-y-2">
+            <h1 className="text-2xl font-black text-white tracking-tight uppercase">Account Banned</h1>
+            <p className="text-xs text-red-400 font-bold uppercase tracking-widest animate-pulse">Access Terminated</p>
+          </div>
+
+          <div className="rounded-xl bg-zinc-950/80 p-4 border border-dark-border/60 text-left space-y-2.5">
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Your account has been suspended by the administration for violating the platform **Terms of Service**.
+            </p>
+            <p className="text-[10.5px] text-zinc-500 leading-relaxed pt-1">
+              Common reasons include multi-accounting, VPN/Proxy utilization, emulator usage, botting, or invalid referral farming.
+            </p>
+          </div>
+
+          <button
+            onClick={() => setBannedBlocked(false)}
+            className="w-full btn-gaming rounded-xl py-3 text-xs font-bold uppercase"
+          >
+            Acknowledge
+          </button>
         </div>
       </div>
     );

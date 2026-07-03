@@ -4,7 +4,8 @@
 ALTER TABLE public.profiles 
   ADD COLUMN IF NOT EXISTS referred_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
   ADD COLUMN IF NOT EXISTS referral_code TEXT UNIQUE,
-  ADD COLUMN IF NOT EXISTS referral_earnings_total INTEGER DEFAULT 0 CHECK (referral_earnings_total >= 0);
+  ADD COLUMN IF NOT EXISTS referral_earnings_total INTEGER DEFAULT 0 CHECK (referral_earnings_total >= 0),
+  ADD COLUMN IF NOT EXISTS is_banned BOOLEAN DEFAULT false;
 
 -- Populate referral_code for existing users (defaults to lowercased username)
 UPDATE public.profiles 
