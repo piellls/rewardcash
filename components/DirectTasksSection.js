@@ -261,12 +261,18 @@ export default function DirectTasksSection() {
 
   const handleSimulateCompletion = async () => {
     if (!user || !executingOffer) return;
+    
+    // Open tracking link in new tab to redirect user to complete actual offer
+    if (executingOffer.url) {
+      window.open(executingOffer.url, '_blank');
+    }
+
     setLoadingOfferId(executingOffer.id);
     try {
       await earnCoinsSimulated(executingOffer);
       lockOffer(executingOffer.id);
       resetClickCount(executingOffer.id);
-      setSuccessMessage(`✅ Offer completed! You earned ${executingOffer.coins.toLocaleString()} Credits. This offer is now locked for 24H.`);
+      setSuccessMessage(`✅ Offer completed! You earned ${executingOffer.coins.toLocaleString()} Coins. This offer is now locked for 24H.`);
       setExecutingOffer(null);
       setTimeout(() => setSuccessMessage(''), 6000);
     } catch (err) {
