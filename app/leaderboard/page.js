@@ -13,7 +13,7 @@ export default function Leaderboard() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const data = await db.getLeaderboard();
+        const data = await db.getLeaderboard(user);
         setLeaderboard(data);
       } catch (err) {
         console.error('Error fetching leaderboard:', err);
@@ -22,7 +22,7 @@ export default function Leaderboard() {
       }
     };
     fetchLeaderboard();
-  }, []);
+  }, [user]);
 
   // Top 3 Podium spots
   const podium = [];
