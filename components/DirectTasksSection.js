@@ -143,7 +143,7 @@ export default function DirectTasksSection() {
 
   const mapOffer = useCallback((offer) => {
     const rawPayout = parseFloat(offer.user_payout || offer.payout || '0.20');
-    const coins     = Math.round(rawPayout * 1000);
+    const coins     = Math.round(rawPayout * 150);
     const text      = `${offer.name} ${offer.conversion} ${offer.anchor}`.toLowerCase();
     let category    = 'Survey';
     if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot'))
@@ -197,7 +197,7 @@ export default function DirectTasksSection() {
             const rawOffers = Array.isArray(data) ? data : (data.offers || []);
             ogAdsOffers = rawOffers.map(offer => {
               const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
-              const coins = Math.round(rawPayout * 1000);
+              const coins = Math.round(rawPayout * 150);
               const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
               let category = 'App';
               if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
@@ -393,7 +393,7 @@ export default function DirectTasksSection() {
                   </div>
 
                   <div className="mt-auto">
-                    <div className="w-full py-1.5 sm:py-2.5 bg-primary/10 border border-primary/20 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-extrabold text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-[0_0_12px_rgba(93,95,239,0.06)]">
+                    <div className="w-full py-1.5 sm:py-2 bg-[#0e1d24]/60 border border-teal-500/20 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-extrabold text-[#00d2c4] group-hover:bg-[#00d2c4] group-hover:text-black group-hover:border-transparent transition-all shadow-[0_0_15px_rgba(0,210,196,0.08)]">
                       {creditsAward.toLocaleString()} Coins
                     </div>
                   </div>
