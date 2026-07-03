@@ -220,15 +220,15 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center text-left">
-            {/* Left Column - Intro and Cards (7 cols on lg) */}
-            <div className="lg:col-span-7 flex flex-col gap-6">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-zinc-950">
+            {/* Left Column - Intro and Cards (7 cols on lg if not logged in, centered if logged in) */}
+            <div className={`${user ? 'lg:col-span-8 lg:col-start-3 text-center flex flex-col items-center' : 'lg:col-span-7'} flex flex-col gap-6 w-full`}>
+              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-zinc-950 ${user ? 'text-center' : ''}`}>
                 Get paid now for <br />
                 <span className="hero-title-gradient">{typewriterText}</span>
               </h1>
               
               {/* 3 mini badges */}
-              <div className="flex flex-wrap gap-2.5 mt-2">
+              <div className={`flex flex-wrap gap-2.5 mt-2 ${user ? 'justify-center' : ''}`}>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 border border-dark-border text-[11px] font-bold text-white shadow-sm">
                   💰 Earn up to <strong className="text-primary font-black">$60.00</strong> per offer
                 </span>
@@ -239,26 +239,12 @@ export default function Home() {
 
             </div>
 
-            {/* Right Column - Registration Form (5 cols on lg) */}
-            <div className="lg:col-span-5 flex justify-center w-full">
-              {!user ? (
+            {/* Right Column - Registration Form (5 cols on lg, hidden when logged in) */}
+            {!user && (
+              <div className="lg:col-span-5 flex justify-center w-full">
                 <HeroRegisterForm />
-              ) : (
-                <div className="w-full rounded-2xl border border-dark-border bg-dark-card p-8 flex flex-col items-center justify-center text-center shadow-xl min-h-[385px] relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-                  <div className="inline-flex rounded-full bg-primary/10 border border-primary/20 p-4 text-primary mb-4 shadow-[0_0_15px_rgba(93,95,239,0.15)] animate-pulse-slow">
-                    <Trophy className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-black text-zinc-950 mb-2">Welcome Back!</h3>
-                  <p className="text-xs text-zinc-500 mb-6 max-w-xs leading-relaxed">
-                    You are signed in as <strong className="text-primary font-bold">{user.username}</strong>. Click below to access your dashboard.
-                  </p>
-                  <Link href="/dashboard" className="btn-gaming rounded-xl px-8 py-3 text-xs font-extrabold hover:scale-[1.02] active:scale-[0.98] transition-all">
-                    Go to Dashboard
-                  </Link>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
