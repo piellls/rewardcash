@@ -224,7 +224,11 @@ export default function DirectTasksSection() {
           console.error('[OFFERS] Failed to load OGAds:', err.message);
         }
 
-        const allOffers = [...abmOffers, ...ogAdsOffers].sort((a, b) => b.payout - a.payout);
+        const allOffers = [...abmOffers, ...ogAdsOffers].sort((a, b) => {
+          if (a.provider === 'AdBlueMedia' && b.provider !== 'AdBlueMedia') return -1;
+          if (a.provider !== 'AdBlueMedia' && b.provider === 'AdBlueMedia') return 1;
+          return b.payout - a.payout;
+        });
         setOffers(allOffers);
       } catch (err) {
         console.error('Error fetching offers:', err);
