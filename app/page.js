@@ -270,7 +270,7 @@ export default function Home() {
           {/* Banner 1 – Earn Money */}
           <Link href="/earn" className="banner-card group">
             <img
-              src="https://cdn.earnlab.com/banners/EARNLAB_EARN%20MONEY.png"
+              src="/earn_banner.png"
               alt="Earn Money"
               className="banner-img"
             />
