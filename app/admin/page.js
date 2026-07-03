@@ -427,10 +427,8 @@ export default function AdminDashboard() {
                             </div>
                           </td>
                           <td className="py-3.5 px-4 text-zinc-400 font-mono">{usr.email}</td>
-                          <td className="py-3.5 px-4">
-                            <span className="rounded bg-zinc-800/80 border border-dark-border/40 px-2 py-0.5 text-[10px] text-zinc-300 font-semibold uppercase">
-                              🌍 {usr.country || 'Unknown'}
-                            </span>
+                          <td className="py-3.5 px-4 text-base select-none">
+                            {usr.country || '🌍'}
                           </td>
                           <td className="py-3.5 px-4 text-zinc-500">{new Date(usr.created_at).toLocaleDateString()}</td>
                           <td className="py-3.5 px-4 text-left">
@@ -686,7 +684,9 @@ export default function AdminDashboard() {
                   className="h-10 w-10 rounded-full border border-dark-border object-cover"
                 />
                 <div>
-                  <h3 className="text-base font-black text-white">{inspectingUser.username}'s Audit Log</h3>
+                  <h3 className="text-base font-black text-white flex items-center gap-1.5">
+                    {inspectingUser.username}'s Audit Log {inspectingUser.country || '🌍'}
+                  </h3>
                   <p className="text-[10px] text-zinc-500 font-semibold truncate max-w-sm sm:max-w-md">{inspectingUser.email}</p>
                 </div>
               </div>

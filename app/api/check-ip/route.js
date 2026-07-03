@@ -38,16 +38,29 @@ export async function GET(request) {
     }
 
     // Call ip-api.com from server side to bypass mixed-content HTTPS restrictions
-    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,hosting,proxy,query,isp`);
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,hosting,proxy,query,isp`);
     const data = await response.json();
     
     if (data && data.status === 'success') {
       // hosting = true (data center / VPN server), proxy = true (web proxy / VPN)
       const isVPN = data.hosting === true || data.proxy === true;
+      
+      // Convert countryCode to flag emoji
+      let flag = '🌍';
+      const countryCode = data.countryCode;
+      if (countryCode && countryCode.length === 2) {
+        const codePoints = countryCode
+          .toUpperCase()
+          .split('')
+          .map(char => 127397 + char.charCodeAt(0));
+        flag = String.fromCodePoint(...codePoints);
+      }
+
       return NextResponse.json({ 
         isVPN, 
         ip, 
-        country: data.country || 'Unknown', 
+        country: flag, 
+        countryName: data.country || 'Unknown',
         provider: data.isp || 'Unknown' 
       });
     }
