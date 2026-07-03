@@ -46,22 +46,20 @@ export default function Earn() {
                 if (wall.active) {
                   const target = document.getElementById('direct-tasks');
                   if (target) target.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  alert(`${wall.name} is currently locked. Complete offers below to earn 2,500 Credits and unlock.`);
                 }
               }}
-              className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full h-36 flex flex-col justify-center ${
+              className={`rounded-2xl border transition-all relative overflow-hidden group w-full h-36 flex flex-col justify-center ${
                 wall.active 
-                  ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(93,95,239,0.2)] hover:-translate-y-1'
-                  : 'border-dark-border/40 hover:border-zinc-800'
+                  ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(93,95,239,0.2)] hover:-translate-y-1 cursor-pointer'
+                  : 'border-dark-border/40 opacity-75 cursor-not-allowed select-none'
               }`}
             >
               {/* Banner Image */}
               <img 
                 src={wall.banner} 
                 alt={wall.name} 
-                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
-                  !wall.active ? 'blur-[4px]' : ''
+                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ${
+                  wall.active ? 'group-hover:scale-105' : 'blur-[4px]'
                 }`}
               />
               
