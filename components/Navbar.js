@@ -64,7 +64,7 @@ export default function Navbar() {
             <img 
               src="/logo.png" 
               alt="BlueberryCash Logo" 
-              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
+              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
             />
           </Link>
         </div>
@@ -176,7 +176,7 @@ export default function Navbar() {
             <img 
               src="/logo.png" 
               alt="BlueberryCash Logo" 
-              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
+              className="h-13 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
             />
           </Link>
         </div>
