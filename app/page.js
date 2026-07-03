@@ -237,29 +237,6 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* 3 Game Offer Cards (Horizontal grid) */}
-              <div className="grid grid-cols-3 gap-3.5 mt-4">
-                {[
-                  { name: 'Monopoly Go!', desc: 'Complete & earn big', payout: '$46.97', img: '/banners/adbluemedia.png' },
-                  { name: 'Smash Party', desc: 'Fun & rewarding', payout: '$8.05', img: '/banners/cpalead.png' },
-                  { name: 'Merge Blast', desc: 'Quick earnings', payout: '$14.91', img: '/banners/lootably.png' },
-                ].map((card, i) => (
-                  <div key={i} className="rounded-2xl border border-dark-border bg-dark-card p-3 relative overflow-hidden flex flex-col justify-between h-[180px] shadow-sm hover:border-primary/20 transition-all group">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
-                    <img src={card.img} alt={card.name} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" />
-                    
-                    {/* Payout top-left */}
-                    <div className="absolute top-2.5 left-2.5 z-20 bg-primary px-2 py-0.5 rounded shadow text-[9px] font-black text-white">
-                      {card.payout}
-                    </div>
-                    
-                    <div className="mt-auto relative z-20">
-                      <h4 className="text-[10px] font-black text-white leading-tight">{card.name}</h4>
-                      <p className="text-[8px] text-zinc-300 mt-0.5 leading-none">{card.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
 
             {/* Right Column - Registration Form (5 cols on lg) */}
