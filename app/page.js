@@ -274,14 +274,6 @@ export default function Home() {
               alt="Earn Money"
               className="banner-img"
             />
-            <div className="banner-overlay" />
-            <div className="banner-label">
-              <span className="banner-pill primary">Start Earning</span>
-              <h3 className="banner-title group-hover:text-primary">Earn Money</h3>
-            </div>
-            <div className="banner-arrow">
-              <ArrowRight className="h-4 w-4" />
-            </div>
           </Link>
 
           {/* Banner 2 – Rewards */}
@@ -291,14 +283,6 @@ export default function Home() {
               alt="Rewards"
               className="banner-img"
             />
-            <div className="banner-overlay" />
-            <div className="banner-label">
-              <span className="banner-pill secondary">Cashout Store</span>
-              <h3 className="banner-title group-hover:text-secondary">Claim Rewards</h3>
-            </div>
-            <div className="banner-arrow">
-              <ArrowRight className="h-4 w-4" />
-            </div>
           </Link>
 
           {/* Banner 3 – Affiliates */}
@@ -308,14 +292,6 @@ export default function Home() {
               alt="Affiliates"
               className="banner-img"
             />
-            <div className="banner-overlay" />
-            <div className="banner-label">
-              <span className="banner-pill primary">Invite & Earn</span>
-              <h3 className="banner-title group-hover:text-primary">Affiliates</h3>
-            </div>
-            <div className="banner-arrow">
-              <ArrowRight className="h-4 w-4" />
-            </div>
           </Link>
 
         </div>
