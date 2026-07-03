@@ -13,16 +13,16 @@
   --color-dark-hover: #f1f5f9; /* Slate-100 dark hover */
   --color-accent-red: #ff3838; /* Accent/Danger Red */
 
-  --color-white: #0f172a; /* Map text-white to slate-900 for dark text in light theme */
+  --color-white: #000000; /* Map text-white to pure black for maximum contrast */
   --color-zinc-50: #fafafa;
   --color-zinc-100: #f4f4f5;
   --color-zinc-200: #71717a;
   --color-zinc-300: #52525b;
-  --color-zinc-400: #3f3f46;
-  --color-zinc-500: #27272a;
-  --color-zinc-600: #18181b;
-  --color-zinc-700: #0f172a;
-  --color-zinc-800: #0f172a;
+  --color-zinc-400: #27272a; /* high contrast grey */
+  --color-zinc-500: #000000; /* pure black logo / main navigation text */
+  --color-zinc-600: #000000; /* pure black */
+  --color-zinc-700: #000000; /* pure black */
+  --color-zinc-800: #000000; /* pure black */
   --color-zinc-900: #f1f5f9; /* Map bg-zinc-900 to light background */
   --color-zinc-950: #e2e8f0; /* Map bg-zinc-950 to light background */
 
@@ -50,7 +50,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
+  --foreground: #000000;
 }
 
 /* ============================================================
