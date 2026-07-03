@@ -413,11 +413,10 @@ export default function DirectTasksSection() {
 
             <h2 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
               <Award className="h-5.5 w-5.5 text-primary" />
-              Sandbox Offer Simulator
+              Complete Offer
             </h2>
             <p className="text-[11px] text-zinc-400 border-b border-dark-border/60 pb-3 mb-4 flex justify-between">
-              <span>Provider: <strong className="text-zinc-800">{executingOffer.provider}</strong></span>
-              <span>Reward: <strong className="text-primary">{executingOffer.coins.toLocaleString()} Credits</strong></span>
+              <span>Reward: <strong className="text-primary">{executingOffer.coins.toLocaleString()} Coins</strong></span>
             </p>
             
             <div className="space-y-3.5 mb-5">
@@ -429,13 +428,6 @@ export default function DirectTasksSection() {
               <div className="rounded-xl bg-dark-bg p-4 border border-dark-border/60">
                 <h4 className="text-[10px] font-bold uppercase text-zinc-500 tracking-wider mb-1">Requirements</h4>
                 <p className="text-xs text-zinc-350 leading-relaxed">{executingOffer.description}</p>
-              </div>
-
-              <div className="flex items-start gap-2.5 rounded-xl bg-dark-bg/60 border border-dark-border/60 p-3.5 text-xs text-zinc-400">
-                <AlertTriangle className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5" />
-                <span>
-                  <strong>Sandbox Action:</strong> This is a simulation container. Clicking complete will award <strong>{executingOffer.coins.toLocaleString()} Credits</strong> to your wallet balance instantly. In production, this directs users to CPA target.
-                </span>
               </div>
             </div>
 
