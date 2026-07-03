@@ -240,8 +240,8 @@ export default function Home() {
               {/* 3 Game Offer Cards (Horizontal grid) */}
               <div className="grid grid-cols-3 gap-3.5 mt-4">
                 {[
-                  { name: 'Monopoly Go!', desc: 'Complete & earn big', payout: '$46.97', img: '/banners/monopoly.png' },
-                  { name: 'Smash Party', desc: 'Fun & rewarding', payout: '$8.05', img: '/banners/smash.png' },
+                  { name: 'Monopoly Go!', desc: 'Complete & earn big', payout: '$46.97', img: '/banners/adbluemedia.png' },
+                  { name: 'Smash Party', desc: 'Fun & rewarding', payout: '$8.05', img: '/banners/cpalead.png' },
                   { name: 'Merge Blast', desc: 'Quick earnings', payout: '$14.91', img: '/banners/lootably.png' },
                 ].map((card, i) => (
                   <div key={i} className="rounded-2xl border border-dark-border bg-dark-card p-3 relative overflow-hidden flex flex-col justify-between h-[180px] shadow-sm hover:border-primary/20 transition-all group">
