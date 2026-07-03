@@ -97,8 +97,8 @@ BEGIN
     new.id,
     v_username,
     new.email,
-    50,
-    50,
+    100,
+    100,
     new.raw_user_meta_data->>'device_fingerprint',
     COALESCE(new.raw_user_meta_data->>'country', 'Unknown')
   );

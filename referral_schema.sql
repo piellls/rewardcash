@@ -20,7 +20,7 @@ DECLARE
   v_username TEXT;
   v_referred_by_code TEXT;
   v_referred_by_id UUID := NULL;
-  v_starting_balance INTEGER := 50;
+  v_starting_balance INTEGER := 100;
 BEGIN
   -- Try to get username from metadata, default to split email
   v_username := COALESCE(
