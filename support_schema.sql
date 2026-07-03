@@ -1,5 +1,8 @@
 -- Support Tickets Schema (Run this in the Supabase SQL Editor)
 
+-- Ensure profiles table has role column
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS role TEXT DEFAULT 'user';
+
 CREATE TABLE IF NOT EXISTS public.support_tickets (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,

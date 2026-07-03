@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE,
   username TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
+  role TEXT DEFAULT 'user',
   balance_coins INTEGER DEFAULT 0 CHECK (balance_coins >= 0),
   total_earned_coins INTEGER DEFAULT 0 CHECK (total_earned_coins >= 0),
   avatar_url TEXT,
