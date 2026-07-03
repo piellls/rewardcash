@@ -27,6 +27,27 @@ export default function AdminDashboard() {
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
+  // User Audit Inspection States
+  const [inspectingUser, setInspectingUser] = useState(null);
+  const [userCompletions, setUserCompletions] = useState([]);
+  const [userClicks, setUserClicks] = useState([]);
+  const [loadingDetails, setLoadingDetails] = useState(false);
+
+  const handleInspectUser = async (usr) => {
+    setInspectingUser(usr);
+    setLoadingDetails(true);
+    try {
+      const completionsData = await db.getCompletedOffers(usr.id);
+      const clicksData = await db.adminGetOfferClicks(usr.id);
+      setUserCompletions(completionsData || []);
+      setUserClicks(clicksData || []);
+    } catch (e) {
+      console.error('Failed to load user details:', e);
+    } finally {
+      setLoadingDetails(false);
+    }
+  };
+
   const loadData = async () => {
     if (user && user.role === 'admin') {
       setLoading(true);
@@ -389,7 +410,11 @@ export default function AdminDashboard() {
                     {usersList.filter(usr => usr.role !== 'admin').map((usr) => {
                       const referrer = usr.referred_by ? usersList.find(u => u.id === usr.referred_by) : null;
                       return (
-                        <tr key={usr.id} className="group hover:bg-zinc-50/10 transition-colors">
+                        <tr 
+                          key={usr.id} 
+                          onClick={() => handleInspectUser(usr)}
+                          className="group hover:bg-zinc-50/10 active:bg-zinc-50/20 cursor-pointer transition-colors"
+                        >
                           <td className="py-3.5 pr-4">
                             <div className="flex items-center gap-2.5">
                               <img 
@@ -636,6 +661,153 @@ export default function AdminDashboard() {
               )}
             </div>
           )}
+        </div>
+      )}
+
+      {/* User Audit Inspection Modal */}
+      {inspectingUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/85 backdrop-blur-md" onClick={() => setInspectingUser(null)} />
+          <div className="relative w-full max-w-4xl rounded-2xl border border-dark-border bg-dark-card p-6 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-primary to-blue-500" />
+            
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-dark-border/40 pb-4 mb-4 shrink-0">
+              <div className="flex items-center gap-3">
+                <img 
+                  src={inspectingUser.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                  alt={inspectingUser.username}
+                  className="h-10 w-10 rounded-full border border-dark-border object-cover"
+                />
+                <div>
+                  <h3 className="text-base font-black text-white">{inspectingUser.username}'s Audit Log</h3>
+                  <p className="text-[10px] text-zinc-500 font-semibold truncate max-w-sm sm:max-w-md">{inspectingUser.email}</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setInspectingUser(null)}
+                className="rounded-xl border border-dark-border/60 bg-dark-bg/60 p-2 text-zinc-400 hover:text-white hover:bg-dark-bg transition-all active:scale-95"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {loadingDetails ? (
+              <div className="flex-1 flex justify-center items-center py-20 text-zinc-500">
+                <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
+                <span className="text-xs font-bold">Loading audit details...</span>
+              </div>
+            ) : (
+              <div className="flex-1 overflow-y-auto space-y-6 pr-1 custom-scrollbar">
+                
+                {/* Stats cards */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
+                    <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Available Balance</p>
+                    <p className="text-sm font-black text-primary flex items-center gap-1">
+                      <Coins className="h-4 w-4" />
+                      {inspectingUser.balance_coins?.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
+                    <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Earned</p>
+                    <p className="text-sm font-black text-white flex items-center gap-1">
+                      <Coins className="h-4 w-4 text-primary" />
+                      {inspectingUser.total_earned_coins?.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
+                    <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Completed Offers</p>
+                    <p className="text-sm font-black text-emerald-500">{userCompletions.length}</p>
+                  </div>
+                  <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
+                    <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Clicks</p>
+                    <p className="text-sm font-black text-amber-500">{userClicks.length}</p>
+                  </div>
+                </div>
+
+                {/* Grid for Clicks w Completions */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  
+                  {/* Column 1: Completions */}
+                  <div className="rounded-xl border border-dark-border bg-dark-bg/25 p-4 flex flex-col max-h-[350px]">
+                    <h4 className="text-xs font-black text-white mb-3 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Completed Leads ({userCompletions.length})
+                    </h4>
+                    
+                    {userCompletions.length === 0 ? (
+                      <div className="flex-1 flex items-center justify-center text-[10px] font-bold text-zinc-500 py-10">
+                        No completed offers logged yet.
+                      </div>
+                    ) : (
+                      <div className="flex-1 overflow-y-auto space-y-2.5 custom-scrollbar text-[11px] pr-1">
+                        {userCompletions.map((comp) => (
+                          <div key={comp.id} className="rounded-lg border border-dark-border/40 bg-dark-card/55 p-3 flex justify-between items-center gap-2">
+                            <div>
+                              <p className="font-bold text-white leading-none mb-1">{comp.offer_id}</p>
+                              <p className="text-[9px] text-zinc-500 font-semibold">
+                                Provider: <span className="text-zinc-400 uppercase">{comp.provider}</span> • {new Date(comp.completed_at).toLocaleString()}
+                              </p>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <span className="text-emerald-500 font-extrabold flex items-center justify-end gap-0.5 leading-none mb-1">
+                                +{comp.coins_earned} Coins
+                              </span>
+                              <span className="text-[9px] text-zinc-500 font-bold">${parseFloat(comp.payout_usd || 0).toFixed(2)} USD</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Column 2: Clicks */}
+                  <div className="rounded-xl border border-dark-border bg-dark-bg/25 p-4 flex flex-col max-h-[350px]">
+                    <h4 className="text-xs font-black text-white mb-3 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+                      Clicked Offers Log ({userClicks.length})
+                    </h4>
+                    
+                    {userClicks.length === 0 ? (
+                      <div className="flex-1 flex items-center justify-center text-[10px] font-bold text-zinc-500 py-10">
+                        No clicked offers logged f database.
+                      </div>
+                    ) : (
+                      <div className="flex-1 overflow-y-auto space-y-2.5 custom-scrollbar text-[11px] pr-1">
+                        {userClicks.map((clk) => (
+                          <div key={clk.id} className="rounded-lg border border-dark-border/40 bg-dark-card/55 p-3 flex justify-between items-center gap-2">
+                            <div>
+                              <p className="font-bold text-white leading-none mb-1">{clk.offer_title}</p>
+                              <p className="text-[9px] text-zinc-500 font-semibold">
+                                ID: <span className="text-zinc-400">{clk.offer_id}</span> • {new Date(clk.clicked_at).toLocaleString()}
+                              </p>
+                            </div>
+                            <span className="text-[10px] font-extrabold text-amber-500 shrink-0 bg-amber-955/15 border border-amber-900/20 px-2 py-0.5 rounded-md uppercase">
+                              {clk.provider}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+            )}
+            
+            {/* Footer */}
+            <div className="border-t border-dark-border/40 pt-4 mt-4 text-right shrink-0">
+              <button 
+                onClick={() => setInspectingUser(null)}
+                className="btn-gaming-secondary rounded-xl px-5 py-2.5 text-xs font-extrabold"
+              >
+                Close Audit Log
+              </button>
+            </div>
+
+          </div>
         </div>
       )}
     </div>

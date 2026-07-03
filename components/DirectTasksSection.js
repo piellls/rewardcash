@@ -244,6 +244,9 @@ export default function DirectTasksSection() {
       return;
     }
 
+    // Log the click event to DB for admin auditing
+    db.logOfferClick(user.id, user.username, offer);
+
     const currentCount = clickCounts[offer.id] || 0;
     const nextCount = currentCount + 1;
     const updated = { ...clickCounts, [offer.id]: nextCount };

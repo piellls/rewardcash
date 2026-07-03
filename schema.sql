@@ -107,3 +107,31 @@ DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- 5. Create offer_clicks table for auditing click leads
+CREATE TABLE IF NOT EXISTS public.offer_clicks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+  username TEXT NOT NULL,
+  offer_id TEXT NOT NULL,
+  offer_title TEXT NOT NULL,
+  provider TEXT NOT NULL,
+  clicked_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.offer_clicks ENABLE ROW LEVEL SECURITY;
+
+-- Allow users to insert clicks
+CREATE POLICY "Users can create their own offer clicks" 
+  ON public.offer_clicks FOR INSERT 
+  WITH CHECK (auth.uid() = user_id);
+
+-- Admins can view all clicks
+CREATE POLICY "Admins can view all offer clicks" 
+  ON public.offer_clicks FOR SELECT 
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles 
+      WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+    )
+  );
