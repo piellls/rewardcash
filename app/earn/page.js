@@ -483,7 +483,7 @@ export default function Earn() {
                   <div
                     key={offer.id}
                     onClick={() => handleOfferClick(offer)}
-                    className={`flex flex-col bg-dark-card border p-5 rounded-2xl transition-all relative overflow-hidden text-center justify-between min-h-[220px] ${
+                    className={`flex flex-col bg-dark-card border p-4 sm:p-5 rounded-2xl transition-all relative overflow-hidden text-center justify-between min-h-[195px] sm:min-h-[220px] ${
                       isLocked
                         ? 'border-zinc-700/50 opacity-60 cursor-not-allowed'
                         : showWarning
@@ -495,22 +495,22 @@ export default function Earn() {
                     {isLocked && (
                       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 backdrop-blur-[2px] rounded-2xl gap-1.5 p-3">
                         <div className="rounded-full bg-zinc-800 border border-zinc-700 p-2">
-                          <Lock className="h-5 w-5 text-zinc-400" />
+                          <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-zinc-400" />
                         </div>
-                        <span className="text-[10px] font-black text-zinc-400 uppercase tracking-wider">Locked 24H</span>
-                        <span className="text-xs font-black text-amber-400">{lockInfo}</span>
+                        <span className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-wider">Locked 24H</span>
+                        <span className="text-[10px] sm:text-xs font-black text-amber-400">{lockInfo}</span>
                       </div>
                     )}
 
                     {/* Warning badge — shown when 3-4 clicks used */}
                     {showWarning && !isLocked && (
-                      <div className="absolute top-2.5 right-2.5 z-10 bg-amber-500 text-black text-[9px] font-black px-2 py-0.5 rounded shadow-lg">
+                      <div className="absolute top-2.5 right-2.5 z-10 bg-amber-500 text-black text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded shadow-lg">
                         {clicksLeft} left
                       </div>
                     )}
 
                     {/* Top App Icon Container */}
-                    <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white/5 p-1 border border-white/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform duration-300 shrink-0">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-white/5 p-1 border border-white/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-105 transition-transform duration-300 shrink-0">
                       {offer.icon && offer.icon.startsWith('http') ? (
                         <img 
                           src={offer.icon} 
@@ -520,28 +520,28 @@ export default function Earn() {
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-dark-bg/85 rounded-xl">
                           {offer.category === 'Survey' ? (
-                            <FileText className="h-8 w-8 text-primary" />
+                            <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
                           ) : (
-                            <Gamepad2 className="h-8 w-8 text-secondary" />
+                            <Gamepad2 className="h-6 w-6 sm:h-8 sm:w-8 text-secondary" />
                           )}
                         </div>
                       )}
                     </div>
 
                     {/* Text Details */}
-                    <div className="flex-1 flex flex-col justify-start mb-4">
-                      <h4 className="text-sm font-bold text-white line-clamp-2 leading-snug mb-1 group-hover:text-primary transition-colors">
+                    <div className="flex-1 flex flex-col justify-start mb-3 sm:mb-4">
+                      <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug mb-1 group-hover:text-primary transition-colors">
                         {offer.title}
                       </h4>
-                      <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                      <p className="text-[10px] sm:text-xs text-zinc-400 line-clamp-2 leading-relaxed">
                         {offer.description}
                       </p>
                     </div>
 
                     {/* Pill at the bottom showing Credits/Coins */}
                     <div className="mt-auto">
-                      <div className="w-full py-2 bg-primary/10 border border-primary/20 rounded-xl text-xs font-extrabold text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-[0_0_12px_rgba(93,95,239,0.06)]">
-                        {creditsAward.toLocaleString()} Credits
+                      <div className="w-full py-1.5 sm:py-2.5 bg-primary/10 border border-primary/20 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-extrabold text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-[0_0_12px_rgba(93,95,239,0.06)]">
+                        {creditsAward.toLocaleString()} Coins
                       </div>
                     </div>
                   </div>
@@ -549,7 +549,7 @@ export default function Earn() {
               };
 
               return (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-5">
                   {filteredOffers.map(offer => renderOfferCard(offer))}
                 </div>
               );
