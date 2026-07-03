@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
+import DirectTasksSection from '@/components/DirectTasksSection';
 import { Coins, Trophy, Wallet, ShieldCheck, ArrowRight, Star, Users, Flame, CheckCircle, Zap, Gift, TrendingUp, Clock, User, Mail, Lock, Loader2 } from 'lucide-react';
 
 /* ─────────────────────────────────────────────
@@ -282,6 +283,15 @@ export default function Home() {
 
         </div>
       </section>
+
+      {/* ── Live Direct Offers on homepage if logged in ── */}
+      {user && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 w-full flex flex-col">
+          <div className="border-t border-dark-border/40 pt-10 mt-6 w-full">
+            <DirectTasksSection />
+          </div>
+        </section>
+      )}
 
       {!user && (
         <>
