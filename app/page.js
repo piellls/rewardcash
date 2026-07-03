@@ -11,27 +11,80 @@ import { Coins, Trophy, Wallet, ShieldCheck, ArrowRight, Star, Users, Flame, Che
 /* ─────────────────────────────────────────────
    Live Activity Ticker (earnlab style)
 ───────────────────────────────────────────── */
-const ACTIVITY_NAMES = ['Amine', 'Sarah', 'Youssef', 'Mehdi', 'Anass', 'Sofia', 'Fatima', 'Omar', 'Karim', 'Lina', 'Reda', 'Nora', 'Hassan', 'Zineb', 'Bilal', 'Imane'];
-const ACTIVITY_OFFERS = ['Cooking Blast 3D', 'Market Research (CPX)', 'PrimeSurveys', 'Aviator Spin', 'GemezZ Kids', 'Tap Rewards', 'Survey #482', 'App Install Bonus'];
-const ACTIVITY_COINS  = [320, 500, 980, 1200, 1500, 1995, 2200, 4500];
+const ACTIVITY_NAMES = [
+  'Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Charlotte', 'Elijah', 'Amelia', 'James', 'Ava',
+  'Benjamin', 'Sophia', 'Lucas', 'Isabella', 'Henry', 'Mia', 'Alexander', 'Evelyn', 'Mason', 'Harper',
+  'Michael', 'Camila', 'Ethan', 'Gianna', 'Daniel', 'Abigail', 'Jacob', 'Luna', 'Logan', 'Ella',
+  'Jackson', 'Elizabeth', 'Levi', 'Sofia', 'Sebastian', 'Avery', 'Jack', 'Scarlett', 'Owen', 'Emily',
+  'Theodore', 'Aria', 'Aiden', 'Penelope', 'Samuel', 'Chloe', 'Joseph', 'Layla', 'John', 'Mila',
+  'David', 'Nora', 'Wyatt', 'Hazel', 'Matthew', 'Madison', 'Luke', 'Ellie', 'Asher', 'Lily',
+  'Carter', 'Nova', 'Julian', 'Isla', 'Grayson', 'Grace', 'Leo', 'Violet', 'Jayden', 'Aurora',
+  'Gabriel', 'Zoey', 'Isaac', 'Emilia', 'Lincoln', 'Aubrey', 'Anthony', 'Stella', 'Hudson', 'Bella',
+  'Dylan', 'Aurora', 'Ezra', 'Maya', 'Thomas', 'Lucy', 'Charles', 'Paisley', 'Christopher', 'Everly',
+  'Jaxon', 'Anna', 'Maverick', 'Caroline', 'Josiah', 'Nova', 'Isaiah', 'Genesis', 'Andrew', 'Emilia',
+  'George', 'Freya', 'Arthur', 'Mia', 'Harry', 'Isabella', 'Leo', 'Alice', 'Oscar', 'Sofia',
+  'Charlie', 'Lily', 'Archie', 'Grace', 'Alfie', 'Emily', 'Freddie', 'Ella', 'Tommy', 'Evie'
+];
+
+const ACTIVITY_OFFERS = [
+  'Cooking Blast 3D', 'Market Research (CPX)', 'PrimeSurveys', 'Aviator Spin', 
+  'GemezZ Kids', 'Tap Rewards', 'Survey #482', 'App Install Bonus',
+  'Opera GX Windows CPI', 'SoFi Credit Insights', 'CTConnect - Paypal 100',
+  'CTConnect - Lululemon GiftCard', 'CTConnect - CashApp 750', 'CTConnect - Taco Bell 100',
+  'PrizeZappy - Win $50K', 'Consumer Test Connect - Aldi'
+];
+
+const ACTIVITY_COINS = [48, 80, 120, 240, 320, 480, 560, 720, 960, 1200, 1500, 2400];
+const CARTOON_AVATARS = [
+  '/avatars/avatar_1.png', '/avatars/avatar_2.png', '/avatars/avatar_3.png', '/avatars/avatar_4.png',
+  '/avatars/avatar_5.png', '/avatars/avatar_6.png', '/avatars/avatar_7.png', '/avatars/avatar_8.png',
+  '/avatars/avatar_9.png', '/avatars/avatar_10.png'
+];
 
 function LiveTicker() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     const generate = () => ({
-      id: Math.random(),
+      id: `${Date.now()}-${Math.random()}`,
       username: ACTIVITY_NAMES[Math.floor(Math.random() * ACTIVITY_NAMES.length)],
       offer: ACTIVITY_OFFERS[Math.floor(Math.random() * ACTIVITY_OFFERS.length)],
       coins: ACTIVITY_COINS[Math.floor(Math.random() * ACTIVITY_COINS.length)],
+      avatar: CARTOON_AVATARS[Math.floor(Math.random() * CARTOON_AVATARS.length)]
     });
 
-    // Seed initial items
-    setItems([generate(), generate(), generate(), generate()]);
+    // Try to load existing seed items from localStorage to prevent reset on refresh
+    let initialItems = [];
+    try {
+      const stored = localStorage.getItem('rc_live_ticker_items');
+      if (stored) {
+        initialItems = JSON.parse(stored);
+      }
+    } catch (e) {}
+
+    // If empty, generate 12 initial seed items
+    if (!initialItems || initialItems.length < 8) {
+      initialItems = [];
+      for (let i = 0; i < 12; i++) {
+        initialItems.push(generate());
+      }
+      try {
+        localStorage.setItem('rc_live_ticker_items', JSON.stringify(initialItems));
+      } catch (e) {}
+    }
+
+    setItems(initialItems);
 
     const iv = setInterval(() => {
-      setItems(prev => [generate(), ...prev.slice(0, 6)]);
-    }, 3000);
+      setItems(prev => {
+        const updated = [generate(), ...prev.slice(0, 11)];
+        try {
+          localStorage.setItem('rc_live_ticker_items', JSON.stringify(updated));
+        } catch (e) {}
+        return updated;
+      });
+    }, 4500);
+
     return () => clearInterval(iv);
   }, []);
 
@@ -40,8 +93,12 @@ function LiveTicker() {
       <div className="live-ticker-inner">
         {[...items, ...items].map((item, idx) => (
           <div key={`${item.id}-${idx}`} className="live-ticker-item">
-            <div className="live-ticker-avatar">
-              {item.username.substring(0, 2).toUpperCase()}
+            <div className="live-ticker-avatar overflow-hidden p-0 border border-zinc-700/30">
+              <img 
+                src={item.avatar || '/avatars/avatar_1.png'} 
+                alt="user avatar" 
+                className="w-full h-full object-cover rounded-full"
+              />
             </div>
             <span className="live-ticker-text">
               <strong>{item.username}</strong> earned

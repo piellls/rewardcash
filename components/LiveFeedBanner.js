@@ -4,9 +4,18 @@ import { useState, useEffect } from 'react';
 import { Coins, Wallet, Check } from 'lucide-react';
 
 const MOCK_USERNAMES = [
-  'BenStock', 'Denisiu21', 'Aymane_X', 'Sarah99', 'LukasK', 'AlexPro', 'SofiaR', 'Tariq1', 
-  'CodyG', 'JaneD', 'EarnGuru', 'CoinSlayer', 'SurveyPro', 'CashHunter', 'Zack_C', 'Mounir_L', 
-  'Radia_T', 'Younes_S', 'Fati_M', 'Mehdi_98', 'Reda_X', 'Yassine_G', 'Chaimae_R'
+  'Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Charlotte', 'Elijah', 'Amelia', 'James', 'Ava',
+  'Benjamin', 'Sophia', 'Lucas', 'Isabella', 'Henry', 'Mia', 'Alexander', 'Evelyn', 'Mason', 'Harper',
+  'Michael', 'Camila', 'Ethan', 'Gianna', 'Daniel', 'Abigail', 'Jacob', 'Luna', 'Logan', 'Ella',
+  'Jackson', 'Elizabeth', 'Levi', 'Sofia', 'Sebastian', 'Avery', 'Jack', 'Scarlett', 'Owen', 'Emily',
+  'Theodore', 'Aria', 'Aiden', 'Penelope', 'Samuel', 'Chloe', 'Joseph', 'Layla', 'John', 'Mila',
+  'David', 'Nora', 'Wyatt', 'Hazel', 'Matthew', 'Madison', 'Luke', 'Ellie', 'Asher', 'Lily',
+  'Carter', 'Nova', 'Julian', 'Isla', 'Grayson', 'Grace', 'Leo', 'Violet', 'Jayden', 'Aurora',
+  'Gabriel', 'Zoey', 'Isaac', 'Emilia', 'Lincoln', 'Aubrey', 'Anthony', 'Stella', 'Hudson', 'Bella',
+  'Dylan', 'Aurora', 'Ezra', 'Maya', 'Thomas', 'Lucy', 'Charles', 'Paisley', 'Christopher', 'Everly',
+  'Jaxon', 'Anna', 'Maverick', 'Caroline', 'Josiah', 'Nova', 'Isaiah', 'Genesis', 'Andrew', 'Emilia',
+  'George', 'Freya', 'Arthur', 'Mia', 'Harry', 'Isabella', 'Leo', 'Alice', 'Oscar', 'Sofia',
+  'Charlie', 'Lily', 'Archie', 'Grace', 'Alfie', 'Emily', 'Freddie', 'Ella', 'Tommy', 'Evie'
 ];
 
 const MOCK_TASKS = [
@@ -66,9 +75,22 @@ const generateItem = (isInitial = false) => {
 export default function LiveFeedBanner() {
   const [feed, setFeed] = useState([]);
 
-  // Generate initial feed
+  // Generate initial feed with localStorage persistence check
   useEffect(() => {
-    const initialItems = Array.from({ length: 15 }, () => generateItem(true));
+    let initialItems = [];
+    try {
+      const stored = localStorage.getItem('rc_live_feed_items');
+      if (stored) {
+        initialItems = JSON.parse(stored);
+      }
+    } catch (e) {}
+
+    if (!initialItems || initialItems.length < 8) {
+      initialItems = Array.from({ length: 15 }, () => generateItem(true));
+      try {
+        localStorage.setItem('rc_live_feed_items', JSON.stringify(initialItems));
+      } catch (e) {}
+    }
     setFeed(initialItems);
   }, []);
 
@@ -81,15 +103,21 @@ export default function LiveFeedBanner() {
       
       setFeed(prev => {
         // Prepend new item
-        const updated = [newItem, ...prev];
-        // Limit list to 20 items to prevent memory bloat
-        return updated.slice(0, 20);
+        const updated = [newItem, ...prev].slice(0, 20);
+        try {
+          localStorage.setItem('rc_live_feed_items', JSON.stringify(updated));
+        } catch (e) {}
+        return updated;
       });
 
       // After slide-in animation starts, clear the entering flag to lock layout
       setTimeout(() => {
         setFeed(prev => {
-          return prev.map(item => item.id === newItem.id ? { ...item, entering: false } : item);
+          const cleared = prev.map(item => item.id === newItem.id ? { ...item, entering: false } : item);
+          try {
+            localStorage.setItem('rc_live_feed_items', JSON.stringify(cleared));
+          } catch (e) {}
+          return cleared;
         });
       }, 700);
 
