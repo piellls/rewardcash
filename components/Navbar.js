@@ -64,7 +64,7 @@ export default function Navbar() {
             <img 
               src="/logo.png" 
               alt="BlueberryCash Logo" 
-              className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
+              className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
             />
           </Link>
         </div>
@@ -171,12 +171,12 @@ export default function Navbar() {
       <LiveFeedBanner />      {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
       <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
         {/* Sidebar Logo Header */}
-        <div className="h-16 border-b border-dark-border/40 flex items-center px-4 shrink-0">
+        <div className="h-20 border-b border-dark-border/40 flex items-center px-4 shrink-0">
           <Link href="/" className="flex items-center group w-full">
             <img 
               src="/logo.png" 
               alt="BlueberryCash Logo" 
-              className="h-13 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
+              className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg]" 
             />
           </Link>
         </div>
