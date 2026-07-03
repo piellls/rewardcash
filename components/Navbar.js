@@ -61,7 +61,7 @@ export default function Navbar() {
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
           <Link href="/" className="flex items-center group">
-            <span className="text-lg font-black tracking-wider text-zinc-800">
+            <span className="text-lg font-black tracking-wider text-zinc-800 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg] inline-block">
               Blueberry<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
             </span>
           </Link>
@@ -171,7 +171,7 @@ export default function Navbar() {
         {/* Sidebar Logo Header */}
         <div className="h-16 border-b border-dark-border/40 flex items-center px-4 shrink-0">
           <Link href="/" className="flex items-center group w-full">
-            <span className="text-xl font-black tracking-wider text-zinc-800">
+            <span className="text-xl font-black tracking-wider text-zinc-800 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-1deg] inline-block">
               Blueberry<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
             </span>
           </Link>

@@ -180,35 +180,40 @@ h1, h2, h3, h4, h5, h6, .font-display {
   transform: translateY(-1px);
 }
 
-/* Unified Gaming Buttons */
+/* Unified Gaming Buttons - Premium 3D Branded Styles */
 .btn-gaming {
-  background-color: var(--color-primary); /* Blueberry Indigo-Blue */
+  background: linear-gradient(135deg, #5d5fef 0%, #3b82f6 100%);
   color: #ffffff !important;
   font-weight: 800;
   font-family: var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border: none;
-  box-shadow: 0 0 12px rgba(93, 95, 239, 0.2), inset 0 1px 0.5px rgba(255, 255, 255, 0.3);
-  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  letter-spacing: 0.08em;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 4px solid #2e30ba;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(93, 95, 239, 0.25);
+  transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
 }
 
 .btn-gaming:hover:not(:disabled) {
-  background-color: #4f46e5;
-  box-shadow: 0 0 20px rgba(93, 95, 239, 0.45), 0 0 4px rgba(93, 95, 239, 0.6);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #6c6eff 0%, #4c92ff 100%);
+  transform: translateY(-2px);
+  border-bottom-width: 5px;
+  box-shadow: 0 8px 20px rgba(93, 95, 239, 0.4), 0 0 8px rgba(93, 95, 239, 0.2);
 }
 
 .btn-gaming:active:not(:disabled) {
-  transform: scale(0.97) translateY(0.5px);
-  box-shadow: 0 0 6px rgba(93, 95, 239, 0.3);
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+  box-shadow: 0 2px 4px rgba(93, 95, 239, 0.2);
 }
 
 .btn-gaming:disabled {
   background-color: #e2e8f0;
   color: var(--color-zinc-400) !important;
-  border-color: transparent;
+  border: none;
   box-shadow: none;
   cursor: not-allowed;
 }
@@ -219,23 +224,39 @@ h1, h2, h3, h4, h5, h6, .font-display {
   font-weight: 800;
   font-family: var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border: 1px solid var(--color-dark-border);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.02);
-  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  letter-spacing: 0.08em;
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 3.5px solid var(--color-dark-border);
+  border-left: 1px solid var(--color-dark-border);
+  border-right: 1px solid var(--color-dark-border);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
 }
 
 .btn-gaming-secondary:hover:not(:disabled) {
   background-color: var(--color-dark-hover);
   border-color: var(--color-primary);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-  transform: translateY(-1px);
+  border-bottom: 4px solid var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(93, 95, 239, 0.1);
 }
 
 .btn-gaming-secondary:active:not(:disabled) {
-  transform: scale(0.97) translateY(0.5px);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.02);
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* Global Premium 3D Lift Effects for Cards and Containers */
+.banner-card, .why-item, .step-card, .testimonial-card, .offer-card, .wall-card, .hero-badge, .activity-banner-wrap {
+  transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+.banner-card:hover, .why-item:hover, .step-card:hover, .testimonial-card:hover, .offer-card:hover, .wall-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 24px rgba(93, 95, 239, 0.12) !important;
+  border-color: rgba(93, 95, 239, 0.25) !important;
 }
 
 .btn-gaming-secondary:disabled {
