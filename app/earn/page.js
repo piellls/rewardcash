@@ -406,11 +406,14 @@ export default function Earn() {
               {/* Promo Badge */}
               {wall.badge && (
                 <div className="absolute top-3 right-3 shadow-lg z-20">
-                  <span className={`text-[10px] font-black px-2.5 py-1 rounded-md border uppercase tracking-wider ${
-                    wall.active 
-                      ? 'bg-black/70 text-white border-primary/50 backdrop-blur-md shadow-[0_0_10px_rgba(0,0,0,0.5)]' 
-                      : 'bg-black/70 text-zinc-400 border-dark-border backdrop-blur-md'
-                  }`}>
+                  <span 
+                    className={`text-[10px] font-black px-2.5 py-1 rounded-md border uppercase tracking-wider bg-black/70 backdrop-blur-md ${
+                      wall.active 
+                        ? 'border-primary/50 shadow-[0_0_10px_rgba(0,0,0,0.5)]' 
+                        : 'border-dark-border'
+                    }`}
+                    style={{ color: '#ffffff' }}
+                  >
                     {wall.badge}
                   </span>
                 </div>
