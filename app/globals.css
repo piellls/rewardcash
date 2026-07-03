@@ -15,14 +15,14 @@
 
   --color-white: #000000; /* Map text-white to pure black for maximum contrast */
   --color-zinc-50: #fafafa;
-  --color-zinc-100: #f4f4f5;
-  --color-zinc-200: #71717a;
-  --color-zinc-300: #52525b;
-  --color-zinc-400: #27272a; /* high contrast grey */
-  --color-zinc-500: #000000; /* pure black logo / main navigation text */
-  --color-zinc-600: #000000; /* pure black */
-  --color-zinc-700: #000000; /* pure black */
-  --color-zinc-800: #000000; /* pure black */
+  --color-zinc-100: #000000; /* Make zinc-100 pure black text */
+  --color-zinc-200: #000000; /* Make zinc-200 pure black text */
+  --color-zinc-300: #000000; /* Make zinc-300 pure black text */
+  --color-zinc-400: #000000; /* Make zinc-400 pure black text */
+  --color-zinc-500: #000000; /* Make zinc-500 pure black text */
+  --color-zinc-600: #000000; /* Make zinc-600 pure black text */
+  --color-zinc-700: #000000; /* Make zinc-700 pure black text */
+  --color-zinc-800: #000000; /* Make zinc-800 pure black text */
   --color-zinc-900: #f1f5f9; /* Map bg-zinc-900 to light background */
   --color-zinc-950: #e2e8f0; /* Map bg-zinc-950 to light background */
 
