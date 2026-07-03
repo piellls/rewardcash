@@ -628,7 +628,7 @@ export default function Earn() {
               Sandbox Offer Simulator
             </h2>
             <p className="text-[11px] text-zinc-400 border-b border-dark-border/60 pb-3 mb-4 flex justify-between">
-              <span>Provider: <strong className="text-zinc-200">{executingOffer.provider}</strong></span>
+              <span>Provider: <strong className="text-zinc-800">{executingOffer.provider}</strong></span>
               <span>Value: <strong className="text-primary">${executingOffer.payout.toFixed(2)}</strong></span>
             </p>
             

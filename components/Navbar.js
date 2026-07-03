@@ -125,7 +125,7 @@ export default function Navbar() {
               {/* Profile Avatar link */}
               <Link 
                 href="/dashboard"
-                className="flex items-center gap-2 hover:text-primary text-zinc-200 transition-all active:scale-95 group"
+                className="flex items-center gap-2 hover:text-primary text-zinc-800 transition-all active:scale-95 group"
               >
                 <img 
                   src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 

@@ -382,7 +382,7 @@ export default function Cashout() {
         className="flex flex-col justify-between rounded-2xl border border-dark-border bg-dark-card/65 p-5 hover:border-primary/20 hover:bg-dark-card active:scale-[0.99] transition-all cursor-pointer group relative overflow-hidden"
       >
         {/* Name Title at top center */}
-        <h3 className="text-sm font-bold text-zinc-200 group-hover:text-white text-center mb-4 transition-colors font-sans">
+        <h3 className="text-sm font-bold text-zinc-800 group-hover:text-white text-center mb-4 transition-colors font-sans">
           {method.name}
         </h3>
 

@@ -514,7 +514,7 @@ export default function Dashboard() {
                   className={`rounded-xl px-5 py-2 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all cursor-pointer ${
                     isActive 
                       ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(93,95,239,0.2)]' 
-                      : 'bg-dark-bg/60 border border-dark-border text-zinc-400 hover:text-zinc-200 hover:bg-dark-card'
+                      : 'bg-dark-bg/60 border border-dark-border text-zinc-400 hover:text-zinc-800 hover:bg-dark-card'
                   }`}
                 >
                   {tab}

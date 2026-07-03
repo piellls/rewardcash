@@ -245,7 +245,7 @@ export default function Leaderboard() {
                                 alt={player.username}
                                 className="h-7 w-7 rounded-full border border-dark-border object-cover"
                               />
-                              <span className={`font-bold ${isCurrent ? 'text-primary' : 'text-zinc-200 group-hover:text-white transition-colors'}`}>
+                              <span className={`font-bold ${isCurrent ? 'text-primary' : 'text-zinc-800 group-hover:text-white transition-colors'}`}>
                                 {player.username}
                                 {isCurrent && (
                                   <span className="ml-2 rounded bg-primary/20 border border-primary/45 px-1.5 py-0.5 text-[8px] font-bold text-primary uppercase">

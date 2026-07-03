@@ -23,7 +23,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-200">Navigation</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-800">Navigation</h3>
             <ul className="mt-4 space-y-2">
               <li>
                 <Link href="/earn" className="text-sm text-zinc-400 hover:text-white transition-colors">
@@ -45,7 +45,7 @@ export default function Footer() {
 
           {/* Support / Trust */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-200">Legal & Support</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-800">Legal & Support</h3>
             <ul className="mt-4 space-y-2">
               <li className="flex items-center gap-2 text-sm text-zinc-400">
                 <ShieldCheck className="h-4 w-4 text-primary" />

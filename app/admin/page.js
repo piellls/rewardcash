@@ -600,7 +600,7 @@ export default function AdminDashboard() {
                         <tr key={t.id} className="group hover:bg-zinc-50/10 transition-colors">
                           <td className="py-3.5 pr-4 font-bold text-white">{t.username}</td>
                           <td className="py-3.5 px-4 font-mono text-[10px] text-zinc-500">{t.email}</td>
-                          <td className="py-3.5 px-4 text-zinc-200 font-semibold">{t.subject}</td>
+                          <td className="py-3.5 px-4 text-zinc-800 font-semibold">{t.subject}</td>
                           <td className="py-3.5 px-4 text-zinc-400 max-w-[250px] truncate" title={t.message}>{t.message}</td>
                           <td className="py-3.5 px-4 text-zinc-500">{new Date(t.created_at).toLocaleDateString()}</td>
                           <td className="py-3.5 px-4">
