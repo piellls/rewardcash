@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       className="h-full antialiased overflow-x-hidden max-w-[100vw]"
       style={{ colorScheme: 'light' }}
     >
-      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[120px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
+      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[80px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
         <AuthProvider>
           <Navbar />
           <div className="flex-1 flex flex-col w-full md:pl-64">

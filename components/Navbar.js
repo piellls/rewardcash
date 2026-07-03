@@ -167,8 +167,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Live Feed Banner (Global User Activities) */}
-      <LiveFeedBanner />      {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
+      {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
       <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
         {/* Sidebar Logo Header */}
         <div className="h-20 border-b border-dark-border/40 flex items-center px-4 shrink-0">
