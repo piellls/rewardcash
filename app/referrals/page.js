@@ -21,6 +21,9 @@ export default function Referrals() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authTab, setAuthTab] = useState('login');
 
+  // Custom How it works modal
+  const [isHowItWorksOpen, setIsHowItWorksOpen] = useState(false);
+
   const TIERS = [
     { level: 1, commission: 5, reqUSD: 0, badge: Shield, color: 'text-secondary', badgeName: 'Tier 1' },
     { level: 2, commission: 6, reqUSD: 10, badge: Swords, color: 'text-primary', badgeName: 'Tier 2' },
@@ -184,7 +187,7 @@ export default function Referrals() {
           Affiliates
         </h1>
         <button 
-          onClick={() => alert("Affiliate guidelines: Share your URL, earn commission percentage based on Tiers 1-10 on completions. Commissions can be claimed at any time to your active coin balance.")}
+          onClick={() => setIsHowItWorksOpen(true)}
           className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs flex items-center gap-1.5"
         >
           <Info className="h-4 w-4 text-primary" />
@@ -551,6 +554,65 @@ export default function Referrals() {
 
         </div>
       )}
+      {isHowItWorksOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/85 backdrop-blur-md" onClick={() => setIsHowItWorksOpen(false)} />
+          <div className="relative w-full max-w-lg rounded-2xl border border-dark-border bg-dark-card p-6 shadow-2xl overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-secondary" />
+
+            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <Users className="h-5.5 w-5.5 text-primary" />
+              Affiliate Program Guidelines
+            </h2>
+
+            <div className="space-y-4 mb-6 text-left">
+              <div className="flex items-start gap-3 rounded-xl bg-dark-bg p-4 border border-dark-border/60">
+                <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-xs text-primary shrink-0">
+                  1
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase text-zinc-400 tracking-wider mb-1">Share Your Link</h4>
+                  <p className="text-xs text-zinc-350 leading-relaxed">
+                    Copy your unique referral link from the dashboard and share it with your friends, community, or on social media.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 rounded-xl bg-dark-bg p-4 border border-dark-border/60">
+                <div className="h-8 w-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center font-bold text-xs text-secondary shrink-0">
+                  2
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase text-zinc-400 tracking-wider mb-1">Earn Commission</h4>
+                  <p className="text-xs text-zinc-350 leading-relaxed">
+                    Get paid dynamic commission shares (from **5% up to 30%** based on Tiers 1-10) every time your referrals complete tasks, games, or surveys.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 rounded-xl bg-dark-bg p-4 border border-dark-border/60">
+                <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-xs text-primary shrink-0">
+                  3
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase text-zinc-400 tracking-wider mb-1">Claim Instantly</h4>
+                  <p className="text-xs text-zinc-350 leading-relaxed">
+                    Your commissions pile up in real-time. You can click the "Claim Earnings" button on your panel to add them directly to your active coin balance.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setIsHowItWorksOpen(false)}
+              className="btn-gaming w-full rounded-xl py-3 text-xs font-extrabold"
+            >
+              Got it, thanks!
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
