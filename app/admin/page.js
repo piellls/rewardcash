@@ -33,8 +33,16 @@ export default function AdminDashboard() {
   const [userClicks, setUserClicks] = useState([]);
   const [loadingDetails, setLoadingDetails] = useState(false);
 
+  const [adjustmentAmount, setAdjustmentAmount] = useState('');
+  const [adjusting, setAdjusting] = useState(false);
+  const [adjustError, setAdjustError] = useState('');
+  const [adjustSuccess, setAdjustSuccess] = useState('');
+
   const handleInspectUser = async (usr) => {
     setInspectingUser(usr);
+    setAdjustmentAmount('');
+    setAdjustError('');
+    setAdjustSuccess('');
     setLoadingDetails(true);
     try {
       const completionsData = await db.getCompletedOffers(usr.id);
@@ -45,6 +53,46 @@ export default function AdminDashboard() {
       console.error('Failed to load user details:', e);
     } finally {
       setLoadingDetails(false);
+    }
+  };
+
+  const handleAdjustBalance = async (e) => {
+    e.preventDefault();
+    if (!inspectingUser || !adjustmentAmount) return;
+    
+    const amountVal = parseInt(adjustmentAmount);
+    if (isNaN(amountVal) || amountVal === 0) {
+      setAdjustError('Please enter a valid non-zero integer.');
+      return;
+    }
+
+    setAdjusting(true);
+    setAdjustError('');
+    setAdjustSuccess('');
+
+    try {
+      await db.adminAdjustBalance(inspectingUser.id, amountVal);
+      setAdjustSuccess(`Successfully adjusted balance by ${amountVal > 0 ? '+' : ''}${amountVal} coins!`);
+      setAdjustmentAmount('');
+      
+      // Update inspectingUser local details
+      setInspectingUser(prev => {
+        if (!prev) return null;
+        const nextBalance = Math.max(0, (prev.balance_coins || 0) + amountVal);
+        const nextTotal = (prev.total_earned_coins || 0) + (amountVal > 0 ? amountVal : 0);
+        return {
+          ...prev,
+          balance_coins: nextBalance,
+          total_earned_coins: nextTotal
+        };
+      });
+      
+      await loadData();
+    } catch (err) {
+      console.error(err);
+      setAdjustError(err.message || 'Failed to adjust balance.');
+    } finally {
+      setAdjusting(false);
     }
   };
 
@@ -730,6 +778,35 @@ export default function AdminDashboard() {
                     <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Clicks</p>
                     <p className="text-sm font-black text-amber-500">{userClicks.length}</p>
                   </div>
+                </div>
+
+                {/* Balance adjustment modifier panel */}
+                <div className="rounded-xl border border-dark-border bg-dark-bg/20 p-5">
+                  <h4 className="text-xs font-bold text-white mb-2 uppercase tracking-wide">Adjust User Balance</h4>
+                  <form onSubmit={handleAdjustBalance} className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                    <div className="flex-1 relative">
+                      <input
+                        type="number"
+                        placeholder="e.g. +500 or -200"
+                        value={adjustmentAmount}
+                        onChange={(e) => setAdjustmentAmount(e.target.value)}
+                        className="w-full rounded-xl border border-dark-border bg-dark-bg/60 px-4 py-2.5 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={adjusting || !adjustmentAmount}
+                      className="rounded-xl bg-primary px-5 py-2.5 text-xs font-extrabold text-white transition-all hover:bg-primary-hover active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
+                    >
+                      {adjusting ? 'Updating...' : 'Adjust Credits'}
+                    </button>
+                  </form>
+                  {adjustError && (
+                    <p className="text-[10px] text-red-500 font-bold mt-2">{adjustError}</p>
+                  )}
+                  {adjustSuccess && (
+                    <p className="text-[10px] text-emerald-500 font-bold mt-2">{adjustSuccess}</p>
+                  )}
                 </div>
 
                 {/* Grid for Clicks w Completions */}
