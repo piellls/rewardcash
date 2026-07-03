@@ -327,7 +327,7 @@ export default function Home() {
           {/* Banner 3 – Affiliates */}
           <Link href="/referrals" className="banner-card group">
             <img
-              src="https://cdn.earnlab.com/banners/EARNLAB_AFFILIATES.png"
+              src="/affiliates_banner.jpg"
               alt="Affiliates"
               className="banner-img"
             />
