@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { notFound } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle, CheckCircle2, MessageSquare, ArrowLeft, Send } from 'lucide-react';
 
 export default function AdminDashboard() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   
   const [activeTab, setActiveTab] = useState('withdrawals'); // 'withdrawals', 'users', or 'tickets'
   const [withdrawals, setWithdrawals] = useState([]);
@@ -158,20 +159,19 @@ export default function AdminDashboard() {
     }
   };
 
-  // If not admin, show access denied
-  if (!user || user.role !== 'admin') {
+  // If auth is loading, show blank/spinner to prevent flash 404
+  if (authLoading) {
     return (
-      <div className="mx-auto max-w-md px-4 py-20 flex-1 flex flex-col justify-center items-center text-center">
-        <div className="rounded-full bg-red-950/20 border border-red-900/50 p-4 text-red-500 mb-6">
-          <Lock className="h-8 w-8 text-red-500 animate-pulse" />
-        </div>
-        <h1 className="text-2xl font-black text-white mb-2 tracking-tight">Access Denied</h1>
-        <p className="text-xs text-zinc-400 mb-6 leading-relaxed">
-          You must be logged in as an Administrator to view this control panel.
-        </p>
-        
+      <div className="flex-grow flex items-center justify-center py-20 text-zinc-500">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
       </div>
     );
+  }
+
+  // If not admin, return 404
+  if (!user || user.role !== 'admin') {
+    notFound();
+    return null;
   }
 
   // Calculate statistics
