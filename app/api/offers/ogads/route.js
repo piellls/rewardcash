@@ -24,7 +24,7 @@ export async function GET(request) {
   const affiliateId = apiKey.split('|')[0];
 
   try {
-    const feedUrl = `https://appsave.store/api/v1?ip=${encodeURIComponent(clientIp)}&user_agent=${encodeURIComponent(userAgent)}&affiliateid=${encodeURIComponent(affiliateId)}&aff_sub4=${encodeURIComponent(s1)}`;
+    const feedUrl = `https://appsave.online/api/v2?ip=${encodeURIComponent(clientIp)}&user_agent=${encodeURIComponent(userAgent)}&affiliateid=${encodeURIComponent(affiliateId)}&aff_sub4=${encodeURIComponent(s1)}`;
     
     console.log(`[OGADS OFFERS] Fetching for IP: ${clientIp}, s1: ${s1}, affiliate: ${affiliateId}`);
     
