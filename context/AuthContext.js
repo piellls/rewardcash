@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [deviceBlocked, setDeviceBlocked] = useState(false);
   const [blockedUsername, setBlockedUsername] = useState('');
+  const [vpnBlocked, setVpnBlocked] = useState(false);
 
   const refreshUser = async () => {
     try {
@@ -56,6 +57,20 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     refreshUser();
+    
+    // Server-side real-time VPN and Proxy check
+    const checkVPNStatus = async () => {
+      try {
+        const res = await fetch('/api/check-ip');
+        const data = await res.json();
+        if (data && data.isVPN) {
+          setVpnBlocked(true);
+        }
+      } catch (err) {
+        console.error('VPN detection client error:', err);
+      }
+    };
+    checkVPNStatus();
     
     // Capture referral code from URL
     if (typeof window !== 'undefined') {
@@ -236,6 +251,50 @@ export function AuthProvider({ children }) {
             >
               Log In to {blockedUsername}
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If VPN is detected, show a block page (exempt admin users)
+  if (vpnBlocked && (!user || user.role !== 'admin')) {
+    return (
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#09090b] p-4 text-center font-display select-none">
+        {/* Glowing Cyber Grid Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-20" style={{
+          backgroundImage: `
+            radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.15) 0px, transparent 60%),
+            linear-gradient(rgba(239, 68, 68, 0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(239, 68, 68, 0.08) 1px, transparent 1px)
+          `,
+          backgroundSize: '100% 100%, 35px 35px, 35px 35px'
+        }} />
+
+        <div className="relative w-full max-w-md rounded-2xl border border-red-950/40 bg-dark-card/95 p-8 shadow-2xl backdrop-blur-md space-y-6">
+          {/* Top warning line */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-primary to-red-600" />
+          
+          <div className="inline-flex rounded-full bg-red-500/10 p-4 text-red-500 animate-bounce">
+            <Globe className="h-10 w-10" />
+          </div>
+
+          <div className="space-y-2">
+            <h1 className="text-2xl font-black text-white tracking-tight uppercase">VPN / Proxy Blocked</h1>
+            <p className="text-xs text-red-400 font-bold uppercase tracking-widest animate-pulse">Security Protection Active</p>
+          </div>
+
+          <div className="rounded-xl bg-zinc-950/80 p-4 border border-dark-border/60 text-left space-y-2.5">
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Our automated system detected that you are accessing BlueberryCash through a **VPN, Proxy, or Data Center IP address**.
+            </p>
+            <p className="text-[10.5px] text-zinc-500 leading-relaxed pt-1">
+              To prevent fraud, bot activity, and ensure compliance with advertiser requirements, VPN or proxy usage is strictly prohibited on our platform.
+            </p>
+          </div>
+
+          <div className="pt-2 text-xs text-zinc-400 font-semibold animate-pulse">
+            Please disconnect from your VPN/Proxy service and refresh the page to continue.
           </div>
         </div>
       </div>
