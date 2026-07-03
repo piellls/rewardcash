@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import { db } from '@/lib/db';
+import { db, isMockMode, supabase } from '@/lib/db';
 import { ShieldAlert, Globe } from 'lucide-react';
 
 const AuthContext = createContext({
@@ -115,8 +115,8 @@ export function AuthProvider({ children }) {
 
     const sendHeartbeat = async () => {
       try {
-        if (!db.isMockMode) {
-          const session = await db.supabase.auth.getSession();
+        if (!isMockMode) {
+          const session = await supabase.auth.getSession();
           const token = session.data?.session?.access_token;
           if (token) {
             await fetch('/api/heartbeat', {

@@ -13,14 +13,15 @@ export default function AdminDashboard() {
     if (!usr.last_seen_at) return false;
     const lastSeen = new Date(usr.last_seen_at).getTime();
     const now = Date.now();
-    return now - lastSeen < 90000;
+    return Math.abs(now - lastSeen) < 180000;
   };
 
   const getLastSeenText = (usr) => {
     if (!usr.last_seen_at) return 'Never';
     const lastSeen = new Date(usr.last_seen_at).getTime();
     const diff = Date.now() - lastSeen;
-    if (diff < 90000) return 'Online';
+    if (Math.abs(diff) < 180000) return 'Online';
+    if (diff < 0) return 'Just now';
     
     const mins = Math.floor(diff / 60000);
     if (mins < 60) return `${mins}m ago`;
