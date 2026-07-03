@@ -222,7 +222,7 @@ export default function Referrals() {
               <Coins className="h-5.5 w-5.5" />
             </div>
             <h3 className="text-sm font-bold text-white mb-1.5">2. Signup Welcome</h3>
-            <p className="text-xs text-zinc-450 leading-relaxed">Both you and your referred friend immediately receive a +100 welcome coins bonus upon registration.</p>
+            <p className="text-xs text-zinc-450 leading-relaxed">Your friend immediately receives +50 welcome coins, and you receive +100 coins invite reward.</p>
           </div>
           
           <div className="rounded-xl border border-dark-border bg-dark-card p-6 text-center hover:border-primary/10 transition-all relative overflow-hidden group">

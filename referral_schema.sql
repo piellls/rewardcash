@@ -18,7 +18,7 @@ DECLARE
   v_username TEXT;
   v_referred_by_code TEXT;
   v_referred_by_id UUID := NULL;
-  v_starting_balance INTEGER := 0;
+  v_starting_balance INTEGER := 50;
 BEGIN
   -- Try to get username from metadata, default to split email
   v_username := COALESCE(
@@ -39,8 +39,6 @@ BEGIN
     LIMIT 1;
     
     IF v_referred_by_id IS NOT NULL THEN
-      v_starting_balance := 100; -- Award 100 welcome coins to new user
-      
       -- Award 100 coins signup bonus to referrer
       UPDATE public.profiles 
       SET balance_coins = balance_coins + 100,
