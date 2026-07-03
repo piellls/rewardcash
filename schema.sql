@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   device_fingerprint TEXT,
   country TEXT DEFAULT 'Unknown',
   is_banned BOOLEAN DEFAULT false,
+  last_seen_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

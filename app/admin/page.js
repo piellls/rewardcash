@@ -8,6 +8,27 @@ import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle
 
 export default function AdminDashboard() {
   const { user, loading: authLoading } = useAuth();
+
+  const isUserOnline = (usr) => {
+    if (!usr.last_seen_at) return false;
+    const lastSeen = new Date(usr.last_seen_at).getTime();
+    const now = Date.now();
+    return now - lastSeen < 90000;
+  };
+
+  const getLastSeenText = (usr) => {
+    if (!usr.last_seen_at) return 'Never';
+    const lastSeen = new Date(usr.last_seen_at).getTime();
+    const diff = Date.now() - lastSeen;
+    if (diff < 90000) return 'Online';
+    
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    return `${days}d ago`;
+  };
   
   const [activeTab, setActiveTab] = useState('withdrawals'); // 'withdrawals', 'users', or 'tickets'
   const [withdrawals, setWithdrawals] = useState([]);
@@ -336,7 +357,12 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">User Base</span>
-                <span className="text-base font-black text-white">{usersList.length} Accounts</span>
+                <span className="text-base font-black text-white">
+                  {usersList.filter(u => u.role !== 'admin').length} Accounts 
+                  <span className="text-[10px] text-emerald-500 font-extrabold ml-1.5 animate-pulse">
+                    ({usersList.filter(u => u.role !== 'admin' && isUserOnline(u)).length} online)
+                  </span>
+                </span>
               </div>
             </div>
 
@@ -494,17 +520,33 @@ export default function AdminDashboard() {
                         >
                           <td className="py-3.5 pr-4">
                             <div className="flex items-center gap-2.5">
-                              <img 
-                                src={usr.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                                alt={usr.username}
-                                className="h-7 w-7 rounded-full border border-dark-border object-cover"
-                              />
-                              <span className="font-bold text-white">{usr.username}</span>
-                              {usr.is_banned && (
-                                <span className="rounded bg-red-950/60 border border-red-900/60 px-1.5 py-0.5 text-[8px] font-black text-red-500 uppercase tracking-widest leading-none">
-                                  Banned
+                              <div className="relative shrink-0">
+                                <img 
+                                  src={usr.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                                  alt={usr.username}
+                                  className="h-7 w-7 rounded-full border border-dark-border object-cover"
+                                />
+                                <span className={`absolute bottom-0 right-0 h-2 w-2 rounded-full border border-dark-card ${
+                                  isUserOnline(usr) ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-zinc-500'
+                                }`} />
+                              </div>
+                              <div className="flex flex-col min-w-0">
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <span className="font-bold text-white truncate">{usr.username}</span>
+                                  {usr.is_banned && (
+                                    <span className="rounded bg-red-950/60 border border-red-900/60 px-1.5 py-0.5 text-[8px] font-black text-red-500 uppercase tracking-widest leading-none shrink-0">
+                                      Banned
+                                    </span>
+                                  )}
+                                </div>
+                                <span className="text-[9px] font-semibold mt-0.5 shrink-0">
+                                  {isUserOnline(usr) ? (
+                                    <span className="text-emerald-500 font-extrabold animate-pulse">Active Now</span>
+                                  ) : (
+                                    <span className="text-zinc-550">Last seen: {getLastSeenText(usr)}</span>
+                                  )}
                                 </span>
-                              )}
+                              </div>
                             </div>
                           </td>
                           <td className="py-3.5 px-4 text-zinc-400 font-mono">{usr.email}</td>
@@ -759,14 +801,25 @@ export default function AdminDashboard() {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-dark-border/40 pb-4 mb-4 shrink-0">
               <div className="flex items-center gap-3">
-                <img 
-                  src={inspectingUser.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                  alt={inspectingUser.username}
-                  className="h-10 w-10 rounded-full border border-dark-border object-cover"
-                />
+                <div className="relative shrink-0">
+                  <img 
+                    src={inspectingUser.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                    alt={inspectingUser.username}
+                    className="h-10 w-10 rounded-full border border-dark-border object-cover"
+                  />
+                  <span className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border border-dark-card ${
+                    isUserOnline(inspectingUser) ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-zinc-500'
+                  }`} />
+                </div>
                 <div>
-                  <h3 className="text-base font-black text-white flex items-center gap-1.5">
-                    {inspectingUser.username}'s Audit Log {inspectingUser.country || '🌍'}
+                  <h3 className="text-base font-black text-white flex items-center gap-2">
+                    <span>{inspectingUser.username}'s Audit Log</span>
+                    <span className="text-xs">{inspectingUser.country || '🌍'}</span>
+                    <span className={`text-[8px] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider shrink-0 ${
+                      isUserOnline(inspectingUser) ? 'bg-emerald-950/60 border border-emerald-900/40 text-emerald-500 animate-pulse' : 'bg-zinc-900 border border-dark-border text-zinc-400'
+                    }`}>
+                      {isUserOnline(inspectingUser) ? 'Active' : getLastSeenText(inspectingUser)}
+                    </span>
                   </h3>
                   <p className="text-[10px] text-zinc-500 font-semibold truncate max-w-sm sm:max-w-md">{inspectingUser.email}</p>
                 </div>

@@ -109,6 +109,42 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  // Real-time online/offline heartbeat tracker
+  useEffect(() => {
+    if (!user) return;
+
+    const sendHeartbeat = async () => {
+      try {
+        if (!db.isMockMode) {
+          const session = await db.supabase.auth.getSession();
+          const token = session.data?.session?.access_token;
+          if (token) {
+            await fetch('/api/heartbeat', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+          }
+        } else {
+          // Mock mode: update local storage timestamp
+          const users = JSON.parse(localStorage.getItem('bc_users') || '[]');
+          const idx = users.findIndex(u => u.id === user.id);
+          if (idx !== -1) {
+            users[idx].last_seen_at = new Date().toISOString();
+            localStorage.setItem('bc_users', JSON.stringify(users));
+          }
+        }
+      } catch (e) {
+        console.warn('Heartbeat failed:', e.message);
+      }
+    };
+
+    sendHeartbeat();
+    const interval = setInterval(sendHeartbeat, 30000); // 30 seconds
+    return () => clearInterval(interval);
+  }, [user?.id]);
+
   const login = async (email, password) => {
     setLoading(true);
     try {
