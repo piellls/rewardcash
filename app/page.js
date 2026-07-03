@@ -284,16 +284,7 @@ export default function Home() {
                 Get paid now for <br />
                 <span className="hero-title-gradient">{typewriterText}</span>
               </h1>
-              
-              {/* 3 mini badges */}
-              <div className={`flex flex-wrap gap-2.5 mt-2 ${user ? 'justify-center' : ''}`}>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 border border-dark-border text-[11px] font-bold text-white shadow-sm">
-                  💰 Earn up to <strong className="text-primary font-black">$60.00</strong> per offer
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 border border-dark-border text-[11px] font-bold text-white shadow-sm">
-                  ⚡ Cashout in <strong className="text-secondary font-black">minutes</strong>
-                </span>
-              </div>
+
 
             </div>
 
