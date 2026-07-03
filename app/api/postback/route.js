@@ -67,8 +67,9 @@ export async function GET(request) {
       .single();
 
     if (profError || !profile) {
-      console.error('[POSTBACK ERROR] User profile not found in Supabase:', click_id);
-      return NextResponse.json({ error: 'User profile matching click_id does not exist.' }, { status: 404 });
+      console.warn('[POSTBACK WARNING] User profile not found in Supabase:', click_id);
+      // Return 200 OK (with body '1') to satisfy test calls and avoid network retry spam
+      return new Response('1', { status: 200, headers: { 'Content-Type': 'text/plain' } });
     }
 
     // 2. Log completion in completed_offers table
