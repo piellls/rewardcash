@@ -333,7 +333,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                       {withdrawals.map((w) => (
-                        <tr key={w.id} className="group hover:bg-zinc-900/10 transition-colors">
+                        <tr key={w.id} className="group hover:bg-zinc-50/10 transition-colors">
                           <td className="py-3 pr-4 font-bold text-white">{w.username}</td>
                           <td className="py-3 px-4 font-semibold text-zinc-450 uppercase">{w.payment_method}</td>
                           <td className="py-3 px-4 text-primary font-extrabold">${parseFloat(w.amount_usd).toFixed(2)}</td>
@@ -400,7 +400,7 @@ export default function AdminDashboard() {
                     {usersList.filter(usr => usr.role !== 'admin').map((usr) => {
                       const referrer = usr.referred_by ? usersList.find(u => u.id === usr.referred_by) : null;
                       return (
-                        <tr key={usr.id} className="group hover:bg-zinc-900/10 transition-colors">
+                        <tr key={usr.id} className="group hover:bg-zinc-50/10 transition-colors">
                           <td className="py-3.5 pr-4">
                             <div className="flex items-center gap-2.5">
                               <img 
@@ -420,7 +420,7 @@ export default function AdminDashboard() {
                                 Referred by <span className="underline font-extrabold">{referrer.username}</span>
                               </span>
                             ) : (
-                              <span className="rounded bg-zinc-950 border border-dark-border px-2 py-0.5 text-[10px] font-semibold text-zinc-500">
+                              <span className="rounded bg-zinc-100 border border-dark-border px-2 py-0.5 text-[10px] font-semibold text-zinc-500">
                                 Direct Signup
                               </span>
                             )}
@@ -451,7 +451,7 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setSelectedTicket(null)}
-                    className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-all py-1.5 px-3 rounded-xl bg-zinc-950 border border-dark-border active:scale-95"
+                    className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-all py-1.5 px-3 rounded-xl bg-zinc-100 border border-dark-border active:scale-95"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" /> Back
                   </button>
@@ -509,7 +509,7 @@ export default function AdminDashboard() {
                         {new Date(selectedTicket.created_at).toLocaleDateString()}
                       </span>
                     </div>
-                    <div className="bg-zinc-950 border border-dark-border/60 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-300 leading-relaxed shadow-sm">
+                    <div className="bg-zinc-100 border border-dark-border/60 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-300 leading-relaxed shadow-sm">
                       <div className="font-bold text-white mb-1.5 border-b border-dark-border/40 pb-1 flex justify-between gap-4">
                         <span>Subject: {selectedTicket.subject}</span>
                       </div>
@@ -536,7 +536,7 @@ export default function AdminDashboard() {
                       </div>
                       <p className={`px-4 py-2.5 rounded-2xl leading-relaxed border ${
                         isUserMsg 
-                          ? 'bg-zinc-950 border-dark-border/60 rounded-tl-none text-zinc-300' 
+                          ? 'bg-zinc-100 border-dark-border/60 rounded-tl-none text-zinc-300' 
                           : 'bg-primary/5 border-primary/20 rounded-tr-none text-white'
                       }`}>
                         {msg.message}
@@ -560,7 +560,7 @@ export default function AdminDashboard() {
                   value={replyMessage}
                   onChange={(e) => setReplyMessage(e.target.value)}
                   placeholder={selectedTicket.status === 'resolved' ? "Reopen ticket or type reply..." : "Type reply to user..."}
-                  className="flex-1 rounded-xl bg-zinc-950 border border-dark-border px-3.5 py-2.5 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
+                  className="flex-1 rounded-xl bg-zinc-100 border border-dark-border px-3.5 py-2.5 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
                 />
                 <button
                   type="submit"
@@ -597,7 +597,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                       {tickets.map((t) => (
-                        <tr key={t.id} className="group hover:bg-zinc-900/10 transition-colors">
+                        <tr key={t.id} className="group hover:bg-zinc-50/10 transition-colors">
                           <td className="py-3.5 pr-4 font-bold text-white">{t.username}</td>
                           <td className="py-3.5 px-4 font-mono text-[10px] text-zinc-500">{t.email}</td>
                           <td className="py-3.5 px-4 text-zinc-200 font-semibold">{t.subject}</td>
@@ -617,7 +617,7 @@ export default function AdminDashboard() {
                                   setSelectedTicket(t);
                                   loadChatMessages(t.id);
                                 }}
-                                className="rounded-lg bg-zinc-950 border border-dark-border hover:bg-zinc-900 p-1.5 text-zinc-400 hover:text-primary transition-all active:scale-90"
+                                className="rounded-lg bg-zinc-100 border border-dark-border hover:bg-zinc-50 p-1.5 text-zinc-400 hover:text-primary transition-all active:scale-90"
                                 title="Open Message Thread"
                               >
                                 <MessageSquare className="h-3.5 w-3.5" />

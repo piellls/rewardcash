@@ -487,7 +487,7 @@ export default function Cashout() {
               </thead>
               <tbody className="divide-y divide-dark-border/40 text-zinc-300">
                 {methods.map((m) => (
-                  <tr key={m.id} className="group hover:bg-zinc-900/10 transition-colors">
+                  <tr key={m.id} className="group hover:bg-zinc-50/10 transition-colors">
                     <td className="py-2.5 font-semibold text-white">{m.name}</td>
                     <td className="py-2.5">${m.amounts[0].usd.toFixed(2)} ({m.amounts[0].coins.toLocaleString()} Coins)</td>
                     <td className={`py-2.5 font-bold ${m.fee === '0%' ? 'text-emerald-400' : 'text-amber-500'}`}>{m.fee}</td>
@@ -530,7 +530,7 @@ export default function Cashout() {
           </h2>
 
           {withdrawals.length === 0 ? (
-            <div className="text-center py-10 rounded-xl bg-zinc-950/20 border border-dashed border-dark-border">
+            <div className="text-center py-10 rounded-xl bg-zinc-100/20 border border-dashed border-dark-border">
               <p className="text-xs text-zinc-500 font-bold">You haven't requested any withdrawals yet.</p>
               <p className="text-[10px] text-zinc-500 mt-1 uppercase tracking-wider font-semibold">Complete tasks on the earn page to claim payouts!</p>
             </div>
@@ -549,7 +549,7 @@ export default function Cashout() {
                 </thead>
                 <tbody className="divide-y divide-dark-border/30 text-zinc-300">
                   {withdrawals.map((w) => (
-                    <tr key={w.id} className="group hover:bg-zinc-900/10 transition-colors">
+                    <tr key={w.id} className="group hover:bg-zinc-50/10 transition-colors">
                       <td className="py-3 pr-4 font-bold text-white uppercase">{w.payment_method}</td>
                       <td className="py-3 px-4 font-extrabold text-primary">${parseFloat(w.amount_usd).toFixed(2)}</td>
                       <td className="py-3 px-4 text-zinc-400">{w.coins_spent?.toLocaleString()} Coins</td>

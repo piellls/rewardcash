@@ -100,12 +100,12 @@ export default function LiveFeedBanner() {
 
   return (
     <div
-      className="fixed top-16 right-0 left-0 md:left-64 z-20 h-14 bg-zinc-950/90 backdrop-blur-md border-b border-dark-border/60 flex items-center overflow-hidden px-4 select-none"
+      className="fixed top-16 right-0 left-0 md:left-64 z-20 h-14 bg-zinc-100/90 backdrop-blur-md border-b border-dark-border/60 flex items-center overflow-hidden px-4 select-none"
       style={{ contain: 'strict', transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)' }}
     >
       
       {/* Live Badge (left overlay to show it's real time) */}
-      <div className="flex items-center gap-1.5 bg-zinc-950 pr-4 z-10 h-full border-r border-dark-border/40 shrink-0 font-display">
+      <div className="flex items-center gap-1.5 bg-zinc-100 pr-4 z-10 h-full border-r border-dark-border/40 shrink-0 font-display">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>

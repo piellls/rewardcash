@@ -106,7 +106,7 @@ function HeroRegisterForm() {
                 placeholder="choose a username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full rounded-xl bg-zinc-900 border border-dark-border py-2 pl-9 pr-4 text-xs text-zinc-800 placeholder-zinc-400 focus:border-primary focus:outline-none transition-colors font-semibold"
+                className="w-full rounded-xl bg-zinc-50 border border-dark-border py-2 pl-9 pr-4 text-xs text-zinc-800 placeholder-zinc-400 focus:border-primary focus:outline-none transition-colors font-semibold"
               />
             </div>
           </div>
@@ -123,7 +123,7 @@ function HeroRegisterForm() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl bg-zinc-900 border border-dark-border py-2 pl-9 pr-4 text-xs text-zinc-800 placeholder-zinc-400 focus:border-primary focus:outline-none transition-colors font-semibold"
+                className="w-full rounded-xl bg-zinc-50 border border-dark-border py-2 pl-9 pr-4 text-xs text-zinc-800 placeholder-zinc-400 focus:border-primary focus:outline-none transition-colors font-semibold"
               />
             </div>
           </div>
@@ -140,7 +140,7 @@ function HeroRegisterForm() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl bg-zinc-900 border border-dark-border py-2 pl-9 pr-4 text-xs text-zinc-800 placeholder-zinc-400 focus:border-primary focus:outline-none transition-colors font-semibold"
+                className="w-full rounded-xl bg-zinc-50 border border-dark-border py-2 pl-9 pr-4 text-xs text-zinc-800 placeholder-zinc-400 focus:border-primary focus:outline-none transition-colors font-semibold"
               />
             </div>
           </div>
@@ -229,10 +229,10 @@ export default function Home() {
               
               {/* 3 mini badges */}
               <div className="flex flex-wrap gap-2.5 mt-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-950 border border-dark-border text-[11px] font-bold text-white shadow-sm">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 border border-dark-border text-[11px] font-bold text-white shadow-sm">
                   💰 Earn up to <strong className="text-primary font-black">$60.00</strong> per offer
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-950 border border-dark-border text-[11px] font-bold text-white shadow-sm">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 border border-dark-border text-[11px] font-bold text-white shadow-sm">
                   ⚡ Cashout in <strong className="text-secondary font-black">minutes</strong>
                 </span>
               </div>

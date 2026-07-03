@@ -224,7 +224,7 @@ export default function Referrals() {
                   </h2>
                   <div className="flex items-center gap-2.5 text-[11px] font-bold text-zinc-400">
                     <span className="flex items-center gap-1">
-                      <div className="p-1 rounded bg-zinc-950 border border-dark-border/40 inline-flex items-center justify-center mr-1">
+                      <div className="p-1 rounded bg-zinc-100 border border-dark-border/40 inline-flex items-center justify-center mr-1">
                         {(() => {
                           const BadgeIcon = currentTier.badge;
                           return <BadgeIcon className={`h-3.5 w-3.5 ${currentTier.color}`} />;

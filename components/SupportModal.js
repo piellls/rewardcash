@@ -302,7 +302,7 @@ export default function SupportModal({ isOpen, onClose }) {
                       placeholder="e.g. Coins missing for Level 11 offer"
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
-                      className="w-full rounded-lg bg-zinc-950 border border-dark-border py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
+                      className="w-full rounded-lg bg-zinc-100 border border-dark-border py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
                     />
                   </div>
 
@@ -317,7 +317,7 @@ export default function SupportModal({ isOpen, onClose }) {
                       placeholder="Please mention the offer details, provider name, date completed, and any issue..."
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      className="w-full rounded-lg bg-zinc-950 border border-dark-border py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors resize-none"
+                      className="w-full rounded-lg bg-zinc-100 border border-dark-border py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors resize-none"
                     />
                   </div>
 
@@ -355,7 +355,7 @@ export default function SupportModal({ isOpen, onClose }) {
                 <div
                   key={t.id}
                   onClick={() => setSelectedTicket(t)}
-                  className="group relative flex items-center justify-between rounded-xl bg-zinc-950/40 border border-dark-border/60 p-4 cursor-pointer hover:bg-zinc-900/60 hover:border-zinc-800 transition-all active:scale-[0.99]"
+                  className="group relative flex items-center justify-between rounded-xl bg-zinc-100/40 border border-dark-border/60 p-4 cursor-pointer hover:bg-zinc-50/60 hover:border-zinc-800 transition-all active:scale-[0.99]"
                 >
                   <div className="space-y-1.5 flex-1 pr-4">
                     <div className="flex items-center gap-2.5">
@@ -421,7 +421,7 @@ export default function SupportModal({ isOpen, onClose }) {
                       {new Date(selectedTicket.created_at).toLocaleDateString()} at {new Date(selectedTicket.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <p className="bg-zinc-900/40 border border-dark-border/20 rounded-2xl rounded-tl-none px-3.5 py-2.5 text-zinc-300 leading-relaxed select-text">
+                  <p className="bg-zinc-50/40 border border-dark-border/20 rounded-2xl rounded-tl-none px-3.5 py-2.5 text-zinc-300 leading-relaxed select-text">
                     {selectedTicket.message}
                   </p>
                 </div>
@@ -445,7 +445,7 @@ export default function SupportModal({ isOpen, onClose }) {
                     </div>
                     <p className={`px-3.5 py-2.5 rounded-2xl leading-relaxed select-text border ${
                       isUserMsg 
-                        ? 'bg-zinc-900/40 border-dark-border/20 rounded-tl-none text-zinc-300' 
+                        ? 'bg-zinc-50/40 border-dark-border/20 rounded-tl-none text-zinc-300' 
                         : 'bg-primary/5 border-primary/10 rounded-tr-none text-white'
                     }`}>
                       {msg.message}
@@ -471,7 +471,7 @@ export default function SupportModal({ isOpen, onClose }) {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder={selectedTicket.status === 'resolved' ? "Type to reopen and reply..." : "Send a follow-up reply..."}
-                className="flex-1 rounded-xl bg-zinc-950 border border-dark-border px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
+                className="flex-1 rounded-xl bg-zinc-100 border border-dark-border px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
               />
               <button
                 type="submit"

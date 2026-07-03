@@ -59,7 +59,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
       <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl border border-dark-border bg-dark-card shadow-2xl transition-all grid grid-cols-1 md:grid-cols-12 min-h-[520px]">
         
         {/* Left Column (EarnLab digital art - hidden on mobile) */}
-        <div className="hidden md:block md:col-span-5 relative bg-zinc-950 overflow-hidden">
+        <div className="hidden md:block md:col-span-5 relative bg-zinc-100 overflow-hidden">
           <img 
             src="/login_art.png" 
             alt="Cyberspace rewards illustration" 
@@ -87,7 +87,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
           {/* Close Button */}
           <button 
             onClick={onClose}
-            className="absolute right-4 top-4 rounded-full p-2 text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors active:scale-90"
+            className="absolute right-4 top-4 rounded-full p-2 text-zinc-400 hover:bg-zinc-50 hover:text-white transition-colors active:scale-90"
           >
             <X className="h-4.5 w-4.5" />
           </button>
@@ -149,7 +149,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                         placeholder="displayname"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className="w-full rounded-xl bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
+                        className="w-full rounded-xl bg-zinc-100 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -167,7 +167,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                       placeholder="you@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-xl bg-zinc-955 bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
+                      className="w-full rounded-xl bg-zinc-100 bg-zinc-100 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -184,7 +184,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                       placeholder="••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full rounded-xl bg-zinc-950 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
+                      className="w-full rounded-xl bg-zinc-100 border border-dark-border py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-550 focus:border-primary focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
