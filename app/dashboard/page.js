@@ -24,6 +24,7 @@ import {
   TrendingUp,
   Loader2
 } from 'lucide-react';
+import { playCoinSound, triggerCoinBurst } from '../referrals/page';
 
 const calculateLevel = (totalEarned = 0) => {
   if (totalEarned < 1000) return { level: 1, current: totalEarned, next: 1000, percentage: (totalEarned / 1000) * 100 };
@@ -195,6 +196,9 @@ export default function Dashboard() {
   const handleClaimStreak = async () => {
     if (!user) return;
     if (!canClaim) return;
+    
+    playCoinSound();
+    triggerCoinBurst('streak-claim-btn');
     
     const rewardCoins = STREAK_REWARDS[streak.currentDay - 1].coins;
     
@@ -451,6 +455,7 @@ export default function Dashboard() {
               <div>
                 {canClaim ? (
                   <button
+                    id="streak-claim-btn"
                     onClick={handleClaimStreak}
                     disabled={loadingOfferId === 'streak'}
                     className="btn-gaming rounded-xl px-5 py-2.5 text-xs font-extrabold flex items-center gap-1.5"
