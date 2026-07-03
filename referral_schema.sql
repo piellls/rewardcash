@@ -41,11 +41,11 @@ BEGIN
     IF v_referred_by_id IS NOT NULL THEN
       v_starting_balance := 100; -- Award 100 welcome coins to new user
       
-      -- Award 250 coins signup bonus to referrer
+      -- Award 100 coins signup bonus to referrer
       UPDATE public.profiles 
-      SET balance_coins = balance_coins + 250,
-          total_earned_coins = total_earned_coins + 250,
-          referral_earnings_total = referral_earnings_total + 250
+      SET balance_coins = balance_coins + 100,
+          total_earned_coins = total_earned_coins + 100,
+          referral_earnings_total = referral_earnings_total + 100
       WHERE id = v_referred_by_id;
     END IF;
   END IF;
