@@ -365,7 +365,7 @@ export default function Earn() {
               }}
               className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full h-36 flex flex-col justify-center ${
                 wall.active 
-                  ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(0,231,1,0.2)] hover:-translate-y-1'
+                  ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(93,95,239,0.2)] hover:-translate-y-1'
                   : 'border-dark-border/40 hover:border-zinc-800'
               }`}
             >
@@ -394,7 +394,7 @@ export default function Earn() {
               {/* Status Badge (Sandbox/Open) */}
               {wall.active && (
                 <div className="absolute top-3 left-3 shadow-lg z-20">
-                  <div className="px-2 py-1 rounded-md backdrop-blur-md border bg-primary/20 border-primary/40 text-primary shadow-[0_0_10px_rgba(0,231,1,0.2)]">
+                  <div className="px-2 py-1 rounded-md backdrop-blur-md border bg-primary/20 border-primary/40 text-primary shadow-[0_0_10px_rgba(93,95,239,0.2)]">
                     <span className="text-[9px] font-black uppercase flex items-center gap-1">
                       <Play className="h-2.5 w-2.5 fill-primary" />
                       OPEN
@@ -438,7 +438,7 @@ export default function Earn() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`rounded-lg px-3.5 py-1.5 text-xs font-extrabold active:scale-[0.95] hover:scale-[1.02] transition-all ${
                   selectedCategory === cat 
-                    ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,231,1,0.35)]' 
+                    ? 'bg-primary text-white shadow-[0_0_10px_rgba(93,95,239,0.35)]' 
                     : 'text-zinc-400 hover:text-white hover:bg-dark-card'
                 }`}
               >
@@ -494,7 +494,7 @@ export default function Earn() {
                         ? 'border-zinc-700/50 opacity-60 cursor-not-allowed'
                         : showWarning
                         ? 'border-amber-500/40 hover:border-amber-400/60 hover:shadow-[0_0_15px_rgba(245,158,11,0.2)] active:scale-[0.98] cursor-pointer group'
-                        : 'border-dark-border/80 hover:border-primary/40 hover:shadow-[0_0_15px_rgba(0,231,1,0.15)] active:scale-[0.98] cursor-pointer group'
+                        : 'border-dark-border/80 hover:border-primary/40 hover:shadow-[0_0_15px_rgba(93,95,239,0.15)] active:scale-[0.98] cursor-pointer group'
                     }`}
                   >
                     {/* 24H Lock Overlay — shown after 5 clicks */}
@@ -534,7 +534,7 @@ export default function Earn() {
                       )}
 
                       {/* Boost Badge (Top Left) */}
-                      <div className="absolute top-1.5 left-1.5 bg-primary text-black text-[9px] font-black px-1.5 py-0.5 rounded shadow-md">
+                      <div className="absolute top-1.5 left-1.5 bg-primary text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-md">
                         +{boostVal}%
                       </div>
 

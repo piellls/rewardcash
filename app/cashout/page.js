@@ -396,7 +396,7 @@ export default function Cashout() {
           {/* Progress bar */}
           <div className="h-1.5 w-full bg-dark-bg rounded-full overflow-hidden p-[1px] border border-dark-border">
             <div 
-              className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500 shadow-[0_0_6px_rgba(0,231,1,0.4)]" 
+              className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500 shadow-[0_0_6px_rgba(93,95,239,0.4)]" 
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -606,12 +606,12 @@ export default function Cashout() {
                         onClick={() => setSelectedAmount(amount)}
                         className={`rounded-xl p-3 text-center border active:scale-95 hover:scale-[1.02] transition-all flex flex-col items-center justify-center gap-0.5 ${
                           isSelected
-                            ? 'bg-primary border-primary text-black shadow-[0_0_12px_rgba(0,231,1,0.4)] font-bold'
+                            ? 'bg-primary border-primary text-white shadow-[0_0_12px_rgba(93,95,239,0.4)] font-bold'
                             : 'bg-dark-bg border-dark-border text-white hover:border-primary/40'
                         } ${!canAfford && !isSelected ? 'opacity-40' : ''}`}
                       >
                         <span className="text-sm font-bold">${amount.usd.toFixed(2)}</span>
-                        <span className={`text-[10px] ${isSelected ? 'text-black/70 font-bold' : 'text-zinc-400'}`}>
+                        <span className={`text-[10px] ${isSelected ? 'text-white/70 font-bold' : 'text-zinc-400'}`}>
                           {amount.coins.toLocaleString()} Coins
                         </span>
                       </button>

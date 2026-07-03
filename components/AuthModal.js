@@ -96,7 +96,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
             {/* Header */}
             <div className="mb-5">
               <h2 className="text-xl font-bold text-white tracking-tight">
-                {tab === 'login' ? 'Sign in to RewardCash' : 'Create a Free Account'}
+                {tab === 'login' ? 'Sign in to BlueberryCash' : 'Create a Free Account'}
               </h2>
               <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
                 {tab === 'login' 

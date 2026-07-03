@@ -174,7 +174,7 @@ export default function AdminDashboard() {
           <p className="font-bold text-white border-b border-dark-border/40 pb-2">Demo Administrator Account:</p>
           <div className="flex justify-between text-left">
             <span className="text-zinc-500 font-semibold">Email:</span>
-            <span className="font-mono text-primary font-bold">admin@rewardcash.co</span>
+            <span className="font-mono text-primary font-bold">admin@blueberrycash.com</span>
           </div>
           <div className="flex justify-between text-left">
             <span className="text-zinc-500 font-semibold">Password:</span>

@@ -13,11 +13,11 @@ export default function Footer() {
                 <Coins className="h-5 w-5 text-black" />
               </div>
               <span className="text-lg font-bold tracking-wider text-gradient">
-                RewardCash
+                BlueberryCash
               </span>
             </Link>
             <p className="text-sm text-zinc-400 max-w-sm">
-              RewardCash is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.
+              BlueberryCash is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.
             </p>
           </div>
 
@@ -57,8 +57,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm text-zinc-400">
                 <Mail className="h-4 w-4 text-zinc-400" />
-                <a href="mailto:support@rewardcash.co" className="hover:text-white transition-colors">
-                  support@rewardcash.co
+                <a href="mailto:support@blueberrycash.com" className="hover:text-white transition-colors">
+                  support@blueberrycash.com
                 </a>
               </li>
             </ul>
@@ -68,7 +68,7 @@ export default function Footer() {
         <hr className="border-dark-border my-6" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <p>© {new Date().getFullYear()} RewardCash. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} BlueberryCash. All rights reserved.</p>
           <p className="flex items-center gap-1">
             Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> for the community.
           </p>

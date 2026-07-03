@@ -62,7 +62,7 @@ export default function AvatarSelectorModal() {
           </div>
           <h2 className="text-xl font-bold text-white tracking-tight">Choose Your Avatar</h2>
           <p className="text-xs text-zinc-400 mt-1 max-w-sm mx-auto leading-relaxed">
-            Welcome to RewardCash! Pick a style to personalize your user profile and finalize your account setup.
+            Welcome to BlueberryCash! Pick a style to personalize your user profile and finalize your account setup.
           </p>
         </div>
 

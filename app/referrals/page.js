@@ -126,7 +126,7 @@ export default function Referrals() {
           Earn <span className="text-gradient">Passive Income</span> with Affiliates
         </h1>
         <p className="text-sm sm:text-base text-zinc-400 max-w-xl text-center mb-10 leading-relaxed">
-          Invite friends to RewardCash. Get a lifetime <strong className="text-primary">up to 30% commission</strong> on all of their earnings. Plus, they get <strong className="text-white">+100 welcome coins</strong> immediately!
+          Invite friends to BlueberryCash. Get a lifetime <strong className="text-primary">up to 30% commission</strong> on all of their earnings. Plus, they get <strong className="text-white">+100 welcome coins</strong> immediately!
         </p>
 
         {/* Highlight Grid */}
@@ -178,7 +178,7 @@ export default function Referrals() {
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
+          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(93,95,239,0.2)]">
             <Users className="h-5.5 w-5.5" />
           </div>
           Affiliates
@@ -322,7 +322,7 @@ export default function Referrals() {
                   onClick={handleCopyLink}
                   className={`flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-extrabold shrink-0 ${
                     copied 
-                      ? 'btn-gaming shadow-[0_0_10px_rgba(0,231,1,0.35)]' 
+                      ? 'btn-gaming shadow-[0_0_10px_rgba(93,95,239,0.35)]' 
                       : 'btn-gaming-secondary'
                   }`}
                 >
@@ -340,7 +340,7 @@ export default function Referrals() {
               <div className="flex gap-2">
                 {/* Whatsapp */}
                 <a 
-                  href={`https://api.whatsapp.com/send?text=Join RewardCash and earn coins! ${getReferralLink()}`}
+                  href={`https://api.whatsapp.com/send?text=Join BlueberryCash and earn coins! ${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center text-zinc-400 hover:text-primary transition-all active:scale-90"
@@ -352,7 +352,7 @@ export default function Referrals() {
                 </a>
                 {/* Twitter */}
                 <a 
-                  href={`https://twitter.com/intent/tweet?text=Join RewardCash and earn coins! ${getReferralLink()}`}
+                  href={`https://twitter.com/intent/tweet?text=Join BlueberryCash and earn coins! ${getReferralLink()}`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-[#00b2ff]/50 hover:bg-[#00b2ff]/5 flex items-center justify-center text-zinc-400 hover:text-[#00b2ff] transition-all active:scale-90"
@@ -376,7 +376,7 @@ export default function Referrals() {
                 </a>
                 {/* Telegram */}
                 <a 
-                  href={`https://t.me/share/url?url=${getReferralLink()}&text=Join RewardCash and earn coins!`}
+                  href={`https://t.me/share/url?url=${getReferralLink()}&text=Join BlueberryCash and earn coins!`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-[#00b2ff]/50 hover:bg-[#00b2ff]/5 flex items-center justify-center text-zinc-400 hover:text-[#00b2ff] transition-all active:scale-90"
@@ -398,7 +398,7 @@ export default function Referrals() {
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 rounded-lg py-1.5 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all ${
                   activeTab === tab 
-                    ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,231,1,0.35)]' 
+                    ? 'bg-primary text-white shadow-[0_0_10px_rgba(93,95,239,0.35)]' 
                     : 'text-zinc-500 hover:text-zinc-300'
                 }`}
               >
@@ -426,13 +426,13 @@ export default function Referrals() {
                     <div 
                       key={tier.level}
                       className={`relative flex flex-col justify-between rounded-xl border p-5 transition-all bg-dark-card ${
-                        isActive                          ? 'border-primary bg-primary/[0.02] shadow-[0_0_20px_rgba(0,231,1,0.1)]'
+                        isActive                          ? 'border-primary bg-primary/[0.02] shadow-[0_0_20px_rgba(93,95,239,0.1)]'
                           : 'border-dark-border bg-dark-card/85'
                       }`}
                     >
                       {/* Active Tag */}
                       {isActive && (
-                        <div className="absolute -top-2.5 left-6 rounded-full bg-primary text-[8px] font-black text-black px-2.5 py-0.5 uppercase tracking-widest border border-primary">
+                        <div className="absolute -top-2.5 left-6 rounded-full bg-primary text-[8px] font-black text-white px-2.5 py-0.5 uppercase tracking-widest border border-primary">
                           Active
                         </div>
                       )}
@@ -493,7 +493,7 @@ export default function Referrals() {
           ) : activeTab === 'Affiliates' ? (
             <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
               <div className="flex items-center gap-2 mb-5 border-b border-dark-border/40 pb-3">
-                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
+                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(93,95,239,0.2)]">
                   <Users className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">Affiliate Invites Directory</h3>

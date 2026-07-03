@@ -208,7 +208,7 @@ export function AuthProvider({ children }) {
               <span className="text-[#38bdf8] font-black">{blockedUsername}</span>
             </div>
             <p className="text-[10.5px] text-zinc-500 leading-relaxed pt-1">
-              To guarantee system integrity and prevent reward abuse, RewardCash permits only one user account per device/PC.
+              To guarantee system integrity and prevent reward abuse, BlueberryCash permits only one user account per device/PC.
             </p>
           </div>
 

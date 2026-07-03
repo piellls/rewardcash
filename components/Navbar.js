@@ -61,8 +61,8 @@ export default function Navbar() {
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
           <Link href="/" className="flex items-center group">
-            <span className="text-lg font-black tracking-wider text-white">
-              Reward<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
+            <span className="text-lg font-black tracking-wider text-zinc-800">
+              Blueberry<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
             </span>
           </Link>
         </div>
@@ -78,7 +78,7 @@ export default function Navbar() {
                 </div>
                 <div className="h-1.5 w-full bg-dark-card rounded-full overflow-hidden border border-dark-border/40">
                   <div 
-                    className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(0,231,1,0.5)]" 
+                    className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(93,95,239,0.5)]" 
                     style={{ width: `${levelData.percentage}%` }}
                   />
                 </div>
@@ -130,9 +130,9 @@ export default function Navbar() {
                 <img 
                   src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
                   alt={user.username}
-                  className="h-8 w-8 rounded-full border border-dark-border group-hover:border-primary group-hover:shadow-[0_0_8px_rgba(0,231,1,0.3)] transition-all object-cover"
+                  className="h-8 w-8 rounded-full border border-dark-border group-hover:border-primary group-hover:shadow-[0_0_8px_rgba(93,95,239,0.3)] transition-all object-cover"
                 />
-                <span className="text-xs sm:text-sm font-bold hidden sm:inline group-hover:text-white transition-colors">
+                <span className="text-xs sm:text-sm font-bold hidden sm:inline group-hover:text-primary transition-colors">
                   {user.username}
                 </span>
               </Link>
@@ -140,7 +140,7 @@ export default function Navbar() {
               {/* Logout Button */}
               <button 
                 onClick={logout}
-                className="rounded-xl p-2 text-zinc-500 hover:bg-dark-bg hover:text-white active:scale-95 transition-all"
+                className="rounded-xl p-2 text-zinc-500 hover:bg-primary/5 hover:text-primary active:scale-95 transition-all"
                 title="Log Out"
               >
                 <LogOut className="h-4.5 w-4.5" />
@@ -171,8 +171,8 @@ export default function Navbar() {
         {/* Sidebar Logo Header */}
         <div className="h-16 border-b border-dark-border/40 flex items-center px-4 shrink-0">
           <Link href="/" className="flex items-center group w-full">
-            <span className="text-xl font-black tracking-wider text-white">
-              Reward<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
+            <span className="text-xl font-black tracking-wider text-zinc-800">
+              Blueberry<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
             </span>
           </Link>
         </div>
@@ -189,10 +189,10 @@ export default function Navbar() {
                 <button
                   key={item.name}
                   onClick={() => setIsSupportOpen(true)}
-                  className="flex w-full items-center justify-between text-sm font-semibold tracking-wide text-zinc-400 hover:text-white hover:bg-dark-bg/40 py-2.5 px-4 rounded-xl hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer border-none bg-transparent text-left group"
+                  className="flex w-full items-center justify-between text-sm font-semibold tracking-wide text-zinc-500 hover:text-primary hover:bg-primary/5 py-2.5 px-4 rounded-xl hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer border-none bg-transparent text-left group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-transparent text-zinc-500 group-hover:bg-dark-bg/60 group-hover:text-primary transition-colors border border-transparent group-hover:border-dark-border/40">
+                    <div className="p-1.5 rounded-lg bg-transparent text-zinc-500 group-hover:bg-primary/5 group-hover:text-primary transition-colors border border-transparent group-hover:border-dark-border/40">
                       <Icon className="h-4.5 w-4.5" />
                     </div>
                     {item.name}
@@ -208,15 +208,15 @@ export default function Navbar() {
                 href={item.href}
                 className={`flex items-center justify-between text-sm font-semibold tracking-wide py-2.5 px-4 rounded-xl hover:scale-[1.01] active:scale-[0.98] transition-all relative group overflow-hidden ${
                   isActive 
-                    ? 'text-primary bg-primary/5 font-bold border-l-2 border-primary shadow-[inset_1px_0_0_rgba(0,231,1,0.2)]' 
-                    : 'text-zinc-400 hover:text-white hover:bg-dark-bg/40'
+                    ? 'text-primary bg-primary/5 font-bold border-l-2 border-primary shadow-[inset_1px_0_0_rgba(93,95,239,0.2)]' 
+                    : 'text-zinc-500 hover:text-primary hover:bg-primary/5'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <div className={`p-1.5 rounded-lg transition-all border ${
                     isActive 
-                      ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(0,231,1,0.2)]' 
-                      : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-dark-bg/60 group-hover:text-primary group-hover:border-dark-border/40'
+                      ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(93,95,239,0.2)]' 
+                      : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-primary/5 group-hover:text-primary group-hover:border-dark-border/40'
                   }`}>
                     <Icon className="h-4.5 w-4.5" />
                   </div>
@@ -240,7 +240,7 @@ export default function Navbar() {
             </Link>
           )}
           <div className="text-[10px] text-zinc-500 text-center py-1 font-semibold uppercase tracking-wider">
-            RewardCash v1.4.0 • Stake Style
+            BlueberryCash v1.4.0 • Stake Style
           </div>
         </div>
       </aside>
@@ -257,9 +257,9 @@ export default function Navbar() {
               <button
                 key={item.name}
                 onClick={() => setIsSupportOpen(true)}
-                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-white active:scale-95 transition-all cursor-pointer border-none bg-transparent group"
+                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-primary active:scale-95 transition-all cursor-pointer border-none bg-transparent group"
               >
-                <div className="p-1 rounded-lg bg-transparent text-zinc-500 group-hover:bg-dark-bg/40 group-hover:text-primary transition-colors mb-0.5">
+                <div className="p-1 rounded-lg bg-transparent text-zinc-500 group-hover:bg-primary/5 group-hover:text-primary transition-colors mb-0.5">
                   <Icon className="h-4.5 w-4.5" />
                 </div>
                 <span className="text-[9px] font-bold tracking-wide">
@@ -276,13 +276,13 @@ export default function Navbar() {
               className={`flex flex-col items-center justify-center flex-1 py-1 active:scale-95 transition-all group ${
                 isActive 
                   ? 'text-primary font-bold' 
-                  : 'text-zinc-500 hover:text-white'
+                  : 'text-zinc-500 hover:text-primary'
               }`}
             >
               <div className={`p-1 rounded-lg transition-all border ${
                 isActive 
-                  ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(0,231,1,0.2)]' 
-                  : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-dark-bg/40 group-hover:text-primary'
+                  ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(93,95,239,0.2)]' 
+                  : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-primary/5 group-hover:text-primary'
               } mb-0.5`}>
                 <Icon className="h-4.5 w-4.5" />
               </div>

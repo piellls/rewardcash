@@ -1,4 +1,4 @@
--- Supabase Schema for RewardCash Clone
+-- Supabase Schema for BlueberryCash Clone
 -- Run this in the Supabase SQL Editor
 
 -- 1. Create a table for public profiles (linked to Supabase auth.users)

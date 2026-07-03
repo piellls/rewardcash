@@ -252,7 +252,7 @@ export default function Dashboard() {
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
+          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(93,95,239,0.2)]">
             <User className="h-5.5 w-5.5" />
           </div>
           My Profile
@@ -323,7 +323,7 @@ export default function Dashboard() {
                 </div>
                 <div className="h-2 w-full rounded-full bg-dark-bg/85 border border-dark-border overflow-hidden p-[2px]">
                   <div 
-                    className="h-full rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_8px_rgba(0,231,1,0.4)] transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_8px_rgba(93,95,239,0.4)] transition-all duration-500"
                     style={{ width: `${levelData.percentage}%` }}
                   />
                 </div>
@@ -451,7 +451,7 @@ export default function Dashboard() {
                     key={reward.day}
                     className={`relative flex flex-col items-center justify-between rounded-xl border p-4 transition-all overflow-hidden ${
                       isActive
-                        ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(0,231,1,0.25)]'
+                        ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(93,95,239,0.25)]'
                         : isClaimed
                         ? 'border-primary/20 bg-primary/5'
                         : 'border-dark-border bg-dark-bg/40 opacity-70'
@@ -513,7 +513,7 @@ export default function Dashboard() {
                   onClick={() => setActiveMainTab(tab)}
                   className={`rounded-xl px-5 py-2 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all cursor-pointer ${
                     isActive 
-                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(0,231,1,0.2)]' 
+                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(93,95,239,0.2)]' 
                       : 'bg-dark-bg/60 border border-dark-border text-zinc-400 hover:text-zinc-200 hover:bg-dark-card'
                   }`}
                 >
@@ -559,7 +559,7 @@ export default function Dashboard() {
                       <button
                         onClick={() => setShowPendingOnly(!showPendingOnly)}
                         className={`w-9 h-5 rounded-full p-[2px] transition-all relative focus:outline-none cursor-pointer shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] ${
-                          showPendingOnly ? 'bg-primary shadow-[0_0_8px_rgba(0,231,1,0.3)]' : 'bg-dark-bg border border-dark-border'
+                          showPendingOnly ? 'bg-primary shadow-[0_0_8px_rgba(93,95,239,0.3)]' : 'bg-dark-bg border border-dark-border'
                         }`}
                       >
                         <div 
@@ -727,7 +727,7 @@ export default function Dashboard() {
                           <td className="py-3 px-4 font-semibold text-zinc-450 select-all">{w.payment_address}</td>
                           <td className="py-3 px-4 text-center font-extrabold text-white">${parseFloat(w.amount_usd).toFixed(2)}</td>
                           <td className="py-3 px-4 text-center font-bold">
-                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(0,231,1,0.1)]">Paid</span>}
+                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(93,95,239,0.1)]">Paid</span>}
                             {w.status === 'rejected' && <span className="text-[9px] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-2 py-0.5 rounded">Rejected</span>}
                             {w.status === 'pending' && <span className="text-[9px] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded">Pending</span>}
                           </td>

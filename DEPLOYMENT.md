@@ -1,4 +1,4 @@
-# Deployment & Integration Guide: RewardCash
+# Deployment & Integration Guide: BlueberryCash
 
 This document explains the steps to take this local project and put it live on the internet with a production Supabase database and a real CPA network (CPALead) integration.
 
@@ -6,15 +6,15 @@ This document explains the steps to take this local project and put it live on t
 
 ## Step 1: Create a GitHub Repository & Push Your Code
 
-Create a repository on GitHub (e.g. named `rewardcash`) and push your local files:
+Create a repository on GitHub (e.g. named `blueberrycash`) and push your local files:
 
 ```bash
-# In the terminal, inside /Users/bilal/Desktop/rewardcash:
+# In the terminal, inside /Users/bilal/Desktop/blueberrycash:
 git init
 git add .
-git commit -m "Initial commit: RewardCash site"
+git commit -m "Initial commit: BlueberryCash site"
 git branch -M main
-git remote add origin https://github.com/your-username/rewardcash.git
+git remote add origin https://github.com/your-username/blueberrycash.git
 git push -u origin main
 ```
 
@@ -36,7 +36,7 @@ git push -u origin main
 
 1. Go to [Vercel.com](https://vercel.com) and log in using your GitHub account.
 2. Click **Add New** -> **Project**.
-3. Import your `rewardcash` repository.
+3. Import your `blueberrycash` repository.
 4. Expand the **Environment Variables** section and add the following keys from your Supabase Project Settings (Settings -> API):
 
 | Key | Value | Scope |

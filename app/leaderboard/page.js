@@ -45,7 +45,7 @@ export default function Leaderboard() {
             Global Leaderboard
           </h1>
           <p className="text-sm text-zinc-400 mt-1">
-            Compete with the top earners on RewardCash. Play games, complete surveys, and climb the ranks.
+            Compete with the top earners on BlueberryCash. Play games, complete surveys, and climb the ranks.
           </p>
         </div>
       </div>
@@ -146,7 +146,7 @@ export default function Leaderboard() {
                         alt={leaderboard[0].username}
                         className="h-20 w-20 rounded-full border-2 border-secondary object-cover"
                       />
-                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-secondary to-primary px-3.5 py-0.5 text-[9px] font-black text-black uppercase tracking-wider">
+                      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-secondary to-primary px-3.5 py-0.5 text-[9px] font-black text-white uppercase tracking-wider">
                         Winner
                       </span>
                     </div>
@@ -206,7 +206,7 @@ export default function Leaderboard() {
           {/* Leaderboard Table (Ranks 4-10) */}
           <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
             <h2 className="text-base font-bold text-white mb-5 flex items-center gap-2">
-              <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(0,231,1,0.2)]">
+              <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(93,95,239,0.2)]">
                 <Users className="h-4 w-4" />
               </div>
               Remaining Earners List

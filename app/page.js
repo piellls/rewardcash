@@ -274,7 +274,7 @@ export default function Home() {
             {/* Testimonials */}
             {[
               { stars: 5, text: '"I earned $20 on my first day simply by installing 2 games. Cashout to Litecoin was processed in under 2 hours!"', user: 'JD', name: 'John D. — United States' },
-              { stars: 5, text: '"RewardCash has the cleanest dashboard I\'ve seen on any GPT site. Coins credit instantly. Highly recommended."', user: 'MK', name: 'Mehdi K. — Morocco' },
+              { stars: 5, text: '"BlueberryCash has the cleanest dashboard I\'ve seen on any GPT site. Coins credit instantly. Highly recommended."', user: 'MK', name: 'Mehdi K. — Morocco' },
               { stars: 5, text: '"Been using this for 3 months. Already cashed out 6 times. The referral program alone earns me $50/month."', user: 'SR', name: 'Sara R. — Canada' },
             ].map(({ stars, text, user: u, name }, i) => (
               <div key={i} className="testimonial-card">

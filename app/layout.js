@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import AvatarSelectorModal from "@/components/AvatarSelectorModal";
 
 export const metadata = {
-  title: "RewardCash - Earn Free Coins & Cashout Payouts",
+  title: "BlueberryCash - Earn Free Coins & Cashout Payouts",
   description: "Complete simple surveys, play games, download apps, and earn coins to redeem for PayPal cash, Bitcoin, and Gift Cards.",
   icons: {
     icon: "/logo.png",
@@ -27,8 +27,8 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className="h-full antialiased dark overflow-x-hidden max-w-[100vw]"
-      style={{ colorScheme: 'dark' }}
+      className="h-full antialiased overflow-x-hidden max-w-[100vw]"
+      style={{ colorScheme: 'light' }}
     >
       <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[120px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
         <AuthProvider>
