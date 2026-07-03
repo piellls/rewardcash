@@ -144,7 +144,7 @@ export default function DirectTasksSection() {
 
   const mapOffer = useCallback((offer) => {
     const rawPayout = parseFloat(offer.user_payout || offer.payout || '0.20');
-    const coins     = Math.round(rawPayout * 150);
+    const coins     = Math.round(rawPayout * 300);
     const text      = `${offer.name} ${offer.conversion} ${offer.anchor}`.toLowerCase();
     let category    = 'Survey';
     if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot'))
@@ -198,7 +198,7 @@ export default function DirectTasksSection() {
             const rawOffers = Array.isArray(data) ? data : (data.offers || []);
             ogAdsOffers = rawOffers.map(offer => {
               const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
-              const coins = Math.round(rawPayout * 150);
+              const coins = Math.round(rawPayout * 300);
               const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
               let category = 'App';
               if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
