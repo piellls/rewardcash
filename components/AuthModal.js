@@ -58,24 +58,26 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
       {/* Modal Container (Wide Split-Screen Layout) */}
       <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl border border-dark-border bg-dark-card shadow-2xl transition-all grid grid-cols-1 md:grid-cols-12 min-h-[520px]">
         
-        {/* Left Column (EarnLab digital art - hidden on mobile) */}
-        <div className="hidden md:block md:col-span-5 relative bg-zinc-100 overflow-hidden">
+        {/* Left Column (Illustration - hidden on mobile) */}
+        <div className="hidden md:flex md:col-span-5 flex-col justify-center items-center relative bg-zinc-50 border-r border-dark-border p-6 overflow-hidden">
+          {/* Ambient Glow */}
+          <div className="absolute top-10 left-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute bottom-10 right-10 w-32 h-32 bg-secondary/10 rounded-full blur-2xl pointer-events-none" />
+
           <img 
-            src="/login_art.png" 
-            alt="Cyberspace rewards illustration" 
-            className="absolute inset-0 w-full h-full object-cover opacity-75 hover:scale-105 transition-transform duration-1000"
+            src="/register_character.png" 
+            alt="Register illustration" 
+            className="w-[90%] max-h-[280px] object-contain hover:scale-105 transition-transform duration-500 z-10"
           />
-          {/* Dark Overlay Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent" />
           
-          <div className="absolute bottom-6 left-6 right-6 text-left">
+          <div className="text-left mt-6 w-full z-10">
             <span className="text-[9px] bg-primary/10 text-primary border border-primary/20 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
               Earn & Cashout
             </span>
-            <h3 className="text-base font-black text-white mt-2 leading-tight">
+            <h3 className="text-sm font-black text-zinc-950 mt-2 leading-tight">
               Start earning coins by playing games and taking surveys.
             </h3>
-            <p className="text-[10px] text-zinc-400 mt-1 leading-relaxed">
+            <p className="text-[10px] text-zinc-500 mt-1 leading-relaxed">
               Join thousands of users converting their daily actions into real cash rewards.
             </p>
           </div>
