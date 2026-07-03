@@ -43,6 +43,21 @@ export function AuthProvider({ children }) {
         // Fetch fresh profile data to get latest balance
         const profile = await db.getProfile(sessionUser.id);
         setUser(profile);
+
+        // Auto-detect and sync country if currently null or 'Unknown'
+        if (profile && (!profile.country || profile.country === 'Unknown')) {
+          try {
+            const res = await fetch('/api/check-ip');
+            const data = await res.json();
+            if (data && data.country) {
+              await db.updateUserCountry(profile.id, data.country);
+              // Update local context user state
+              setUser(prev => prev ? { ...prev, country: data.country } : prev);
+            }
+          } catch (e) {
+            console.error('Failed to sync country inside refreshUser:', e);
+          }
+        }
       } else {
         setUser(null);
         setDeviceBlocked(false);

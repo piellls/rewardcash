@@ -400,6 +400,7 @@ export default function AdminDashboard() {
                     <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-550 uppercase tracking-widest pb-3">
                       <th className="pb-3 pr-4">User account</th>
                       <th className="pb-3 px-4">Email</th>
+                      <th className="pb-3 px-4">Country</th>
                       <th className="pb-3 px-4">Register Date</th>
                       <th className="pb-3 px-4">Signup Source</th>
                       <th className="pb-3 px-4 text-right">Available Balance</th>
@@ -426,6 +427,11 @@ export default function AdminDashboard() {
                             </div>
                           </td>
                           <td className="py-3.5 px-4 text-zinc-400 font-mono">{usr.email}</td>
+                          <td className="py-3.5 px-4">
+                            <span className="rounded bg-zinc-800/80 border border-dark-border/40 px-2 py-0.5 text-[10px] text-zinc-300 font-semibold uppercase">
+                              🌍 {usr.country || 'Unknown'}
+                            </span>
+                          </td>
                           <td className="py-3.5 px-4 text-zinc-500">{new Date(usr.created_at).toLocaleDateString()}</td>
                           <td className="py-3.5 px-4 text-left">
                             {referrer ? (
