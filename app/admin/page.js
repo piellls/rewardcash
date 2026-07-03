@@ -170,17 +170,6 @@ export default function AdminDashboard() {
           You must be logged in as an Administrator to view this control panel.
         </p>
         
-        <div className="rounded-xl border border-dark-border bg-dark-card p-5 text-xs text-zinc-450 w-full space-y-2.5 text-zinc-400">
-          <p className="font-bold text-white border-b border-dark-border/40 pb-2">Demo Administrator Account:</p>
-          <div className="flex justify-between text-left">
-            <span className="text-zinc-500 font-semibold">Email:</span>
-            <span className="font-mono text-primary font-bold">admin@blueberrycash.com</span>
-          </div>
-          <div className="flex justify-between text-left">
-            <span className="text-zinc-500 font-semibold">Password:</span>
-            <span className="font-mono text-secondary font-bold">admin123</span>
-          </div>
-        </div>
       </div>
     );
   }
