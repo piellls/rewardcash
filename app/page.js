@@ -283,104 +283,102 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── How it Works ── */}
-      <section className="how-section">
-        <div className="how-inner">
-          <div className="section-header">
-            <h2 className="section-title">Earning Cash Has Never Been <span className="text-gradient">This Simple</span></h2>
-            <p className="section-sub">Get started in less than 3 minutes — no skills, no experience needed.</p>
-          </div>
-
-          <div className="steps-grid">
-            {[
-              { icon: <Users className="h-5 w-5" />, num: '01', title: 'Create Account', desc: 'Sign up in 15 seconds. Instantly unlock all offers and daily bonuses.' },
-              { icon: <Coins className="h-5 w-5" />, num: '02', title: 'Complete Offers',  desc: 'Play games, take surveys, install apps. Coins credit instantly upon completion.' },
-              { icon: <Wallet className="h-5 w-5" />, num: '03', title: 'Instant Payout',  desc: 'Redeem for PayPal, crypto or gift cards. Withdrawals from just $1.00.' },
-            ].map(({ icon, num, title, desc }) => (
-              <div key={num} className="step-card group">
-                <div className="step-num">{num}</div>
-                <div className="icon-wrapper-primary h-12 w-12 flex mb-4 group-hover:scale-105 transition-transform">
-                  {icon}
-                </div>
-                <h3 className="step-title">{title}</h3>
-                <p className="step-desc">{desc}</p>
+      {!user && (
+        <>
+          {/* ── How it Works ── */}
+          <section className="how-section">
+            <div className="how-inner">
+              <div className="section-header">
+                <h2 className="section-title">Earning Cash Has Never Been <span className="text-gradient">This Simple</span></h2>
+                <p className="section-sub">Get started in less than 3 minutes — no skills, no experience needed.</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── Why Choose Us ── */}
-      <section className="why-section">
-        <div className="why-inner">
-          <div className="why-left">
-            <h2 className="section-title">Many Ways to Earn, <br /><span className="text-gradient">Choose What You Love</span></h2>
-            <p className="section-sub">We pay out up to 85% of what advertisers pay us — directly to you.</p>
-            <ul className="why-list">
-              {[
-                { title: 'Highest Payout Rates',       desc: 'Up to 85% revenue share with no hidden fees.' },
-                { title: 'Low Withdrawal Minimums',    desc: 'Cash out once you reach only $1.00 (1000 coins).' },
-                { title: '24/7 Dedicated Support',     desc: 'Our team processes payout requests around the clock.' },
-                { title: 'Anti-Fraud Protection',      desc: 'Military-grade security keeps your account and coins safe.' },
-              ].map(({ title, desc }) => (
-                <li key={title} className="why-item">
-                  <div className="icon-wrapper-secondary p-0.5 shrink-0 mt-0.5 border-none">
-                    <CheckCircle className="h-4 w-4" />
+              <div className="steps-grid">
+                {[
+                  { icon: <Users className="h-5 w-5" />, num: '01', title: 'Create Account', desc: 'Sign up in 15 seconds. Instantly unlock all offers and daily bonuses.' },
+                  { icon: <Coins className="h-5 w-5" />, num: '02', title: 'Complete Offers',  desc: 'Play games, take surveys, install apps. Coins credit instantly upon completion.' },
+                  { icon: <Wallet className="h-5 w-5" />, num: '03', title: 'Instant Payout',  desc: 'Redeem for PayPal, crypto or gift cards. Withdrawals from just $1.00.' },
+                ].map(({ icon, num, title, desc }) => (
+                  <div key={num} className="step-card group">
+                    <div className="step-num">{num}</div>
+                    <div className="icon-wrapper-primary h-12 w-12 flex mb-4 group-hover:scale-105 transition-transform">
+                      {icon}
+                    </div>
+                    <h3 className="step-title">{title}</h3>
+                    <p className="step-desc">{desc}</p>
                   </div>
-                  <div>
-                    <h4 className="why-item-title">{title}</h4>
-                    <p className="why-item-desc">{desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="why-right">
-            {/* Testimonials */}
-            {[
-              { stars: 5, text: '"I earned $20 on my first day simply by installing 2 games. Cashout to Litecoin was processed in under 2 hours!"', user: 'JD', name: 'John D. — United States' },
-              { stars: 5, text: '"BlueberryCash has the cleanest dashboard I\'ve seen on any GPT site. Coins credit instantly. Highly recommended."', user: 'MK', name: 'Mehdi K. — Morocco' },
-              { stars: 5, text: '"Been using this for 3 months. Already cashed out 6 times. The referral program alone earns me $50/month."', user: 'SR', name: 'Sara R. — Canada' },
-            ].map(({ stars, text, user: u, name }, i) => (
-              <div key={i} className="testimonial-card">
-                <div className="flex gap-0.5 mb-2">
-                  {[...Array(stars)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-primary text-primary" />)}
-                </div>
-                <p className="testimonial-text">{text}</p>
-                <div className="flex items-center gap-2 mt-3">
-                  <div className="h-7 w-7 rounded-full bg-dark-border flex items-center justify-center font-bold text-xs text-white">{u}</div>
-                  <span className="text-xs font-semibold text-zinc-400">{name}</span>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
+          </section>
 
-      {/* ── CTA Banner ── */}
-      <section className="cta-section">
-        <div className="cta-glow-l" /><div className="cta-glow-r" />
-        <div className="cta-inner">
-          <div className="cta-badge"><Gift className="h-4 w-4" /> Limited Bonus: +500 Coins on Signup</div>
-          <h2 className="cta-title">Ready to Start Earning?</h2>
-          <p className="cta-sub">Create your free account today and get your first payout within hours.</p>
-          <div className="flex flex-wrap gap-4 justify-center mt-6">
-            {!user ? (
-              <button onClick={openRegister} className="btn-gaming rounded-xl px-10 py-4 text-sm flex items-center gap-2">
-                Create Free Account <ArrowRight className="h-4 w-4" />
-              </button>
-            ) : (
-              <Link href="/earn" className="btn-gaming rounded-xl px-10 py-4 text-sm flex items-center gap-2">
-                Start Earning Now <ArrowRight className="h-4 w-4" />
-              </Link>
-            )}
-            <Link href="/leaderboard" className="btn-gaming-secondary rounded-xl px-10 py-4 text-sm">
-              View Leaderboard
-            </Link>
-          </div>
-        </div>
-      </section>
+          {/* ── Why Choose Us ── */}
+          <section className="why-section">
+            <div className="why-inner">
+              <div className="why-left">
+                <h2 className="section-title">Many Ways to Earn, <br /><span className="text-gradient">Choose What You Love</span></h2>
+                <p className="section-sub">We pay out up to 85% of what advertisers pay us — directly to you.</p>
+                <ul className="why-list">
+                  {[
+                    { title: 'Highest Payout Rates',       desc: 'Up to 85% revenue share with no hidden fees.' },
+                    { title: 'Low Withdrawal Minimums',    desc: 'Cash out once you reach only $1.00 (1000 coins).' },
+                    { title: '24/7 Dedicated Support',     desc: 'Our team processes payout requests around the clock.' },
+                    { title: 'Anti-Fraud Protection',      desc: 'Military-grade security keeps your account and coins safe.' },
+                  ].map(({ title, desc }) => (
+                    <li key={title} className="why-item">
+                      <div className="icon-wrapper-secondary p-0.5 shrink-0 mt-0.5 border-none">
+                        <CheckCircle className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <h4 className="why-item-title">{title}</h4>
+                        <p className="why-item-desc">{desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="why-right">
+                {/* Testimonials */}
+                {[
+                  { stars: 5, text: '"I earned $20 on my first day simply by installing 2 games. Cashout to Litecoin was processed in under 2 hours!"', user: 'JD', name: 'John D. — United States' },
+                  { stars: 5, text: '"BlueberryCash has the cleanest dashboard I\'ve seen on any GPT site. Coins credit instantly. Highly recommended."', user: 'MK', name: 'Mehdi K. — Morocco' },
+                  { stars: 5, text: '"Been using this for 3 months. Already cashed out 6 times. The referral program alone earns me $50/month."', user: 'SR', name: 'Sara R. — Canada' },
+                ].map(({ stars, text, user: u, name }, i) => (
+                  <div key={i} className="testimonial-card">
+                    <div className="flex gap-0.5 mb-2">
+                      {[...Array(stars)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-primary text-primary" />)}
+                    </div>
+                    <p className="testimonial-text">{text}</p>
+                    <div className="flex items-center gap-2 mt-3">
+                      <div className="h-7 w-7 rounded-full bg-dark-border flex items-center justify-center font-bold text-xs text-white">{u}</div>
+                      <span className="text-xs font-semibold text-zinc-400">{name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── CTA Banner ── */}
+          <section className="cta-section">
+            <div className="cta-glow-l" /><div className="cta-glow-r" />
+            <div className="cta-inner">
+              <div className="cta-badge"><Gift className="h-4 w-4" /> Limited Bonus: +500 Coins on Signup</div>
+              <h2 className="cta-title">Ready to Start Earning?</h2>
+              <p className="cta-sub">Create your free account today and get your first payout within hours.</p>
+              <div className="flex flex-wrap gap-4 justify-center mt-6">
+                <button onClick={openRegister} className="btn-gaming rounded-xl px-10 py-4 text-sm flex items-center gap-2">
+                  Create Free Account <ArrowRight className="h-4 w-4" />
+                </button>
+                <Link href="/leaderboard" className="btn-gaming-secondary rounded-xl px-10 py-4 text-sm">
+                  View Leaderboard
+                </Link>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       {isAuthOpen && <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} defaultTab={authTab} />}
     </div>
