@@ -9,12 +9,11 @@ export default function Footer() {
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <div className="rounded-lg bg-gradient-to-tr from-primary to-secondary p-1.5 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                <Coins className="h-5 w-5 text-black" />
-              </div>
-              <span className="text-lg font-bold tracking-wider text-gradient">
-                BlueberryCash
-              </span>
+              <img 
+                src="/logo.png" 
+                alt="BlueberryCash Logo" 
+                className="h-10 w-auto object-contain" 
+              />
             </Link>
             <p className="text-sm text-zinc-400 max-w-sm">
               BlueberryCash is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.

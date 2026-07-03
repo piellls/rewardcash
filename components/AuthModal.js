@@ -98,10 +98,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
         </div>
 
         {/* Logo Display */}
-        <div className="flex flex-col items-center justify-center mb-3">
-          <span className="text-2xl font-black tracking-wider text-zinc-950">
-            Blueberry<span className="text-primary bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Cash</span>
-          </span>
+        <div className="flex flex-col items-center justify-center mb-4">
+          <img 
+            src="/logo.png" 
+            alt="BlueberryCash Logo" 
+            className="h-10 w-auto object-contain" 
+          />
         </div>
 
         {/* Subtitle Text */}
