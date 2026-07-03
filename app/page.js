@@ -310,7 +310,7 @@ export default function Home() {
           {/* Banner 2 – Rewards */}
           <Link href="/cashout" className="banner-card group">
             <img
-              src="https://cdn.earnlab.com/banners/EARNLAB_REWARDS.png"
+              src="/rewards_banner.png"
               alt="Rewards"
               className="banner-img"
             />
