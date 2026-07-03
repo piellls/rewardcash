@@ -5,16 +5,15 @@ import { useAuth } from '@/context/AuthContext';
 import { User, Check, Loader2, Sparkles } from 'lucide-react';
 
 const AVATARS = [
-  { id: 'av1', url: '/avatars/avatar_1.png', name: 'Excited' },
-  { id: 'av2', url: '/avatars/avatar_2.png', name: 'Skeptical' },
-  { id: 'av3', url: '/avatars/avatar_3.png', name: 'Sleepy Glasses' },
-  { id: 'av4', url: '/avatars/avatar_4.png', name: 'Cool' },
-  { id: 'av5', url: '/avatars/avatar_5.png', name: 'Shocked' },
-  { id: 'av6', url: '/avatars/avatar_6.png', name: 'Wink' },
-  { id: 'av7', url: '/avatars/avatar_7.png', name: 'Angry' },
-  { id: 'av8', url: '/avatars/avatar_8.png', name: 'Love' },
-  { id: 'av9', url: '/avatars/avatar_9.png', name: 'Nerd' },
-  { id: 'av10', url: '/avatars/avatar_10.png', name: 'Meh' }
+  { id: 'av1', url: '/avatars/avatar_1.png', name: 'Avatar 1' },
+  { id: 'av2', url: '/avatars/avatar_2.png', name: 'Avatar 2' },
+  { id: 'av3', url: '/avatars/avatar_3.png', name: 'Avatar 3' },
+  { id: 'av4', url: '/avatars/avatar_4.png', name: 'Avatar 4' },
+  { id: 'av5', url: '/avatars/avatar_5.png', name: 'Avatar 5' },
+  { id: 'av6', url: '/avatars/avatar_6.png', name: 'Avatar 6' },
+  { id: 'av7', url: '/avatars/avatar_7.png', name: 'Avatar 7' },
+  { id: 'av8', url: '/avatars/avatar_8.png', name: 'Avatar 8' },
+  { id: 'av9', url: '/avatars/avatar_9.png', name: 'Avatar 9' }
 ];
 
 export default function AvatarSelectorModal() {

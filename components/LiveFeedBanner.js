@@ -32,7 +32,7 @@ const AVATAR_COLORS = [
 const CARTOON_AVATARS = [
   '/avatars/avatar_1.png', '/avatars/avatar_2.png', '/avatars/avatar_3.png', '/avatars/avatar_4.png',
   '/avatars/avatar_5.png', '/avatars/avatar_6.png', '/avatars/avatar_7.png', '/avatars/avatar_8.png',
-  '/avatars/avatar_9.png', '/avatars/avatar_10.png'
+  '/avatars/avatar_9.png'
 ];
 
 // Helper to generate a single fake transaction
