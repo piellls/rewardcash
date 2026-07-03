@@ -286,7 +286,7 @@ export default function Home() {
       </div>
 
       {/* ── Hero ── */}
-      <section className="hero-section py-12 md:py-20 relative overflow-hidden">
+      <section className="hero-section py-8 md:py-12 relative overflow-hidden">
         {/* Ambient glow */}
         <div className="hero-glow-left"  />
         <div className="hero-glow-right" />
@@ -295,7 +295,7 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Top Badge (109 offers live right now) */}
-          <div className="flex justify-center mb-8 sm:mb-12">
+          <div className="flex justify-center mb-4 sm:mb-6">
             <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-black text-primary shadow-[0_0_15px_rgba(93,95,239,0.07)]">
               <span className="h-2 w-2 rounded-full bg-primary inline-block animate-pulse" />
               109 offers live right now
