@@ -276,20 +276,20 @@ export default function Home() {
             />
           </Link>
 
-          {/* Banner 2 – Rewards */}
-          <Link href="/cashout" className="banner-card group">
-            <img
-              src="/rewards_banner.png"
-              alt="Rewards"
-              className="banner-img"
-            />
-          </Link>
-
-          {/* Banner 3 – Affiliates */}
+          {/* Banner 2 – Affiliates */}
           <Link href="/referrals" className="banner-card group">
             <img
               src="/affiliates_banner.jpg"
               alt="Affiliates"
+              className="banner-img"
+            />
+          </Link>
+
+          {/* Banner 3 – Rewards */}
+          <Link href="/cashout" className="banner-card group">
+            <img
+              src="/rewards_banner.png"
+              alt="Rewards"
               className="banner-img"
             />
           </Link>
