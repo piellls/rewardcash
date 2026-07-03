@@ -172,7 +172,6 @@ export default function DirectTasksSection() {
       try {
         const s1  = user ? user.id : 'guest';
         let abmOffers = [];
-        let ogAdsOffers = [];
 
         // 1. Fetch AdBlueMedia
         try {
@@ -190,41 +189,7 @@ export default function DirectTasksSection() {
           }
         }
 
-        // 2. Fetch OGAds
-        try {
-          const res = await fetch(`/api/offers/ogads?s1=${s1}`);
-          if (res.ok) {
-            const data = await res.json();
-            const rawOffers = Array.isArray(data) ? data : (data.offers || []);
-            ogAdsOffers = rawOffers.map(offer => {
-              const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
-              const coins = Math.round(rawPayout * 150);
-              const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
-              let category = 'App';
-              if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
-                category = 'Game';
-              } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion') || text.includes('submit')) {
-                category = 'Survey';
-              }
-              return {
-                id: offer.offerid || offer.id || `og_${Math.random()}`,
-                title: offer.name_short || offer.name || 'OGAds Task',
-                description: simplifyDescription(offer.name || '', offer.description || offer.adcopy || '', category),
-                coins,
-                payout: rawPayout,
-                provider: 'OGAds',
-                icon: offer.picture || null,
-                category,
-                url: offer.link || offer.url,
-                anchor: offer.anchor || 'Install Now',
-              };
-            });
-          }
-        } catch (err) {
-          console.error('[OFFERS] Failed to load OGAds:', err.message);
-        }
-
-        const allOffers = [...abmOffers, ...ogAdsOffers].sort((a, b) => b.payout - a.payout);
+        const allOffers = [...abmOffers].sort((a, b) => b.payout - a.payout);
         setOffers(allOffers);
       } catch (err) {
         console.error('Error fetching offers:', err);
