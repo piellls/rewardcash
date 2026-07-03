@@ -13,7 +13,8 @@ const AVATARS = [
   { id: 'av6', url: '/avatars/avatar_6.png', name: 'Avatar 6' },
   { id: 'av7', url: '/avatars/avatar_7.png', name: 'Avatar 7' },
   { id: 'av8', url: '/avatars/avatar_8.png', name: 'Avatar 8' },
-  { id: 'av9', url: '/avatars/avatar_9.png', name: 'Avatar 9' }
+  { id: 'av9', url: '/avatars/avatar_9.png', name: 'Avatar 9' },
+  { id: 'av10', url: '/avatars/avatar_10.png', name: 'Avatar 10' }
 ];
 
 export default function AvatarSelectorModal() {
