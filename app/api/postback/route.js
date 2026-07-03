@@ -59,6 +59,14 @@ export async function GET(request) {
   }
 
   try {
+    // Validate UUID format before querying database to avoid PostgreSQL syntax errors (22P02)
+    const isValidUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(click_id);
+    if (!isValidUUID) {
+      console.warn('[POSTBACK WARNING] Invalid UUID format for click_id:', click_id);
+      // Return 200 OK (with body '1') to satisfy test calls and avoid network retry spam
+      return new Response('1', { status: 200, headers: { 'Content-Type': 'text/plain' } });
+    }
+
     // 1. Check if user profile exists
     const { data: profile, error: profError } = await supabaseAdmin
       .from('profiles')
