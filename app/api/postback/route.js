@@ -35,8 +35,8 @@ export async function GET(request) {
 
   const payout = parseFloat(payoutStr);
   
-  // Calculate coins if not explicitly passed: $1.00 USD = 300 coins
-  const coinsEarned = coinsStr ? parseInt(coinsStr) : Math.round(payout * 300);
+  // Calculate coins with 3x multiplier: $1.00 USD = 450 coins (150 * 3)
+  const coinsEarned = Math.round(payout * 150 * 3);
 
   if (isNaN(payout) || isNaN(coinsEarned) || coinsEarned <= 0) {
     return NextResponse.json({ error: 'Invalid payout or coin amounts.' }, { status: 400 });
