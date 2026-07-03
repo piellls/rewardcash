@@ -301,7 +301,7 @@ export default function Earn() {
       // Lock offer 24H after real completion + reset click counter
       lockOffer(executingOffer.id);
       resetClickCount(executingOffer.id);
-      setSuccessMessage(`✅ Offer completed! You earned ${executingOffer.coins} coins. This offer is now locked for 24H.`);
+      setSuccessMessage(`✅ Offer completed! You earned ${executingOffer.coins.toLocaleString()} Credits. This offer is now locked for 24H.`);
       setExecutingOffer(null);
       setTimeout(() => setSuccessMessage(''), 6000);
     } catch (err) {
@@ -321,18 +321,13 @@ export default function Earn() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
       
       {/* Page Title Header */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
-            <div className="icon-wrapper-primary p-2">
-              <Sparkles className="h-6 w-6 animate-pulse" />
-            </div>
-            Earn Center
-          </h1>
-          <p className="text-sm text-zinc-400 mt-1">
-            Claim your daily rewards, unlock partner walls, or complete direct tasks to earn coins.
-          </p>
-        </div>
+      <div className="text-center py-10 flex flex-col items-center justify-center select-none">
+        <h1 className="text-4xl font-extrabold text-white tracking-tight">
+          Earn <span className="text-gradient">Credits</span>
+        </h1>
+        <p className="text-sm text-zinc-400 mt-2">
+          Complete the tasks below to earn credits instantly.
+        </p>
       </div>
 
       {/* Success Notification */}
@@ -360,7 +355,7 @@ export default function Earn() {
                   const target = document.getElementById('direct-tasks');
                   if (target) target.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                  alert(`${wall.name} is currently locked. Complete offers below to earn $2.50 and unlock.`);
+                  alert(`${wall.name} is currently locked. Complete offers below to earn 2,500 Credits and unlock.`);
                 }
               }}
               className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden group w-full h-36 flex flex-col justify-center ${
@@ -386,7 +381,7 @@ export default function Earn() {
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-[1.5px] flex flex-col items-center justify-center z-10">
                   <Lock className="h-6 w-6 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" style={{ color: '#ffffff' }} />
                   <span className="text-xs font-semibold tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" style={{ color: '#ffffff' }}>
-                    Earn $2.50 to unlock
+                    Earn 2,500 Credits to unlock
                   </span>
                 </div>
               )}
@@ -426,11 +421,8 @@ export default function Earn() {
       {/* 3. DIRECT TASKS (LIVE ADBLUEMEDIA FEED) */}
       <div id="direct-tasks" className="scroll-mt-6 flex-1 flex flex-col">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-dark-border pb-4">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <div className="icon-wrapper-primary p-1.5 border-none">
-              <Coins className="h-4.5 w-4.5" />
-            </div>
-            Direct Tasks
+          <h2 className="text-lg font-extrabold text-white flex items-center gap-2">
+            <span>⚡ Available Tasks</span>
           </h2>
 
           {/* Category Tabs */}
@@ -479,136 +471,87 @@ export default function Earn() {
               );
 
               const renderOfferCard = (offer) => {
-                const boostVal = offer.coins >= 3000 ? 80 : 50;
-                const originalPayout = offer.payout / (1 + boostVal / 100);
                 const lockInfo = getOfferLockInfo(offer.id);
                 const isLocked = !!lockInfo;
                 const clickCount = clickCounts[offer.id] || 0;
                 // Show warning when 3+ clicks used (2 or fewer remaining)
                 const showWarning = !isLocked && clickCount >= 3;
                 const clicksLeft = MAX_CLICKS - clickCount;
+                const creditsAward = offer.coins;
 
                 return (
                   <div
                     key={offer.id}
                     onClick={() => handleOfferClick(offer)}
-                    className={`flex flex-col w-[165px] shrink-0 bg-dark-card border p-3 rounded-2xl transition-all relative overflow-hidden ${
+                    className={`flex flex-col bg-dark-card border p-5 rounded-2xl transition-all relative overflow-hidden text-center justify-between min-h-[220px] ${
                       isLocked
                         ? 'border-zinc-700/50 opacity-60 cursor-not-allowed'
                         : showWarning
                         ? 'border-amber-500/40 hover:border-amber-400/60 hover:shadow-[0_0_15px_rgba(245,158,11,0.2)] active:scale-[0.98] cursor-pointer group'
-                        : 'border-dark-border/80 hover:border-primary/40 hover:shadow-[0_0_15px_rgba(93,95,239,0.15)] active:scale-[0.98] cursor-pointer group'
+                        : 'border-dark-border/80 hover:border-primary/40 hover:shadow-[0_0_20px_rgba(93,95,239,0.2)] hover:-translate-y-1 active:scale-[0.98] cursor-pointer group'
                     }`}
                   >
                     {/* 24H Lock Overlay — shown after 5 clicks */}
                     {isLocked && (
-                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/75 backdrop-blur-[2px] rounded-2xl gap-1.5">
+                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 backdrop-blur-[2px] rounded-2xl gap-1.5 p-3">
                         <div className="rounded-full bg-zinc-800 border border-zinc-700 p-2">
                           <Lock className="h-5 w-5 text-zinc-400" />
                         </div>
-                        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-wider">Locked 24H</span>
-                        <span className="text-[10px] font-black text-amber-400">{lockInfo}</span>
+                        <span className="text-[10px] font-black text-zinc-400 uppercase tracking-wider">Locked 24H</span>
+                        <span className="text-xs font-black text-amber-400">{lockInfo}</span>
                       </div>
                     )}
 
                     {/* Warning badge — shown when 3-4 clicks used */}
                     {showWarning && !isLocked && (
-                      <div className="absolute top-2 right-2 z-10 bg-amber-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded-md shadow-lg">
+                      <div className="absolute top-2.5 right-2.5 z-10 bg-amber-500 text-black text-[9px] font-black px-2 py-0.5 rounded shadow-lg">
                         {clicksLeft} left
                       </div>
                     )}
 
-                    {/* Card Image Container */}
-                    <div className="relative w-full aspect-square rounded-xl overflow-hidden mb-3 bg-dark-bg/60 border border-dark-border/40">
+                    {/* Top App Icon Container */}
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white/5 p-1 border border-white/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform duration-300 shrink-0">
                       {offer.icon && offer.icon.startsWith('http') ? (
                         <img 
                           src={offer.icon} 
                           alt={offer.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain rounded-xl"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-zinc-650 bg-dark-bg">
+                        <div className="w-full h-full flex items-center justify-center bg-dark-bg/85 rounded-xl">
                           {offer.category === 'Survey' ? (
-                            <FileText className="h-10 w-10 text-primary/30" />
+                            <FileText className="h-8 w-8 text-primary" />
                           ) : (
-                            <Gamepad2 className="h-10 w-10 text-secondary/30" />
+                            <Gamepad2 className="h-8 w-8 text-secondary" />
                           )}
                         </div>
                       )}
-
-                      {/* Boost Badge (Top Left) */}
-                      <div className="absolute top-1.5 left-1.5 bg-primary text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-md">
-                        +{boostVal}%
-                      </div>
-
-                      {/* OS Indicator (Top Right) */}
-                      {renderOSIndicator(offer.category)}
                     </div>
 
                     {/* Text Details */}
-                    <h4 className="text-xs font-extrabold text-white truncate group-hover:text-primary transition-colors text-left w-full mb-0.5">
-                      {offer.title}
-                    </h4>
-                    <p className="text-[10px] text-zinc-500 truncate text-left w-full mb-3 leading-normal">
-                      {offer.description}
-                    </p>
+                    <div className="flex-1 flex flex-col justify-start mb-4">
+                      <h4 className="text-sm font-bold text-white line-clamp-2 leading-snug mb-1 group-hover:text-primary transition-colors">
+                        {offer.title}
+                      </h4>
+                      <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                        {offer.description}
+                      </p>
+                    </div>
 
-                    {/* Pricing Row */}
-                    <div className="flex items-center gap-1.5 mt-auto text-left">
-                      <span className="text-xs font-black text-primary font-sans">
-                        ${offer.payout.toFixed(2)}
-                      </span>
-                      <span className="text-[10px] text-zinc-600 line-through font-bold font-sans">
-                        ${originalPayout.toFixed(2)}
-                      </span>
+                    {/* Pill at the bottom showing Credits/Coins */}
+                    <div className="mt-auto">
+                      <div className="w-full py-2 bg-primary/10 border border-primary/20 rounded-xl text-xs font-extrabold text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-[0_0_12px_rgba(93,95,239,0.06)]">
+                        {creditsAward.toLocaleString()} Credits
+                      </div>
                     </div>
                   </div>
                 );
               };
 
-              const tasks = filteredOffers.filter(o => o.category === 'Game' || o.category === 'App');
-              const surveys = filteredOffers.filter(o => o.category === 'Survey');
-
               return (
-                <>
-                  {/* Featured Tasks Row */}
-                  {tasks.length > 0 && (
-                    <div className="w-full max-w-full overflow-hidden">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-base font-black text-white tracking-tight">Featured Tasks</h3>
-                          <p className="text-[11px] text-zinc-500">Featured tasks are the best tasks to complete, with the highest rewards</p>
-                        </div>
-                        <button onClick={() => setSelectedCategory('All')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
-                      </div>
-                      <div
-                        className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth"
-                        style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}
-                      >
-                        {tasks.map(offer => renderOfferCard(offer))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Featured Surveys Row */}
-                  {surveys.length > 0 && (
-                    <div className="w-full max-w-full overflow-hidden">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-base font-black text-white tracking-tight">Featured Surveys</h3>
-                          <p className="text-[11px] text-zinc-500">Explore our handpicked selection of surveys just for you</p>
-                        </div>
-                        <button onClick={() => setSelectedCategory('Survey')} className="text-xs font-extrabold text-primary hover:underline active:scale-95 transition-all">View All</button>
-                      </div>
-                      <div
-                        className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth"
-                        style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}
-                      >
-                        {surveys.map(offer => renderOfferCard(offer))}
-                      </div>
-                    </div>
-                  )}
-                </>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                  {filteredOffers.map(offer => renderOfferCard(offer))}
+                </div>
               );
             })()}
           </div>
@@ -629,7 +572,7 @@ export default function Earn() {
             </h2>
             <p className="text-[11px] text-zinc-400 border-b border-dark-border/60 pb-3 mb-4 flex justify-between">
               <span>Provider: <strong className="text-zinc-800">{executingOffer.provider}</strong></span>
-              <span>Value: <strong className="text-primary">${executingOffer.payout.toFixed(2)}</strong></span>
+              <span>Reward: <strong className="text-primary">{executingOffer.coins.toLocaleString()} Credits</strong></span>
             </p>
             
             <div className="space-y-3.5 mb-5">
@@ -646,7 +589,7 @@ export default function Earn() {
               <div className="flex items-start gap-2.5 rounded-xl bg-dark-bg/60 border border-dark-border/60 p-3.5 text-xs text-zinc-400">
                 <AlertTriangle className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5" />
                 <span>
-                  <strong>Sandbox Action:</strong> This is a simulation container. Clicking complete will award <strong>{executingOffer.coins.toLocaleString()} Coins</strong> to your wallet balance instantly. In production, this directs users to CPA target.
+                  <strong>Sandbox Action:</strong> This is a simulation container. Clicking complete will award <strong>{executingOffer.coins.toLocaleString()} Credits</strong> to your wallet balance instantly. In production, this directs users to CPA target.
                 </span>
               </div>
             </div>
