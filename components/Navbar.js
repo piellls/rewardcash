@@ -242,9 +242,7 @@ export default function Navbar() {
               Admin Control Panel
             </Link>
           )}
-          <div className="text-[10px] text-zinc-500 text-center py-1 font-semibold uppercase tracking-wider">
-            BlueberryCash v1.4.0 • Stake Style
-          </div>
+
         </div>
       </aside>
 
