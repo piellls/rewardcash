@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { db } from '@/lib/db';
 import { FileText, Smartphone, Gamepad2, Lock, Check, Loader2, AlertTriangle, Award, CheckCircle } from 'lucide-react';
 
 const ABM_USER_ID = '199180';
