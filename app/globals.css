@@ -700,16 +700,17 @@ h1, h2, h3, h4, h5, h6, .font-display {
   position: relative;
   background: var(--color-dark-card);
   border: 1px solid rgba(226, 232, 240, 0.8);
+  border-top: 3px solid var(--color-primary); /* Branded top highlight */
   border-radius: 24px;
   padding: 1.75rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   backdrop-filter: blur(12px);
 }
 
 .step-card:hover {
-  border-color: rgba(93, 95, 239, 0.2);
-  box-shadow: 0 0 24px rgba(93, 95, 239, 0.08);
-  transform: translateY(-2px);
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 16px 32px rgba(93, 95, 239, 0.15) !important;
+  transform: translateY(-6px) !important;
 }
 
 .step-num {
@@ -718,12 +719,12 @@ h1, h2, h3, h4, h5, h6, .font-display {
   right: 1.25rem;
   font-size: 2.5rem;
   font-weight: 900;
-  color: rgba(226, 232, 240, 0.6);
+  color: rgba(93, 95, 239, 0.08); /* Branded placeholder color */
   line-height: 1;
   transition: color 0.3s ease;
 }
 
-.step-card:hover .step-num { color: rgba(93, 95, 239, 0.15); }
+.step-card:hover .step-num { color: rgba(93, 95, 239, 0.22); }
 
 .step-title {
   font-size: 1rem;
@@ -770,13 +771,18 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .testimonial-card {
   background: var(--color-dark-card);
   border: 1px solid rgba(226, 232, 240, 0.8);
+  border-top: 3px solid var(--color-secondary); /* Secondary branded top highlight */
   border-radius: 18px;
   padding: 1.25rem;
   backdrop-filter: blur(10px);
-  transition: border-color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.testimonial-card:hover { border-color: rgba(93, 95, 239, 0.2); }
+.testimonial-card:hover {
+  border-color: var(--color-secondary) !important;
+  box-shadow: 0 16px 32px rgba(59, 130, 246, 0.12) !important;
+  transform: translateY(-6px) !important;
+}
 
 .testimonial-text {
   font-size: 0.825rem;
