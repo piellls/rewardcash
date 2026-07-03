@@ -34,12 +34,48 @@ const calculateLevel = (totalEarned = 0) => {
 };
 
 export default function Dashboard() {
-  const { user, earnCoinsSimulated } = useAuth();
+  const { user, earnCoinsSimulated, updateAvatar, updateProfileDetails } = useAuth();
   
   const [completions, setCompletions] = useState([]);
   const [withdrawals, setWithdrawals] = useState([]);
   const [referralsCount, setReferralsCount] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  // Profile Settings states
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [settingsUsername, setSettingsUsername] = useState('');
+  const [settingsEmail, setSettingsEmail] = useState('');
+  const [settingsAvatar, setSettingsAvatar] = useState('');
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsError, setSettingsError] = useState('');
+  const [settingsSuccess, setSettingsSuccess] = useState('');
+
+  const handleSaveSettings = async (e) => {
+    e.preventDefault();
+    setSettingsLoading(true);
+    setSettingsError('');
+    setSettingsSuccess('');
+    
+    try {
+      if (!settingsUsername.trim()) throw new Error('Username cannot be empty');
+      if (!settingsEmail.trim()) throw new Error('Email cannot be empty');
+      
+      await updateProfileDetails(settingsUsername.trim(), settingsEmail.trim());
+      
+      if (settingsAvatar !== user.avatar_url) {
+        await updateAvatar(settingsAvatar);
+      }
+      
+      setSettingsSuccess('Settings saved successfully!');
+      setTimeout(() => {
+        setIsSettingsOpen(false);
+      }, 1500);
+    } catch (err) {
+      setSettingsError(err.message || 'Failed to update settings');
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
 
   // UI Tabs State
   const [activeMainTab, setActiveMainTab] = useState('Earnings'); // 'Earnings', 'Started offers', 'Withdrawals'
@@ -258,7 +294,14 @@ export default function Dashboard() {
           My Profile
         </h1>
         <button 
-          onClick={() => alert("Profile Settings: Updates coming soon!")}
+          onClick={() => {
+            setSettingsUsername(user.username || '');
+            setSettingsEmail(user.email || '');
+            setSettingsAvatar(user.avatar_url || '/avatars/avatar_1.png');
+            setSettingsError('');
+            setSettingsSuccess('');
+            setIsSettingsOpen(true);
+          }}
           className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs flex items-center gap-1.5"
         >
           <div className="icon-wrapper-primary p-1 border-none mr-0.5 text-primary bg-transparent">
@@ -740,7 +783,141 @@ export default function Dashboard() {
               )}
             </div>
           )}
+        </div>
+      )}
 
+      {/* Profile Settings Modal */}
+      {isSettingsOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div className="fixed inset-0 bg-black/85 backdrop-blur-md" onClick={() => setIsSettingsOpen(false)} />
+          
+          {/* Modal Container */}
+          <div className="relative w-full max-w-xl rounded-2xl border border-dark-border bg-dark-card p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[90vh] z-10">
+            {/* Top glowing line */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-secondary" />
+
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                <Settings className="h-5 w-5 text-primary" />
+                Profile Settings
+              </h2>
+              <button 
+                onClick={() => setIsSettingsOpen(false)}
+                className="text-zinc-400 hover:text-white text-xs font-bold px-2.5 py-1.5 rounded-lg border border-dark-border hover:bg-zinc-800 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+
+            {settingsError && (
+              <div className="mb-4 text-xs text-red-400 bg-red-950/20 border border-red-900/40 p-3 rounded-xl text-center">
+                {settingsError}
+              </div>
+            )}
+
+            {settingsSuccess && (
+              <div className="mb-4 text-xs text-emerald-400 bg-emerald-950/20 border border-emerald-900/40 p-3 rounded-xl text-center">
+                {settingsSuccess}
+              </div>
+            )}
+
+            <form onSubmit={handleSaveSettings} className="space-y-6">
+              {/* Avatar Selector Section */}
+              <div>
+                <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">
+                  Choose Avatar
+                </label>
+                <div className="grid grid-cols-5 gap-3">
+                  {[
+                    '/avatars/avatar_1.png',
+                    '/avatars/avatar_2.png',
+                    '/avatars/avatar_3.png',
+                    '/avatars/avatar_4.png',
+                    '/avatars/avatar_5.png',
+                    '/avatars/avatar_6.png',
+                    '/avatars/avatar_7.png',
+                    '/avatars/avatar_8.png',
+                    '/avatars/avatar_9.png',
+                    '/avatars/avatar_10.png'
+                  ].map((url, idx) => {
+                    const isSelected = settingsAvatar === url;
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setSettingsAvatar(url)}
+                        className={`relative rounded-full aspect-square border-2 transition-all overflow-hidden group active:scale-95 ${
+                          isSelected
+                            ? 'border-primary shadow-[0_0_15px_rgba(56,189,248,0.35)] scale-105'
+                            : 'border-dark-border hover:border-zinc-600'
+                        }`}
+                      >
+                        <img
+                          src={url}
+                          alt={`Avatar ${idx + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        {isSelected && (
+                          <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                            <div className="rounded-full bg-primary p-0.5 shadow-md">
+                              <Check className="h-3 w-3 text-black stroke-[3.5]" />
+                            </div>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Username Input */}
+              <div className="space-y-2">
+                <label htmlFor="settings-username" className="block text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                  Username
+                </label>
+                <input
+                  id="settings-username"
+                  type="text"
+                  required
+                  value={settingsUsername}
+                  onChange={(e) => setSettingsUsername(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-dark-border bg-dark-bg text-white text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-zinc-650"
+                />
+              </div>
+
+              {/* Email Input */}
+              <div className="space-y-2">
+                <label htmlFor="settings-email" className="block text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                  Email Address
+                </label>
+                <input
+                  id="settings-email"
+                  type="email"
+                  required
+                  value={settingsEmail}
+                  onChange={(e) => setSettingsEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-dark-border bg-dark-bg text-white text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-zinc-650"
+                />
+              </div>
+
+              {/* Action Button */}
+              <button
+                type="submit"
+                disabled={settingsLoading}
+                className="btn-gaming w-full py-3.5 text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none"
+              >
+                {settingsLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Saving Changes...
+                  </>
+                ) : (
+                  'Save Settings'
+                )}
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>

@@ -172,6 +172,17 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateProfileDetails = async (username, email) => {
+    if (!user) return;
+    try {
+      await db.updateProfileDetails(user.id, username, email);
+      await refreshUser();
+    } catch (err) {
+      console.error('Failed to update profile details:', err);
+      throw err;
+    }
+  };
+
   // Fullscreen premium layout blocking screen if they try to use multiple accounts on the same machine
   if (deviceBlocked) {
     return (
@@ -232,7 +243,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, deviceBlocked, blockedUsername, login, register, logout, refreshUser, earnCoinsSimulated, signInWithSocial, updateAvatar }}>
+    <AuthContext.Provider value={{ user, loading, deviceBlocked, blockedUsername, login, register, logout, refreshUser, earnCoinsSimulated, signInWithSocial, updateAvatar, updateProfileDetails }}>
       {children}
     </AuthContext.Provider>
   );
