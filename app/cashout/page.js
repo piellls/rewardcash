@@ -203,6 +203,7 @@ export default function Cashout() {
       fee: '0%',
       time: 'Instant - 24h',
       amounts: [
+        { usd: 1, coins: 1000 },
         { usd: 5, coins: 5000 },
         { usd: 10, coins: 10000 },
         { usd: 25, coins: 25000 },
