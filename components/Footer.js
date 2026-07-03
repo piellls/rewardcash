@@ -1,7 +1,16 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Coins, Heart, Github, ShieldCheck, Mail, ShieldAlert } from 'lucide-react';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide the footer on the earn page
+  if (pathname === '/earn') {
+    return null;
+  }
   return (
     <footer className="w-full border-t border-dark-border bg-dark-bg/60 mt-auto">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
