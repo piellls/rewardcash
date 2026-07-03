@@ -8,8 +8,8 @@ export const metadata = {
   title: "BlueberryCash - Earn Free Coins & Cashout Payouts",
   description: "Complete simple surveys, play games, download apps, and earn coins to redeem for PayPal cash, Bitcoin, and Gift Cards.",
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/favicon.png",
+    apple: "/favicon.png",
   },
   openGraph: {
     images: ["/logo.png"],
