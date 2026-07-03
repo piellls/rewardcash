@@ -14,15 +14,15 @@
   --color-accent-red: #ff3838; /* Accent/Danger Red */
 
   --color-white: #0f172a; /* Map text-white to slate-900 for dark text in light theme */
-  --color-zinc-50: #0f172a;
-  --color-zinc-100: #1e293b;
-  --color-zinc-200: #334155;
-  --color-zinc-300: #475569;
-  --color-zinc-400: #475569;
-  --color-zinc-500: #64748b;
-  --color-zinc-600: #94a3b8;
-  --color-zinc-700: #cbd5e1;
-  --color-zinc-800: #e2e8f0;
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #71717a;
+  --color-zinc-300: #52525b;
+  --color-zinc-400: #3f3f46;
+  --color-zinc-500: #27272a;
+  --color-zinc-600: #18181b;
+  --color-zinc-700: #0f172a;
+  --color-zinc-800: #0f172a;
   --color-zinc-900: #f1f5f9; /* Map bg-zinc-900 to light background */
   --color-zinc-950: #e2e8f0; /* Map bg-zinc-950 to light background */
 
@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .btn-gaming:disabled {
   background-color: #e2e8f0;
-  color: #94a3b8 !important;
+  color: var(--color-zinc-400) !important;
   border-color: transparent;
   box-shadow: none;
   cursor: not-allowed;
@@ -240,7 +240,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .btn-gaming-secondary:disabled {
   background-color: transparent;
-  color: #cbd5e1 !important;
+  color: var(--color-zinc-300) !important;
   border-color: var(--color-dark-border);
   box-shadow: none;
   cursor: not-allowed;
@@ -325,7 +325,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   gap: 8px;
   white-space: nowrap;
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--color-zinc-400);
 }
 
 .live-ticker-avatar {
@@ -343,8 +343,8 @@ h1, h2, h3, h4, h5, h6, .font-display {
   flex-shrink: 0;
 }
 
-.live-ticker-text strong { color: #e2e8f0; }
-.live-ticker-text em     { color: #64748b; font-style: normal; }
+.live-ticker-text strong { color: var(--foreground); }
+.live-ticker-text em     { color: var(--color-zinc-300); font-style: normal; }
 
 .live-ticker-coins {
   display: inline-flex;
@@ -439,12 +439,12 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .hero-subtitle {
   font-size: 1rem;
-  color: #94a3b8;
+  color: var(--color-zinc-400);
   max-width: 540px;
   line-height: 1.7;
 }
 
-.hero-subtitle strong { color: #e2e8f0; }
+.hero-subtitle strong { color: var(--foreground); }
 
 /* Stats row */
 .hero-stats {
@@ -476,7 +476,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #475569;
+  color: var(--color-zinc-300);
 }
 
 .hero-stat-divider {
@@ -510,7 +510,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #475569;
+  color: var(--color-zinc-300);
 }
 
 /* ── Banners Section ── */
@@ -650,7 +650,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .section-sub {
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--color-zinc-300);
   line-height: 1.7;
 }
 
@@ -707,13 +707,13 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .step-title {
   font-size: 1rem;
   font-weight: 800;
-  color: #e2e8f0;
+  color: var(--foreground);
   margin-bottom: 0.4rem;
 }
 
 .step-desc {
   font-size: 0.825rem;
-  color: #64748b;
+  color: var(--color-zinc-300);
   line-height: 1.65;
 }
 
@@ -743,8 +743,8 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .why-item { display: flex; align-items: flex-start; gap: 12px; }
 
-.why-item-title { font-size: 0.875rem; font-weight: 700; color: #e2e8f0; margin-bottom: 2px; }
-.why-item-desc  { font-size: 0.78rem; color: #64748b; line-height: 1.5; }
+.why-item-title { font-size: 0.875rem; font-weight: 700; color: var(--foreground); margin-bottom: 2px; }
+.why-item-desc  { font-size: 0.78rem; color: var(--color-zinc-300); line-height: 1.5; }
 
 .testimonial-card {
   background: var(--color-dark-card);
@@ -759,7 +759,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .testimonial-text {
   font-size: 0.825rem;
-  color: #94a3b8;
+  color: var(--color-zinc-400);
   line-height: 1.65;
   font-style: italic;
 }
@@ -832,7 +832,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 .cta-sub {
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--color-zinc-300);
   max-width: 480px;
   line-height: 1.65;
 }
