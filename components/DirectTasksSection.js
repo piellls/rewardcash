@@ -259,27 +259,16 @@ export default function DirectTasksSection() {
     setExecutingOffer(offer);
   };
 
-  const handleSimulateCompletion = async () => {
+  const handleSimulateCompletion = () => {
     if (!user || !executingOffer) return;
     
-    // Open tracking link in new tab to redirect user to complete actual offer
+    // Redirect user to the offer URL in a new tab
     if (executingOffer.url) {
       window.open(executingOffer.url, '_blank');
     }
 
-    setLoadingOfferId(executingOffer.id);
-    try {
-      await earnCoinsSimulated(executingOffer);
-      lockOffer(executingOffer.id);
-      resetClickCount(executingOffer.id);
-      setSuccessMessage(`✅ Offer completed! You earned ${executingOffer.coins.toLocaleString()} Coins. This offer is now locked for 24H.`);
-      setExecutingOffer(null);
-      setTimeout(() => setSuccessMessage(''), 6000);
-    } catch (err) {
-      alert(err.message || 'Failed to complete offer');
-    } finally {
-      setLoadingOfferId(null);
-    }
+    // Close the details modal
+    setExecutingOffer(null);
   };
 
   const categories = ['All', 'Game', 'App', 'Survey'];
@@ -446,17 +435,9 @@ export default function DirectTasksSection() {
               </button>
               <button
                 onClick={handleSimulateCompletion}
-                disabled={loadingOfferId === executingOffer.id}
                 className="btn-gaming flex-1 rounded-xl py-3 text-xs font-extrabold flex items-center justify-center gap-1.5"
               >
-                {loadingOfferId === executingOffer.id ? (
-                  <>
-                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  'Complete Offer'
-                )}
+                Complete Offer
               </button>
             </div>
           </div>
