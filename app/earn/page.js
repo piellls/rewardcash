@@ -553,19 +553,19 @@ export default function Earn() {
                     )}
 
                     {/* Top App Icon Container */}
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl overflow-hidden bg-white/5 p-1 border border-white/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-105 transition-transform duration-300 shrink-0">
+                    <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-white/5 p-1 border border-white/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-105 transition-transform duration-300 shrink-0">
                       {offer.icon && offer.icon.startsWith('http') ? (
                         <img 
                           src={offer.icon} 
                           alt={offer.title}
-                          className="w-full h-full object-contain rounded-xl"
+                          className="w-full h-full object-contain rounded-xl sm:rounded-2xl"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-dark-bg/85 rounded-xl">
+                        <div className="w-full h-full flex items-center justify-center bg-dark-bg/85 rounded-xl sm:rounded-2xl">
                           {offer.category === 'Survey' ? (
-                            <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+                            <FileText className="h-7 w-7 sm:h-10 sm:w-10 text-primary" />
                           ) : (
-                            <Gamepad2 className="h-6 w-6 sm:h-8 sm:w-8 text-secondary" />
+                            <Gamepad2 className="h-7 w-7 sm:h-10 sm:w-10 text-secondary" />
                           )}
                         </div>
                       )}
