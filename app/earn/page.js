@@ -32,6 +32,49 @@ function fetchJSONP(url) {
   });
 }
 
+const simplifyDescription = (title, desc, category) => {
+  const text = `${title} ${desc}`.toLowerCase();
+  
+  if (text.includes('survey') || text.includes('quiz') || text.includes('opinion')) {
+    return 'Complete Survey';
+  }
+  if (text.includes('free trial') || text.includes('trial')) {
+    return 'Sign Up (Free Trial)';
+  }
+  if (text.includes('register') || text.includes('sign up') || text.includes('signup') || text.includes('create account') || text.includes('create free account')) {
+    return 'Register (New Users)';
+  }
+  if (text.includes('install') && (text.includes('run') || text.includes('open'))) {
+    return 'Install & Run';
+  }
+  if (text.includes('install') || text.includes('download')) {
+    if (text.includes('run') || text.includes('open')) {
+      return 'Install & Run';
+    }
+    return 'Install & Open';
+  }
+  if (text.includes('level') || text.includes('reach level') || text.includes('complete level')) {
+    const match = text.match(/level\s*(\d+)/);
+    if (match) {
+      return `Reach Level ${match[1]}`;
+    }
+    return 'Reach Required Level';
+  }
+  if (text.includes('purchase') || text.includes('buy') || text.includes('deposit') || text.includes('subscribe')) {
+    return 'Deposit / Purchase';
+  }
+  
+  if (desc && desc.length > 2 && desc.length <= 30) {
+    return desc.charAt(0).toUpperCase() + desc.slice(1);
+  }
+  
+  if (category === 'App') return 'Install & Run';
+  if (category === 'Game') return 'Play & Earn';
+  if (category === 'Survey') return 'Answer Questions';
+  
+  return 'Complete Task';
+};
+
 export default function Earn() {
   const { user, earnCoinsSimulated } = useAuth();
   const [offers, setOffers] = useState([]);
@@ -139,7 +182,7 @@ export default function Earn() {
     return {
       id:          offer.id,
       title:       offer.name || 'AdBlueMedia Task',
-      description: offer.conversion || 'Complete the task to earn your reward.',
+      description: simplifyDescription(offer.name || '', offer.conversion || '', category),
       coins,
       payout:      rawPayout,
       provider:    'AdBlueMedia',
@@ -198,7 +241,7 @@ export default function Earn() {
               return {
                 id: offer.offerid || offer.id || `og_${Math.random()}`,
                 title: offer.name_short || offer.name || 'OGAds Task',
-                description: offer.description || offer.adcopy || 'Complete the task steps to earn your reward.',
+                description: simplifyDescription(offer.name || '', offer.description || offer.adcopy || '', category),
                 coins,
                 payout: rawPayout,
                 provider: 'OGAds',
