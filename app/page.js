@@ -654,7 +654,11 @@ export default function Home() {
                 <div className="flex flex-wrap justify-center gap-6 w-full overflow-visible">
                   
                   {/* Card 1 - Daily Reward Spin */}
-                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#1d4ed8] to-[#7c3aed] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                  <div 
+                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#1d4ed8] to-[#7c3aed] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
+                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                  >
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
                     <img 
                       src="/offerwall/rulot_new.png" 
                       alt="spin wheel" 
@@ -672,7 +676,11 @@ export default function Home() {
                   </div>
 
                   {/* Card 2 - Exclusive Tournaments */}
-                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#ea580c] to-[#f43f5e] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                  <div 
+                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#ea580c] to-[#f43f5e] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
+                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                  >
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
                     <img 
                       src="/offerwall/cup.avif" 
                       alt="cup" 
@@ -690,7 +698,11 @@ export default function Home() {
                   </div>
 
                   {/* Card 3 - Exclusive Earning Boosts */}
-                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#7c3aed] to-[#db2777] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                  <div 
+                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#7c3aed] to-[#db2777] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
+                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                  >
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
                     <img 
                       src="/offerwall/lightning.avif" 
                       alt="lightning" 
@@ -713,7 +725,11 @@ export default function Home() {
                 <div className="flex flex-wrap justify-center gap-6 w-full overflow-visible">
 
                   {/* Card 4 - Bonuses on Earnings */}
-                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#0d9488] to-[#475569] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                  <div 
+                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#0d9488] to-[#475569] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
+                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                  >
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
                     <img 
                       src="/offerwall/box.avif" 
                       alt="gift box" 
@@ -731,7 +747,11 @@ export default function Home() {
                   </div>
 
                   {/* Card 5 - Raffle Tickets */}
-                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#16a34a] to-[#0f766e] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                  <div 
+                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#16a34a] to-[#0f766e] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
+                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                  >
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
                     <img 
                       src="/offerwall/ticket.avif" 
                       alt="ticket" 
