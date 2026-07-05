@@ -649,19 +649,106 @@ export default function Home() {
             <div className="lg:col-span-12 flex flex-col gap-4">
               <h3 className="text-3xl font-extrabold text-white leading-tight">Exclusive <span className="text-[#8b5cf6]">VIP</span> Benefits</h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4">
-                {[
-                  { title: 'DAILY REWARD SPIN', img: '/offerwall/rulot_new.png' },
-                  { title: 'EXCLUSIVE TOURNAMENTS', img: '/offerwall/cup.avif' },
-                  { title: 'EXCLUSIVE EARNING BOOSTS', img: '/offerwall/lightning.avif' },
-                  { title: 'BONUSES ON EARNINGS', img: '/offerwall/box.avif' },
-                  { title: 'RAFFLE TICKETS', img: '/offerwall/ticket.avif' }
-                ].map((vip, idx) => (
-                  <div key={idx} className="bg-[#121217] border border-[#22222a] rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-lg hover:border-[#8b5cf6]/40 hover:-translate-y-1 transition-all cursor-pointer group">
-                    <img src={vip.img} alt={vip.title} className="h-16 w-16 object-contain mb-3 transition-transform duration-300 group-hover:scale-105" />
-                    <span className="text-[10px] font-black text-white uppercase tracking-wider">{vip.title}</span>
+              <div className="flex flex-col gap-12 mt-12 select-none overflow-visible">
+                {/* Top Row: 3 Cards */}
+                <div className="flex flex-wrap justify-center gap-6 w-full overflow-visible">
+                  
+                  {/* Card 1 - Daily Reward Spin */}
+                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#1d4ed8] to-[#7c3aed] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                    <img 
+                      src="/offerwall/rulot_new.png" 
+                      alt="spin wheel" 
+                      className="absolute top-[-38px] left-[70px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[15deg] transition-transform duration-500" 
+                    />
+                    <div className="flex items-center gap-4.5 w-full relative z-10">
+                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                        <span className="relative z-10 text-white text-base">👑</span>
+                      </div>
+                      <div className="text-left">
+                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Daily Reward Spin</h4>
+                      </div>
+                    </div>
                   </div>
-                ))}
+
+                  {/* Card 2 - Exclusive Tournaments */}
+                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#ea580c] to-[#f43f5e] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                    <img 
+                      src="/offerwall/cup.avif" 
+                      alt="cup" 
+                      className="absolute top-[-44px] left-[90px] h-[110px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
+                    />
+                    <div className="flex items-center gap-4.5 w-full relative z-10">
+                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                        <span className="relative z-10 text-white text-base">🏆</span>
+                      </div>
+                      <div className="text-left">
+                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Tournaments</h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 3 - Exclusive Earning Boosts */}
+                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#7c3aed] to-[#db2777] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                    <img 
+                      src="/offerwall/lightning.avif" 
+                      alt="lightning" 
+                      className="absolute top-[-38px] left-[130px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:-translate-y-1 transition-transform duration-350" 
+                    />
+                    <div className="flex items-center gap-4.5 w-full relative z-10">
+                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                        <span className="relative z-10 text-white text-base">⚡</span>
+                      </div>
+                      <div className="text-left">
+                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Earning Boosts</h4>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Bottom Row: 2 Cards */}
+                <div className="flex flex-wrap justify-center gap-6 w-full overflow-visible">
+
+                  {/* Card 4 - Bonuses on Earnings */}
+                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#0d9488] to-[#475569] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                    <img 
+                      src="/offerwall/box.avif" 
+                      alt="gift box" 
+                      className="absolute top-[-38px] left-[90px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
+                    />
+                    <div className="flex items-center gap-4.5 w-full relative z-10">
+                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                        <span className="relative z-10 text-white text-base">🎁</span>
+                      </div>
+                      <div className="text-left">
+                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Bonuses on Earnings</h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card 5 - Raffle Tickets */}
+                  <div className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#16a34a] to-[#0f766e] p-5 flex items-end shadow-2xl overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group">
+                    <img 
+                      src="/offerwall/ticket.avif" 
+                      alt="ticket" 
+                      className="absolute top-[-30px] left-[110px] h-[80px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[-5deg] transition-transform duration-300" 
+                    />
+                    <div className="flex items-center gap-4.5 w-full relative z-10">
+                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                        <span className="relative z-10 text-white text-base">🎟</span>
+                      </div>
+                      <div className="text-left">
+                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Raffle Tickets</h4>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
