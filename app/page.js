@@ -649,126 +649,118 @@ export default function Home() {
             <div className="lg:col-span-12 flex flex-col gap-4">
               <h3 className="text-3xl font-extrabold text-white leading-tight">Exclusive <span className="text-[#bf5aff]">VIP</span> Benefits</h3>
               
-              <div className="flex flex-col gap-12 mt-12 select-none overflow-visible">
-                {/* Top Row: 3 Cards */}
-                <div className="flex flex-wrap justify-center gap-6 w-full overflow-visible">
-                  
-                  {/* Card 1 - Daily Reward Spin */}
-                  <div 
-                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#1d4ed8] to-[#7c3aed] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
-                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
-                  >
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
-                    <img 
-                      src="/offerwall/rulot_new.png" 
-                      alt="spin wheel" 
-                      className="absolute top-[-38px] left-[70px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[15deg] transition-transform duration-500" 
-                    />
-                    <div className="flex items-center gap-4.5 w-full relative z-10">
-                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
-                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <Crown className="h-5.5 w-5.5 text-white relative z-10" />
-                      </div>
-                      <div className="text-left">
-                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Daily Reward Spin</h4>
-                      </div>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-y-12 gap-x-6 mt-12 select-none overflow-visible w-full">
+                
+                {/* Card 1 - Daily Reward Spin */}
+                <div 
+                  className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#1d4ed8] to-[#7c3aed] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group shrink-0"
+                  style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                >
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
+                  <img 
+                    src="/offerwall/rulot_new.png" 
+                    alt="spin wheel" 
+                    className="absolute top-[-38px] left-[70px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[15deg] transition-transform duration-500" 
+                  />
+                  <div className="flex items-center gap-4.5 w-full relative z-10">
+                    <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                      <Crown className="h-5.5 w-5.5 text-white relative z-10" />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Daily Reward Spin</h4>
                     </div>
                   </div>
-
-                  {/* Card 2 - Exclusive Tournaments */}
-                  <div 
-                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#ea580c] to-[#f43f5e] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
-                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
-                  >
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
-                    <img 
-                      src="/offerwall/cup.avif" 
-                      alt="cup" 
-                      className="absolute top-[-44px] left-[90px] h-[110px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
-                    />
-                    <div className="flex items-center gap-4.5 w-full relative z-10">
-                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
-                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <Trophy className="h-5.5 w-5.5 text-white relative z-10" />
-                      </div>
-                      <div className="text-left">
-                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Tournaments</h4>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card 3 - Exclusive Earning Boosts */}
-                  <div 
-                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#7c3aed] to-[#db2777] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
-                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
-                  >
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
-                    <img 
-                      src="/offerwall/lightning.avif" 
-                      alt="lightning" 
-                      className="absolute top-[-38px] left-[130px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:-translate-y-1 transition-transform duration-350" 
-                    />
-                    <div className="flex items-center gap-4.5 w-full relative z-10">
-                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
-                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <Zap className="h-5.5 w-5.5 text-white relative z-10" fill="white" />
-                      </div>
-                      <div className="text-left">
-                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Earning Boosts</h4>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
 
-                {/* Bottom Row: 2 Cards */}
-                <div className="flex flex-wrap justify-center gap-6 w-full overflow-visible">
-
-                  {/* Card 4 - Bonuses on Earnings */}
-                  <div 
-                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#0d9488] to-[#475569] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
-                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
-                  >
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
-                    <img 
-                      src="/offerwall/box.avif" 
-                      alt="gift box" 
-                      className="absolute top-[-38px] left-[90px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
-                    />
-                    <div className="flex items-center gap-4.5 w-full relative z-10">
-                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
-                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <Gift className="h-5.5 w-5.5 text-white relative z-10" />
-                      </div>
-                      <div className="text-left">
-                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Bonuses on Earnings</h4>
-                      </div>
+                {/* Card 2 - Exclusive Tournaments */}
+                <div 
+                  className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#ea580c] to-[#f43f5e] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group shrink-0"
+                  style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                >
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
+                  <img 
+                    src="/offerwall/cup.avif" 
+                    alt="cup" 
+                    className="absolute top-[-44px] left-[90px] h-[110px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
+                  />
+                  <div className="flex items-center gap-4.5 w-full relative z-10">
+                    <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                      <Trophy className="h-5.5 w-5.5 text-white relative z-10" />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Tournaments</h4>
                     </div>
                   </div>
-
-                  {/* Card 5 - Raffle Tickets */}
-                  <div 
-                    className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#16a34a] to-[#0f766e] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group"
-                    style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
-                  >
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
-                    <img 
-                      src="/offerwall/ticket.avif" 
-                      alt="ticket" 
-                      className="absolute top-[-30px] left-[110px] h-[80px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[-5deg] transition-transform duration-300" 
-                    />
-                    <div className="flex items-center gap-4.5 w-full relative z-10">
-                      <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
-                        <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <Ticket className="h-5.5 w-5.5 text-white relative z-10" />
-                      </div>
-                      <div className="text-left">
-                        <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Raffle Tickets</h4>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
+
+                {/* Card 3 - Exclusive Earning Boosts */}
+                <div 
+                  className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#7c3aed] to-[#db2777] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group shrink-0"
+                  style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                >
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
+                  <img 
+                    src="/offerwall/lightning.avif" 
+                    alt="lightning" 
+                    className="absolute top-[-38px] left-[130px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:-translate-y-1 transition-transform duration-350" 
+                  />
+                  <div className="flex items-center gap-4.5 w-full relative z-10">
+                    <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                      <Zap className="h-5.5 w-5.5 text-white relative z-10" fill="white" />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Earning Boosts</h4>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 4 - Bonuses on Earnings */}
+                <div 
+                  className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#0d9488] to-[#475569] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group shrink-0"
+                  style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                >
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
+                  <img 
+                    src="/offerwall/box.avif" 
+                    alt="gift box" 
+                    className="absolute top-[-38px] left-[90px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
+                  />
+                  <div className="flex items-center gap-4.5 w-full relative z-10">
+                    <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                      <Gift className="h-5.5 w-5.5 text-white relative z-10" />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Bonuses on Earnings</h4>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 5 - Raffle Tickets */}
+                <div 
+                  className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#16a34a] to-[#0f766e] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group shrink-0"
+                  style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
+                >
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/65 to-transparent rounded-b-2xl pointer-events-none z-0" />
+                  <img 
+                    src="/offerwall/ticket.avif" 
+                    alt="ticket" 
+                    className="absolute top-[-30px] left-[110px] h-[80px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[-5deg] transition-transform duration-300" 
+                  />
+                  <div className="flex items-center gap-4.5 w-full relative z-10">
+                    <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
+                      <Ticket className="h-5.5 w-5.5 text-white relative z-10" />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Raffle Tickets</h4>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
