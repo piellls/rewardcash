@@ -131,7 +131,30 @@ export default function OfferwallPage() {
     .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
     .flink{display:block;font-size:13px;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:10px;text-decoration:none;transition:color .2s;}
     .flink:hover{color:#bf5aff;}
-    @media(max-width:900px){.sgrid{grid-template-columns:repeat(2,1fr);}.fgrid{grid-template-columns:1fr 1fr;}.hero-r{display:none!important;}.lbhow{grid-template-columns:1fr!important;}}
+        .ow-hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    .owc {
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+    @media(max-width:900px){
+      .sgrid{grid-template-columns:repeat(2,1fr);}
+      .fgrid{grid-template-columns:1fr 1fr;}
+      .hero-r{display:none!important;}
+      .lbhow{grid-template-columns:1fr!important;}
+      .ow-hero {
+        min-height: auto !important;
+        padding-top: 80px !important;
+        padding-bottom: 40px !important;
+      }
+      .owc {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+      }
+    }
     @media(max-width:600px){.ogrid{grid-template-columns:repeat(2,1fr)!important;}.rgrid{grid-template-columns:repeat(2,1fr)!important;}}
   `;
 
@@ -144,13 +167,13 @@ export default function OfferwallPage() {
       <div className="ow">
 
         {/* HERO */}
-        <section style={{position:'relative',minHeight:'100vh',display:'flex',alignItems:'center',overflow:'hidden',background:'radial-gradient(ellipse 80% 60% at 50% 0%,rgba(191,90,255,.15) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 80% 50%,rgba(147,51,234,.1) 0%,transparent 60%),#0a0a12'}}>
+        <section className="ow-hero" style={{position:'relative',overflow:'hidden',background:'radial-gradient(ellipse 80% 60% at 50% 0%,rgba(191,90,255,.15) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 80% 50%,rgba(147,51,234,.1) 0%,transparent 60%),#0a0a12'}}>
           <div style={hgrid}/>
           <div style={hglow}/>
           {particles.map(p => (
             <div key={p.id} className="particle" style={{left:`${p.x}%`,bottom:0,width:p.size,height:p.size,animation:`floatUp ${p.speed}s ${p.delay}s infinite linear`,opacity:p.opacity}}/>
           ))}
-          <div className="owc" style={{position:'relative',zIndex:2,width:'100%',paddingTop:120,paddingBottom:80}}>
+          <div className="owc" style={{position:'relative',zIndex:2,width:'100%'}}>
             <div style={{display:'flex',alignItems:'center',gap:60,justifyContent:'space-between'}}>
               <div style={{flex:1,minWidth:0}}>
 
