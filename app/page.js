@@ -539,7 +539,7 @@ export default function Home() {
               <div className="relative w-80 h-80 flex items-center justify-center">
                 <div className="h-20 w-20 rounded-2xl bg-gradient-to-tr from-[#8b5cf6] to-[#4f8ef7] p-0.5 shadow-[0_0_40px_rgba(139,92,246,0.5)] z-20">
                   <div className="h-full w-full rounded-2xl bg-[#0a0a0c] flex items-center justify-center overflow-hidden">
-                    <img src="/offerwall/blueberry_logo.png" alt="blueberrycash Logo" className="h-10 w-28 object-cover object-left rounded-xl scale-[1.3] translate-x-[-1px]" />
+                    <img src="/offerwall/blueberry_icon.png" alt="blueberrycash Logo" className="h-12 w-12 object-contain" />
                   </div>
                 </div>
                 {ORBITAL_PARTNERS.map((p, idx) => {
