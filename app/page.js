@@ -569,9 +569,9 @@ export default function Home() {
               <div 
                 className="relative overflow-visible"
                 style={{
-                  width: '260px',
-                  height: '320px',
-                  perspective: '1000px',
+                  width: '210px',
+                  height: '260px',
+                  perspective: '800px',
                 }}
               >
                 <div 
@@ -586,12 +586,12 @@ export default function Home() {
                   <div 
                     className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
                     style={{
-                      transform: 'rotateY(0deg) translateZ(135px)',
+                      transform: 'rotateY(0deg) translateZ(95px)',
                       transformStyle: 'preserve-3d',
                       backfaceVisibility: 'hidden',
                       filter: (carouselIndex % 3) === 0 ? 'none' : 'brightness(0.65)',
                       opacity: (carouselIndex % 3) === 0 ? 1 : 0.85,
-                      scale: (carouselIndex % 3) === 0 ? '1' : '0.72',
+                      scale: (carouselIndex % 3) === 0 ? '1' : '0.65',
                     }}
                   >
                     <img 
@@ -605,12 +605,12 @@ export default function Home() {
                   <div 
                     className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
                     style={{
-                      transform: 'rotateY(120deg) translateZ(135px)',
+                      transform: 'rotateY(120deg) translateZ(95px)',
                       transformStyle: 'preserve-3d',
                       backfaceVisibility: 'hidden',
                       filter: (carouselIndex % 3) === 1 ? 'none' : 'brightness(0.65)',
                       opacity: (carouselIndex % 3) === 1 ? 1 : 0.85,
-                      scale: (carouselIndex % 3) === 1 ? '1' : '0.72',
+                      scale: (carouselIndex % 3) === 1 ? '1' : '0.65',
                     }}
                   >
                     <img 
@@ -624,12 +624,12 @@ export default function Home() {
                   <div 
                     className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
                     style={{
-                      transform: 'rotateY(240deg) translateZ(135px)',
+                      transform: 'rotateY(240deg) translateZ(95px)',
                       transformStyle: 'preserve-3d',
                       backfaceVisibility: 'hidden',
                       filter: (carouselIndex % 3) === 2 ? 'none' : 'brightness(0.65)',
                       opacity: (carouselIndex % 3) === 2 ? 1 : 0.85,
-                      scale: (carouselIndex % 3) === 2 ? '1' : '0.72',
+                      scale: (carouselIndex % 3) === 2 ? '1' : '0.65',
                     }}
                   >
                     <img 
