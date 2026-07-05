@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
-import { Coins, Star, Play, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
+import { Coins, Star, Play, ChevronDown, ChevronUp, Loader2, Crown, Trophy, Zap, Gift, Ticket } from 'lucide-react';
 
 const REVIEWS = [
   { id: 1, rating: 5, tit: "the site is so good to make fast games currency and money", time: "2026-07-05", username: "Alexandra OwO", dsc: "the site is so good to make easy games currency or money, def recommend, sometimes you dont get good surveys or dont get them at all but sometimes you get good ones that pay a lot and compensate it" },
@@ -647,7 +647,7 @@ export default function Home() {
           {/* VIP Benefits Feature */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left border-t border-[#1a1a22]/60 pt-16">
             <div className="lg:col-span-12 flex flex-col gap-4">
-              <h3 className="text-3xl font-extrabold text-white leading-tight">Exclusive <span className="text-[#8b5cf6]">VIP</span> Benefits</h3>
+              <h3 className="text-3xl font-extrabold text-white leading-tight">Exclusive <span className="text-[#bf5aff]">VIP</span> Benefits</h3>
               
               <div className="flex flex-col gap-12 mt-12 select-none overflow-visible">
                 {/* Top Row: 3 Cards */}
@@ -663,7 +663,7 @@ export default function Home() {
                     <div className="flex items-center gap-4.5 w-full relative z-10">
                       <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
                         <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <span className="relative z-10 text-white text-base">👑</span>
+                        <Crown className="h-5.5 w-5.5 text-white relative z-10" />
                       </div>
                       <div className="text-left">
                         <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Daily Reward Spin</h4>
@@ -681,7 +681,7 @@ export default function Home() {
                     <div className="flex items-center gap-4.5 w-full relative z-10">
                       <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
                         <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <span className="relative z-10 text-white text-base">🏆</span>
+                        <Trophy className="h-5.5 w-5.5 text-white relative z-10" />
                       </div>
                       <div className="text-left">
                         <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Tournaments</h4>
@@ -699,7 +699,7 @@ export default function Home() {
                     <div className="flex items-center gap-4.5 w-full relative z-10">
                       <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
                         <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <span className="relative z-10 text-white text-base">⚡</span>
+                        <Zap className="h-5.5 w-5.5 text-white relative z-10" fill="white" />
                       </div>
                       <div className="text-left">
                         <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Exclusive Earning Boosts</h4>
@@ -722,7 +722,7 @@ export default function Home() {
                     <div className="flex items-center gap-4.5 w-full relative z-10">
                       <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
                         <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <span className="relative z-10 text-white text-base">🎁</span>
+                        <Gift className="h-5.5 w-5.5 text-white relative z-10" />
                       </div>
                       <div className="text-left">
                         <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Bonuses on Earnings</h4>
@@ -740,7 +740,7 @@ export default function Home() {
                     <div className="flex items-center gap-4.5 w-full relative z-10">
                       <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
                         <div className="absolute inset-0 bg-[#0d0e12]/60 border border-[#bf5aff]/30 shadow-inner" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }} />
-                        <span className="relative z-10 text-white text-base">🎟</span>
+                        <Ticket className="h-5.5 w-5.5 text-white relative z-10" />
                       </div>
                       <div className="text-left">
                         <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Raffle Tickets</h4>
