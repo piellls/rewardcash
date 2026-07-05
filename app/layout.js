@@ -8,8 +8,8 @@ export const metadata = {
   title: "RewardCash - Free Cash, Robux, Bitcoin, Gift Cards & more!",
   description: "Earn money by completing tasks, testing apps and playing games. Cashout Gift cards, Bitcoin, Crypto, Robux and more instantly.",
   icons: {
-    icon: "/offerwall/gem.jpg",
-    apple: "/offerwall/gem.jpg",
+    icon: "/offerwall/blueberry_icon.png",
+    apple: "/offerwall/blueberry_icon.png",
   },
   openGraph: {
     images: ["/offerwall/hero.jpg"],

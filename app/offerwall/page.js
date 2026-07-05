@@ -178,7 +178,7 @@ export default function OfferwallPage() {
                 </div>
               </div>
               <div className="hero-r" style={{flexShrink:0}}>
-                <img src="/offerwall/gem.jpg" alt="Gem" style={{width:300,height:300,objectFit:'contain',filter:'drop-shadow(0 0 60px rgba(191,90,255,.5))',animation:'gemFloat 6s ease-in-out infinite'}}/>
+                <img src="/offerwall/blueberry_icon.png" alt="Gem" style={{width:300,height:300,objectFit:'contain',filter:'drop-shadow(0 0 60px rgba(191,90,255,.5))',animation:'gemFloat 6s ease-in-out infinite'}}/>
               </div>
             </div>
           </div>
@@ -419,7 +419,7 @@ export default function OfferwallPage() {
             <div className="fgrid">
               <div>
                 <Link href="/offerwall" style={{display:'flex',alignItems:'center',gap:12,fontSize:20,fontWeight:900,textDecoration:'none',color:'#fff',marginBottom:12}}>
-                  <img src="/offerwall/gem.jpg" alt="" style={{width:32,height:32,borderRadius:8,objectFit:'cover'}}/> RewardCash
+                  <img src="/offerwall/blueberry_icon.png" alt="" style={{width:32,height:32,borderRadius:8,objectFit:'cover'}}/> RewardCash
                 </Link>
                 <p style={{fontSize:13,color:'rgba(255,255,255,.35)',lineHeight:1.6,maxWidth:260}}>The number 1 reward platform for earning free cash, crypto, and gift cards.</p>
               </div>
