@@ -793,6 +793,7 @@ export default function Home() {
       {/* 5. "WE'RE LEGIT NO BULLSH*T" TRUSTPILOT TESTIMONIALS */}
       <section className="py-20 border-b border-[#1a1a22]" style={{ background: '#0a0a0c' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="border-t border-[#1a1a22]/60 w-full mb-16" />
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
             <div className="text-left">
               <h2 className="text-4xl font-extrabold text-white tracking-tight leading-none">We're legit <br />No bullsh*t..</h2>
@@ -827,8 +828,9 @@ export default function Home() {
       </section>
 
       {/* 6. FAQ & ABOUT SECTION */}
-      <section className="py-20" style={{ background: '#0a0a0c' }}>
+      <section className="py-20 border-b border-[#1a1a22]" style={{ background: '#0a0a0c' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="border-t border-[#1a1a22]/60 w-full mb-16" />
           <div className="mb-12">
             <h2 className="text-3xl font-extrabold text-white tracking-tight">About <span className="text-[#8b5cf6]">RewardCash</span> &amp; FAQs</h2>
             <p className="text-sm text-zinc-450 mt-2">Get answers to the most common questions</p>
