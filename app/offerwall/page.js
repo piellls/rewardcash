@@ -207,26 +207,6 @@ export default function OfferwallPage() {
           </div>
         </section>
 
-        {/* LIVE FEED */}
-        <div className="feedwrap">
-          <div style={{display:'flex',alignItems:'center',overflow:'hidden'}}>
-            <div style={{display:'flex',alignItems:'center',gap:6,color:'#48f78a',fontSize:11,fontWeight:800,textTransform:'uppercase',letterSpacing:1,padding:'0 20px',whiteSpace:'nowrap',flexShrink:0,borderRight:'1px solid rgba(255,255,255,.07)'}}>
-              <div style={{width:6,height:6,borderRadius:'50%',background:'#48f78a',animation:'pulseDot 1.5s infinite'}}/> Live
-            </div>
-            <div className="feedinner">
-              {[...LIVE_FEED,...LIVE_FEED,...LIVE_FEED].map((item,i) => (
-                <div key={i} className="feeditem">
-                  <span>{item.avatar}</span>
-                  <span style={{color:'#fff',fontWeight:700}}>{item.user}</span>
-                  <span>{item.action}</span>
-                  <span style={{color:'#48f78a',fontWeight:800}}>{item.amount}</span>
-                  <span>via</span>
-                  <span style={{color:'rgba(255,255,255,.7)',fontWeight:600}}>{item.task}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* STATS */}
         <div className="owc" style={{paddingTop:48,paddingBottom:48}}>
