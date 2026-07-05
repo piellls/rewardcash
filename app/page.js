@@ -184,20 +184,24 @@ function HeroRegisterForm() {
 }
 
 
+
 const CARTOON_AVATARS = [
-  '/avatars/cartoon_avatar_happy_sq_1782358369570.png',
-  '/avatars/cartoon_avatar_nerd_sq_1782358503432.png',
-  '/avatars/cartoon_avatar_angry_sq_1782358468885.png',
-  '/avatars/cartoon_avatar_wink_sq_1782358451190.png',
-  '/avatars/cartoon_avatar_love_sq_1782358485615.png',
-  '/avatars/cartoon_avatar_bored_sq_1782358521570.png',
-  '/avatars/cartoon_avatar_cool_sunglasses_sq_1782358415875.png',
-  '/avatars/cartoon_avatar_shocked_sq_1782358433199.png',
-  '/avatars/cartoon_avatar_sleepy_glasses_sq_1782358400859.png',
-  '/avatars/cartoon_avatar_skeptical_sq_1782358384573.png'
+  '/avatars/1.png',
+  '/avatars/2.png',
+  '/avatars/3.png',
+  '/avatars/4.png',
+  '/avatars/5.png',
+  '/avatars/6.png',
+  '/avatars/7.png',
+  '/avatars/8.png',
+  '/avatars/9.png'
 ];
 
 const RANDOM_OFFERS = [
+  { action: 'Earn Just Now', detail: 'Goblins Wood (Reach Level 15)', payout: '1.95' },
+  { action: 'Earn Just Now', detail: 'Merge Studio (Complete Level 25)', payout: '15.00' },
+  { action: 'Earn Just Now', detail: 'Bus Craze - Traffic Jam Puzzle', payout: '0.00' },
+  { action: 'Earn Just Now', detail: 'Reco Social - Multi [US AOS]', payout: '1.00' },
   { action: 'Earn Just Now', detail: 'Hole Rush (Watch Ads)', payout: '0.01' },
   { action: 'Earn Just Now', detail: 'That\'s My Seat - Logic Puzzle', payout: '0.12' },
   { action: 'Earn Just Now', detail: 'Monopoly GO (Level 12)', payout: '2.40' },
@@ -219,45 +223,42 @@ function LiveConversionStack() {
   const [items, setItems] = useState([
     {
       id: 1,
-      action: 'Cashout Just Now',
-      detail: 'crypto: btc',
-      payout: '3.75',
-      avatar: '/avatars/cartoon_avatar_happy_sq_1782358369570.png',
+      action: 'Earn Just Now',
+      detail: 'Goblins Wood (Reach Level...',
+      payout: '1.95',
+      avatar: '/avatars/3.png',
       isNew: false
     },
     {
       id: 2,
-      action: 'Reward Just Now',
-      detail: 'affiliate collect',
-      payout: '3.75',
-      avatar: '/avatars/cartoon_avatar_happy_sq_1782358369570.png',
+      action: 'Earn Just Now',
+      detail: 'Merge Studio (Complete Leve...',
+      payout: '15.00',
+      avatar: '/avatars/1.png',
       isNew: false
     },
     {
       id: 3,
       action: 'Earn Just Now',
-      detail: 'Hole Rush (Watch Ads)',
-      payout: '0.01',
-      avatar: '/avatars/cartoon_avatar_nerd_sq_1782358503432.png',
+      detail: 'Bus Craze - Traffic Jam Puzzl...',
+      payout: '0.00',
+      avatar: '/avatars/2.png',
       isNew: false
     },
     {
       id: 4,
       action: 'Earn Just Now',
-      detail: 'That\'s My Seat - Logic Puzzle ...',
-      payout: '0.12',
-      avatar: 'silhouette',
+      detail: 'Reco Social - Multi [US AOS]...',
+      payout: '1.00',
+      avatar: '/avatars/4.png',
       isNew: false
     }
   ]);
 
   useEffect(() => {
     const addNewItem = () => {
-      // Pick random offer
       const offer = RANDOM_OFFERS[Math.floor(Math.random() * RANDOM_OFFERS.length)];
-      // Pick random avatar or silhouette
-      const isSilhouette = Math.random() < 0.25;
-      const avatar = isSilhouette ? 'silhouette' : CARTOON_AVATARS[Math.floor(Math.random() * CARTOON_AVATARS.length)];
+      const avatar = CARTOON_AVATARS[Math.floor(Math.random() * CARTOON_AVATARS.length)];
       
       const newItem = {
         id: Date.now(),
@@ -269,15 +270,14 @@ function LiveConversionStack() {
       };
 
       setItems(prev => {
-        // Clear isNew flag on old items
         const updatedPrev = prev.map(item => ({ ...item, isNew: false }));
         return [newItem, ...updatedPrev].slice(0, 4);
       });
     };
 
-    // Helper to get random interval between 15 and 30 seconds
+    // Helper to get random interval between 10 and 19 seconds
     const scheduleNext = () => {
-      const delay = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000;
+      const delay = Math.floor(Math.random() * (19000 - 10000 + 1)) + 10000;
       return setTimeout(() => {
         addNewItem();
         timeoutId = scheduleNext();
@@ -320,16 +320,10 @@ function LiveConversionStack() {
         {items.map((item) => (
           <div 
             key={item.id} 
-            className={`bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300 ${item.isNew ? 'animate-new-card' : ''}`}
+            className={`bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300 \${item.isNew ? 'animate-new-card' : ''}`}
           >
             <div className="flex items-center gap-3">
-              {item.avatar === 'silhouette' ? (
-                <div className="h-11 w-11 rounded-xl bg-zinc-800 border border-white/10 flex items-center justify-center text-zinc-500 shrink-0">
-                  👤
-                </div>
-              ) : (
-                <img src={item.avatar} alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10 shrink-0" />
-              )}
+              <img src={item.avatar} alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10 shrink-0" />
               <div>
                 <div className="text-[10px] font-bold text-zinc-500">
                   {item.action.split(' ')[0]} <span className="text-zinc-550">{item.action.split(' ').slice(1).join(' ')}</span>
@@ -437,18 +431,43 @@ export default function Home() {
       <section className="py-10 border-y border-[#1a1a22] bg-[#0c0c10]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#121217] border border-[#1e1e26] rounded-2xl p-6 text-center hover:border-[#8b5cf6]/40 transition-colors shadow-xl">
-              <span className="block text-2xl font-black text-[#8b5cf6]">{stats.totalPaid.toLocaleString(undefined, {maximumFractionDigits: 0})}+$</span>
-              <span className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mt-1">Users cashed out this month</span>
+            
+            {/* Stat 1 */}
+            <div className="bg-gradient-to-r from-[#9c3fe4] to-[#6d1cb0] border border-[#a855f7]/30 rounded-2xl p-6 flex items-center gap-4.5 shadow-[0_4px_25px_rgba(139,92,246,0.25)] relative overflow-hidden transition-all duration-300 hover:scale-[1.02] text-left">
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%)', pointerEvents: 'none' }} />
+              <div className="relative z-10 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none"><path fill="#fff" d="M30.004 21.339c-.394-1.467-5.306-1.424-10.974.095-5.67 1.52-9.945 3.938-9.552 5.404l.778 2.903c.391 1.466 5.306 1.422 10.974-.096 5.667-1.52 9.944-3.94 9.551-5.404z"/><path fill="#D28BE7" d="M17.3 16.173c-2.576-1.488-4.896-3.098-6.537-4.54a17.16 17.16 0 0 1-1.018-.958c-3.848.32-6.557 1.078-6.557 1.962v4.25c0 1.175 4.757 2.125 10.625 2.125 3.032 0 5.75-.257 7.686-.663a51.128 51.128 0 0 1-4.2-2.176"/><path fill="#fff" d="M21.013 9.731c-3.557-2.052-6.203-4.13-5.91-4.639.294-.507 3.415.744 6.973 2.799 3.557 2.053 6.203 4.131 5.91 4.639-.294.508-3.416-.744-6.973-2.799m1.594-2.76c-5.083-2.935-9.677-4.488-10.264-3.472l-2.125 3.68c-.586 1.016 3.056 4.218 8.139 7.153 5.08 2.935 9.677 4.488 10.264 3.472l2.125-3.68c.586-1.016-3.058-4.218-8.139-7.153"/></svg>
+              </div>
+              <div className="relative z-10 text-left">
+                <span className="block text-3xl font-black text-white leading-none">{stats.totalPaid.toLocaleString(undefined, {maximumFractionDigits: 0})}$</span>
+                <span className="block text-[11px] font-bold text-purple-100/90 tracking-tight mt-1.5">Users cashed out this month</span>
+              </div>
             </div>
-            <div className="bg-[#121217] border border-[#1e1e26] rounded-2xl p-6 text-center hover:border-[#8b5cf6]/40 transition-colors shadow-xl">
-              <span className="block text-2xl font-black text-white">17m 10s</span>
-              <span className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mt-1">Avg. time to the first cashout</span>
+
+            {/* Stat 2 */}
+            <div className="bg-gradient-to-r from-[#9c3fe4] to-[#6d1cb0] border border-[#a855f7]/30 rounded-2xl p-6 flex items-center gap-4.5 shadow-[0_4px_25px_rgba(139,92,246,0.25)] relative overflow-hidden transition-all duration-300 hover:scale-[1.02] text-left">
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%)', pointerEvents: 'none' }} />
+              <div className="relative z-10 shrink-0">
+                <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_2129_39042)"><mask id="mask0_2129_39042" style={{maskType:"luminance"}} maskUnits="userSpaceOnUse" x="0" y="0" width="34" height="34"><path d="M0 0H34V34H0V0Z" fill="white"/></mask><g mask="url(#mask0_2129_39042)"><path d="M22.6115 19.2865L19.611 22.2849C18.9098 22.9883 17.9748 23.375 16.9824 23.375C15.99 23.375 15.055 22.9883 14.3538 22.2849C13.6504 21.5836 13.2637 20.6507 13.2637 19.6562C13.2637 18.6639 13.6504 17.7289 14.3538 17.0276L17.3522 14.0271C18.0555 13.3259 18.9884 12.9391 19.9829 12.9391C20.9753 12.9391 21.9082 13.3259 22.6115 14.0271C23.3149 14.7305 23.7017 15.6634 23.7017 16.6579C23.7017 17.6502 23.3149 18.5831 22.6115 19.2865ZM16.9824 8.5C10.822 8.5 5.82617 13.4959 5.82617 19.6562C5.82617 25.8187 10.822 30.8125 16.9824 30.8125C23.1428 30.8125 28.1387 25.8187 28.1387 19.6562C28.1387 13.4959 23.1428 8.5 16.9824 8.5Z" fill="white"/><path d="M20.7012 6.37109H13.2637C12.3839 6.37109 11.6699 5.65709 11.6699 4.77734C11.6699 3.89759 12.3839 3.18359 13.2637 3.18359H20.7012C21.5809 3.18359 22.2949 3.89759 22.2949 4.77734C22.2949 5.65709 21.5809 6.37109 20.7012 6.37109Z" fill="#D28BE7"/><path d="M21.1086 17.7841L18.1081 20.7846C17.4876 21.4051 16.4783 21.4051 15.8556 20.7846C15.233 20.162 15.233 19.1526 15.8556 18.53L18.854 15.5295C19.4766 14.9069 20.486 14.9069 21.1086 15.5295C21.7313 16.1521 21.7313 17.1615 21.1086 17.7841Z" fill="#D28BE7"/></g></g><defs><clipPath id="clip0_2129_39042"><rect width="34" height="34" fill="white"/></clipPath></defs></svg>
+              </div>
+              <div className="relative z-10 text-left">
+                <span className="block text-3xl font-black text-white leading-none">17M 10S</span>
+                <span className="block text-[11px] font-bold text-purple-100/90 tracking-tight mt-1.5">Avg. time to the first cashout</span>
+              </div>
             </div>
-            <div className="bg-[#121217] border border-[#1e1e26] rounded-2xl p-6 text-center hover:border-[#8b5cf6]/40 transition-colors shadow-xl">
-              <span className="block text-2xl font-black text-white">{stats.offersCompleted.toLocaleString()}</span>
-              <span className="block text-[10px] font-black text-zinc-500 uppercase tracking-widest mt-1">Finished offers in total</span>
+
+            {/* Stat 3 */}
+            <div className="bg-gradient-to-r from-[#9c3fe4] to-[#6d1cb0] border border-[#a855f7]/30 rounded-2xl p-6 flex items-center gap-4.5 shadow-[0_4px_25px_rgba(139,92,246,0.25)] relative overflow-hidden transition-all duration-300 hover:scale-[1.02] text-left">
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%)', pointerEvents: 'none' }} />
+              <div className="relative z-10 shrink-0">
+                <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26.3139 4.49862C28.0606 6.24538 28.0606 9.078 26.3139 10.8248C24.2292 12.9094 17 13.8125 17 13.8125C17 13.8125 17.9031 6.58325 19.9877 4.49862C21.7345 2.75187 24.5671 2.75187 26.3139 4.49862Z" fill="white"/><path d="M14.0112 4.49863C16.0958 6.58325 16.9989 13.8125 16.9989 13.8125C16.9989 13.8125 9.76969 12.9094 7.68506 10.8248C5.93831 9.078 5.93831 6.24538 7.68506 4.49863C9.43181 2.75188 12.2644 2.75188 14.0112 4.49863Z" fill="#D28BE7"/><path d="M15.9375 15.9375H5.84375C4.3775 15.9375 3.1875 17.1275 3.1875 18.5938V28.1562C3.1875 29.6225 4.3775 30.8125 5.84375 30.8125H15.9375V15.9375Z" fill="white"/><path d="M28.1563 15.9375H18.0625V30.8125H28.1563C29.6225 30.8125 30.8125 29.6225 30.8125 28.1562V18.5938C30.8125 17.1275 29.6225 15.9375 28.1563 15.9375Z" fill="#D28BE7"/></svg>
+              </div>
+              <div className="relative z-10 text-left">
+                <span className="block text-3xl font-black text-white leading-none">{stats.offersCompleted.toLocaleString()}</span>
+                <span className="block text-[11px] font-bold text-purple-100/90 tracking-tight mt-1.5">Finished offers in total</span>
+              </div>
             </div>
+
           </div>
         </div>
       </section>
