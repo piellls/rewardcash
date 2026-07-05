@@ -1,39 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans: 'Rubik', system-ui, -apple-system, sans-serif;
+  --font-display: 'Rubik', system-ui, sans-serif;
 
-  --color-primary: #5d5fef; /* Blueberry Indigo-Blue */
-  --color-secondary: #3b82f6; /* Blueberry Light Blue */
-  --color-dark-bg: #ffffff; /* White main background */
-  --color-dark-card: #f8fafc; /* Slate-50 elevated card background */
-  --color-dark-border: #cbd5e1; /* Slate-300 dark border */
-  --color-dark-hover: #f1f5f9; /* Slate-100 dark hover */
-  --color-accent-red: #ff3838; /* Accent/Danger Red */
+  --color-primary: #4f8ef7; /* Gemsloot Electric Blue */
+  --color-secondary: #8b5cf6; /* Gemsloot Purple */
+  --color-dark-bg: #0a0a0c; /* Sleek Dark Background */
+  --color-dark-card: #0f0f12; /* Elevated Card Background */
+  --color-dark-border: #1a1a22; /* Sleek Dark Border */
+  --color-dark-hover: #15151c; /* Hover style background */
+  --color-accent-red: #ef4444; /* Accent Red */
 
-  --color-white: #000000; /* Map text-white to pure black for maximum contrast */
-  --color-zinc-50: #fafafa; /* light background shade */
-  --color-zinc-100: #f1f5f9; /* Map bg-zinc-950 to light slate-100 background */
-  --color-zinc-200: #e2e8f0; /* Map border-zinc-200 to border slate-200 */
-  --color-zinc-300: #000000; /* Make zinc-300 pure black text */
-  --color-zinc-400: #000000; /* Make zinc-400 pure black text */
-  --color-zinc-500: #000000; /* Make zinc-500 pure black text */
-  --color-zinc-600: #000000; /* Make zinc-600 pure black text */
-  --color-zinc-700: #000000; /* Make zinc-700 pure black text */
-  --color-zinc-800: #000000; /* Make zinc-800 pure black text */
-  --color-zinc-900: #000000; /* Make zinc-900 pure black text */
-  --color-zinc-950: #000000; /* Make zinc-950 pure black text */
+  --color-white: #ffffff;
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
 
-  --color-red-950: #fee2e2;
-  --color-red-400: #dc2626;
-  --color-red-900: #ef4444;
+  --color-red-950: #450a0a;
+  --color-red-400: #f87171;
+  --color-red-900: #7f1d1d;
 
-  --color-amber-950: #fef3c7;
-  --color-amber-900: #d97706;
-  --color-amber-500: #d97706;
-  --color-yellow-500: #d97706;
+  --color-amber-950: #451a03;
+  --color-amber-900: #78350f;
+  --color-amber-500: #f59e0b;
+  --color-yellow-500: #eab308;
   
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-glow: glow 2s ease-in-out infinite alternate;
@@ -41,16 +41,16 @@
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 4px rgba(93, 95, 239, 0.2), 0 0 10px rgba(93, 95, 239, 0.2);
+    text-shadow: 0 0 4px rgba(79, 142, 247, 0.2), 0 0 10px rgba(79, 142, 247, 0.2);
   }
   to {
-    text-shadow: 0 0 8px rgba(93, 95, 239, 0.6), 0 0 20px rgba(93, 95, 239, 0.4);
+    text-shadow: 0 0 8px rgba(79, 142, 247, 0.6), 0 0 20px rgba(79, 142, 247, 0.4);
   }
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
+  --background: #0a0a0c;
+  --foreground: #f4f4f5;
 }
 
 /* ============================================================
@@ -72,9 +72,9 @@ body {
   width: 100%;
   position: relative;
   background-image: 
-    radial-gradient(at 50% 0%, rgba(93, 95, 239, 0.04) 0px, transparent 65%),
-    linear-gradient(rgba(203, 213, 225, 0.25) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(203, 213, 225, 0.25) 1px, transparent 1px);
+    radial-gradient(at 50% 0%, rgba(79, 142, 247, 0.05) 0px, transparent 65%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 100% 100%, 35px 35px, 35px 35px;
   background-attachment: fixed;
 }
@@ -104,15 +104,15 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 /* Custom glassmorphism utilities */
 .glass-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(15, 15, 18, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-dark-border);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7), 0 0 1px 1px rgba(93, 95, 239, 0.04);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(79, 142, 247, 0.04);
 }
 
 .glass-nav {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(10, 10, 12, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-dark-border);

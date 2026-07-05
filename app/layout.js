@@ -5,14 +5,14 @@ import Footer from "@/components/Footer";
 import AvatarSelectorModal from "@/components/AvatarSelectorModal";
 
 export const metadata = {
-  title: "BlueberryCash - Earn Free Coins & Cashout Payouts",
-  description: "Complete simple surveys, play games, download apps, and earn coins to redeem for PayPal cash, Bitcoin, and Gift Cards.",
+  title: "RewardCash - Free Cash, Robux, Bitcoin, Gift Cards & more!",
+  description: "Earn money by completing tasks, testing apps and playing games. Cashout Gift cards, Bitcoin, Crypto, Robux and more instantly.",
   icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/offerwall/gem.jpg",
+    apple: "/offerwall/gem.jpg",
   },
   openGraph: {
-    images: ["/logo.png"],
+    images: ["/offerwall/hero.jpg"],
   },
 };
 
@@ -28,9 +28,9 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className="h-full antialiased overflow-x-hidden max-w-[100vw]"
-      style={{ colorScheme: 'light' }}
+      style={{ colorScheme: 'dark' }}
     >
-      <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[80px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
+      <body className="min-h-full flex flex-col bg-[#0a0a0c] text-foreground font-sans pt-[80px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
         <AuthProvider>
           <Navbar />
           <div className="flex-1 flex flex-col w-full md:pl-64">

@@ -17,34 +17,35 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-3">
               <img 
-                src="/logo.png" 
-                alt="BlueberryCash Logo" 
-                className="h-10 w-auto object-contain" 
+                src="/offerwall/gem.jpg" 
+                alt="RewardCash Logo" 
+                className="h-9 w-9 rounded-lg object-cover shadow-[0_0_10px_rgba(79,142,247,0.2)]" 
               />
+              <span className="font-black text-white text-lg tracking-tight">RewardCash</span>
             </Link>
-            <p className="text-sm text-zinc-400 max-w-sm">
-              BlueberryCash is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.
+            <p className="text-sm text-zinc-450 max-w-sm leading-relaxed">
+              RewardCash is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-800">Navigation</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-300">Navigation</h3>
             <ul className="mt-4 space-y-2">
               <li>
-                <Link href="/earn" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                <Link href="/earn" className="text-sm text-zinc-450 hover:text-white transition-colors">
                   Earn Coins
                 </Link>
               </li>
               <li>
-                <Link href="/cashout" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                <Link href="/cashout" className="text-sm text-zinc-450 hover:text-white transition-colors">
                   Cashout
                 </Link>
               </li>
               <li>
-                <Link href="/leaderboard" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                <Link href="/leaderboard" className="text-sm text-zinc-450 hover:text-white transition-colors">
                   Leaderboard
                 </Link>
               </li>
@@ -53,20 +54,20 @@ export default function Footer() {
 
           {/* Support / Trust */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-800">Legal & Support</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-300">Legal & Support</h3>
             <ul className="mt-4 space-y-2">
-              <li className="flex items-center gap-2 text-sm text-zinc-400">
+              <li className="flex items-center gap-2 text-sm text-zinc-450">
                 <ShieldCheck className="h-4 w-4 text-primary" />
                 <span>SSL Secured Connection</span>
               </li>
-              <li className="flex items-center gap-2 text-sm text-zinc-400">
+              <li className="flex items-center gap-2 text-sm text-zinc-450">
                 <ShieldAlert className="h-4 w-4 text-secondary" />
                 <span>Anti-Cheat Protection</span>
               </li>
-              <li className="flex items-center gap-2 text-sm text-zinc-400">
-                <Mail className="h-4 w-4 text-zinc-400" />
-                <a href="mailto:support@blueberrycash.com" className="hover:text-white transition-colors">
-                  support@blueberrycash.com
+              <li className="flex items-center gap-2 text-sm text-zinc-450">
+                <Mail className="h-4 w-4 text-zinc-500" />
+                <a href="mailto:support@rewardcash.com" className="hover:text-white transition-colors">
+                  support@rewardcash.com
                 </a>
               </li>
             </ul>
@@ -76,7 +77,7 @@ export default function Footer() {
         <hr className="border-dark-border my-6" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <p>© {new Date().getFullYear()} BlueberryCash. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} RewardCash. All rights reserved.</p>
           <p className="flex items-center gap-1">
             Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> for the community.
           </p>
