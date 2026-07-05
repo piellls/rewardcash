@@ -72,11 +72,33 @@ body {
   width: 100%;
   position: relative;
   background-image: 
-    radial-gradient(at 50% 0%, rgba(79, 142, 247, 0.05) 0px, transparent 65%),
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 100% 100%, 35px 35px, 35px 35px;
+    radial-gradient(at 50% 0%, rgba(79, 142, 247, 0.08) 0px, transparent 75%),
+    url('/offerwall/lobby_bg.avif');
+  background-size: 100% 100%, cover;
   background-attachment: fixed;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+.page-earn-bg {
+  background-image: url('/offerwall/earn_bg.avif');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: top center;
+}
+
+.page-leaderboard-bg {
+  background-image: url('/offerwall/leaderboard_bg.avif');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: top center;
+}
+
+.page-referrals-bg {
+  background-image: url('/offerwall/affiliates_bg.avif');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: top center;
 }
 
 h1, h2, h3, h4, h5, h6, .font-display {

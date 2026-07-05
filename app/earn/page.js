@@ -18,7 +18,7 @@ export default function Earn() {
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start animate-fade-in">
+    <div className="page-earn-bg mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start animate-fade-in">
       
       {/* Page Title Header */}
       <div className="text-center py-10 flex flex-col items-center justify-center select-none">

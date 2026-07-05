@@ -251,7 +251,7 @@ export default function Referrals() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
+    <div className="page-referrals-bg mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
       
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
