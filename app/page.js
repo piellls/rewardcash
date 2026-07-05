@@ -480,26 +480,33 @@ export default function Home() {
             {/* Steps Column */}
             <div className="lg:col-span-5 flex flex-col gap-6 text-left">
               <div>
-                <h2 className="text-3xl font-extrabold text-white tracking-tight">Here's how</h2>
+                <h2 className="text-3xl font-black text-white tracking-tight">Here's how</h2>
               </div>
 
-              <div className="flex flex-col gap-5">
-                {[
-                  { step: 'Select offer to complete', desc: 'Choose from a huge collection of surveys, mobile app downloads, and gaming objectives.' },
-                  { step: 'Complete the offer', desc: 'Offer can have one or multiple tasks, usually it takes a few minutes.' },
-                  { step: 'Collect balance', desc: 'Watch your gems credit instantly to your user account balance.' },
-                  { step: 'Cashout desired things', desc: 'Redeem points directly to PayPal, Roblox, Bitcoin, or gaming skins.' }
-                ].map((s, idx) => (
-                  <div key={idx} className="flex gap-4 p-4 rounded-xl border border-transparent hover:border-[#8b5cf6]/20 bg-[#0f0f13]/40 transition-all">
-                    <div className="h-8 w-8 rounded-lg bg-[#8b5cf6]/10 flex items-center justify-center font-black text-[#8b5cf6] text-xs shrink-0">
-                      {idx + 1}
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-white uppercase tracking-wider mb-1">{s.step}</h4>
-                      <p className="text-xs text-zinc-450 leading-relaxed">{s.desc}</p>
-                    </div>
+              {/* Exact copy-paste of SvelteKit timeline structure */}
+              <div className="flex gap-6 items-start mt-2">
+                <img 
+                  src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='28'%20height='352'%20fill='none'%3e%3crect%20width='324'%20height='6'%20x='17'%20y='14'%20fill='%23181B22'%20rx='3'%20transform='rotate(90%2017%2014)'/%3e%3crect%20width='26'%20height='26'%20x='27'%20y='217'%20fill='%23101012'%20stroke='%23586177'%20stroke-width='2'%20rx='13'%20transform='rotate(90%2027%20217)'/%3e%3crect%20width='26'%20height='26'%20x='27'%20y='325'%20fill='%23101012'%20stroke='%23586177'%20stroke-width='2'%20rx='13'%20transform='rotate(90%2027%20325)'/%3e%3crect%20width='156'%20height='28'%20y='156'%20fill='%231a7f37'%20rx='14'%20transform='rotate(-90%200%20156)'/%3e%3crect%20width='28'%20height='28'%20fill='%231a7f37'%20rx='14'/%3e%3cpath%20fill='%23255116'%20d='m20.533%2011.031-8%208a.751.751%200%200%201-1.063%200l-3.5-3.5a.752.752%200%200%201%201.063-1.062l2.969%202.97%207.47-7.469a.751.751%200%201%201%201.062%201.063z'/%3e%3crect%20width='28'%20height='28'%20y='108'%20fill='%231a7f37'%20rx='14'/%3e%3cpath%20fill='%23255116'%20d='m20.533%20119.031-8%208a.753.753%200%200%201-.82.164.752.752%200%200%201-.243-.164l-3.5-3.5a.742.742%200%200%201-.22-.531.747.747%200%200%201%20.464-.694.747.747%200%200%201%20.819.163l2.969%202.969%207.47-7.468a.75.75%200%201%201%201.062%201.063z'/%3e%3c/svg%3e" 
+                  alt="timeline" 
+                  className="h-[352px] w-[28px] shrink-0" 
+                />
+                <div className="h-[352px] flex flex-col justify-between py-1 text-left flex-1">
+                  <div>
+                    <h4 className="text-[17px] font-black text-[#13b257] tracking-tight">Select offer to complete</h4>
                   </div>
-                ))}
+                  <div>
+                    <h4 className="text-[17px] font-black text-[#13b257] tracking-tight">Complete the offer</h4>
+                    <p className="text-xs font-semibold text-zinc-400 mt-1 max-w-[340px] leading-relaxed">
+                      Offer can have one or multiple tasks, usually it takes a few minutes
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="text-[17px] font-black text-[#586177] tracking-tight">Collect balance</h4>
+                  </div>
+                  <div>
+                    <h4 className="text-[17px] font-black text-[#586177] tracking-tight">Cashout desired things</h4>
+                  </div>
+                </div>
               </div>
             </div>
 
