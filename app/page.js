@@ -480,19 +480,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. "HERE'S HOW" TUTORIAL SECTION */}
       <section id="howto" className="py-20 border-b border-[#1a1a22]" style={{ background: '#0a0a0c' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center gap-8 w-full max-w-md">
             
             {/* Steps Column */}
-            <div className="lg:col-span-5 flex flex-col gap-6 text-left">
+            <div className="flex flex-col gap-6 text-center w-full">
               <div>
                 <h2 className="text-3xl font-black text-white tracking-tight">Here's how</h2>
               </div>
 
-              {/* Exact copy-paste of SvelteKit timeline structure */}
-              <div className="flex gap-6 items-start mt-2">
+              {/* Exact copy-paste of SvelteKit timeline structure centered */}
+              <div className="flex gap-6 items-start mt-2 text-left w-full">
                 <img 
                   src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='28'%20height='352'%20fill='none'%3e%3crect%20width='324'%20height='6'%20x='17'%20y='14'%20fill='%23181B22'%20rx='3'%20transform='rotate(90%2017%2014)'/%3e%3crect%20width='26'%20height='26'%20x='27'%20y='217'%20fill='%23101012'%20stroke='%23586177'%20stroke-width='2'%20rx='13'%20transform='rotate(90%2027%20217)'/%3e%3crect%20width='26'%20height='26'%20x='27'%20y='325'%20fill='%23101012'%20stroke='%23586177'%20stroke-width='2'%20rx='13'%20transform='rotate(90%2027%20325)'/%3e%3crect%20width='156'%20height='28'%20y='156'%20fill='%231a7f37'%20rx='14'%20transform='rotate(-90%200%20156)'/%3e%3crect%20width='28'%20height='28'%20fill='%231a7f37'%20rx='14'/%3e%3cpath%20fill='%23255116'%20d='m20.533%2011.031-8%208a.751.751%200%200%201-1.063%200l-3.5-3.5a.752.752%200%200%201%201.063-1.062l2.969%202.97%207.47-7.469a.751.751%200%201%201%201.062%201.063z'/%3e%3crect%20width='28'%20height='28'%20y='108'%20fill='%231a7f37'%20rx='14'/%3e%3cpath%20fill='%23255116'%20d='m20.533%20119.031-8%208a.753.753%200%200%201-.82.164.752.752%200%200%201-.243-.164l-3.5-3.5a.742.742%200%200%201-.22-.531.747.747%200%200%201%20.464-.694.747.747%200%200%201%20.819.163l2.969%202.969%207.47-7.468a.75.75%200%201%201%201.062%201.063z'/%3e%3c/svg%3e" 
                   alt="timeline" 
@@ -517,22 +516,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            {/* Embedded YouTube video matching exactly */}
-            <div className="lg:col-span-7 flex justify-center">
-              <div className="relative rounded-2xl overflow-hidden border border-[#22222d] shadow-2xl max-w-lg w-full aspect-video group cursor-pointer">
-                <iframe 
-                  style={{ width: '100%', height: '100%' }} 
-                  src="https://www.youtube.com/embed/oIKQWyCxogE?si=h8MgSJHsR6gOlcTS" 
-                  title="YouTube video player" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  referrerPolicy="strict-origin-when-cross-origin" 
-                  allowFullScreen
-                />
-              </div>
-            </div>
-
           </div>
         </div>
       </section>
