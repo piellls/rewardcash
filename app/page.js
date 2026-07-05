@@ -660,7 +660,7 @@ export default function Home() {
                   <img 
                     src="/offerwall/rulot_new.png" 
                     alt="spin wheel" 
-                    className="absolute top-[-38px] left-[70px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[15deg] transition-transform duration-500" 
+                    className="absolute top-[-38px] left-1/2 -translate-x-1/2 h-[100px] w-auto object-contain z-20 drop-shadow-[0_15px_15px_rgba(0,0,0,0.7)] group-hover:rotate-[15deg] transition-transform duration-500" 
                   />
                   <div className="flex items-center gap-4.5 w-full relative z-10">
                     <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
@@ -682,7 +682,7 @@ export default function Home() {
                   <img 
                     src="/offerwall/cup.avif" 
                     alt="cup" 
-                    className="absolute top-[-44px] left-[90px] h-[110px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
+                    className="absolute top-[-44px] left-1/2 -translate-x-1/2 h-[110px] w-auto object-contain z-20 drop-shadow-[0_15px_15px_rgba(0,0,0,0.7)] group-hover:scale-105 transition-transform duration-300" 
                   />
                   <div className="flex items-center gap-4.5 w-full relative z-10">
                     <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
@@ -704,7 +704,7 @@ export default function Home() {
                   <img 
                     src="/offerwall/lightning.avif" 
                     alt="lightning" 
-                    className="absolute top-[-38px] left-[130px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:-translate-y-1 transition-transform duration-350" 
+                    className="absolute top-[-38px] left-1/2 -translate-x-1/2 h-[100px] w-auto object-contain z-20 drop-shadow-[0_15px_15px_rgba(0,0,0,0.7)] group-hover:-translate-y-1 transition-transform duration-350" 
                   />
                   <div className="flex items-center gap-4.5 w-full relative z-10">
                     <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
@@ -726,7 +726,7 @@ export default function Home() {
                   <img 
                     src="/offerwall/box.avif" 
                     alt="gift box" 
-                    className="absolute top-[-38px] left-[90px] h-[100px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-transform duration-300" 
+                    className="absolute top-[-38px] left-1/2 -translate-x-1/2 h-[100px] w-auto object-contain z-20 drop-shadow-[0_15px_15px_rgba(0,0,0,0.7)] group-hover:scale-105 transition-transform duration-300" 
                   />
                   <div className="flex items-center gap-4.5 w-full relative z-10">
                     <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
@@ -748,7 +748,7 @@ export default function Home() {
                   <img 
                     src="/offerwall/ticket.avif" 
                     alt="ticket" 
-                    className="absolute top-[-30px] left-[110px] h-[80px] w-auto object-contain z-20 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)] group-hover:rotate-[-5deg] transition-transform duration-300" 
+                    className="absolute top-[-30px] left-1/2 -translate-x-1/2 h-[80px] w-auto object-contain z-20 drop-shadow-[0_15px_15px_rgba(0,0,0,0.7)] group-hover:rotate-[-5deg] transition-transform duration-300" 
                   />
                   <div className="flex items-center gap-4.5 w-full relative z-10">
                     <div className="relative h-11 w-11 shrink-0 flex items-center justify-center">
