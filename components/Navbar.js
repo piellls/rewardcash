@@ -61,13 +61,12 @@ export default function Navbar() {
       <header className="fixed top-0 right-0 left-0 md:left-64 z-30 h-16 glass-nav flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-dark-border">
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center group">
             <img 
-              src="/offerwall/gem.jpg" 
-              alt="RewardCash Logo" 
-              className="h-9 w-9 rounded-lg object-cover transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-5deg]" 
+              src="/offerwall/blueberry_logo.png" 
+              alt="blueberrycash Logo" 
+              className="h-7 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
             />
-            <span className="font-black text-white text-base tracking-tight group-hover:text-primary transition-colors">RewardCash</span>
           </Link>
         </div>
 
@@ -173,13 +172,12 @@ export default function Navbar() {
       <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
         {/* Sidebar Logo Header */}
         <div className="h-20 border-b border-dark-border/40 flex items-center px-6 shrink-0">
-          <Link href="/" className="flex items-center gap-3 group w-full">
+          <Link href="/" className="flex items-center group w-full justify-start">
             <img 
-              src="/offerwall/gem.jpg" 
-              alt="RewardCash Logo" 
-              className="h-10 w-10 rounded-xl object-cover transition-transform duration-300 group-hover:scale-105 group-hover:rotate-[-5deg] shadow-[0_0_15px_rgba(79,142,247,0.3)]" 
+              src="/offerwall/blueberry_logo.png" 
+              alt="blueberrycash Logo" 
+              className="h-10 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
             />
-            <span className="font-black text-white text-xl tracking-tight group-hover:text-primary transition-colors">RewardCash</span>
           </Link>
         </div>
 

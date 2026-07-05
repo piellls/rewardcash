@@ -100,8 +100,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
         {/* Logo Display */}
         <div className="flex flex-col items-center justify-center mb-4">
           <img 
-            src="/logo.png" 
-            alt="BlueberryCash Logo" 
+            src="/offerwall/blueberry_logo.png" 
+            alt="blueberrycash Logo" 
             className="h-10 w-auto object-contain" 
           />
         </div>

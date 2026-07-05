@@ -17,13 +17,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center">
               <img 
-                src="/offerwall/gem.jpg" 
-                alt="RewardCash Logo" 
-                className="h-9 w-9 rounded-lg object-cover shadow-[0_0_10px_rgba(79,142,247,0.2)]" 
+                src="/offerwall/blueberry_logo.png" 
+                alt="blueberrycash Logo" 
+                className="h-9 w-auto object-contain" 
               />
-              <span className="font-black text-white text-lg tracking-tight">RewardCash</span>
             </Link>
             <p className="text-sm text-zinc-450 max-w-sm leading-relaxed">
               RewardCash is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.
