@@ -102,7 +102,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
           <img 
             src="/offerwall/blueberry_logo.png" 
             alt="blueberrycash Logo" 
-            className="h-10 w-auto object-contain" 
+            className="h-13 w-auto object-contain" 
           />
         </div>
 
