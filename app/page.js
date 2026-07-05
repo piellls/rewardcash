@@ -354,6 +354,14 @@ export default function Home() {
   
   // FAQ state toggles
   const [faqOpen, setFaqOpen] = useState({});
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCarouselIndex(prev => prev + 1);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const iv = setInterval(() => {
@@ -572,57 +580,88 @@ export default function Home() {
 
           {/* Tournament Rewards Feature */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left border-t border-[#1a1a22]/60 pt-16">
-            <div className="lg:col-span-6 flex justify-center order-2 lg:order-1">
-              <div className="flex flex-col gap-3 w-full max-w-md">
-                <div className="bg-[#0f0f13] border border-[#22222e] rounded-2xl p-5 shadow-2xl">
-                  <div className="text-xs font-black uppercase text-zinc-400 tracking-wider mb-4 border-b border-[#22222d]/65 pb-2 flex justify-between">
-                    <span>🎯 Streak Reward Tiers</span>
-                    <span className="text-[#8b5cf6]">Daily Claim Bonus</span>
+            
+            {/* 3D Orbiting Carousel Column */}
+            <div className="lg:col-span-6 flex justify-center order-2 lg:order-1 select-none overflow-visible w-full py-10">
+              <div 
+                className="relative overflow-visible"
+                style={{
+                  width: '320px',
+                  height: '380px',
+                  perspective: '1200px',
+                }}
+              >
+                <div 
+                  className="relative w-full h-full transition-transform duration-1000 ease-out"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: `rotateY(${carouselIndex * -120}deg)`,
+                  }}
+                >
+                  
+                  {/* Slide 0: Different Tournaments */}
+                  <div 
+                    className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
+                    style={{
+                      transform: 'rotateY(0deg) translateZ(220px)',
+                      transformStyle: 'preserve-3d',
+                      backfaceVisibility: 'hidden',
+                      filter: (carouselIndex % 3) === 0 ? 'none' : 'blur(2px) brightness(0.35)',
+                      opacity: (carouselIndex % 3) === 0 ? 1 : 0.55,
+                      scale: (carouselIndex % 3) === 0 ? '1' : '0.85',
+                    }}
+                  >
+                    <img 
+                      src="/offerwall/carus_diff.png" 
+                      alt="Different Tournaments" 
+                      className="w-full h-auto object-contain rounded-2xl shadow-[0_20px_45px_rgba(0,0,0,0.7)]" 
+                    />
                   </div>
-                  <div className="grid grid-cols-4 gap-3">
-                    {[
-                      { label: 'Day 1', icon: '/offerwall/box.avif', coins: '10' },
-                      { label: 'Day 2', icon: '/offerwall/lightning.avif', coins: '25' },
-                      { label: 'Day 3', icon: '/offerwall/ticket.avif', coins: '50' },
-                      { label: 'Day 4', icon: '/offerwall/cup.avif', coins: '100' },
-                    ].map((tier, idx) => (
-                      <div key={idx} className="bg-[#13131a] border border-[#1e1e26] rounded-xl p-3 text-center hover:border-[#8b5cf6]/35 transition-colors">
-                        <span className="block text-[9px] font-bold text-zinc-500 uppercase">{tier.label}</span>
-                        <img src={tier.icon} alt={tier.label} className="h-10 w-10 object-contain mx-auto my-2" />
-                        <span className="block text-xs font-black text-[#8b5cf6]">+{tier.coins}</span>
-                      </div>
-                    ))}
+
+                  {/* Slide 1: 7 Day Streaks */}
+                  <div 
+                    className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
+                    style={{
+                      transform: 'rotateY(120deg) translateZ(220px)',
+                      transformStyle: 'preserve-3d',
+                      backfaceVisibility: 'hidden',
+                      filter: (carouselIndex % 3) === 1 ? 'none' : 'blur(2px) brightness(0.35)',
+                      opacity: (carouselIndex % 3) === 1 ? 1 : 0.55,
+                      scale: (carouselIndex % 3) === 1 ? '1' : '0.85',
+                    }}
+                  >
+                    <img 
+                      src="/offerwall/carus_days.png" 
+                      alt="7 Day Streaks" 
+                      className="w-full h-auto object-contain rounded-2xl shadow-[0_20px_45px_rgba(0,0,0,0.7)]" 
+                    />
                   </div>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-[#0f0f13]/80 border border-[#1e1e26] rounded-2xl p-4 flex items-center gap-3">
-                    <img src="/offerwall/carus_tour.png" alt="Tournaments" className="h-12 w-auto object-contain rounded" />
-                    <div>
-                      <h4 className="text-[10px] font-black text-white uppercase tracking-wider">Weekly payouts</h4>
-                      <span className="text-xs text-[#8b5cf6] font-bold">$2,500/week</span>
-                    </div>
+
+                  {/* Slide 2: Weekly Payouts / Tournaments Table */}
+                  <div 
+                    className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
+                    style={{
+                      transform: 'rotateY(240deg) translateZ(220px)',
+                      transformStyle: 'preserve-3d',
+                      backfaceVisibility: 'hidden',
+                      filter: (carouselIndex % 3) === 2 ? 'none' : 'blur(2px) brightness(0.35)',
+                      opacity: (carouselIndex % 3) === 2 ? 1 : 0.55,
+                      scale: (carouselIndex % 3) === 2 ? '1' : '0.85',
+                    }}
+                  >
+                    <img 
+                      src="/offerwall/carus_tour.png" 
+                      alt="Tournaments Payouts" 
+                      className="w-full h-auto object-contain rounded-2xl shadow-[0_20px_45px_rgba(0,0,0,0.7)]" 
+                    />
                   </div>
-                  <div className="bg-[#0f0f13]/80 border border-[#1e1e26] rounded-2xl p-4 flex items-center gap-3">
-                    <img src="/offerwall/carus_days.png" alt="Streak" className="h-12 w-auto object-contain rounded" />
-                    <div>
-                      <h4 className="text-[10px] font-black text-white uppercase tracking-wider">Streak Reward</h4>
-                      <span className="text-xs text-[#8b5cf6] font-bold">+500 Gems</span>
-                    </div>
-                  </div>
-                  <div className="bg-[#0f0f13]/80 border border-[#1e1e26] rounded-2xl p-4 flex items-center gap-3">
-                    <img src="/offerwall/carus_diff.png" alt="Bonus" className="h-12 w-auto object-contain rounded" />
-                    <div>
-                      <h4 className="text-[10px] font-black text-white uppercase tracking-wider">Multipliers</h4>
-                      <span className="text-xs text-[#8b5cf6] font-bold">1.5x Boost</span>
-                    </div>
-                  </div>
+
                 </div>
               </div>
             </div>
             
             <div className="lg:col-span-6 flex flex-col gap-4 order-1 lg:order-2">
-              <h3 className="text-3xl font-extrabold text-white leading-tight"><span className="text-[#8b5cf6]">Tournament</span> Rewards and Beyond</h3>
+              <h3 className="text-3xl font-extrabold text-white leading-tight"><span className="text-[#bf5aff]">Tournament</span> Rewards and Beyond</h3>
               <p className="text-sm text-zinc-450 leading-relaxed">
                 Go beyond offers, join tournaments, climb leaderboards, earn with streaks and lucky spins. Do more, earn more!
               </p>
