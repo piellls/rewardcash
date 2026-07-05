@@ -183,6 +183,173 @@ function HeroRegisterForm() {
   );
 }
 
+
+const CARTOON_AVATARS = [
+  '/avatars/cartoon_avatar_happy_sq_1782358369570.png',
+  '/avatars/cartoon_avatar_nerd_sq_1782358503432.png',
+  '/avatars/cartoon_avatar_angry_sq_1782358468885.png',
+  '/avatars/cartoon_avatar_wink_sq_1782358451190.png',
+  '/avatars/cartoon_avatar_love_sq_1782358485615.png',
+  '/avatars/cartoon_avatar_bored_sq_1782358521570.png',
+  '/avatars/cartoon_avatar_cool_sunglasses_sq_1782358415875.png',
+  '/avatars/cartoon_avatar_shocked_sq_1782358433199.png',
+  '/avatars/cartoon_avatar_sleepy_glasses_sq_1782358400859.png',
+  '/avatars/cartoon_avatar_skeptical_sq_1782358384573.png'
+];
+
+const RANDOM_OFFERS = [
+  { action: 'Earn Just Now', detail: 'Hole Rush (Watch Ads)', payout: '0.01' },
+  { action: 'Earn Just Now', detail: 'That\'s My Seat - Logic Puzzle', payout: '0.12' },
+  { action: 'Earn Just Now', detail: 'Monopoly GO (Level 12)', payout: '2.40' },
+  { action: 'Earn Just Now', detail: 'Coin Master (Village 4)', payout: '3.50' },
+  { action: 'Earn Just Now', detail: 'TikTok (Install & Open)', payout: '0.45' },
+  { action: 'Earn Just Now', detail: 'Surveys (CPX Research)', payout: '1.20' },
+  { action: 'Cashout Just Now', detail: 'crypto: btc', payout: '3.75' },
+  { action: 'Cashout Just Now', detail: 'crypto: ltc', payout: '5.00' },
+  { action: 'Cashout Just Now', detail: 'paypal transfer', payout: '10.00' },
+  { action: 'Cashout Just Now', detail: 'robux redeem', payout: '15.00' },
+  { action: 'Cashout Just Now', detail: 'amazon giftcard', payout: '25.00' },
+  { action: 'Reward Just Now', detail: 'affiliate collect', payout: '3.75' },
+  { action: 'Reward Just Now', detail: 'daily bonus claim', payout: '0.50' },
+  { action: 'Reward Just Now', detail: 'leaderboard reward', payout: '10.00' },
+  { action: 'Reward Just Now', detail: 'level up bonus', payout: '2.00' }
+];
+
+function LiveConversionStack() {
+  const [items, setItems] = useState([
+    {
+      id: 1,
+      action: 'Cashout Just Now',
+      detail: 'crypto: btc',
+      payout: '3.75',
+      avatar: '/avatars/cartoon_avatar_happy_sq_1782358369570.png',
+      isNew: false
+    },
+    {
+      id: 2,
+      action: 'Reward Just Now',
+      detail: 'affiliate collect',
+      payout: '3.75',
+      avatar: '/avatars/cartoon_avatar_happy_sq_1782358369570.png',
+      isNew: false
+    },
+    {
+      id: 3,
+      action: 'Earn Just Now',
+      detail: 'Hole Rush (Watch Ads)',
+      payout: '0.01',
+      avatar: '/avatars/cartoon_avatar_nerd_sq_1782358503432.png',
+      isNew: false
+    },
+    {
+      id: 4,
+      action: 'Earn Just Now',
+      detail: 'That\'s My Seat - Logic Puzzle ...',
+      payout: '0.12',
+      avatar: 'silhouette',
+      isNew: false
+    }
+  ]);
+
+  useEffect(() => {
+    const addNewItem = () => {
+      // Pick random offer
+      const offer = RANDOM_OFFERS[Math.floor(Math.random() * RANDOM_OFFERS.length)];
+      // Pick random avatar or silhouette
+      const isSilhouette = Math.random() < 0.25;
+      const avatar = isSilhouette ? 'silhouette' : CARTOON_AVATARS[Math.floor(Math.random() * CARTOON_AVATARS.length)];
+      
+      const newItem = {
+        id: Date.now(),
+        action: offer.action,
+        detail: offer.detail,
+        payout: offer.payout,
+        avatar: avatar,
+        isNew: true
+      };
+
+      setItems(prev => {
+        // Clear isNew flag on old items
+        const updatedPrev = prev.map(item => ({ ...item, isNew: false }));
+        return [newItem, ...updatedPrev].slice(0, 4);
+      });
+    };
+
+    // Helper to get random interval between 15 and 30 seconds
+    const scheduleNext = () => {
+      const delay = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000;
+      return setTimeout(() => {
+        addNewItem();
+        timeoutId = scheduleNext();
+      }, delay);
+    };
+
+    let timeoutId = scheduleNext();
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  return (
+    <div className="flex flex-col w-full max-w-md">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes slideDownNew {
+          from {
+            opacity: 0;
+            transform: translateY(-25px) scale(0.93);
+            max-height: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            border-width: 0;
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            max-height: 120px;
+            margin-bottom: 12px;
+            padding-top: 18px;
+            padding-bottom: 18px;
+            border-width: 1px;
+          }
+        }
+        .animate-new-card {
+          animation: slideDownNew 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          overflow: hidden;
+        }
+      `}} />
+      <div className="flex flex-col gap-3">
+        {items.map((item) => (
+          <div 
+            key={item.id} 
+            className={`bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300 ${item.isNew ? 'animate-new-card' : ''}`}
+          >
+            <div className="flex items-center gap-3">
+              {item.avatar === 'silhouette' ? (
+                <div className="h-11 w-11 rounded-xl bg-zinc-800 border border-white/10 flex items-center justify-center text-zinc-500 shrink-0">
+                  👤
+                </div>
+              ) : (
+                <img src={item.avatar} alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10 shrink-0" />
+              )}
+              <div>
+                <div className="text-[10px] font-bold text-zinc-500">
+                  {item.action.split(' ')[0]} <span className="text-zinc-550">{item.action.split(' ').slice(1).join(' ')}</span>
+                </div>
+                <div className="text-xs font-black text-white mt-0.5 truncate max-w-[200px]">
+                  {item.detail}
+                </div>
+              </div>
+            </div>
+            <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md shrink-0">
+              <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
+              {item.payout}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const { user } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -258,71 +425,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column (Exact replica stack of conversion cards) */}
-            <div className="lg:col-span-5 flex flex-col gap-3 w-full max-w-md">
-              
-              {/* Card 1 */}
-              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
-                <div className="flex items-center gap-3">
-                  <img src="/avatars/cartoon_avatar_happy_sq_1782358369570.png" alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10" />
-                  <div>
-                    <div className="text-[10px] font-bold text-zinc-500">Cashout <span className="text-zinc-550">Just Now</span></div>
-                    <div className="text-xs font-black text-white mt-0.5">crypto: btc</div>
-                  </div>
-                </div>
-                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
-                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
-                  3.75
-                </div>
-              </div>
-
-              {/* Card 2 */}
-              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
-                <div className="flex items-center gap-3">
-                  <img src="/avatars/cartoon_avatar_happy_sq_1782358369570.png" alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10" />
-                  <div>
-                    <div className="text-[10px] font-bold text-zinc-500">Reward <span className="text-zinc-550">Just Now</span></div>
-                    <div className="text-xs font-black text-white mt-0.5">affiliate collect</div>
-                  </div>
-                </div>
-                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
-                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
-                  3.75
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
-                <div className="flex items-center gap-3">
-                  <img src="/avatars/cartoon_avatar_nerd_sq_1782358503432.png" alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10" />
-                  <div>
-                    <div className="text-[10px] font-bold text-zinc-500">Earn <span className="text-zinc-550">Just Now</span></div>
-                    <div className="text-xs font-black text-white mt-0.5">Hole Rush (Watch Ads)</div>
-                  </div>
-                </div>
-                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
-                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
-                  0.01
-                </div>
-              </div>
-
-              {/* Card 4 */}
-              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
-                <div className="flex items-center gap-3">
-                  <div className="h-11 w-11 rounded-xl bg-zinc-800 border border-white/10 flex items-center justify-center text-zinc-500">
-                    👤
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-bold text-zinc-500">Earn <span className="text-zinc-550">Just Now</span></div>
-                    <div className="text-xs font-black text-white mt-0.5">That's My Seat - Logic Puzzle ...</div>
-                  </div>
-                </div>
-                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
-                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
-                  0.12
-                </div>
-              </div>
-
+            {/* Right Column (Live animated stack of conversion cards) */}
+            <div className="lg:col-span-5 flex justify-center w-full">
+              <LiveConversionStack />
             </div>
           </div>
         </div>
