@@ -215,60 +215,115 @@ export default function Home() {
       
       {/* 1. HERO SECTION & BACKDROP GRID */}
       <section className="py-16 md:py-24 relative overflow-hidden" style={{ backgroundImage: "url('/offerwall/landing_bg_5.avif')", backgroundSize: 'cover', backgroundPosition: 'center top' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(10,10,12,0.4) 0%, rgba(10,10,12,0.95) 100%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(10,10,12,0.45) 0%, rgba(10,10,12,0.95) 100%)', pointerEvents: 'none' }} />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Info Box */}
             <div className="lg:col-span-7 flex flex-col gap-6 text-left">
+              {/* Header Title exact duplicate of Gemsloot */}
+              <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] text-white">
+                <span className="text-[#bf5aff]">Get paid</span> for <br />
+                Playing Games or <br />
+                Doing Surveys
+              </h1>
+
               {/* Trust Indicators */}
-              <div className="flex flex-wrap gap-2.5">
-                <div className="inline-flex items-center gap-1.5 bg-[#101012]/80 border border-[#22222a] rounded-full px-4 py-1.5 text-xs font-black text-white shadow-[0_0_15px_rgba(139,92,246,0.15)]">
-                  <span className="text-[#8b5cf6]">✔</span> No deposit
+              <div className="flex flex-wrap gap-4 mt-1">
+                <div className="inline-flex items-center gap-2 text-sm font-bold text-zinc-350">
+                  <span className="bg-[#13b257] text-white rounded-full h-5 w-5 inline-flex items-center justify-center font-bold text-[11px] shrink-0">✔</span>
+                  No deposit
                 </div>
-                <div className="inline-flex items-center gap-1.5 bg-[#101012]/80 border border-[#22222a] rounded-full px-4 py-1.5 text-xs font-black text-white shadow-[0_0_15px_rgba(139,92,246,0.15)]">
-                  <span className="text-[#8b5cf6]">✔</span> Quick cashout
+                <div className="inline-flex items-center gap-2 text-sm font-bold text-zinc-350">
+                  <span className="bg-[#13b257] text-white rounded-full h-5 w-5 inline-flex items-center justify-center font-bold text-[11px] shrink-0">✔</span>
+                  Quick cashout
                 </div>
               </div>
 
-              {/* Header Title exact duplicate of Gemsloot */}
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight leading-[1.05] text-white">
-                Get paid for <br />
-                <span className="text-gradient">Playing Games or <br />Doing Surveys</span>
-              </h1>
-
               {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 mt-2">
+              <div className="flex flex-wrap gap-4 mt-3">
                 {user ? (
-                  <Link href="/earn" className="rounded-xl px-10 py-4 text-sm font-black uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-lg hover:translate-y-[-2px] transition-all" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #4f8ef7 100%)', color: '#fff' }}>
+                  <Link href="/earn" className="rounded-full px-8 py-3.5 text-xs font-black uppercase tracking-wider flex items-center justify-center cursor-pointer shadow-lg hover:scale-102 transition-all" style={{ background: '#bf5aff', color: '#fff' }}>
                     Earn now!
                   </Link>
                 ) : (
-                  <button onClick={openRegister} className="rounded-xl px-10 py-4 text-sm font-black uppercase tracking-wider flex items-center gap-2 cursor-pointer shadow-lg hover:translate-y-[-2px] transition-all" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #4f8ef7 100%)', color: '#fff', border: 'none' }}>
+                  <button onClick={openRegister} className="rounded-full px-8 py-3.5 text-xs font-black uppercase tracking-wider flex items-center justify-center cursor-pointer shadow-lg hover:scale-102 transition-all" style={{ background: '#bf5aff', color: '#fff', border: 'none' }}>
                     Earn now!
                   </button>
                 )}
-                <a href="#howto" className="btn-gaming-secondary rounded-xl px-10 py-4 text-sm font-black uppercase tracking-wider">
-                  How it works
+                <a href="#howto" className="rounded-full px-8 py-3.5 text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 border border-zinc-650 hover:bg-white/5 transition-all text-white bg-transparent">
+                  <span className="text-[14px]">ⓘ</span> How it works
                 </a>
               </div>
+            </div>
 
-              {/* Supported Brands Marquee */}
-              <div className="mt-4">
-                <div className="flex flex-wrap gap-6 items-center opacity-65">
-                  {['Roblox', 'Steam', 'Xbox', 'Amazon', 'Bitcoin'].map(b => (
-                    <span key={b} className="text-sm font-black tracking-widest text-zinc-400 select-none uppercase">{b}</span>
-                  ))}
+            {/* Right Column (Exact replica stack of conversion cards) */}
+            <div className="lg:col-span-5 flex flex-col gap-3 w-full max-w-md">
+              
+              {/* Card 1 */}
+              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <img src="/avatars/cartoon_avatar_happy_sq_1782358369570.png" alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10" />
+                  <div>
+                    <div className="text-[10px] font-bold text-zinc-500">Cashout <span className="text-zinc-550">Just Now</span></div>
+                    <div className="text-xs font-black text-white mt-0.5">crypto: btc</div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
+                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
+                  3.75
                 </div>
               </div>
-            </div>
 
-            {/* Right Form/Recent Conversions Column */}
-            <div className="lg:col-span-5 flex justify-center w-full">
-              {user ? <HeroActivityStack /> : <HeroRegisterForm />}
-            </div>
+              {/* Card 2 */}
+              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <img src="/avatars/cartoon_avatar_happy_sq_1782358369570.png" alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10" />
+                  <div>
+                    <div className="text-[10px] font-bold text-zinc-500">Reward <span className="text-zinc-550">Just Now</span></div>
+                    <div className="text-xs font-black text-white mt-0.5">affiliate collect</div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
+                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
+                  3.75
+                </div>
+              </div>
 
+              {/* Card 3 */}
+              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <img src="/avatars/cartoon_avatar_nerd_sq_1782358503432.png" alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10" />
+                  <div>
+                    <div className="text-[10px] font-bold text-zinc-500">Earn <span className="text-zinc-550">Just Now</span></div>
+                    <div className="text-xs font-black text-white mt-0.5">Hole Rush (Watch Ads)</div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
+                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
+                  0.01
+                </div>
+              </div>
+
+              {/* Card 4 */}
+              <div className="bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-zinc-800 border border-white/10 flex items-center justify-center text-zinc-500">
+                    👤
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-bold text-zinc-500">Earn <span className="text-zinc-550">Just Now</span></div>
+                    <div className="text-xs font-black text-white mt-0.5">That's My Seat - Logic Puzzle ...</div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-r from-[#bf5aff] to-[#8b5cf6] rounded-xl px-3 py-1.5 font-black text-white text-xs flex items-center gap-1 shadow-md">
+                  <span className="bg-white/20 rounded-full h-4.5 w-4.5 inline-flex items-center justify-center text-[10px] font-bold">$</span>
+                  0.12
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </section>
