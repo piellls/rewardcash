@@ -54,7 +54,7 @@
   --font-sans: 'Rubik', system-ui, -apple-system, sans-serif;
   --font-display: 'Rubik', system-ui, sans-serif;
 
-  --color-primary: #4f8ef7; /* Gemsloot Electric Blue */
+  --color-primary: #bf5aff; /* Gemsloot Electric Blue */
   --color-secondary: #8b5cf6; /* Gemsloot Purple */
   --color-dark-bg: #0a0a0c; /* Sleek Dark Background */
   --color-dark-card: #0f0f12; /* Elevated Card Background */
@@ -90,10 +90,10 @@
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 4px rgba(79, 142, 247, 0.2), 0 0 10px rgba(79, 142, 247, 0.2);
+    text-shadow: 0 0 4px rgba(191, 90, 255, 0.2), 0 0 10px rgba(191, 90, 255, 0.2);
   }
   to {
-    text-shadow: 0 0 8px rgba(79, 142, 247, 0.6), 0 0 20px rgba(79, 142, 247, 0.4);
+    text-shadow: 0 0 8px rgba(191, 90, 255, 0.6), 0 0 20px rgba(191, 90, 255, 0.4);
   }
 }
 
@@ -121,7 +121,7 @@ body {
   width: 100%;
   position: relative;
   background-image: 
-    radial-gradient(at 50% 0%, rgba(79, 142, 247, 0.08) 0px, transparent 75%),
+    radial-gradient(at 50% 0%, rgba(191, 90, 255, 0.08) 0px, transparent 75%),
     url('/offerwall/lobby_bg.avif');
   background-size: 100% 100%, cover;
   background-attachment: fixed;
@@ -179,7 +179,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-dark-border);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(79, 142, 247, 0.04);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(191, 90, 255, 0.04);
 }
 
 .glass-nav {

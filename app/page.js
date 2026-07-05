@@ -64,7 +64,7 @@ function HeroActivityStack() {
       {items.map((item) => (
         <div key={item.id} className="flex items-center justify-between bg-[#13131a]/85 border border-[#1e1e26] rounded-xl p-3 hover:border-[#8b5cf6]/30 transition-all duration-300">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-[#8b5cf6] to-[#4f8ef7] p-0.5">
+            <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-[#8b5cf6] to-[#bf5aff] p-0.5">
               <div className="h-full w-full rounded-full bg-[#13131a] flex items-center justify-center font-bold text-xs text-white">
                 {item.username.charAt(0)}
               </div>
@@ -173,7 +173,7 @@ function HeroRegisterForm() {
             type="submit"
             disabled={loading}
             className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 text-xs font-black uppercase mt-5 tracking-wider shadow-lg active:scale-[0.98] transition-transform cursor-pointer"
-            style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #4f8ef7 100%)', color: '#fff', border: 'none' }}
+            style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #bf5aff 100%)', color: '#fff', border: 'none' }}
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Join & Start Earning'}
           </button>
@@ -537,7 +537,7 @@ export default function Home() {
             {/* Central Hexagonal Orbital partner bubbles */}
             <div className="lg:col-span-7 flex justify-center">
               <div className="relative w-80 h-80 flex items-center justify-center">
-                <div className="h-20 w-20 rounded-2xl bg-gradient-to-tr from-[#8b5cf6] to-[#4f8ef7] p-0.5 shadow-[0_0_40px_rgba(139,92,246,0.5)] z-20">
+                <div className="h-20 w-20 rounded-2xl bg-gradient-to-tr from-[#8b5cf6] to-[#bf5aff] p-0.5 shadow-[0_0_40px_rgba(139,92,246,0.5)] z-20">
                   <div className="h-full w-full rounded-2xl bg-[#0a0a0c] flex items-center justify-center overflow-hidden">
                     <img src="/offerwall/blueberry_icon.png" alt="blueberrycash Logo" className="h-12 w-12 object-contain" />
                   </div>

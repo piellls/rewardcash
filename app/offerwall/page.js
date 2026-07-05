@@ -57,7 +57,7 @@ const LEADERBOARD = [
 ];
 
 const STATS = [
-  { label: 'Active Users', value: '127,492', color: '#4f8ef7' },
+  { label: 'Active Users', value: '127,492', color: '#bf5aff' },
   { label: 'Total Paid Out', value: '$2.4M+', color: '#f7c948' },
   { label: 'Tasks Available', value: '8,500+', color: '#48f78a' },
   { label: 'Avg Payout Time', value: '< 24h', color: '#f748b8' },
@@ -86,7 +86,7 @@ export default function OfferwallPage() {
   const openAuth = (tab) => { setAuthTab(tab || 'register'); setIsAuthOpen(true); };
   const diffColor = (d) => d === 'Easy' ? '#48f78a' : d === 'Medium' ? '#f7c948' : '#f74848';
   const badgeStyle = (b) => {
-    if (b === 'Diamond') return { bg: 'rgba(79,142,247,0.15)', color: '#4f8ef7' };
+    if (b === 'Diamond') return { bg: 'rgba(191,90,255,0.15)', color: '#bf5aff' };
     if (b === 'Platinum') return { bg: 'rgba(168,85,247,0.15)', color: '#a855f7' };
     if (b === 'Gold') return { bg: 'rgba(247,201,72,0.15)', color: '#f7c948' };
     return { bg: 'rgba(255,255,255,0.08)', color: '#c0c0c0' };
@@ -101,26 +101,26 @@ export default function OfferwallPage() {
     @keyframes breathe{0%,100%{transform:translateY(-50%) scale(1);opacity:.6;}50%{transform:translateY(-50%) scale(1.12);opacity:1;}}
     @keyframes scrollFeed{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
     @keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(72,247,138,.7);}50%{box-shadow:0 0 0 6px rgba(72,247,138,0);}}
-    .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,.6) 0%,transparent 70%);pointer-events:none;}
-    .btnp{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#4f8ef7,#7c3aed);color:#fff;font-weight:800;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;transition:all .2s;box-shadow:0 4px 30px rgba(79,142,247,.4);text-decoration:none;font-family:Rubik,sans-serif;}
-    .btnp:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(79,142,247,.6);}
+    .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(191,90,255,.6) 0%,transparent 70%);pointer-events:none;}
+    .btnp{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#bf5aff,#7c3aed);color:#fff;font-weight:800;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;transition:all .2s;box-shadow:0 4px 30px rgba(191,90,255,.4);text-decoration:none;font-family:Rubik,sans-serif;}
+    .btnp:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(191,90,255,.6);}
     .btns{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;cursor:pointer;transition:all .2s;text-decoration:none;backdrop-filter:blur(10px);font-family:Rubik,sans-serif;}
     .btns:hover{background:rgba(255,255,255,.1);transform:translateY(-2px);}
-    .stag{display:inline-flex;align-items:center;gap:6px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);color:#4f8ef7;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:5px 12px;border-radius:100px;margin-bottom:14px;}
+    .stag{display:inline-flex;align-items:center;gap:6px;background:rgba(191,90,255,.1);border:1px solid rgba(191,90,255,.25);color:#bf5aff;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:5px 12px;border-radius:100px;margin-bottom:14px;}
     .stitle{font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-.5px;line-height:1.1;margin-bottom:10px;}
-    .stitle span{color:#4f8ef7;}
+    .stitle span{color:#bf5aff;}
     .ssub{font-size:15px;color:rgba(255,255,255,.45);}
     .catbtn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);font-weight:700;font-size:13px;padding:8px 16px;border-radius:10px;cursor:pointer;transition:all .2s;font-family:Rubik,sans-serif;}
-    .catbtn:hover,.catbtn.active{background:rgba(79,142,247,.15);border-color:rgba(79,142,247,.5);color:#4f8ef7;}
+    .catbtn:hover,.catbtn.active{background:rgba(191,90,255,.15);border-color:rgba(191,90,255,.5);color:#bf5aff;}
     .ocard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;cursor:pointer;transition:all .3s;position:relative;}
-    .ocard:hover{border-color:rgba(79,142,247,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 40px rgba(79,142,247,.15);}
+    .ocard:hover{border-color:rgba(191,90,255,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 40px rgba(191,90,255,.15);}
     .rcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
-    .rcard:hover{transform:translateY(-4px);border-color:rgba(79,142,247,.4);box-shadow:0 16px 40px rgba(0,0,0,.3);}
+    .rcard:hover{transform:translateY(-4px);border-color:rgba(191,90,255,.4);box-shadow:0 16px 40px rgba(0,0,0,.3);}
     .rcard.pop::before{content:'Popular';position:absolute;top:8px;right:-20px;background:linear-gradient(135deg,#f7c948,#f7a248);color:#000;font-size:9px;font-weight:900;padding:3px 30px;transform:rotate(30deg);text-transform:uppercase;}
     .lbcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;}
     .lbrow{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .2s;gap:14px;}
     .lbrow:hover{background:rgba(255,255,255,.03);}
-    .ctawrap{background:linear-gradient(135deg,rgba(79,142,247,.12),rgba(147,51,234,.12));border:1px solid rgba(79,142,247,.2);border-radius:24px;padding:60px 48px;text-align:center;position:relative;overflow:hidden;}
+    .ctawrap{background:linear-gradient(135deg,rgba(191,90,255,.12),rgba(147,51,234,.12));border:1px solid rgba(191,90,255,.2);border-radius:24px;padding:60px 48px;text-align:center;position:relative;overflow:hidden;}
     .sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
     .sitem{background:rgba(255,255,255,.03);padding:22px;display:flex;align-items:center;gap:14px;transition:background .2s;}
     .sitem:hover{background:rgba(255,255,255,.055);}
@@ -130,13 +130,13 @@ export default function OfferwallPage() {
     .owfoot{background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.06);padding:48px 0 24px;}
     .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
     .flink{display:block;font-size:13px;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:10px;text-decoration:none;transition:color .2s;}
-    .flink:hover{color:#4f8ef7;}
+    .flink:hover{color:#bf5aff;}
     @media(max-width:900px){.sgrid{grid-template-columns:repeat(2,1fr);}.fgrid{grid-template-columns:1fr 1fr;}.hero-r{display:none!important;}.lbhow{grid-template-columns:1fr!important;}}
     @media(max-width:600px){.ogrid{grid-template-columns:repeat(2,1fr)!important;}.rgrid{grid-template-columns:repeat(2,1fr)!important;}}
   `;
 
-  const hgrid = {position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(79,142,247,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,.05) 1px,transparent 1px)',backgroundSize:'60px 60px',pointerEvents:'none'};
-  const hglow = {position:'absolute',width:600,height:600,borderRadius:'50%',background:'radial-gradient(circle,rgba(79,142,247,.18) 0%,transparent 70%)',top:'50%',right:'8%',animation:'breathe 4s ease-in-out infinite',pointerEvents:'none'};
+  const hgrid = {position:'absolute',inset:0,backgroundImage:'linear-gradient(rgba(191,90,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(191,90,255,.05) 1px,transparent 1px)',backgroundSize:'60px 60px',pointerEvents:'none'};
+  const hglow = {position:'absolute',width:600,height:600,borderRadius:'50%',background:'radial-gradient(circle,rgba(191,90,255,.18) 0%,transparent 70%)',top:'50%',right:'8%',animation:'breathe 4s ease-in-out infinite',pointerEvents:'none'};
 
   return (
     <>
@@ -144,7 +144,7 @@ export default function OfferwallPage() {
       <div className="ow">
 
         {/* HERO */}
-        <section style={{position:'relative',minHeight:'100vh',display:'flex',alignItems:'center',overflow:'hidden',background:'radial-gradient(ellipse 80% 60% at 50% 0%,rgba(79,142,247,.15) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 80% 50%,rgba(147,51,234,.1) 0%,transparent 60%),#0a0a12'}}>
+        <section style={{position:'relative',minHeight:'100vh',display:'flex',alignItems:'center',overflow:'hidden',background:'radial-gradient(ellipse 80% 60% at 50% 0%,rgba(191,90,255,.15) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 80% 50%,rgba(147,51,234,.1) 0%,transparent 60%),#0a0a12'}}>
           <div style={hgrid}/>
           <div style={hglow}/>
           {particles.map(p => (
@@ -153,13 +153,10 @@ export default function OfferwallPage() {
           <div className="owc" style={{position:'relative',zIndex:2,width:'100%',paddingTop:120,paddingBottom:80}}>
             <div style={{display:'flex',alignItems:'center',gap:60,justifyContent:'space-between'}}>
               <div style={{flex:1,minWidth:0}}>
-                <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(79,142,247,.12)',border:'1px solid rgba(79,142,247,.3)',borderRadius:100,padding:'6px 16px',fontSize:12,fontWeight:700,color:'#4f8ef7',textTransform:'uppercase',letterSpacing:'1.5px',marginBottom:24}}>
-                  <div style={{width:7,height:7,borderRadius:'50%',background:'#48f78a',animation:'pulseDot 1.5s infinite'}}/>
-                  127,492 active earners worldwide
-                </div>
+
                 <h1 style={{fontSize:'clamp(40px,6vw,76px)',fontWeight:900,lineHeight:1.05,letterSpacing:-1,marginBottom:20}}>
                   Earn Gems.<br/>Cash Out{' '}
-                  <span style={{background:'linear-gradient(135deg,#4f8ef7,#a855f7)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>Instantly.</span>
+                  <span style={{background:'linear-gradient(135deg,#bf5aff,#a855f7)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>Instantly.</span>
                 </h1>
                 <p style={{fontSize:18,color:'rgba(255,255,255,.5)',lineHeight:1.6,maxWidth:480,marginBottom:36}}>
                   Complete tasks, play games and surveys. Redeem for PayPal, Bitcoin, Gift Cards and Robux instantly.
@@ -173,7 +170,7 @@ export default function OfferwallPage() {
                   <Link href="#offers" className="btns"><ArrowRight size={16}/> Browse Offers</Link>
                 </div>
                 <div style={{display:'flex',gap:20,marginTop:28,flexWrap:'wrap'}}>
-                  {[['SSL Secured','#48f78a'],['Instant Payouts','#4f8ef7'],['Free to Join','#f7c948']].map(([t,c]) => (
+                  {[['SSL Secured','#48f78a'],['Instant Payouts','#bf5aff'],['Free to Join','#f7c948']].map(([t,c]) => (
                     <div key={t} style={{display:'flex',alignItems:'center',gap:6,fontSize:12,color:'rgba(255,255,255,.4)',fontWeight:600}}>
                       <CheckCircle size={13} style={{color:c}}/> {t}
                     </div>
@@ -181,7 +178,7 @@ export default function OfferwallPage() {
                 </div>
               </div>
               <div className="hero-r" style={{flexShrink:0}}>
-                <img src="/offerwall/gem.jpg" alt="Gem" style={{width:300,height:300,objectFit:'contain',filter:'drop-shadow(0 0 60px rgba(79,142,247,.5))',animation:'gemFloat 6s ease-in-out infinite'}}/>
+                <img src="/offerwall/gem.jpg" alt="Gem" style={{width:300,height:300,objectFit:'contain',filter:'drop-shadow(0 0 60px rgba(191,90,255,.5))',animation:'gemFloat 6s ease-in-out infinite'}}/>
               </div>
             </div>
           </div>
@@ -267,10 +264,10 @@ export default function OfferwallPage() {
                     </div>
                     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                       <div>
-                        <div style={{fontSize:18,fontWeight:900,color:'#4f8ef7',display:'flex',alignItems:'center',gap:4}}><Gem size={13}/>{offer.gems.toLocaleString()}</div>
+                        <div style={{fontSize:18,fontWeight:900,color:'#bf5aff',display:'flex',alignItems:'center',gap:4}}><Gem size={13}/>{offer.gems.toLocaleString()}</div>
                         <div style={{fontSize:11,color:'rgba(255,255,255,.3)'}}>${offer.payout.toFixed(2)} value</div>
                       </div>
-                      <button style={{background:'linear-gradient(135deg,#4f8ef7,#7c3aed)',color:'#fff',fontWeight:800,fontSize:12,padding:'7px 14px',borderRadius:8,border:'none',cursor:'pointer',display:'flex',alignItems:'center',gap:5}} onClick={e=>{e.stopPropagation();user?window.open('/earn','_self'):openAuth('register');}}>
+                      <button style={{background:'linear-gradient(135deg,#bf5aff,#7c3aed)',color:'#fff',fontWeight:800,fontSize:12,padding:'7px 14px',borderRadius:8,border:'none',cursor:'pointer',display:'flex',alignItems:'center',gap:5}} onClick={e=>{e.stopPropagation();user?window.open('/earn','_self'):openAuth('register');}}>
                         Start <ChevronRight size={12}/>
                       </button>
                     </div>
@@ -301,7 +298,7 @@ export default function OfferwallPage() {
                   <span style={{fontSize:36,marginBottom:10,display:'block'}}>{r.icon}</span>
                   <div style={{fontSize:14,fontWeight:800,marginBottom:4}}>{r.name}</div>
                   <div style={{fontSize:11,color:'rgba(255,255,255,.4)',marginBottom:8}}>From {r.min}</div>
-                  <div style={{fontSize:13,fontWeight:800,color:'#4f8ef7',display:'flex',alignItems:'center',justifyContent:'center',gap:4}}><Gem size={11}/>{r.gems.toLocaleString()}+ gems</div>
+                  <div style={{fontSize:13,fontWeight:800,color:'#bf5aff',display:'flex',alignItems:'center',justifyContent:'center',gap:4}}><Gem size={11}/>{r.gems.toLocaleString()}+ gems</div>
                 </div>
               ))}
             </div>
@@ -317,7 +314,7 @@ export default function OfferwallPage() {
                 <h2 className="stitle" style={{marginBottom:6}}>Weekly <span>Leaderboard</span></h2>
                 <p className="ssub" style={{marginBottom:24}}>Top earners win exclusive bonuses</p>
                 <div className="lbcard">
-                  <div style={{background:'linear-gradient(135deg,rgba(79,142,247,.12),rgba(147,51,234,.12))',borderBottom:'1px solid rgba(255,255,255,.07)',padding:'18px 20px',display:'flex',alignItems:'center',gap:12}}>
+                  <div style={{background:'linear-gradient(135deg,rgba(191,90,255,.12),rgba(147,51,234,.12))',borderBottom:'1px solid rgba(255,255,255,.07)',padding:'18px 20px',display:'flex',alignItems:'center',gap:12}}>
                     <img src="/offerwall/trophy.jpg" alt="Trophy" style={{width:44,height:44,objectFit:'cover',borderRadius:10}}/>
                     <div>
                       <div style={{fontWeight:800,fontSize:15}}>Weekly Challenge</div>
@@ -338,7 +335,7 @@ export default function OfferwallPage() {
                           <span style={{fontSize:10,fontWeight:800,padding:'2px 7px',borderRadius:100,background:bs.bg,color:bs.color,textTransform:'uppercase'}}>{p.badge}</span>
                         </div>
                         <div style={{textAlign:'right'}}>
-                          <div style={{fontSize:15,fontWeight:900,color:'#4f8ef7'}}>{p.gems.toLocaleString()}</div>
+                          <div style={{fontSize:15,fontWeight:900,color:'#bf5aff'}}>{p.gems.toLocaleString()}</div>
                           <div style={{fontSize:10,color:'rgba(255,255,255,.3)'}}>gems</div>
                         </div>
                       </div>
@@ -354,7 +351,7 @@ export default function OfferwallPage() {
                 <h2 className="stitle" style={{marginBottom:6}}>3 Steps to <span>Cash Out</span></h2>
                 <p className="ssub" style={{marginBottom:24}}>Simple, fast, completely free</p>
                 {[
-                  {step:'01',title:'Create Free Account',desc:'Sign up in seconds. No credit card required.',icon:Users,color:'#4f8ef7'},
+                  {step:'01',title:'Create Free Account',desc:'Sign up in seconds. No credit card required.',icon:Users,color:'#bf5aff'},
                   {step:'02',title:'Complete Tasks & Earn',desc:'Play games, surveys, install apps. Earn gems.',icon:Gem,color:'#a855f7'},
                   {step:'03',title:'Cash Out Instantly',desc:'Redeem for PayPal, Bitcoin, gift cards and more.',icon:Zap,color:'#48f78a'},
                 ].map(({step,title,desc,icon:Icon,color}) => (
@@ -369,7 +366,7 @@ export default function OfferwallPage() {
                     </div>
                   </div>
                 ))}
-                <div style={{padding:18,background:'rgba(79,142,247,.05)',border:'1px solid rgba(79,142,247,.15)',borderRadius:16}}>
+                <div style={{padding:18,background:'rgba(191,90,255,.05)',border:'1px solid rgba(191,90,255,.15)',borderRadius:16}}>
                   <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:12}}>
                     <img src="/offerwall/gift.jpg" alt="Gift" style={{width:40,height:40,objectFit:'cover',borderRadius:10}}/>
                     <div>
@@ -380,7 +377,7 @@ export default function OfferwallPage() {
                   <div style={{height:1,background:'rgba(255,255,255,.07)',margin:'10px 0'}}/>
                   <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <span style={{fontSize:13,color:'rgba(255,255,255,.45)',fontWeight:600}}>Today bonus</span>
-                    <span style={{fontSize:16,fontWeight:900,color:'#f7c948',display:'flex',alignItems:'center',gap:4}}><Gem size={13} style={{color:'#4f8ef7'}}/> 500 Gems</span>
+                    <span style={{fontSize:16,fontWeight:900,color:'#f7c948',display:'flex',alignItems:'center',gap:4}}><Gem size={13} style={{color:'#bf5aff'}}/> 500 Gems</span>
                   </div>
                 </div>
               </div>

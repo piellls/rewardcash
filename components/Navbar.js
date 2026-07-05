@@ -65,7 +65,7 @@ export default function Navbar() {
             <img 
               src="/offerwall/blueberry_logo.png" 
               alt="blueberrycash Logo" 
-              className="h-11 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
+              className="h-14 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
         </div>
@@ -176,7 +176,7 @@ export default function Navbar() {
             <img 
               src="/offerwall/blueberry_logo.png" 
               alt="blueberrycash Logo" 
-              className="h-13.5 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
+              className="h-18 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
         </div>

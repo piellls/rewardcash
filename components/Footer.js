@@ -21,7 +21,7 @@ export default function Footer() {
               <img 
                 src="/offerwall/blueberry_logo.png" 
                 alt="blueberrycash Logo" 
-                className="h-12 w-auto object-contain" 
+                className="h-16 w-auto object-contain" 
               />
             </Link>
             <p className="text-sm text-zinc-450 max-w-sm leading-relaxed">
