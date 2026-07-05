@@ -317,10 +317,10 @@ function LiveConversionStack() {
         }
       `}} />
       <div className="flex flex-col gap-3">
-        {items.map((item) => (
+        {items.map((item, idx) => (
           <div 
             key={item.id} 
-            className={`bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 flex items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300 \${item.isNew ? 'animate-new-card' : ''}`}
+            className={`bg-[#13141a]/90 border border-[#22222d] rounded-2xl p-4.5 items-center justify-between shadow-2xl backdrop-blur-sm hover:border-[#bf5aff]/30 transition-all duration-300 ${item.isNew ? 'animate-new-card' : ''} ${idx === 3 ? 'hidden md:flex' : 'flex'}`}
           >
             <div className="flex items-center gap-3">
               <img src={item.avatar} alt="avatar" className="h-11 w-11 rounded-xl object-cover border border-white/10 shrink-0" />
