@@ -569,9 +569,9 @@ export default function Home() {
               <div 
                 className="relative overflow-visible"
                 style={{
-                  width: '320px',
-                  height: '380px',
-                  perspective: '1200px',
+                  width: '260px',
+                  height: '320px',
+                  perspective: '1000px',
                 }}
               >
                 <div 
@@ -586,7 +586,7 @@ export default function Home() {
                   <div 
                     className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
                     style={{
-                      transform: 'rotateY(0deg) translateZ(220px)',
+                      transform: 'rotateY(0deg) translateZ(180px)',
                       transformStyle: 'preserve-3d',
                       backfaceVisibility: 'hidden',
                       filter: (carouselIndex % 3) === 0 ? 'none' : 'blur(2px) brightness(0.35)',
@@ -605,7 +605,7 @@ export default function Home() {
                   <div 
                     className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
                     style={{
-                      transform: 'rotateY(120deg) translateZ(220px)',
+                      transform: 'rotateY(120deg) translateZ(180px)',
                       transformStyle: 'preserve-3d',
                       backfaceVisibility: 'hidden',
                       filter: (carouselIndex % 3) === 1 ? 'none' : 'blur(2px) brightness(0.35)',
@@ -624,7 +624,7 @@ export default function Home() {
                   <div 
                     className="absolute inset-0 transition-all duration-700 ease-in-out flex justify-center items-center"
                     style={{
-                      transform: 'rotateY(240deg) translateZ(220px)',
+                      transform: 'rotateY(240deg) translateZ(180px)',
                       transformStyle: 'preserve-3d',
                       backfaceVisibility: 'hidden',
                       filter: (carouselIndex % 3) === 2 ? 'none' : 'blur(2px) brightness(0.35)',
