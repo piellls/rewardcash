@@ -46,6 +46,7 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'Earn', href: '/earn', icon: PlayCircle },
+    { name: 'Offerwall', href: '/offerwall', icon: Coins },
     { name: 'Cashout', href: '/cashout', icon: Wallet },
     { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
     { name: 'Referrals', href: '/referrals', icon: Users },
