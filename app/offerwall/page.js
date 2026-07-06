@@ -64,19 +64,60 @@ const STATS = [
   { label: 'Avg Payout Time', value: '< 24h', color: '#f748b8' },
 ];
 
-const MOCK_FAST_OFFERS = [
-  { id: 'f1', title: 'Coin Master', category: 'Game', coins: 2025, icon: '🎰', provider: 'AdBlueMedia', url: '/earn', devices: ['android', 'ios'] },
-  { id: 'f2', title: 'Opinion Survey', category: 'Survey', coins: 810, icon: '📋', provider: 'OGAds', url: '/earn', devices: ['desktop'] },
-  { id: 'f3', title: 'TikTok Install', category: 'App', coins: 225, icon: '📱', provider: 'OGAds', url: '/earn', devices: ['android'] },
-  { id: 'f4', title: 'Roblox Survey', category: 'Survey', coins: 990, icon: '📝', provider: 'AdBlueMedia', url: '/earn', devices: ['ios'] },
+const RANDOM_TITLES = [
+  { title: 'Coin Master', category: 'Game', icon: '🎰', basePayout: 4.5 },
+  { title: 'Monopoly GO', category: 'Game', icon: '🎲', basePayout: 6.8 },
+  { title: 'TikTok Install', category: 'App', icon: '📱', basePayout: 0.5 },
+  { title: 'RAID Shadow Legends', category: 'Game', icon: '⚔️', basePayout: 8.2 },
+  { title: 'Lords Mobile', category: 'Game', icon: '🏰', basePayout: 12.0 },
+  { title: 'Opinion Survey', category: 'Survey', icon: '📋', basePayout: 1.8 },
+  { title: 'Roblox Survey', category: 'Survey', icon: '📝', basePayout: 2.2 },
+  { title: 'Brawl Stars', category: 'Game', icon: '🥊', basePayout: 5.0 },
+  { title: 'Gardenscapes', category: 'Game', icon: '🌻', basePayout: 3.5 },
+  { title: 'Family Island', category: 'Game', icon: '🏝️', basePayout: 4.0 },
+  { title: 'Match Masters', category: 'Game', icon: '🏆', basePayout: 7.2 },
+  { title: 'Brain Test', category: 'Game', icon: '🧠', basePayout: 0.8 },
+  { title: 'Duolingo', category: 'App', icon: '🦉', basePayout: 1.5 },
+  { title: 'Alibaba App', category: 'App', icon: '🛍️', basePayout: 0.6 },
+  { title: 'Crypto Quiz', category: 'Survey', icon: '🪙', basePayout: 1.2 },
 ];
 
-const MOCK_FINANCE_OFFERS = [
-  { id: 'fn1', title: 'Coin Master', category: 'Game', coins: 2025, icon: '🎰', provider: 'AdBlueMedia', url: '/earn', devices: ['ios'] },
-  { id: 'fn2', title: 'RAID Shadow Legends', category: 'Game', coins: 3690, icon: '⚔️', provider: 'OGAds', url: '/earn', devices: ['desktop', 'ios'] },
-  { id: 'fn3', title: 'Lords Mobile', category: 'Game', coins: 5400, icon: '🏰', provider: 'OGAds', url: '/earn', devices: ['android'] },
-  { id: 'fn4', title: 'Monopoly GO', category: 'Game', coins: 3060, icon: '🎲', provider: 'AdBlueMedia', url: '/earn', devices: ['ios'] },
-];
+function getRandomFallbackOffers(categoryFilter, limit = 4) {
+  let pool = RANDOM_TITLES;
+  if (categoryFilter === 'Fast') {
+    pool = RANDOM_TITLES.filter(t => t.basePayout < 5.0);
+  } else if (categoryFilter === 'Finance') {
+    pool = RANDOM_TITLES.filter(t => t.basePayout >= 3.0 || t.category === 'Survey');
+  }
+
+  const shuffled = [...pool].sort(() => 0.5 - Math.random());
+  
+  return shuffled.slice(0, limit).map((item, idx) => {
+    const randomMultiplier = 0.8 + Math.random() * 0.4;
+    const payout = item.basePayout * randomMultiplier;
+    const coins = Math.round(payout * 150 * 3);
+    
+    const devicesPool = ['android', 'ios', 'desktop'];
+    const deviceCount = Math.floor(Math.random() * 2) + 1;
+    const devices = [];
+    for (let i = 0; i < deviceCount; i++) {
+      const dev = devicesPool[Math.floor(Math.random() * devicesPool.length)];
+      if (!devices.includes(dev)) devices.push(dev);
+    }
+
+    return {
+      id: `fallback_${categoryFilter.toLowerCase()}_${idx}_${Math.random()}`,
+      title: item.title,
+      category: item.category,
+      coins,
+      payout,
+      icon: item.icon,
+      provider: Math.random() > 0.5 ? 'AdBlueMedia' : 'OGAds',
+      url: '/earn',
+      devices
+    };
+  });
+}
 
 const renderDeviceIcons = (devices = []) => {
   return (
@@ -111,6 +152,13 @@ export default function OfferwallPage() {
 
   const [realOffers, setRealOffers] = useState([]);
   const [clickedOffers, setClickedOffers] = useState([]);
+  const [fallbackFastOffers, setFallbackFastOffers] = useState([]);
+  const [fallbackFinanceOffers, setFallbackFinanceOffers] = useState([]);
+
+  useEffect(() => {
+    setFallbackFastOffers(getRandomFallbackOffers('Fast', 4));
+    setFallbackFinanceOffers(getRandomFallbackOffers('Finance', 4));
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -498,7 +546,7 @@ export default function OfferwallPage() {
               <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
                 {(realOffers.length > 0 
                   ? realOffers.filter(o => o.category === 'Game' || o.payout < 2.0).slice(0, 4)
-                  : MOCK_FAST_OFFERS
+                  : fallbackFastOffers
                 ).map(offer => {
                   return (
                     <div key={offer.id} className="flex flex-col select-none shrink-0" onClick={() => handleOfferClick(offer)}>
@@ -567,7 +615,7 @@ export default function OfferwallPage() {
               <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
                 {(realOffers.length > 0 
                   ? realOffers.filter(o => o.category === 'Survey' || o.payout >= 2.0).slice(0, 4)
-                  : MOCK_FINANCE_OFFERS
+                  : fallbackFinanceOffers
                 ).map(offer => {
                   return (
                     <div key={offer.id} className="flex flex-col select-none shrink-0" onClick={() => handleOfferClick(offer)}>
