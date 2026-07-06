@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
 import { Gem, Zap, Trophy, Gift, ArrowRight, ChevronRight, Gamepad2, Smartphone, FileText, Search, Users, CheckCircle, Sparkles, Flame, BarChart3 } from 'lucide-react';
 
@@ -69,6 +70,27 @@ export default function OfferwallPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [search, setSearch] = useState('');
   const [particles, setParticles] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  useEffect(() => {
+    const fetchLB = async () => {
+      try {
+        const data = await db.getLeaderboard(user);
+        setLeaderboard(data.slice(0, 5));
+      } catch (err) {
+        console.error('Error fetching leaderboard:', err);
+      }
+    };
+    fetchLB();
+  }, [user]);
+
+  const getBadgeName = (rank) => {
+    if (rank === 1) return 'Diamond';
+    if (rank === 2) return 'Platinum';
+    if (rank === 3) return 'Gold';
+    if (rank === 4) return 'Gold';
+    return 'Silver';
+  };
 
   useEffect(() => {
     const pts = Array.from({ length: 25 }, (_, i) => ({
@@ -224,22 +246,30 @@ export default function OfferwallPage() {
                       <div style={{fontSize:12,color:'rgba(255,255,255,.4)'}}>Resets every Monday UTC</div>
                     </div>
                   </div>
-                  {LEADERBOARD.map(p => {
-                    const bs = badgeStyle(p.badge);
-                    const rankIcon = p.rank===1?'🥇':p.rank===2?'🥈':p.rank===3?'🥉':`#${p.rank}`;
+                  {leaderboard.map((p, idx) => {
+                    const rank = idx + 1;
+                    const badgeName = getBadgeName(rank);
+                    const bs = badgeStyle(badgeName);
+                    const rankIcon = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':`#${rank}`;
                     return (
-                      <div key={p.rank} className="lbrow">
-                        <div style={{fontSize:p.rank<=3?18:14,fontWeight:900,width:30,textAlign:'center',flexShrink:0,color:p.rank===1?'#f7c948':p.rank===2?'#c0c0c0':p.rank===3?'#cd7f32':'rgba(255,255,255,.4)'}}>
+                      <div key={p.username} className="lbrow">
+                        <div style={{fontSize:rank<=3?18:14,fontWeight:900,width:30,textAlign:'center',flexShrink:0,color:rank===1?'#f7c948':rank===2?'#c0c0c0':rank===3?'#cd7f32':'rgba(255,255,255,.4)'}}>
                           {rankIcon}
                         </div>
-                        <div style={{width:40,height:40,borderRadius:10,background:'rgba(255,255,255,.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{p.avatar}</div>
+                        <div style={{width:40,height:40,borderRadius:10,background:'rgba(255,255,255,.06)',display:'flex',alignItems:'center',justifyContent:'center',overflow:'hidden',flexShrink:0}}>
+                          {p.avatar_url ? (
+                            <img src={p.avatar_url} alt={p.username} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                          ) : (
+                            <span style={{fontSize:20}}>👤</span>
+                          )}
+                        </div>
                         <div style={{flex:1}}>
-                          <div style={{fontSize:14,fontWeight:800}}>{p.user}</div>
-                          <span style={{fontSize:10,fontWeight:800,padding:'2px 7px',borderRadius:100,background:bs.bg,color:bs.color,textTransform:'uppercase'}}>{p.badge}</span>
+                          <div style={{fontSize:14,fontWeight:800}}>{p.username}</div>
+                          <span style={{fontSize:10,fontWeight:800,padding:'2px 7px',borderRadius:100,background:bs.bg,color:bs.color,textTransform:'uppercase'}}>{badgeName}</span>
                         </div>
                         <div style={{textAlign:'right'}}>
-                          <div style={{fontSize:15,fontWeight:900,color:'#bf5aff'}}>{p.gems.toLocaleString()}</div>
-                          <div style={{fontSize:10,color:'rgba(255,255,255,.3)'}}>gems</div>
+                          <div style={{fontSize:15,fontWeight:900,color:'#bf5aff'}}>{(p.total_earned_coins || 0).toLocaleString()}</div>
+                          <div style={{fontSize:10,color:'rgba(255,255,255,.3)'}}>coins</div>
                         </div>
                       </div>
                     );
