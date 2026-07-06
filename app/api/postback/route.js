@@ -19,8 +19,17 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
 
   // Extract parameters supporting multiple naming conventions from different CPA networks
-  const click_id = searchParams.get('click_id') || searchParams.get('subid') || searchParams.get('user_id') || searchParams.get('userId');
-  const payoutStr = searchParams.get('payout') || searchParams.get('amount') || '0';
+  const click_id = searchParams.get('click_id') || 
+                   searchParams.get('subid') || 
+                   searchParams.get('sub1') || 
+                   searchParams.get('sub2') || 
+                   searchParams.get('sub3') || 
+                   searchParams.get('sub4') || 
+                   searchParams.get('aff_sub4') || 
+                   searchParams.get('user_id') || 
+                   searchParams.get('userId');
+  const rawPayout = searchParams.get('payout') || searchParams.get('amount') || '0';
+  const payoutStr = typeof rawPayout === 'string' ? rawPayout.replace('$', '') : String(rawPayout);
   const coinsStr = searchParams.get('coins');
   const provider = searchParams.get('provider') || searchParams.get('network') || 'cpalead';
   const secret = searchParams.get('secret') || searchParams.get('password');
