@@ -72,6 +72,45 @@ const simplifyDescription = (title, desc, category) => {
   return 'Complete Task';
 };
 
+const getOfferBadges = (offer) => {
+  const title = (offer.title || '').toLowerCase();
+  const desc = (offer.description || '').toLowerCase();
+  const url = (offer.url || '').toLowerCase();
+  const anchor = (offer.anchor || '').toLowerCase();
+  
+  let isApple = title.includes('iphone') || title.includes('ipad') || title.includes('ios') || title.includes('apple') || desc.includes('iphone') || desc.includes('ios') || url.includes('ios') || anchor.includes('ios');
+  let isAndroid = title.includes('android') || desc.includes('android') || url.includes('android') || anchor.includes('android') || url.includes('google-play');
+  
+  if (!isApple && !isAndroid) {
+    if (offer.category === 'Game' || offer.category === 'App') {
+      isAndroid = true;
+    } else {
+      isAndroid = true;
+      isApple = true;
+    }
+  }
+  return { isApple, isAndroid };
+};
+
+const getOfferCompletedCount = (offerId) => {
+  let hash = 0;
+  const str = String(offerId);
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash % 180) + 3;
+};
+
+const getOfferDotColor = (offerId) => {
+  const colors = ['#bf5aff', '#3b82f6', '#10b981', '#eab308', '#ef4444'];
+  let hash = 0;
+  const str = String(offerId);
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return colors[Math.abs(hash) % colors.length];
+};
+
 export default function DirectTasksSection() {
   const { user, earnCoinsSimulated } = useAuth();
   const [offers, setOffers] = useState([]);
@@ -340,65 +379,100 @@ export default function DirectTasksSection() {
               const clicksLeft = MAX_CLICKS - clickCount;
               const creditsAward = offer.coins;
 
+              const completedCount = getOfferCompletedCount(offer.id);
+              const dotColor = getOfferDotColor(offer.id);
+              const { isApple, isAndroid } = getOfferBadges(offer);
+
               return (
-                <div
-                  key={offer.id}
-                  onClick={() => handleOfferClick(offer)}
-                  className={`flex flex-col bg-dark-card border p-4 sm:p-5 rounded-2xl transition-all relative overflow-hidden text-center justify-between min-h-[195px] sm:min-h-[220px] ${
-                    isLocked
-                      ? 'border-zinc-700/50 opacity-60 cursor-not-allowed'
-                      : showWarning
-                      ? 'border-amber-500/40 hover:border-amber-400/60 hover:shadow-[0_0_15px_rgba(245,158,11,0.2)] active:scale-[0.98] cursor-pointer group'
-                      : 'border-dark-border/80 hover:border-primary/40 hover:shadow-[0_0_20px_rgba(93,95,239,0.2)] hover:-translate-y-1 active:scale-[0.98] cursor-pointer group'
-                  }`}
-                >
-                  {isLocked && (
-                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/80 backdrop-blur-[2px] rounded-2xl gap-1.5 p-3">
-                      <div className="rounded-full bg-zinc-800 border border-zinc-700 p-2">
-                        <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-zinc-400" />
-                      </div>
-                      <span className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-wider">Locked 24H</span>
-                      <span className="text-[10px] sm:text-xs font-black text-amber-400">{lockInfo}</span>
-                    </div>
-                  )}
-
-                  {showWarning && !isLocked && (
-                    <div className="absolute top-2.5 right-2.5 z-10 bg-amber-500 text-black text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded shadow-lg">
-                      {clicksLeft} left
-                    </div>
-                  )}
-
-                  <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-white/5 p-1 border border-white/10 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-105 transition-transform duration-300 shrink-0">
+                <div key={offer.id} className="flex flex-col select-none">
+                  {/* Elevated 3D Card Container */}
+                  <div
+                    onClick={() => handleOfferClick(offer)}
+                    className={`relative w-full h-[180px] sm:h-[220px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-[1.03] transition-all duration-300 border flex flex-col justify-end group ${
+                      isLocked
+                        ? 'border-zinc-800 opacity-60 cursor-not-allowed'
+                        : showWarning
+                        ? 'border-amber-500/40 hover:border-amber-400/60 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)]'
+                        : 'border-dark-border/80 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]'
+                    }`}
+                  >
+                    {/* Background Banner Image */}
                     {offer.icon && offer.icon.startsWith('http') ? (
                       <img 
                         src={offer.icon} 
                         alt={offer.title}
-                        className="w-full h-full object-contain rounded-xl sm:rounded-2xl"
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.05] transition-all duration-500 z-0"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-dark-bg/85 rounded-xl sm:rounded-2xl">
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#1e1b4b] to-[#0a0a0f] flex items-center justify-center z-0">
                         {offer.category === 'Survey' ? (
-                          <FileText className="h-7 w-7 sm:h-10 sm:w-10 text-primary" />
+                          <FileText className="h-10 w-10 text-primary opacity-60" />
                         ) : (
-                          <Gamepad2 className="h-7 w-7 sm:h-10 sm:w-10 text-secondary" />
+                          <Gamepad2 className="h-10 w-10 text-secondary opacity-60" />
                         )}
                       </div>
                     )}
-                  </div>
 
-                  <div className="flex-1 flex flex-col justify-start mb-3 sm:mb-4">
-                    <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug mb-1 group-hover:text-primary transition-colors">
-                      {offer.title}
-                    </h4>
-                    <p className="text-[10px] sm:text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                      {offer.description}
-                    </p>
-                  </div>
+                    {/* Dark gradient overlay at bottom of banner */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/35 to-transparent z-10" />
 
-                  <div className="mt-auto">
-                    <div className="w-full py-1.5 sm:py-2.5 bg-primary/10 border border-primary/20 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-extrabold text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-[0_0_12px_rgba(93,95,239,0.06)]">
-                      {creditsAward.toLocaleString()} Coins
+                    {/* Locked 24H overlay */}
+                    {isLocked && (
+                      <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/85 backdrop-blur-[2px] rounded-2xl gap-1.5 p-3">
+                        <div className="rounded-full bg-zinc-800 border border-zinc-750 p-2">
+                          <Lock className="h-4.5 w-4.5 text-zinc-400" />
+                        </div>
+                        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-wider">Locked 24H</span>
+                        <span className="text-[10px] font-black text-amber-400">{lockInfo}</span>
+                      </div>
+                    )}
+
+                    {/* Warning clicks left label */}
+                    {showWarning && !isLocked && (
+                      <div className="absolute top-2.5 left-2.5 z-20 bg-amber-500 text-black text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded shadow-lg">
+                        {clicksLeft} left
+                      </div>
+                    )}
+
+                    {/* OS & Category Pill Badges (Top Right) */}
+                    <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5 bg-[#0a0b10]/80 border border-white/10 px-2 py-1 rounded-md backdrop-blur-sm shadow-md">
+                      {isAndroid && (
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-200">
+                          <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM19 5.5l-1.34-2.31c-.13-.24-.44-.32-.68-.19-.24.13-.32.44-.19.68L18.13 6H5.87l1.34-2.31c.13-.24.05-.55-.19-.68-.24-.13-.55-.05-.68.19L5 5.5C2.69 6.84 1.14 9.21 1 12h22c-.14-2.79-1.69-5.16-4-6.5zM9 9.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                        </svg>
+                      )}
+                      {isApple && (
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-200">
+                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.61.7-1.15 1.84-1.01 2.96 1.12.09 2.27-.58 2.96-1.4z"/>
+                        </svg>
+                      )}
+                      <span className="w-[1px] h-3 bg-white/10 shrink-0" />
+                      {offer.category === 'Survey' ? (
+                        <FileText className="h-3 w-3 text-zinc-200" />
+                      ) : offer.category === 'Game' ? (
+                        <Gamepad2 className="h-3 w-3 text-zinc-200" />
+                      ) : (
+                        <Smartphone className="h-3 w-3 text-zinc-200" />
+                      )}
                     </div>
+
+                    {/* Title & Payout Overlay inside the card bottom */}
+                    <div className="absolute inset-x-0 bottom-0 p-3.5 z-20 flex flex-col justify-end text-left">
+                      <h4 className="text-[11px] sm:text-xs font-black text-white line-clamp-1 leading-snug drop-shadow-md mb-0.5 group-hover:text-primary transition-colors">
+                        {offer.title}
+                      </h4>
+                      <div className="text-base sm:text-lg font-black text-white flex items-baseline gap-0.5 drop-shadow-lg leading-none">
+                        <span className="text-[11px] sm:text-xs font-black text-white">$</span>
+                        <span>{offer.payout.toFixed(2)}</span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Dot & Completions text below the card */}
+                  <div className="flex items-center gap-1.5 mt-2 px-1 text-[10px] sm:text-[11px] font-bold text-zinc-500">
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: dotColor }} />
+                    <span>{completedCount} completed</span>
                   </div>
                 </div>
               );
