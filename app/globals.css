@@ -54,8 +54,8 @@
   --font-sans: 'Rubik', system-ui, -apple-system, sans-serif;
   --font-display: 'Rubik', system-ui, sans-serif;
 
-  --color-primary: #bf5aff; /* Gemsloot Electric Blue */
-  --color-secondary: #8b5cf6; /* Gemsloot Purple */
+  --color-primary: #3b82f6; /* Blueberry Cash Electric Blue */
+  --color-secondary: #5d5fef; /* Blueberry Cash Indigo */
   --color-dark-bg: #0a0a0c; /* Sleek Dark Background */
   --color-dark-card: #0f0f12; /* Elevated Card Background */
   --color-dark-border: #1a1a22; /* Sleek Dark Border */
@@ -90,10 +90,10 @@
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 4px rgba(191, 90, 255, 0.2), 0 0 10px rgba(191, 90, 255, 0.2);
+    text-shadow: 0 0 4px rgba(59, 130, 246, 0.2), 0 0 10px rgba(59, 130, 246, 0.2);
   }
   to {
-    text-shadow: 0 0 8px rgba(191, 90, 255, 0.6), 0 0 20px rgba(191, 90, 255, 0.4);
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
   }
 }
 

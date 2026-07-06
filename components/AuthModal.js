@@ -63,11 +63,11 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
       {/* Modal Container (Two-Pane Premium Branded Modal Card) */}
       <div className="relative w-full max-w-3xl overflow-hidden rounded-3xl border border-dark-border bg-dark-card shadow-2xl transition-all flex flex-col md:flex-row min-h-[500px] select-none z-10 animate-fade-in">
         
-        {/* Left Side Pane: Branded Purple Promo Banner (Hidden on Mobile) */}
-        <div className="hidden md:flex md:w-[42%] bg-gradient-to-br from-[#12091c] via-[#24123b] to-[#12091c] p-8 flex-col justify-between items-center text-center relative border-r border-dark-border/40 overflow-hidden shrink-0">
+        {/* Left Side Pane: Branded Blue Promo Banner (Hidden on Mobile) */}
+        <div className="hidden md:flex md:w-[42%] bg-gradient-to-br from-[#0a0f1d] via-[#101935] to-[#0a0f1d] p-8 flex-col justify-between items-center text-center relative border-r border-dark-border/40 overflow-hidden shrink-0">
           
           {/* Subtle Ambient Glow */}
-          <div className="absolute w-44 h-44 rounded-full bg-primary/20 blur-3xl -z-10 top-1/4" />
+          <div className="absolute w-44 h-44 rounded-full bg-primary/25 blur-3xl -z-10 top-1/4" />
           
           {/* 1. Header Logo */}
           <div className="w-full flex justify-center mb-2">
@@ -81,39 +81,39 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
           {/* 2. Branded 3D Chest/Gift box */}
           <div className="relative my-auto flex flex-col items-center">
             <div className="mb-4 transform hover:scale-105 hover:rotate-3 transition-all duration-500 cursor-pointer">
-              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="filter drop-shadow-[0_10px_20px_rgba(191,90,255,0.4)]">
+              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="filter drop-shadow-[0_10px_20px_rgba(59,130,246,0.35)]">
                 {/* Bow */}
-                <path d="M12 6C13.66 6 15 4.66 15 3C15 3 13 3 12 4.5C11 3 9 3 9 3C9 4.66 10.34 6 12 6Z" fill="#e9d5ff" />
+                <path d="M12 6C13.66 6 15 4.66 15 3C15 3 13 3 12 4.5C11 3 9 3 9 3C9 4.66 10.34 6 12 6Z" fill="#dbeafe" />
                 {/* Lid */}
-                <path d="M19.5 9H4.5C3.67 9 3 8.33 3 7.5C3 6.67 3.67 6 4.5 6H19.5C20.33 6 21 6.67 21 7.5C21 8.33 20.33 9 19.5 9Z" fill="#bf5aff" />
+                <path d="M19.5 9H4.5C3.67 9 3 8.33 3 7.5C3 6.67 3.67 6 4.5 6H19.5C20.33 6 21 6.67 21 7.5C21 8.33 20.33 9 19.5 9Z" fill="#3b82f6" />
                 {/* Body */}
-                <path d="M4 10H20V19C20 20.1 19.1 21 18 21H6C4.9 21 4 20.1 4 19V10Z" fill="#8b5cf6" />
+                <path d="M4 10H20V19C20 20.1 19.1 21 18 21H6C4.9 21 4 20.1 4 19V10Z" fill="#1d4ed8" />
                 {/* Vert Ribbon */}
-                <path d="M10.5 6H13.5V21H10.5V6Z" fill="#e9d5ff" />
+                <path d="M10.5 6H13.5V21H10.5V6Z" fill="#dbeafe" />
                 {/* Horiz line ribbon */}
-                <path d="M3 7H21V8H3V7Z" fill="#c084fc" />
+                <path d="M3 7H21V8H3V7Z" fill="#60a5fa" />
               </svg>
             </div>
 
             {/* Win Reward tag */}
-            <div className="bg-[#bf5aff]/15 border border-[#bf5aff]/30 rounded-2xl px-5 py-3 min-w-[200px] shadow-lg backdrop-blur-sm">
-              <h4 className="text-[9px] font-black text-purple-300 uppercase tracking-widest leading-none mb-1">Win Up To</h4>
+            <div className="bg-primary/15 border border-primary/30 rounded-2xl px-5 py-3 min-w-[200px] shadow-lg backdrop-blur-sm">
+              <h4 className="text-[9px] font-black text-blue-300 uppercase tracking-widest leading-none mb-1">Win Up To</h4>
               <span className="text-2xl font-black text-white leading-none">$250.00</span>
             </div>
           </div>
 
           {/* 3. Steps list */}
           <div className="w-full space-y-2 mt-4">
-            <div className="flex items-center gap-3 bg-[#bf5aff]/10 border border-[#bf5aff]/15 rounded-xl px-4 py-2 text-left">
-              <div className="h-6 w-6 rounded-full bg-[#bf5aff] text-white flex items-center justify-center text-xs font-black shrink-0">1</div>
+            <div className="flex items-center gap-3 bg-primary/10 border border-primary/15 rounded-xl px-4 py-2 text-left">
+              <div className="h-6 w-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-black shrink-0">1</div>
               <span className="text-[10px] font-extrabold text-zinc-200">Register your account</span>
             </div>
-            <div className="flex items-center gap-3 bg-[#bf5aff]/10 border border-[#bf5aff]/15 rounded-xl px-4 py-2 text-left">
-              <div className="h-6 w-6 rounded-full bg-[#bf5aff] text-white flex items-center justify-center text-xs font-black shrink-0">2</div>
+            <div className="flex items-center gap-3 bg-primary/10 border border-primary/15 rounded-xl px-4 py-2 text-left">
+              <div className="h-6 w-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-black shrink-0">2</div>
               <span className="text-[10px] font-extrabold text-zinc-200">Complete tasks & earn coins</span>
             </div>
-            <div className="flex items-center gap-3 bg-[#bf5aff]/10 border border-[#bf5aff]/15 rounded-xl px-4 py-2 text-left">
-              <div className="h-6 w-6 rounded-full bg-[#bf5aff] text-white flex items-center justify-center text-xs font-black shrink-0">3</div>
+            <div className="flex items-center gap-3 bg-primary/10 border border-primary/15 rounded-xl px-4 py-2 text-left">
+              <div className="h-6 w-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-black shrink-0">3</div>
               <span className="text-[10px] font-extrabold text-zinc-200">Open free chest to win up to $250</span>
             </div>
           </div>
@@ -256,7 +256,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#bf5aff] hover:bg-[#a855f7] text-white text-xs font-black uppercase tracking-wider rounded-xl py-3.5 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_4px_15px_rgba(191,90,255,0.3)] mt-6"
+                  className="w-full bg-primary hover:bg-primary/90 text-white text-xs font-black uppercase tracking-wider rounded-xl py-3.5 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_4px_15px_rgba(59,130,246,0.25)] mt-6"
                 >
                   {loading ? (
                     <Loader2 className="h-4 w-4 animate-spin text-white" />
@@ -279,7 +279,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
                 <button
                   type="button"
                   onClick={() => { setTab('register'); setError(''); }}
-                  className="text-white hover:text-[#bf5aff] font-bold hover:underline bg-transparent border-none cursor-pointer transition-colors"
+                  className="text-white hover:text-primary font-bold hover:underline bg-transparent border-none cursor-pointer transition-colors"
                 >
                   Sign up
                 </button>
@@ -290,7 +290,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
                 <button
                   type="button"
                   onClick={() => { setTab('login'); setError(''); }}
-                  className="text-white hover:text-[#bf5aff] font-bold hover:underline bg-transparent border-none cursor-pointer transition-colors"
+                  className="text-white hover:text-primary font-bold hover:underline bg-transparent border-none cursor-pointer transition-colors"
                 >
                   Sign in
                 </button>

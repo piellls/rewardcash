@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Gem, Zap, Trophy, Gift, ArrowRight, ChevronRight, Gamepad2, Smartphone, FileText, Search, Users, CheckCircle, Sparkles, Flame, BarChart3, Crown, Award, Medal } from 'lucide-react';
+import { Gem, Zap, Trophy, Gift, ArrowRight, ChevronRight, Gamepad2, Smartphone, FileText, Search, Users, CheckCircle, Sparkles, Flame, BarChart3, Crown, Award, Medal, Play, Coins, Landmark, Clock, Filter } from 'lucide-react';
 
 const LIVE_FEED = [
   { user: 'Alex_G', action: 'earned', amount: '$4.50', task: 'Coin Master', avatar: '🎮' },
@@ -123,26 +123,26 @@ export default function OfferwallPage() {
     @keyframes breathe{0%,100%{transform:translateY(-50%) scale(1);opacity:.6;}50%{transform:translateY(-50%) scale(1.12);opacity:1;}}
     @keyframes scrollFeed{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
     @keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(72,247,138,.7);}50%{box-shadow:0 0 0 6px rgba(72,247,138,0);}}
-    .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(191,90,255,.6) 0%,transparent 70%);pointer-events:none;}
-    .btnp{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#bf5aff,#7c3aed);color:#fff;font-weight:800;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;transition:all .2s;box-shadow:0 4px 30px rgba(191,90,255,.4);text-decoration:none;font-family:Rubik,sans-serif;}
-    .btnp:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(191,90,255,.6);}
+    .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.6) 0%,transparent 70%);pointer-events:none;}
+    .btnp{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--color-primary),var(--color-secondary));color:#fff;font-weight:800;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;transition:all .2s;box-shadow:0 4px 30px rgba(59,130,246,.4);text-decoration:none;font-family:Rubik,sans-serif;}
+    .btnp:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(59,130,246,.6);}
     .btns{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;cursor:pointer;transition:all .2s;text-decoration:none;backdrop-filter:blur(10px);font-family:Rubik,sans-serif;}
     .btns:hover{background:rgba(255,255,255,.1);transform:translateY(-2px);}
-    .stag{display:inline-flex;align-items:center;gap:6px;background:rgba(191,90,255,.1);border:1px solid rgba(191,90,255,.25);color:#bf5aff;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:5px 12px;border-radius:100px;margin-bottom:14px;}
+    .stag{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:var(--color-primary);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;padding:5px 12px;border-radius:100px;margin-bottom:14px;}
     .stitle{font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-.5px;line-height:1.1;margin-bottom:10px;}
-    .stitle span{color:#bf5aff;}
+    .stitle span{color:var(--color-primary);}
     .ssub{font-size:15px;color:rgba(255,255,255,.45);}
     .catbtn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);font-weight:700;font-size:13px;padding:8px 16px;border-radius:10px;cursor:pointer;transition:all .2s;font-family:Rubik,sans-serif;}
-    .catbtn:hover,.catbtn.active{background:rgba(191,90,255,.15);border-color:rgba(191,90,255,.5);color:#bf5aff;}
+    .catbtn:hover,.catbtn.active{background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.5);color:var(--color-primary);}
     .ocard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;cursor:pointer;transition:all .3s;position:relative;}
-    .ocard:hover{border-color:rgba(191,90,255,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 40px rgba(191,90,255,.15);}
+    .ocard:hover{border-color:rgba(59,130,246,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 40px rgba(59,130,246,.15);}
     .rcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
-    .rcard:hover{transform:translateY(-4px);border-color:rgba(191,90,255,.4);box-shadow:0 16px 40px rgba(0,0,0,.3);}
+    .rcard:hover{transform:translateY(-4px);border-color:rgba(59,130,246,.4);box-shadow:0 16px 40px rgba(0,0,0,.3);}
     .rcard.pop::before{content:'Popular';position:absolute;top:8px;right:-20px;background:linear-gradient(135deg,#f7c948,#f7a248);color:#000;font-size:9px;font-weight:900;padding:3px 30px;transform:rotate(30deg);text-transform:uppercase;}
     .lbcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;}
     .lbrow{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .2s;gap:14px;}
     .lbrow:hover{background:rgba(255,255,255,.03);}
-    .ctawrap{background:linear-gradient(135deg,rgba(191,90,255,.12),rgba(147,51,234,.12));border:1px solid rgba(191,90,255,.2);border-radius:24px;padding:60px 48px;text-align:center;position:relative;overflow:hidden;}
+    .ctawrap{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(93,95,239,.12));border:1px solid rgba(59,130,246,.2);border-radius:24px;padding:60px 48px;text-align:center;position:relative;overflow:hidden;}
     .sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
     .sitem{background:rgba(255,255,255,.03);padding:22px;display:flex;align-items:center;gap:14px;transition:background .2s;}
     .sitem:hover{background:rgba(255,255,255,.055);}
@@ -152,7 +152,7 @@ export default function OfferwallPage() {
     .owfoot{background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.06);padding:48px 0 24px;}
     .fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
     .flink{display:block;font-size:13px;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:10px;text-decoration:none;transition:color .2s;}
-    .flink:hover{color:#bf5aff;}
+    .flink:hover{color:var(--color-primary);}
         .ow-hero {
       min-height: 100vh;
       display: flex;
@@ -229,6 +229,205 @@ export default function OfferwallPage() {
           </div>
         </section>
 
+        {/* OFFERS DASHBOARD SECTION */}
+        <section id="offers-dashboard" className="py-12 bg-[#0a0a12]/80 border-y border-dark-border/40 select-none">
+          <div className="owc flex flex-col gap-10">
+
+            {/* 1. MY OFFERS ROW */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between mb-4 pb-2 border-b border-dark-border/40">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-base sm:text-lg font-black text-white uppercase tracking-wider flex items-center gap-2">
+                    <Sparkles className="h-4.5 w-4.5 text-primary" /> My Offers
+                  </h3>
+                  <button className="flex items-center gap-1.5 bg-dark-card border border-dark-border px-2.5 py-1 rounded-lg text-[10px] font-black text-zinc-400 hover:text-white transition-colors">
+                    Filter <span className="bg-primary/20 text-primary px-1.5 py-0.2 rounded">3</span>
+                  </button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button className="p-1.5 rounded-lg bg-dark-card border border-dark-border/60 text-zinc-500 hover:text-white transition-colors">
+                    <ChevronRight className="h-4 w-4 rotate-180" />
+                  </button>
+                  <button className="p-1.5 rounded-lg bg-dark-card border border-dark-border/60 text-zinc-500 hover:text-white transition-colors">
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Horizontal Scroll Row */}
+              <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                {/* Clicked Offer 1 */}
+                <div className="flex flex-col select-none shrink-0">
+                  <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-[#f59e0b]/30 shadow-lg flex flex-col justify-end group">
+                    <img 
+                      src="/banners/ogads.png" 
+                      alt="Bus Puzzle" 
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500 z-0" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
+                    
+                    {/* Clicked Badge */}
+                    <div className="absolute top-2.5 left-2.5 z-20 bg-amber-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded shadow-lg uppercase tracking-wider">
+                      Clicked
+                    </div>
+
+                    {/* OS Badges */}
+                    <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10">
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-300">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.61.7-1.15 1.84-1.01 2.96 1.12.09 2.27-.58 2.96-1.4z"/>
+                      </svg>
+                    </div>
+
+                    <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
+                      <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">
+                        Bus Puzzle - Multiplayer
+                      </h4>
+                      <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
+                        <Coins className="h-3 w-3 shrink-0" />
+                        <span>126</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            {/* 2. FAST OFFERS ROW */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between mb-4 border-b border-dark-border/40 pb-2">
+                <h3 className="text-base sm:text-lg font-black text-white uppercase tracking-wider flex items-center gap-2">
+                  <Flame className="h-4.5 w-4.5 text-primary" /> Fast Offers
+                </h3>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <button className="p-1.5 rounded-lg bg-dark-card border border-dark-border/60 text-zinc-500 hover:text-white transition-colors">
+                      <ChevronRight className="h-4 w-4 rotate-180" />
+                    </button>
+                    <button className="p-1.5 rounded-lg bg-dark-card border border-dark-border/60 text-zinc-500 hover:text-white transition-colors">
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <Link href="/earn" className="bg-primary hover:bg-primary/95 text-white text-[10px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                    View All <ChevronRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Horizontal Scroll Row */}
+              <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                {OFFERS.filter(o => o.difficulty === 'Easy').slice(0, 4).map(offer => {
+                  const coins = Math.round(offer.payout * 150 * 3);
+                  return (
+                    <div key={offer.id} className="flex flex-col select-none shrink-0">
+                      <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-dark-border hover:border-primary/50 shadow-lg flex flex-col justify-end group transition-all duration-300 hover:scale-[1.02]">
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#1e1b4b] to-[#0a0a0f] z-0 flex items-center justify-center">
+                          <span className="text-4xl">{offer.icon}</span>
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
+
+                        <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10">
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-300">
+                            <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM19 5.5l-1.34-2.31c-.13-.24-.44-.32-.68-.19-.24.13-.32.44-.19.68L18.13 6H5.87l1.34-2.31c.13-.24.05-.55-.19-.68-.24-.13-.55-.05-.68.19L5 5.5C2.69 6.84 1.14 9.21 1 12h22c-.14-2.79-1.69-5.16-4-6.5zM9 9.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                          </svg>
+                        </div>
+
+                        <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
+                          <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">
+                            {offer.title}
+                          </h4>
+                          <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
+                            <Coins className="h-3 w-3 shrink-0" />
+                            <span>{coins.toLocaleString()}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* View More Card */}
+                <Link href="/earn" className="flex flex-col select-none shrink-0">
+                  <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-primary/30 bg-gradient-to-br from-primary to-secondary hover:opacity-95 transition-all duration-300 hover:scale-[1.02] flex flex-col items-center justify-center p-4 text-center gap-2.5 shadow-[0_4px_15px_rgba(59,130,246,0.25)]">
+                    <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center">
+                      <Clock className="h-5 w-5 text-white animate-pulse" />
+                    </div>
+                    <span className="text-xs font-black text-white tracking-wide uppercase leading-none">View More</span>
+                    <Play className="h-4 w-4 fill-white text-white mt-1" />
+                  </div>
+                </Link>
+              </div>
+            </div>
+
+
+            {/* 3. FINANCE OFFERS ROW */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between mb-4 border-b border-dark-border/40 pb-2">
+                <h3 className="text-base sm:text-lg font-black text-white uppercase tracking-wider flex items-center gap-2">
+                  <Landmark className="h-4.5 w-4.5 text-primary" /> Finance
+                </h3>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <button className="p-1.5 rounded-lg bg-dark-card border border-dark-border/60 text-zinc-500 hover:text-white transition-colors">
+                      <ChevronRight className="h-4 w-4 rotate-180" />
+                    </button>
+                    <button className="p-1.5 rounded-lg bg-dark-card border border-dark-border/60 text-zinc-500 hover:text-white transition-colors">
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <Link href="/earn" className="bg-primary hover:bg-primary/95 text-white text-[10px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                    View All <ChevronRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Horizontal Scroll Row */}
+              <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                {OFFERS.filter(o => o.payout >= 4.0).slice(0, 4).map(offer => {
+                  const coins = Math.round(offer.payout * 150 * 3);
+                  return (
+                    <div key={offer.id} className="flex flex-col select-none shrink-0">
+                      <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-dark-border hover:border-primary/50 shadow-lg flex flex-col justify-end group transition-all duration-300 hover:scale-[1.02]">
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#1e1b4b] to-[#0a0a0f] z-0 flex items-center justify-center">
+                          <span className="text-4xl">{offer.icon}</span>
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
+
+                        <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10">
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-300">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.61.7-1.15 1.84-1.01 2.96 1.12.09 2.27-.58 2.96-1.4z"/>
+                          </svg>
+                        </div>
+
+                        <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
+                          <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">
+                            {offer.title}
+                          </h4>
+                          <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
+                            <Coins className="h-3 w-3 shrink-0" />
+                            <span>{coins.toLocaleString()}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* View More Card */}
+                <Link href="/earn" className="flex flex-col select-none shrink-0">
+                  <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-primary/30 bg-gradient-to-br from-primary to-secondary hover:opacity-95 transition-all duration-300 hover:scale-[1.02] flex flex-col items-center justify-center p-4 text-center gap-2.5 shadow-[0_4px_15px_rgba(59,130,246,0.25)]">
+                    <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center">
+                      <Landmark className="h-5 w-5 text-white animate-pulse" />
+                    </div>
+                    <span className="text-xs font-black text-white tracking-wide uppercase leading-none">View More</span>
+                    <Play className="h-4 w-4 fill-white text-white mt-1" />
+                  </div>
+                </Link>
+              </div>
+            </div>
+
+          </div>
+        </section>
 
         {/* LB + HOW */}
         <section style={{padding:'0 0 80px'}}>
