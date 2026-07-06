@@ -54,3 +54,39 @@ export async function POST(request) {
     return NextResponse.json({ error: err.message || 'Internal server error.' }, { status: 400 });
   }
 }
+
+export async function GET(request) {
+  try {
+    const authHeader = request.headers.get('Authorization') || '';
+    const token = authHeader.replace('Bearer ', '');
+
+    const supabaseAdmin = getSupabaseAdmin();
+    let userId = null;
+
+    if (!supabaseAdmin) {
+      if (!token) {
+        return NextResponse.json({ error: 'Unauthorized: Missing session token.' }, { status: 401 });
+      }
+      userId = token;
+    } else {
+      if (!token) {
+        return NextResponse.json({ error: 'Unauthorized: Missing session token.' }, { status: 401 });
+      }
+      const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+      if (authError || !user) {
+        return NextResponse.json({ error: 'Unauthorized: Invalid session token.' }, { status: 401 });
+      }
+      userId = user.id;
+    }
+
+    const signupState = await db.getSignupBonusState(userId, null, supabaseAdmin);
+    
+    return NextResponse.json({
+      success: true,
+      signup: signupState
+    });
+  } catch (err) {
+    console.error('[SPIN GET ROUTE ERROR]', err.message);
+    return NextResponse.json({ error: err.message || 'Internal server error.' }, { status: 400 });
+  }
+}

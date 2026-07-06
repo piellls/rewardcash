@@ -5,18 +5,97 @@ import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import { 
   Gift, Zap, Sparkles, AlertCircle, Coins, Clock, CheckCircle2, RotateCcw,
-  Trophy, Award, Gem, Crown, Flame, ChevronRight, Play, ShieldCheck, Heart
+  Trophy, Award, Gem, Crown, Play, ShieldCheck, HelpCircle
 } from 'lucide-react';
 import Link from 'next/link';
 
+// Coins Stack SVG Component
+const CoinsStack = ({ level = 'low', size = 50 }) => {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" className="drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]" xmlns="http://www.w3.org/2000/svg">
+      {level === 'low' && (
+        <>
+          <ellipse cx="32" cy="46" rx="16" ry="6" fill="#b45309" stroke="#d97706" strokeWidth="1.5" />
+          <ellipse cx="32" cy="41" rx="16" ry="6" fill="#d97706" stroke="#f59e0b" strokeWidth="1.5" />
+          <ellipse cx="32" cy="36" rx="16" ry="6" fill="#f59e0b" stroke="#fbbf24" strokeWidth="1.5" />
+        </>
+      )}
+      {level === 'medium' && (
+        <>
+          <ellipse cx="32" cy="48" rx="16" ry="6" fill="#ca8a04" stroke="#eab308" strokeWidth="1.5" />
+          <ellipse cx="32" cy="43" rx="16" ry="6" fill="#ca8a04" stroke="#eab308" strokeWidth="1.5" />
+          <ellipse cx="32" cy="38" rx="16" ry="6" fill="#eab308" stroke="#facc15" strokeWidth="1.5" />
+          <ellipse cx="32" cy="33" rx="16" ry="6" fill="#facc15" stroke="#fef08a" strokeWidth="1.5" />
+        </>
+      )}
+      {level === 'high' && (
+        <>
+          <ellipse cx="24" cy="46" rx="14" ry="5" fill="#ca8a04" stroke="#eab308" strokeWidth="1.5" />
+          <ellipse cx="24" cy="41" rx="14" ry="5" fill="#eab308" stroke="#facc15" strokeWidth="1.5" />
+          <ellipse cx="24" cy="36" rx="14" ry="5" fill="#facc15" stroke="#fef08a" strokeWidth="1.5" />
+
+          <ellipse cx="40" cy="48" rx="14" ry="5" fill="#ca8a04" stroke="#eab308" strokeWidth="1.5" />
+          <ellipse cx="40" cy="43" rx="14" ry="5" fill="#eab308" stroke="#facc15" strokeWidth="1.5" />
+          <ellipse cx="40" cy="38" rx="14" ry="5" fill="#facc15" stroke="#fef08a" strokeWidth="1.5" />
+        </>
+      )}
+      {level === 'mythic' && (
+        <>
+          <ellipse cx="22" cy="48" rx="12" ry="4" fill="#a16207" />
+          <ellipse cx="42" cy="48" rx="12" ry="4" fill="#a16207" />
+          <ellipse cx="32" cy="50" rx="16" ry="5" fill="#ca8a04" stroke="#fbbf24" strokeWidth="1" />
+          <circle cx="32" cy="30" r="16" fill="url(#goldGrad)" stroke="#fef08a" strokeWidth="2.5" className="animate-pulse" />
+          <path d="M32 18V42M20 30H44" stroke="#fef08a" strokeWidth="2.5" strokeLinecap="round" />
+          <defs>
+            <radialGradient id="goldGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#fef08a" />
+              <stop offset="70%" stopColor="#eab308" />
+              <stop offset="100%" stopColor="#854d0e" />
+            </radialGradient>
+          </defs>
+        </>
+      )}
+    </svg>
+  );
+};
+
+// Chest SVG Icon Component
+const ChestIcon = ({ type = 'purple', size = 80 }) => {
+  const isGold = type === 'gold';
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.75)] hover:scale-[1.05] transition-transform duration-300" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 28C10 28 10 52 14 52H50C54 52 54 28 54 28" fill="#0f0f15" stroke={isGold ? "#f59e0b" : "#bf5aff"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 28H52V48C52 50 50 52 48 52H16C14 52 12 50 12 48V28Z" fill="#13141f" stroke={isGold ? "#fbbf24" : "#8b5cf6"} strokeWidth="1.5" />
+      <path d="M8 20C8 15 15 12 32 12C49 12 56 15 56 20V28H8V20Z" fill={isGold ? "#451a03" : "#1e1b4b"} stroke={isGold ? "#fbbf24" : "#bf5aff"} strokeWidth="2.5" />
+      <rect x="20" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#7c3aed"} opacity="0.85" />
+      <rect x="38" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#7c3aed"} opacity="0.85" />
+      <rect x="27" y="24" width="10" height="12" rx="2" fill={isGold ? "#fbbf24" : "#e879f9"} stroke={isGold ? "#ca8a04" : "#c084fc"} strokeWidth="1.5" />
+      <circle cx="32" cy="30" r="2" fill="#000" />
+      {!isGold ? (
+        <>
+          <path d="M22 22L24 14L27 22H22Z" fill="#a855f7" />
+          <path d="M29 22L32 10L35 22H29Z" fill="#bf5aff" />
+          <path d="M37 22L39 14L42 22H37Z" fill="#a855f7" />
+        </>
+      ) : (
+        <>
+          <path d="M22 22L24 15L27 22H22Z" fill="#eab308" />
+          <path d="M29 22L32 12L35 22H29Z" fill="#fbbf24" />
+          <path d="M37 22L39 15L42 22H37Z" fill="#eab308" />
+        </>
+      )}
+    </svg>
+  );
+};
+
 const SPIN_PRIZES = [
-  { coins: 10, label: '$0.01', rarity: 'common', border: 'border-[#3f3f46]', bg: 'rgba(63,63,70,0.08)', glow: 'shadow-[0_0_15px_rgba(63,63,70,0.15)]', color: '#a1a1aa', icon: Coins },
-  { coins: 50, label: '$0.05', rarity: 'common', border: 'border-[#3f3f46]', bg: 'rgba(63,63,70,0.08)', glow: 'shadow-[0_0_15px_rgba(63,63,70,0.15)]', color: '#a1a1aa', icon: Coins },
-  { coins: 250, label: '$0.25', rarity: 'uncommon', border: 'border-[#10b981]', bg: 'rgba(16,185,129,0.08)', glow: 'shadow-[0_0_15px_rgba(16,185,129,0.25)]', color: '#10b981', icon: Award },
-  { coins: 1000, label: '$1.00', rarity: 'rare', border: 'border-[#3b82f6]', bg: 'rgba(59,130,246,0.08)', glow: 'shadow-[0_0_15px_rgba(59,130,246,0.25)]', color: '#3b82f6', icon: Sparkles },
-  { coins: 2500, label: '$2.50', rarity: 'epic', border: 'border-[#a855f7]', bg: 'rgba(168,85,247,0.08)', glow: 'shadow-[0_0_15px_rgba(168,85,247,0.3)]', color: '#a855f7', icon: Gem },
-  { coins: 10000, label: '$10.00', rarity: 'legendary', border: 'border-[#eab308]', bg: 'rgba(234,179,8,0.08)', glow: 'shadow-[0_0_15px_rgba(234,179,8,0.35)]', color: '#eab308', icon: Trophy },
-  { coins: 250000, label: '$250.00', rarity: 'mythic', border: 'border-[#ef4444]', bg: 'rgba(239,68,68,0.08)', glow: 'shadow-[0_0_25px_rgba(239,68,68,0.55)]', color: '#ef4444', icon: Crown }
+  { coins: 10, label: '$0.01', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.08)', color: '#a1a1aa', level: 'low' },
+  { coins: 50, label: '$0.05', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.08)', color: '#a1a1aa', level: 'low' },
+  { coins: 250, label: '$0.25', rarity: 'uncommon', border: '#10b981', bg: 'rgba(16,185,129,0.08)', color: '#10b981', level: 'medium' },
+  { coins: 1000, label: '$1.00', rarity: 'rare', border: '#3b82f6', bg: 'rgba(59,130,246,0.08)', color: '#3b82f6', level: 'medium' },
+  { coins: 2500, label: '$2.50', rarity: 'epic', border: '#a855f7', bg: 'rgba(168,85,247,0.08)', color: '#a855f7', level: 'high' },
+  { coins: 10000, label: '$10.00', rarity: 'legendary', border: '#eab308', bg: 'rgba(234,179,8,0.08)', color: '#eab308', level: 'high' },
+  { coins: 250000, label: '$250.00', rarity: 'mythic', border: '#ef4444', bg: 'rgba(239,68,68,0.08)', color: '#ef4444', level: 'mythic' }
 ];
 
 const MOCK_NAMES = [
@@ -26,26 +105,63 @@ const MOCK_NAMES = [
 
 export default function SpinPage() {
   const { user, login } = useAuth();
-  const [activeTab, setActiveTab] = useState('daily'); // 'daily' or 'signup'
+  const [activeTab, setActiveTab] = useState('signup'); // Default to signup chest matching user focus
   const [spinning, setSpinning] = useState(false);
   const [error, setError] = useState(null);
   const [winPrize, setWinPrize] = useState(null);
   const [cooldown, setCooldown] = useState('');
   const [canSpinDaily, setCanSpinDaily] = useState(false);
-  const [canSpinSignup, setCanSpinSignup] = useState(false);
+  
+  const [signupState, setSignupState] = useState({
+    claimsLeft: 1,
+    progressCoins: 0,
+    challengeCompleted: false,
+    timeLeftMs: 0,
+    endsAt: null
+  });
+
   const [carouselItems, setCarouselItems] = useState([]);
   const [spinOffset, setSpinOffset] = useState(0);
   const [transitionDuration, setTransitionDuration] = useState('0s');
   
-  // Confetti particles state
   const [confetti, setConfetti] = useState([]);
-
-  // Recent Wins Live Feed state
   const [recentWins, setRecentWins] = useState([]);
 
   const rowRef = useRef(null);
 
-  // Initialize recent unboxings feed with 5 mock items
+  // Fetch dynamic signup bonus challenge state
+  const loadSignupState = async () => {
+    if (!user) return;
+    try {
+      const state = await db.getSignupBonusState(user.id);
+      setSignupState(state);
+    } catch (e) {
+      console.error('Failed to load signup challenge state:', e);
+    }
+  };
+
+  useEffect(() => {
+    loadSignupState();
+  }, [user]);
+
+  // Handle countdown timers
+  useEffect(() => {
+    if (!signupState.endsAt) return;
+    const interval = setInterval(() => {
+      const ends = new Date(signupState.endsAt).getTime();
+      const now = new Date().getTime();
+      const diff = ends - now;
+      if (diff <= 0) {
+        setSignupState(prev => ({ ...prev, timeLeftMs: 0 }));
+        clearInterval(interval);
+      } else {
+        setSignupState(prev => ({ ...prev, timeLeftMs: diff }));
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [signupState.endsAt]);
+
+  // Initial recent wins populate
   useEffect(() => {
     const list = Array.from({ length: 5 }, () => {
       const name = MOCK_NAMES[Math.floor(Math.random() * MOCK_NAMES.length)];
@@ -67,7 +183,7 @@ export default function SpinPage() {
     setRecentWins(list);
   }, []);
 
-  // Update recent unboxings periodically
+  // Update recent wins periodically
   useEffect(() => {
     const interval = setInterval(() => {
       const name = MOCK_NAMES[Math.floor(Math.random() * MOCK_NAMES.length)];
@@ -95,10 +211,10 @@ export default function SpinPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Generate randomized conveyor items for roulette appearance
+  // Generate conveyor carousel items
   const generateCarousel = (targetPrizeIdx = null) => {
     const list = [];
-    const count = 60; // Total boxes on conveyor
+    const count = 60; 
     for (let i = 0; i < count; i++) {
       if (i === 45 && targetPrizeIdx !== null) {
         list.push({ ...SPIN_PRIZES[targetPrizeIdx], index: i });
@@ -124,11 +240,9 @@ export default function SpinPage() {
     generateCarousel();
   }, []);
 
-  // Update cooldown and claim eligibility
+  // Cooldown tracker for daily spin
   useEffect(() => {
     if (!user) return;
-
-    setCanSpinSignup(!user.has_claimed_signup_bonus);
 
     if (!user.last_daily_spin_at) {
       setCanSpinDaily(true);
@@ -159,12 +273,11 @@ export default function SpinPage() {
     return () => clearInterval(interval);
   }, [user]);
 
-  // Confetti particles generator
   const triggerConfetti = () => {
     const list = Array.from({ length: 50 }, (_, i) => ({
       id: i,
-      x: Math.random() * 100, // percentage left
-      y: -10 - Math.random() * 30, // top offset
+      x: Math.random() * 100, 
+      y: -10 - Math.random() * 30, 
       size: Math.random() * 8 + 5,
       delay: Math.random() * 2,
       duration: Math.random() * 3 + 2,
@@ -183,13 +296,12 @@ export default function SpinPage() {
 
     const type = activeTab;
     if (type === 'daily' && !canSpinDaily) return;
-    if (type === 'signup' && !canSpinSignup) return;
+    if (type === 'signup' && signupState.claimsLeft <= 0) return;
 
     setError(null);
     setSpinning(true);
     setWinPrize(null);
 
-    // Reset offset to starting position instantly
     setTransitionDuration('0s');
     setSpinOffset(0);
 
@@ -197,7 +309,7 @@ export default function SpinPage() {
       const res = await db.claimSpin(user.id, type);
       if (!res.success) throw new Error(res.error || 'Failed to claim reward');
 
-      // Update auth context state to refresh balance and XP progress
+      // Update auth context profile sync
       if (login) {
         setTimeout(async () => {
           const latestProfile = await db.getProfile(user.id);
@@ -228,17 +340,16 @@ export default function SpinPage() {
       const parentWidth = rowRef.current ? rowRef.current.parentElement.offsetWidth : 700;
       const centerTarget = targetOffsetBase - (parentWidth / 2) + (itemWidth / 2) + randomShift;
 
-      // Begin animation
       setTimeout(() => {
         setTransitionDuration('5.5s'); 
         setSpinOffset(-centerTarget);
       }, 50);
 
-      // Finish spin animation callback
       setTimeout(() => {
         setSpinning(false);
         setWinPrize(res.prize);
         triggerConfetti();
+        loadSignupState(); // Reload dynamic claims details after a claim
       }, 5700);
 
     } catch (err) {
@@ -247,10 +358,22 @@ export default function SpinPage() {
     }
   };
 
+  const formatChallengeTimer = (ms) => {
+    if (ms <= 0) return 'Expired';
+    const remSecs = Math.floor(ms / 1000);
+    const days = Math.floor(remSecs / 86400);
+    const hrs = Math.floor((remSecs % 86400) / 3600);
+    const mins = Math.floor((remSecs % 3600) / 60);
+    return `${days}d ${hrs}h ${mins}m`;
+  };
+
+  // Convert profile progress to slider ratio (max $1 / 1000 coins)
+  const challengeProgress = Math.min(100, (signupState.progressCoins / 1000) * 100);
+
   return (
-    <div className="page-spin mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start relative select-none overflow-hidden">
+    <div className="page-spin mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start relative select-none">
       
-      {/* Confetti Explosion Overlay */}
+      {/* Confetti falling effects */}
       {confetti.map((particle) => (
         <div 
           key={particle.id}
@@ -270,15 +393,13 @@ export default function SpinPage() {
       <style>{`
         .conveyor-container {
           position: relative;
-          background: rgba(8, 8, 12, 0.95);
-          border: 1px solid rgba(191, 90, 255, 0.15);
-          border-radius: 24px;
+          background: #0f111a;
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 20px;
           height: 190px;
           overflow: hidden;
-          margin-bottom: 28px;
-          box-shadow: 
-            inset 0 0 40px rgba(0,0,0,0.95),
-            0 8px 30px rgba(139,92,246,0.1);
+          margin-bottom: 24px;
+          box-shadow: inset 0 0 35px rgba(0,0,0,0.9);
         }
         .conveyor-pointer-top {
           position: absolute;
@@ -287,11 +408,11 @@ export default function SpinPage() {
           transform: translateX(-50%);
           width: 0;
           height: 0;
-          border-left: 14px solid transparent;
-          border-right: 14px solid transparent;
-          border-top: 18px solid #bf5aff;
-          z-index: 20;
-          filter: drop-shadow(0 2px 12px rgba(191,90,255,0.85));
+          border-left: 12px solid transparent;
+          border-right: 12px solid transparent;
+          border-top: 15px solid #ffffff;
+          z-index: 25;
+          filter: drop-shadow(0 2px 8px rgba(255,255,255,0.5));
         }
         .conveyor-pointer-bottom {
           position: absolute;
@@ -300,11 +421,11 @@ export default function SpinPage() {
           transform: translateX(-50%);
           width: 0;
           height: 0;
-          border-left: 14px solid transparent;
-          border-right: 14px solid transparent;
-          border-bottom: 18px solid #bf5aff;
-          z-index: 20;
-          filter: drop-shadow(0 -2px 12px rgba(191,90,255,0.85));
+          border-left: 12px solid transparent;
+          border-right: 12px solid transparent;
+          border-bottom: 15px solid #ffffff;
+          z-index: 25;
+          filter: drop-shadow(0 -2px 8px rgba(255,255,255,0.5));
         }
         .conveyor-line {
           position: absolute;
@@ -312,9 +433,9 @@ export default function SpinPage() {
           bottom: 0;
           left: 50%;
           width: 2px;
-          background: linear-gradient(180deg, transparent, #bf5aff, transparent);
-          z-index: 10;
-          opacity: 0.95;
+          background: #ffffff;
+          z-index: 15;
+          opacity: 0.85;
           pointer-events: none;
         }
         .conveyor-row {
@@ -323,104 +444,66 @@ export default function SpinPage() {
           gap: 12px;
           height: 100%;
           padding: 0 50px;
-          transform: translateX(0px);
         }
         .conveyor-item {
           width: 140px;
           height: 130px;
-          border-radius: 18px;
-          background: rgba(255, 255, 255, 0.02);
-          border-width: 2px;
-          border-style: solid;
+          border-radius: 16px;
+          background: rgba(15, 17, 26, 0.6);
+          border: 2px solid rgba(255,255,255,0.06);
           flex-shrink: 0;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           transition: all 0.3s;
-          box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+          position: relative;
         }
-        .conveyor-item:hover {
-          background: rgba(255, 255, 255, 0.04);
+
+        /* Diagonal stripes animated progress bar */
+        @keyframes stripesShift {
+          from { background-position: 0 0; }
+          to { background-position: 40px 0; }
         }
-        
-        .pulse-dot {
-          animation: activePulse 1.6s infinite ease-in-out;
-        }
-        @keyframes activePulse {
-          0%, 100% { transform: scale(1); opacity: 0.6; }
-          50% { transform: scale(1.3); opacity: 1; }
+        .stripes-progressbar {
+          background: repeating-linear-gradient(
+            45deg,
+            #bf5aff,
+            #bf5aff 12px,
+            #9f3cdb 12px,
+            #9f3cdb 24px
+          );
+          background-size: 40px 40px;
+          animation: stripesShift 1.2s linear infinite;
         }
 
         @keyframes confettiFall {
           0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(120vh) rotate(720deg); opacity: 0.3; }
+          100% { transform: translateY(120vh) rotate(720deg); opacity: 0.2; }
         }
         .animate-confetti-fall {
           animation: confettiFall linear forwards;
         }
-
-        .gradient-border-glow {
-          box-shadow: 0 0 35px rgba(191,90,255,0.25);
-          border: 1px solid rgba(191,90,255,0.25);
-        }
         
-        /* Win card dynamic glow class */
-        .wincard-glow {
-          animation: goldGlow 2.5s infinite alternate;
-        }
-        @keyframes goldGlow {
-          0% { box-shadow: 0 0 20px rgba(191,90,255,0.15); }
-          100% { box-shadow: 0 0 45px rgba(191,90,255,0.45); }
+        .timer-ends-box {
+          background: #171822;
+          border: 1px solid rgba(255, 255, 255, 0.05);
         }
       `}</style>
 
-      {/* Title Header */}
-      <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
-            <div className="icon-wrapper-primary p-2">
-              <Gift className="h-6 w-6 text-primary" />
-            </div>
-            Daily & Signup Spin Wheel
-          </h1>
-          <p className="text-sm text-zinc-400 mt-1">
-            Claim your rewards regularly. Roll the ticker to win up to 250,000 coins!
-          </p>
-        </div>
-      </div>
-
-      {/* Recent Unboxings Ticker (Dope CS:GO case unboxing style live winner feed) */}
-      <div className="mb-8 rounded-2xl bg-[#0e0e13]/65 border border-dark-border/40 p-3.5 flex flex-col md:flex-row md:items-center gap-4 relative overflow-hidden shadow-lg select-none">
-        <div className="flex items-center gap-2 shrink-0 md:border-r border-dark-border/60 pr-4">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </span>
-          <span className="text-[10px] font-black uppercase text-zinc-400 tracking-wider">Live Free Wins:</span>
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <div className="flex flex-wrap md:flex-nowrap gap-3 items-center">
-            {recentWins.map((win) => {
-              const WinIcon = win.prize.icon;
-              return (
-                <div 
-                  key={win.id} 
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-dark-border/40 bg-dark-bg/60 text-xs font-semibold hover:border-zinc-700/60 transition-colors animate-new-card"
-                >
-                  <WinIcon className="h-3.5 w-3.5" style={{ color: win.prize.color }} />
-                  <span className="text-white font-bold">{win.user}</span>
-                  <span className="text-zinc-550">unboxed</span>
-                  <span className="font-extrabold uppercase" style={{ color: win.prize.color }}>{win.prize.coins} coins</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Tabs */}
+      {/* Dynamic Tab Switchers (Daily vs Signup Chest) */}
       <div className="mb-6 flex gap-3 border-b border-dark-border/40 pb-4">
+        <button
+          onClick={() => !spinning && setActiveTab('signup')}
+          disabled={spinning}
+          className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
+            activeTab === 'signup'
+              ? 'border-primary/40 bg-primary/10 text-primary shadow-lg'
+              : 'border-dark-border/60 text-zinc-400 bg-dark-card hover:bg-dark-bg/60 hover:text-white'
+          }`}
+        >
+          <Sparkles className="h-4 w-4" /> Sign-up Bonus Chest
+        </button>
         <button
           onClick={() => !spinning && setActiveTab('daily')}
           disabled={spinning}
@@ -432,215 +515,218 @@ export default function SpinPage() {
         >
           <Clock className="h-4 w-4" /> Daily Free Spin
         </button>
-        <button
-          onClick={() => !spinning && setActiveTab('signup')}
-          disabled={spinning}
-          className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
-            activeTab === 'signup'
-              ? 'border-secondary/40 bg-secondary/10 text-secondary shadow-lg'
-              : 'border-dark-border/60 text-zinc-400 bg-dark-card hover:bg-dark-bg/60 hover:text-white'
-          }`}
-        >
-          <Sparkles className="h-4 w-4" /> Sign-up Bonus Case
-        </button>
       </div>
 
-      {/* Ticker Conveyor Ticker Box */}
-      <div className="conveyor-container">
-        <div className="conveyor-pointer-top" />
-        <div className="conveyor-line" />
-        <div className="conveyor-pointer-bottom" />
-        <div 
-          ref={rowRef}
-          className="conveyor-row"
-          style={{
-            transform: `translateX(${spinOffset}px)`,
-            transitionProperty: 'transform',
-            transitionDuration: transitionDuration,
-            transitionTimingFunction: 'cubic-bezier(0.1, 0.8, 0.1, 1)'
-          }}
-        >
-          {carouselItems.map((item, idx) => {
-            const ItemIcon = item.icon;
-            return (
-              <div 
-                key={`${item.coins}_${idx}`} 
-                className={`conveyor-item rarity-${item.rarity} border-t-4`}
-                style={{
-                  background: item.bg,
-                  borderColor: item.color
-                }}
-              >
-                <div className="mb-2 shrink-0 select-none">
-                  <ItemIcon className="h-6 w-6" style={{ color: item.color }} />
-                </div>
-                <div className="text-sm font-black text-white">{item.coins.toLocaleString()}</div>
-                <div className="text-[9px] font-bold uppercase tracking-wider mt-0.5" style={{ color: item.color }}>
-                  {item.label}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Error display */}
-      {error && (
-        <div className="mb-4 rounded-xl border border-red-900/50 bg-red-950/20 p-4 flex items-start gap-3 animate-new-card">
-          <AlertCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
-          <div className="text-xs font-semibold text-red-200">{error}</div>
-        </div>
-      )}
-
-      {/* Actions and Status Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      {/* Main spin interface wrapper */}
+      <div className="mx-auto max-w-4xl w-full bg-[#0a0a0f] border border-dark-border/40 rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-start shadow-2xl relative">
         
-        {/* Spin action Card */}
-        <div className="lg:col-span-7 bg-[#0e0e14]/90 border border-dark-border rounded-3xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden shadow-2xl gradient-border-glow">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-br from-primary/10 to-transparent rounded-full filter blur-[100px] pointer-events-none" />
-          
-          {winPrize ? (
-            <div className="py-6 flex flex-col items-center animate-new-card select-none">
-              <div className="relative mb-6 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full bg-[#bf5aff]/30 blur-2xl animate-pulse" />
-                {(() => {
-                  const WinIcon = winPrize.icon;
-                  return (
-                    <div className="h-28 w-28 rounded-3xl bg-dark-bg/90 border-2 flex flex-col items-center justify-center shadow-2xl relative z-10 wincard-glow" style={{ borderColor: winPrize.color }}>
-                      <WinIcon className="h-10 w-10 mb-1" style={{ color: winPrize.color }} />
-                      <div className="text-sm font-black text-white">{winPrize.coins.toLocaleString()}</div>
-                      <div className="text-[8px] font-black uppercase tracking-widest mt-0.5" style={{ color: winPrize.color }}>{winPrize.label}</div>
-                    </div>
-                  );
-                })()}
-              </div>
-              <h3 className="text-xl font-black text-white flex items-center gap-1">
-                <Sparkles className="h-5 w-5 text-yellow-500" />
-                Congratulations!
-              </h3>
-              <p className="text-xs text-zinc-400 mt-2 max-w-sm leading-relaxed">
-                You successfully claimed <span className="text-white font-extrabold">{winPrize.coins.toLocaleString()} coins</span> ({winPrize.label} equivalent) directly to your wallet!
-              </p>
-              <button 
-                onClick={() => setWinPrize(null)} 
-                className="mt-6 rounded-full px-6 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-bold uppercase tracking-wider text-white border border-dark-border/40 transition-colors flex items-center gap-1.5 active:scale-95 transition-transform"
-              >
-                <RotateCcw className="h-3 w-3" /> Spin Again
-              </button>
-            </div>
-          ) : (
-            <div className="py-6 flex flex-col items-center">
-              <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-primary mb-2.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1">
-                <Flame className="h-3.5 w-3.5" />
-                {activeTab === 'daily' ? 'Daily Claimable Bonus' : 'New User Signup Bonus'}
-              </div>
-              <h2 className="text-2xl font-black text-white tracking-tight leading-none mb-1">
-                {activeTab === 'daily' ? 'Roll Your Daily Gift' : 'Claim Your Starting Case'}
-              </h2>
-              <p className="text-xs text-zinc-450 max-w-sm mt-3 leading-relaxed">
-                {activeTab === 'daily' 
-                  ? 'Get a free roll once every 24 hours to credit your balance with free gold coins. Check back every day!'
-                  : 'Start your journey with a chance to win up to $250 starting coin bonus!'
-                }
-              </p>
-
-              <div className="mt-8 select-none w-full">
-                {activeTab === 'daily' && !canSpinDaily && (
-                  <div className="flex flex-col items-center gap-3">
-                    <button disabled className="rounded-full px-10 py-3.5 bg-dark-bg text-zinc-650 border border-dark-border/60 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
-                      Spin Cooldown Active
-                    </button>
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-400 uppercase tracking-widest bg-dark-bg/60 px-4 py-1.5 rounded-full border border-dark-border/30">
-                      <Clock className="h-4 w-4 text-primary animate-pulse" /> Next spin: {cooldown}
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'daily' && canSpinDaily && (
-                  <button 
-                    onClick={handleSpin}
-                    disabled={spinning}
-                    className="btn-gaming rounded-full px-12 py-4 text-xs font-extrabold uppercase tracking-wider shadow-lg active:scale-95 transition-transform"
-                  >
-                    {spinning ? 'Rolling...' : 'Spin Now!'}
-                  </button>
-                )}
-
-                {activeTab === 'signup' && !canSpinSignup && (
-                  <div className="flex flex-col items-center gap-2">
-                    <button disabled className="rounded-full px-8 py-3.5 bg-dark-bg text-emerald-700/60 border border-emerald-950/20 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed flex items-center gap-1.5">
-                      <CheckCircle2 className="h-4 w-4" /> Redeemed
-                    </button>
-                    <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
-                      Sign-up bonus already redeemed
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'signup' && canSpinSignup && (
-                  <button 
-                    onClick={handleSpin}
-                    disabled={spinning}
-                    className="btn-gaming rounded-full px-12 py-4 text-xs font-extrabold uppercase tracking-wider shadow-lg active:scale-95 transition-transform"
-                  >
-                    {spinning ? 'Opening Case...' : 'Open Signup Case'}
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-
+        {/* Chest Illustration */}
+        <div className="mb-4">
+          <ChestIcon type={activeTab === 'signup' && signupState.challengeCompleted ? 'gold' : 'purple'} size={90} />
         </div>
 
-        {/* Prize Pool Legend Card (Detailed probabilistic bar ratios for high-end look) */}
-        <div className="lg:col-span-5 bg-dark-card border border-dark-border rounded-3xl p-6 flex flex-col justify-start relative shadow-2xl">
-          <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-1.5">
-            <Coins className="h-4 w-4 text-zinc-400" />
-            Prize Pool Rarity
-          </h3>
+        {/* Dynamic Titles */}
+        <h2 className="text-3xl font-black text-white leading-none">
+          {activeTab === 'signup' ? 'Sign up Bonus!' : 'Daily Free Spin!'}
+        </h2>
+        <p className="text-zinc-450 font-semibold text-sm mt-2">
+          {activeTab === 'signup' ? (
+            <>Win up to <span className="text-[#bf5aff] font-bold">$250</span></>
+          ) : (
+            <>Claim your daily gift. Win up to <span className="text-[#bf5aff] font-bold">$10.00</span></>
+          )}
+        </p>
 
-          <div className="space-y-3">
-            {SPIN_PRIZES.slice().reverse().map((prize) => {
-              const ItemIcon = prize.icon;
-              return (
+        {/* Carousel case unboxing spinner conveyor */}
+        <div className="w-full mt-8">
+          <div className="conveyor-container">
+            <div className="conveyor-pointer-top" />
+            <div className="conveyor-line" />
+            <div className="conveyor-pointer-bottom" />
+            <div 
+              ref={rowRef}
+              className="conveyor-row"
+              style={{
+                transform: `translateX(${spinOffset}px)`,
+                transitionProperty: 'transform',
+                transitionDuration: transitionDuration,
+                transitionTimingFunction: 'cubic-bezier(0.1, 0.8, 0.1, 1)'
+              }}
+            >
+              {carouselItems.map((item, idx) => (
                 <div 
-                  key={prize.coins} 
-                  className="flex flex-col rounded-xl bg-dark-bg/60 border border-dark-border/40 p-3 hover:border-zinc-700 transition-colors"
+                  key={`${item.coins}_${idx}`} 
+                  className="conveyor-item"
+                  style={{
+                    borderColor: item.rarity === 'common' ? 'rgba(255,255,255,0.06)' : `${item.color}50`,
+                    background: item.rarity === 'common' 
+                      ? 'rgba(63,63,70,0.1)' 
+                      : item.rarity === 'uncommon' 
+                      ? 'rgba(16,185,129,0.06)' 
+                      : item.rarity === 'epic' 
+                      ? 'rgba(168,85,247,0.06)' 
+                      : 'rgba(234,179,8,0.06)'
+                  }}
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1 rounded-lg bg-dark-bg shrink-0 border border-dark-border/30">
-                        <ItemIcon className="h-4 w-4" style={{ color: prize.color }} />
-                      </div>
-                      <span className="text-xs font-bold text-white">{prize.coins.toLocaleString()} coins</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="block text-[10px] font-black uppercase tracking-wider" style={{ color: prize.color }}>
-                        {prize.rarity}
-                      </span>
-                    </div>
+                  <div className="mb-2 shrink-0 select-none">
+                    <CoinsStack level={item.level} size={50} />
                   </div>
-                  {/* Probability Bar Indicator */}
-                  <div className="h-1 w-full bg-dark-bg/80 rounded-full overflow-hidden border border-dark-border/30">
-                    <div 
-                      className="h-full rounded-full transition-all duration-300"
-                      style={{ 
-                        width: `${Math.max(1, Math.min(100, prize.probability * 100))}%`,
-                        backgroundColor: prize.color,
-                        boxShadow: `0 0 8px ${prize.color}`
-                      }}
-                    />
-                  </div>
-                  <div className="flex justify-between items-center text-[8px] text-zinc-500 font-bold mt-1 uppercase tracking-widest">
-                    <span>Probability</span>
-                    <span>{(prize.probability * 100).toFixed(prize.probability < 0.001 ? 2 : 1)}%</span>
+                  <div className="text-[10px] font-black tracking-wider uppercase mt-1" style={{ color: item.color }}>
+                    {item.label}
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
-
         </div>
+
+        {/* Error notification */}
+        {error && (
+          <div className="w-full mb-4 rounded-xl border border-red-900/50 bg-red-950/20 p-4 flex items-start gap-3 animate-new-card">
+            <AlertCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+            <div className="text-xs font-semibold text-red-200">{error}</div>
+          </div>
+        )}
+
+        {/* Dynamic win details overlay popup display */}
+        {winPrize && (
+          <div className="w-full mb-6 p-5 rounded-2xl bg-primary/10 border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-4 animate-new-card">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-xl bg-dark-bg/85 flex items-center justify-center border border-primary/40">
+                <Coins className="h-6 w-6 text-primary" />
+              </div>
+              <div className="text-left">
+                <h4 className="text-sm font-black text-white">Prize Unboxed!</h4>
+                <p className="text-xs text-zinc-400">Successfully credited +{winPrize.coins.toLocaleString()} coins to your account.</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setWinPrize(null)}
+              className="rounded-full px-5 py-2 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-bold uppercase tracking-wider text-white border border-dark-border/40 transition-colors shrink-0"
+            >
+              Close
+            </button>
+          </div>
+        )}
+
+        {/* Dynamic tab contents rendering */}
+        {activeTab === 'signup' && (
+          <div className="w-full flex flex-col items-center">
+            
+            {/* Spin actions display if claims are left */}
+            {signupState.claimsLeft > 0 && !spinning && (
+              <div className="mb-6 animate-new-card">
+                <button 
+                  onClick={handleSpin}
+                  className="btn-gaming rounded-full px-12 py-4 text-xs font-extrabold uppercase tracking-wider shadow-lg active:scale-95 transition-transform"
+                >
+                  Open Free Case ({signupState.claimsLeft} left)
+                </button>
+              </div>
+            )}
+
+            {spinning && (
+              <div className="mb-6">
+                <button disabled className="rounded-full px-10 py-3.5 bg-dark-bg text-zinc-650 border border-dark-border/60 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
+                  Opening Case...
+                </button>
+              </div>
+            )}
+
+            {/* Progress bar matching the user mockup EXACTLY */}
+            <div className="w-full flex items-center gap-3 mt-4 mb-4 select-none">
+              <div className="bg-[#a855f7] text-white text-[11px] font-black px-4 py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
+                $ 0
+              </div>
+              <div className="flex-1 h-7 bg-[#0b0c10] rounded-full border border-zinc-800/80 overflow-hidden relative flex items-center p-[3px]">
+                <div 
+                  className="stripes-progressbar h-full rounded-full transition-all duration-500"
+                  style={{ width: `${challengeProgress}%` }}
+                />
+              </div>
+              <div className="bg-[#a855f7] text-white text-[11px] font-black px-4 py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
+                $ 1
+              </div>
+            </div>
+
+            {/* Campaign info text */}
+            <p className="text-zinc-300 text-xs font-semibold tracking-wide text-center leading-relaxed mt-2">
+              Earn over <span className="text-white font-extrabold">$ 1</span> within <span className="text-[#bf5aff] font-extrabold">48 Hours</span> and receive <span className="text-[#bf5aff] font-extrabold">3 more free cases!</span>
+            </p>
+
+            {/* Extra chests reward list */}
+            <div className="flex justify-center items-center gap-12 mt-6 mb-8 select-none">
+              <div className="flex flex-col items-center">
+                <ChestIcon type="purple" size={54} />
+                <span className="text-xs font-extrabold text-[#bf5aff] mt-2">$ 250</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <ChestIcon type="gold" size={54} />
+                <span className="text-xs font-extrabold text-amber-500 mt-2">$ 500</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <ChestIcon type="gold" size={54} />
+                <span className="text-xs font-extrabold text-amber-500 mt-2">$ 500</span>
+              </div>
+            </div>
+
+            {/* Challenge actions wrapper matching screenshot */}
+            <div className="flex flex-wrap justify-center gap-4 w-full max-w-md select-none mt-2">
+              <div className="flex-1 min-w-[180px] timer-ends-box rounded-xl px-5 py-3.5 flex items-center justify-center gap-2 text-zinc-400 text-xs font-bold leading-none">
+                <Clock className="h-4 w-4 text-primary shrink-0" />
+                Ends in: <span className="text-white font-extrabold">{formatChallengeTimer(signupState.timeLeftMs)}</span>
+              </div>
+              <Link 
+                href="/earn"
+                className="flex-1 min-w-[180px] bg-[#bf5aff] hover:bg-[#a855f7] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3.5 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(191,90,255,0.3)]"
+              >
+                Start Earning <Play className="h-3.5 w-3.5 fill-white" />
+              </Link>
+            </div>
+
+          </div>
+        )}
+
+        {activeTab === 'daily' && (
+          <div className="w-full flex flex-col items-center">
+            
+            {/* Daily spin eligibility actions */}
+            {!canSpinDaily && (
+              <div className="flex flex-col items-center gap-3 animate-new-card mt-4">
+                <button disabled className="rounded-full px-12 py-4 bg-dark-bg text-zinc-650 border border-dark-border/60 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
+                  Daily Cooldown Active
+                </button>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-400 uppercase tracking-widest bg-dark-bg/60 px-4 py-1.5 rounded-full border border-dark-border/30">
+                  <Clock className="h-4 w-4 text-primary animate-pulse" /> Next spin: {cooldown}
+                </div>
+              </div>
+            )}
+
+            {canSpinDaily && !spinning && (
+              <div className="mt-4 mb-4">
+                <button 
+                  onClick={handleSpin}
+                  className="btn-gaming rounded-full px-12 py-4 text-xs font-extrabold uppercase tracking-wider shadow-lg active:scale-95 transition-transform"
+                >
+                  Spin Daily Gift
+                </button>
+              </div>
+            )}
+
+            {spinning && (
+              <div className="mt-4 mb-4">
+                <button disabled className="rounded-full px-10 py-3.5 bg-dark-bg text-zinc-650 border border-dark-border/60 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
+                  Rolling...
+                </button>
+              </div>
+            )}
+
+            <p className="text-zinc-450 text-xs text-center max-w-md mt-6 leading-relaxed">
+              Claim a free gold spin once every 24 hours. The reward will be automatically added to your total coin balance.
+            </p>
+
+          </div>
+        )}
 
       </div>
 
