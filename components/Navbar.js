@@ -59,14 +59,14 @@ export default function Navbar() {
   return (
     <>
       {/* 1. TOP HEADER (sticky on mobile, right-aligned next to sidebar on desktop) */}
-      <header className="fixed top-0 right-0 left-0 md:left-64 z-30 h-16 glass-nav flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-dark-border">
+      <header className="fixed top-0 right-0 left-0 md:left-64 z-30 h-18 glass-nav flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-dark-border">
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
           <Link href="/" className="flex items-center group">
             <img 
               src="/offerwall/blueberry_logo.png" 
               alt="blueberrycash Logo" 
-              className="h-14 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
+              className="h-16 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
         </div>
@@ -172,12 +172,12 @@ export default function Navbar() {
       {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
       <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
         {/* Sidebar Logo Header */}
-        <div className="h-20 border-b border-dark-border/40 flex items-center px-6 shrink-0">
+        <div className="h-24 border-b border-dark-border/40 flex items-center px-6 shrink-0">
           <Link href="/" className="flex items-center group w-full justify-start">
             <img 
               src="/offerwall/blueberry_logo.png" 
               alt="blueberrycash Logo" 
-              className="h-18 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
+              className="h-22 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
             />
           </Link>
         </div>
