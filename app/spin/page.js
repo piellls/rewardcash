@@ -444,6 +444,7 @@ export default function SpinPage() {
           gap: 12px;
           height: 100%;
           padding: 0 50px;
+          flex-wrap: nowrap;
         }
         .conveyor-item {
           width: 140px;
@@ -492,11 +493,11 @@ export default function SpinPage() {
       `}</style>
 
       {/* Dynamic Tab Switchers (Daily vs Signup Chest) */}
-      <div className="mb-6 flex gap-3 border-b border-dark-border/40 pb-4">
+      <div className="mb-6 flex flex-wrap gap-2.5 border-b border-dark-border/40 pb-4 justify-center sm:justify-start">
         <button
           onClick={() => !spinning && setActiveTab('signup')}
           disabled={spinning}
-          className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
+          className={`px-4 sm:px-6 py-2 rounded-lg sm:rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
             activeTab === 'signup'
               ? 'border-primary/40 bg-primary/10 text-primary shadow-lg'
               : 'border-dark-border/60 text-zinc-400 bg-dark-card hover:bg-dark-bg/60 hover:text-white'
@@ -507,7 +508,7 @@ export default function SpinPage() {
         <button
           onClick={() => !spinning && setActiveTab('daily')}
           disabled={spinning}
-          className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
+          className={`px-4 sm:px-6 py-2 rounded-lg sm:rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
             activeTab === 'daily'
               ? 'border-primary/40 bg-primary/10 text-primary shadow-lg'
               : 'border-dark-border/60 text-zinc-400 bg-dark-card hover:bg-dark-bg/60 hover:text-white'
@@ -518,15 +519,15 @@ export default function SpinPage() {
       </div>
 
       {/* Main spin interface wrapper */}
-      <div className="mx-auto max-w-4xl w-full bg-[#0a0a0f] border border-dark-border/40 rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-start shadow-2xl relative">
+      <div className="mx-auto max-w-4xl w-full bg-[#0a0a0f] border border-dark-border/40 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col items-center justify-start shadow-2xl relative">
         
         {/* Chest Illustration */}
         <div className="mb-4">
-          <ChestIcon type={activeTab === 'signup' && signupState.challengeCompleted ? 'gold' : 'purple'} size={90} />
+          <ChestIcon type={activeTab === 'signup' && signupState.challengeCompleted ? 'gold' : 'purple'} size={80} />
         </div>
 
         {/* Dynamic Titles */}
-        <h2 className="text-3xl font-black text-white leading-none">
+        <h2 className="text-2xl sm:text-3xl font-black text-white leading-none text-center">
           {activeTab === 'signup' ? 'Sign up Bonus!' : 'Daily Free Spin!'}
         </h2>
         <p className="text-zinc-450 font-semibold text-sm mt-2">
@@ -634,51 +635,51 @@ export default function SpinPage() {
             )}
 
             {/* Progress bar matching the user mockup EXACTLY */}
-            <div className="w-full flex items-center gap-3 mt-4 mb-4 select-none">
-              <div className="bg-[#a855f7] text-white text-[11px] font-black px-4 py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
+            <div className="w-full flex items-center gap-2 sm:gap-3 mt-4 mb-4 select-none">
+              <div className="bg-[#a855f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
                 $ 0
               </div>
-              <div className="flex-1 h-7 bg-[#0b0c10] rounded-full border border-zinc-800/80 overflow-hidden relative flex items-center p-[3px]">
+              <div className="flex-1 h-6 sm:h-7 bg-[#0b0c10] rounded-full border border-zinc-800/80 overflow-hidden relative flex items-center p-[3px]">
                 <div 
                   className="stripes-progressbar h-full rounded-full transition-all duration-500"
                   style={{ width: `${challengeProgress}%` }}
                 />
               </div>
-              <div className="bg-[#a855f7] text-white text-[11px] font-black px-4 py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
+              <div className="bg-[#a855f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
                 $ 1
               </div>
             </div>
 
             {/* Campaign info text */}
-            <p className="text-zinc-300 text-xs font-semibold tracking-wide text-center leading-relaxed mt-2">
+            <p className="text-zinc-300 text-[11px] sm:text-xs font-semibold tracking-wide text-center leading-relaxed mt-2 px-2">
               Earn over <span className="text-white font-extrabold">$ 1</span> within <span className="text-[#bf5aff] font-extrabold">48 Hours</span> and receive <span className="text-[#bf5aff] font-extrabold">3 more free cases!</span>
             </p>
 
             {/* Extra chests reward list */}
-            <div className="flex justify-center items-center gap-12 mt-6 mb-8 select-none">
+            <div className="flex justify-center items-center gap-6 sm:gap-12 mt-6 mb-8 select-none">
               <div className="flex flex-col items-center">
-                <ChestIcon type="purple" size={54} />
+                <ChestIcon type="purple" size={48} />
                 <span className="text-xs font-extrabold text-[#bf5aff] mt-2">$ 250</span>
               </div>
               <div className="flex flex-col items-center">
-                <ChestIcon type="gold" size={54} />
+                <ChestIcon type="gold" size={48} />
                 <span className="text-xs font-extrabold text-amber-500 mt-2">$ 500</span>
               </div>
               <div className="flex flex-col items-center">
-                <ChestIcon type="gold" size={54} />
+                <ChestIcon type="gold" size={48} />
                 <span className="text-xs font-extrabold text-amber-500 mt-2">$ 500</span>
               </div>
             </div>
 
             {/* Challenge actions wrapper matching screenshot */}
-            <div className="flex flex-wrap justify-center gap-4 w-full max-w-md select-none mt-2">
-              <div className="flex-1 min-w-[180px] timer-ends-box rounded-xl px-5 py-3.5 flex items-center justify-center gap-2 text-zinc-400 text-xs font-bold leading-none">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 w-full max-w-md select-none mt-2 px-2">
+              <div className="w-full sm:w-auto sm:flex-1 timer-ends-box rounded-xl px-5 py-3 flex items-center justify-center gap-2 text-zinc-400 text-xs font-bold leading-none">
                 <Clock className="h-4 w-4 text-primary shrink-0" />
                 Ends in: <span className="text-white font-extrabold">{formatChallengeTimer(signupState.timeLeftMs)}</span>
               </div>
               <Link 
                 href="/earn"
-                className="flex-1 min-w-[180px] bg-[#bf5aff] hover:bg-[#a855f7] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3.5 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(191,90,255,0.3)]"
+                className="w-full sm:w-auto sm:flex-1 bg-[#bf5aff] hover:bg-[#a855f7] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(191,90,255,0.3)]"
               >
                 Start Earning <Play className="h-3.5 w-3.5 fill-white" />
               </Link>
