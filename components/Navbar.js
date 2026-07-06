@@ -126,6 +126,19 @@ export default function Navbar() {
                 </span>
               </div>
 
+              {/* Mobile Free Spin Gift Button */}
+              <Link 
+                href="/spin" 
+                className="flex md:hidden items-center justify-center h-9.5 w-9.5 rounded-xl bg-primary/10 border border-primary/25 text-primary hover:text-white hover:border-primary/50 shadow-md active:scale-95 transition-all relative shrink-0"
+                title="Daily Spin"
+              >
+                <Gift className="h-4.5 w-4.5 text-primary" />
+                <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+              </Link>
+
               {/* Profile Avatar link */}
               <Link 
                 href="/dashboard"
@@ -152,6 +165,18 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="flex items-center gap-2 sm:gap-3">
+              {/* Mobile Free Spin Gift Button (Guest) */}
+              <Link 
+                href="/spin" 
+                className="flex md:hidden items-center justify-center h-9.5 w-9.5 rounded-xl bg-primary/10 border border-primary/25 text-primary hover:text-white hover:border-primary/50 shadow-md active:scale-95 transition-all relative shrink-0 mr-1"
+                title="Daily Spin"
+              >
+                <Gift className="h-4.5 w-4.5 text-primary" />
+                <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+              </Link>
               <button
                 onClick={() => openAuth('login')}
                 className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs sm:text-sm"
@@ -250,7 +275,7 @@ export default function Navbar() {
 
       {/* 3. MOBILE BOTTOM NAVIGATION (fixed at bottom, hidden on desktop) */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-dark-card/95 backdrop-blur-lg border-t border-dark-border flex items-center justify-around z-40 px-2 shadow-2xl">
-        {navItems.map((item) => {
+        {navItems.filter(item => item.name !== 'Daily Spin').map((item) => {
           const Icon = item.icon;
           const isSupport = item.name === 'Support';
           const isActive = !isSupport && pathname === item.href;
