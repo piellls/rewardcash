@@ -336,7 +336,7 @@ export default function OfferwallPage() {
               <div style={{fontSize:48,marginBottom:14}}>💎</div>
               <h2 style={{fontSize:'clamp(28px,4vw,48px)',fontWeight:900,marginBottom:14}}>Start Earning Gems Today</h2>
               <p style={{fontSize:16,color:'rgba(255,255,255,.45)',maxWidth:460,margin:'0 auto 32px',lineHeight:1.6}}>
-                Join 127,000+ users already earning. Free to join. No hidden fees.
+                Join 38,000+ users already earning. Free to join. No hidden fees.
               </p>
               <div style={{display:'flex',gap:14,justifyContent:'center',flexWrap:'wrap'}}>
                 {user ? (
