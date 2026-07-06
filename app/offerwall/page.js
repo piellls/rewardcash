@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Gem, Zap, Trophy, Gift, ArrowRight, ChevronRight, Gamepad2, Smartphone, FileText, Search, Users, CheckCircle, Sparkles, Flame, BarChart3 } from 'lucide-react';
+import { Gem, Zap, Trophy, Gift, ArrowRight, ChevronRight, Gamepad2, Smartphone, FileText, Search, Users, CheckCircle, Sparkles, Flame, BarChart3, Crown, Award, Medal } from 'lucide-react';
 
 const LIVE_FEED = [
   { user: 'Alex_G', action: 'earned', amount: '$4.50', task: 'Coin Master', avatar: '🎮' },
@@ -250,10 +250,21 @@ export default function OfferwallPage() {
                     const rank = idx + 1;
                     const badgeName = getBadgeName(rank);
                     const bs = badgeStyle(badgeName);
-                    const rankIcon = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':`#${rank}`;
+                    
+                    let rankIcon;
+                    if (rank === 1) {
+                      rankIcon = <Trophy size={18} style={{ color: '#f7c948' }} />;
+                    } else if (rank === 2) {
+                      rankIcon = <Medal size={18} style={{ color: '#cbd5e1' }} />;
+                    } else if (rank === 3) {
+                      rankIcon = <Award size={18} style={{ color: '#cd7f32' }} />;
+                    } else {
+                      rankIcon = `#${rank}`;
+                    }
+
                     return (
                       <div key={p.username} className="lbrow">
-                        <div style={{fontSize:rank<=3?18:14,fontWeight:900,width:30,textAlign:'center',flexShrink:0,color:rank===1?'#f7c948':rank===2?'#c0c0c0':rank===3?'#cd7f32':'rgba(255,255,255,.4)'}}>
+                        <div style={{fontSize:rank<=3?18:14,fontWeight:900,width:30,textAlign:'center',flexShrink:0,color:'rgba(255,255,255,.4)',display:'flex',justifyContent:'center',alignItems:'center'}}>
                           {rankIcon}
                         </div>
                         <div style={{width:40,height:40,borderRadius:10,background:'rgba(255,255,255,.06)',display:'flex',alignItems:'center',justifyContent:'center',overflow:'hidden',flexShrink:0}}>
