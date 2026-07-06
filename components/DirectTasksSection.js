@@ -101,15 +101,6 @@ const getOfferCompletedCount = (offerId) => {
   return Math.abs(hash % 180) + 3;
 };
 
-const getOfferDotColor = (offerId) => {
-  const colors = ['#bf5aff', '#3b82f6', '#10b981', '#eab308', '#ef4444'];
-  let hash = 0;
-  const str = String(offerId);
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return colors[Math.abs(hash) % colors.length];
-};
 
 export default function DirectTasksSection() {
   const { user, earnCoinsSimulated } = useAuth();
@@ -380,7 +371,7 @@ export default function DirectTasksSection() {
               const creditsAward = offer.coins;
 
               const completedCount = getOfferCompletedCount(offer.id);
-              const dotColor = getOfferDotColor(offer.id);
+              const dotColor = completedCount >= 100 ? '#10b981' : '#eab308';
               const { isApple, isAndroid } = getOfferBadges(offer);
 
               return (
