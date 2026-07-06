@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
 import SupportModal from './SupportModal';
 import LiveFeedBanner from './LiveFeedBanner';
-import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, User, Users, ChevronRight } from 'lucide-react';
+import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, User, Users, ChevronRight, Gift } from 'lucide-react';
 
 const calculateLevel = (totalEarned = 0) => {
   if (totalEarned < 1000) return { level: 1, current: totalEarned, next: 1000, percentage: (totalEarned / 1000) * 100 };
@@ -46,6 +46,7 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'Earn', href: '/earn', icon: PlayCircle },
+    { name: 'Daily Spin', href: '/spin', icon: Gift },
     { name: 'Offerwall', href: '/offerwall', icon: Coins },
     { name: 'Cashout', href: '/cashout', icon: Wallet },
     { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },

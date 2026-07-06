@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   country TEXT DEFAULT 'Unknown',
   is_banned BOOLEAN DEFAULT false,
   last_seen_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  last_daily_spin_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+  has_claimed_signup_bonus BOOLEAN DEFAULT false
 );
 
 -- Enable Row Level Security (RLS)

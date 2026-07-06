@@ -674,7 +674,8 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-y-12 gap-x-6 mt-12 select-none overflow-visible w-full">
                 
                 {/* Card 1 - Daily Reward Spin */}
-                <div 
+                <Link 
+                  href="/spin"
                   className="relative w-[340px] h-[135px] rounded-2xl bg-gradient-to-r from-[#1d4ed8] to-[#7c3aed] p-5 flex items-end overflow-visible hover:scale-[1.03] transition-transform duration-300 cursor-pointer group shrink-0"
                   style={{ boxShadow: '0 20px 40px rgba(0, 0, 0, 0.65)' }}
                 >
@@ -693,7 +694,7 @@ export default function Home() {
                       <h4 className="text-[14px] font-black text-white uppercase tracking-wider leading-none">Daily Reward Spin</h4>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Card 2 - Exclusive Tournaments */}
                 <div 
