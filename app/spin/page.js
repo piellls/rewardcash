@@ -371,7 +371,7 @@ export default function SpinPage() {
   const challengeProgress = Math.min(100, (signupState.progressCoins / 1000) * 100);
 
   return (
-    <div className="page-spin mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start relative select-none">
+    <div className="page-spin mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start relative select-none w-full max-w-full overflow-x-hidden">
       
       {/* Confetti falling effects */}
       {confetti.map((particle) => (
@@ -400,6 +400,8 @@ export default function SpinPage() {
           overflow: hidden;
           margin-bottom: 24px;
           box-shadow: inset 0 0 35px rgba(0,0,0,0.9);
+          width: 100%;
+          max-width: 100%;
         }
         .conveyor-pointer-top {
           position: absolute;
@@ -519,7 +521,7 @@ export default function SpinPage() {
       </div>
 
       {/* Main spin interface wrapper */}
-      <div className="mx-auto max-w-4xl w-full bg-[#0a0a0f] border border-dark-border/40 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col items-center justify-start shadow-2xl relative">
+      <div className="mx-auto max-w-4xl w-full bg-[#0a0a0f] border border-dark-border/40 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col items-center justify-start shadow-2xl relative overflow-hidden max-w-full">
         
         {/* Chest Illustration */}
         <div className="mb-4">
@@ -539,7 +541,7 @@ export default function SpinPage() {
         </p>
 
         {/* Carousel case unboxing spinner conveyor */}
-        <div className="w-full mt-8">
+        <div className="w-full max-w-full overflow-hidden mt-8">
           <div className="conveyor-container">
             <div className="conveyor-pointer-top" />
             <div className="conveyor-line" />
@@ -635,7 +637,7 @@ export default function SpinPage() {
             )}
 
             {/* Progress bar matching the user mockup EXACTLY */}
-            <div className="w-full flex items-center gap-2 sm:gap-3 mt-4 mb-4 select-none">
+            <div className="w-full max-w-full overflow-hidden flex items-center gap-2 sm:gap-3 mt-4 mb-4 select-none">
               <div className="bg-[#a855f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
                 $ 0
               </div>
