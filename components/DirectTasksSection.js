@@ -461,9 +461,9 @@ export default function DirectTasksSection() {
                       <h4 className="text-[11px] sm:text-xs font-black text-white line-clamp-1 leading-snug drop-shadow-md mb-0.5 group-hover:text-primary transition-colors">
                         {offer.title}
                       </h4>
-                      <div className="text-base sm:text-lg font-black text-white flex items-baseline gap-0.5 drop-shadow-lg leading-none">
-                        <span className="text-[11px] sm:text-xs font-black text-white">$</span>
-                        <span>{offer.payout.toFixed(2)}</span>
+                      <div className="text-xs sm:text-sm font-black text-[#bf5aff] flex items-center gap-1.5 drop-shadow-lg leading-none mt-1">
+                        <Coins className="h-3.5 w-3.5 shrink-0" />
+                        <span>{offer.coins.toLocaleString()}</span>
                       </div>
                     </div>
 
