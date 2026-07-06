@@ -208,23 +208,6 @@ export default function OfferwallPage() {
         </section>
 
 
-        {/* STATS */}
-        <div className="owc" style={{paddingTop:48,paddingBottom:48}}>
-          <div className="sgrid">
-            {STATS.map(({label,value,color}) => (
-              <div key={label} className="sitem">
-                <div style={{width:44,height:44,borderRadius:12,background:`${color}18`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
-                  <Gem size={20} style={{color}}/>
-                </div>
-                <div>
-                  <div style={{fontSize:22,fontWeight:900}}>{value}</div>
-                  <div style={{fontSize:11,color:'rgba(255,255,255,.4)',fontWeight:600,textTransform:'uppercase',letterSpacing:.5}}>{label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* LB + HOW */}
         <section style={{padding:'0 0 80px'}}>
           <div className="owc">
