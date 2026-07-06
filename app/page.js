@@ -350,7 +350,7 @@ export default function Home() {
   const [authTab, setAuthTab] = useState('login');
   
   // Dynamic stats mimicking Gemsloot landing dashboard
-  const [stats, setStats] = useState({ totalPaid: 67105, usersOnline: 5133, offersCompleted: 687780 });
+  const [stats, setStats] = useState({ totalPaid: 20131, usersOnline: 1540, offersCompleted: 206334 });
   
   // FAQ state toggles
   const [faqOpen, setFaqOpen] = useState({});
@@ -366,7 +366,7 @@ export default function Home() {
   useEffect(() => {
     const iv = setInterval(() => {
       setStats(prev => ({
-        usersOnline: Math.max(4000, prev.usersOnline + Math.floor(Math.random() * 5) - 2),
+        usersOnline: Math.max(1200, prev.usersOnline + Math.floor(Math.random() * 5) - 2),
         totalPaid: prev.totalPaid + 0.18,
         offersCompleted: prev.offersCompleted + 1,
       }));
@@ -459,7 +459,7 @@ export default function Home() {
                 <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_2129_39042)"><mask id="mask0_2129_39042" style={{maskType:"luminance"}} maskUnits="userSpaceOnUse" x="0" y="0" width="34" height="34"><path d="M0 0H34V34H0V0Z" fill="white"/></mask><g mask="url(#mask0_2129_39042)"><path d="M22.6115 19.2865L19.611 22.2849C18.9098 22.9883 17.9748 23.375 16.9824 23.375C15.99 23.375 15.055 22.9883 14.3538 22.2849C13.6504 21.5836 13.2637 20.6507 13.2637 19.6562C13.2637 18.6639 13.6504 17.7289 14.3538 17.0276L17.3522 14.0271C18.0555 13.3259 18.9884 12.9391 19.9829 12.9391C20.9753 12.9391 21.9082 13.3259 22.6115 14.0271C23.3149 14.7305 23.7017 15.6634 23.7017 16.6579C23.7017 17.6502 23.3149 18.5831 22.6115 19.2865ZM16.9824 8.5C10.822 8.5 5.82617 13.4959 5.82617 19.6562C5.82617 25.8187 10.822 30.8125 16.9824 30.8125C23.1428 30.8125 28.1387 25.8187 28.1387 19.6562C28.1387 13.4959 23.1428 8.5 16.9824 8.5Z" fill="white"/><path d="M20.7012 6.37109H13.2637C12.3839 6.37109 11.6699 5.65709 11.6699 4.77734C11.6699 3.89759 12.3839 3.18359 13.2637 3.18359H20.7012C21.5809 3.18359 22.2949 3.89759 22.2949 4.77734C22.2949 5.65709 21.5809 6.37109 20.7012 6.37109Z" fill="#D28BE7"/><path d="M21.1086 17.7841L18.1081 20.7846C17.4876 21.4051 16.4783 21.4051 15.8556 20.7846C15.233 20.162 15.233 19.1526 15.8556 18.53L18.854 15.5295C19.4766 14.9069 20.486 14.9069 21.1086 15.5295C21.7313 16.1521 21.7313 17.1615 21.1086 17.7841Z" fill="#D28BE7"/></g></g><defs><clipPath id="clip0_2129_39042"><rect width="34" height="34" fill="white"/></clipPath></defs></svg>
               </div>
               <div className="relative z-10 text-left">
-                <span className="block text-3xl font-black text-white leading-none">17M 10S</span>
+                <span className="block text-3xl font-black text-white leading-none">5M 09S</span>
                 <span className="block text-[11px] font-bold text-purple-100/90 tracking-tight mt-1.5">Avg. time to the first cashout</span>
               </div>
             </div>
