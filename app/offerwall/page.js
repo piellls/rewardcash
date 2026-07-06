@@ -63,6 +63,43 @@ const STATS = [
   { label: 'Tasks Available', value: '8,500+', color: '#48f78a' },
   { label: 'Avg Payout Time', value: '< 24h', color: '#f748b8' },
 ];
+
+const MOCK_FAST_OFFERS = [
+  { id: 'f1', title: 'Coin Master', category: 'Game', coins: 2025, icon: '🎰', provider: 'AdBlueMedia', url: '/earn', devices: ['android', 'ios'] },
+  { id: 'f2', title: 'Opinion Survey', category: 'Survey', coins: 810, icon: '📋', provider: 'OGAds', url: '/earn', devices: ['desktop'] },
+  { id: 'f3', title: 'TikTok Install', category: 'App', coins: 225, icon: '📱', provider: 'OGAds', url: '/earn', devices: ['android'] },
+  { id: 'f4', title: 'Roblox Survey', category: 'Survey', coins: 990, icon: '📝', provider: 'AdBlueMedia', url: '/earn', devices: ['ios'] },
+];
+
+const MOCK_FINANCE_OFFERS = [
+  { id: 'fn1', title: 'Coin Master', category: 'Game', coins: 2025, icon: '🎰', provider: 'AdBlueMedia', url: '/earn', devices: ['ios'] },
+  { id: 'fn2', title: 'RAID Shadow Legends', category: 'Game', coins: 3690, icon: '⚔️', provider: 'OGAds', url: '/earn', devices: ['desktop', 'ios'] },
+  { id: 'fn3', title: 'Lords Mobile', category: 'Game', coins: 5400, icon: '🏰', provider: 'OGAds', url: '/earn', devices: ['android'] },
+  { id: 'fn4', title: 'Monopoly GO', category: 'Game', coins: 3060, icon: '🎲', provider: 'AdBlueMedia', url: '/earn', devices: ['ios'] },
+];
+
+const renderDeviceIcons = (devices = []) => {
+  return (
+    <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10">
+      {devices.includes('android') && (
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-400">
+          <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM19 5.5l-1.34-2.31c-.13-.24-.44-.32-.68-.19-.24.13-.32.44-.19.68L18.13 6H5.87l1.34-2.31c.13-.24.05-.55-.19-.68-.24-.13-.55-.05-.68.19L5 5.5C2.69 6.84 1.14 9.21 1 12h22c-.14-2.79-1.69-5.16-4-6.5zM9 9.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+      )}
+      {devices.includes('ios') && (
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-300">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.61.7-1.15 1.84-1.01 2.96 1.12.09 2.27-.58 2.96-1.4z"/>
+        </svg>
+      )}
+      {devices.includes('desktop') && (
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-400">
+          <path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 12H3V4h18v10z"/>
+        </svg>
+      )}
+    </div>
+  );
+};
+
 export default function OfferwallPage() {
   const { user } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -71,6 +108,116 @@ export default function OfferwallPage() {
   const [search, setSearch] = useState('');
   const [particles, setParticles] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
+
+  const [realOffers, setRealOffers] = useState([]);
+  const [clickedOffers, setClickedOffers] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      db.adminGetOfferClicks(user.id).then(clicks => {
+        setClickedOffers(clicks || []);
+      }).catch(err => console.error(err));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const fetchAllOffers = async () => {
+      try {
+        const s1 = user ? user.id : 'guest';
+        
+        let abmList = [];
+        let ogList = [];
+        
+        // 1. Fetch AdBlueMedia
+        try {
+          const res = await fetch(`/api/offers?s1=${s1}`);
+          if (res.ok) {
+            const data = await res.json();
+            abmList = (Array.isArray(data) ? data : []).map(offer => {
+              const rawPayout = parseFloat(offer.payout || '0.20');
+              const coins = Math.round(rawPayout * 150 * 3);
+              const text = `${offer.name} ${offer.conversion || ''}`.toLowerCase();
+              let category = 'App';
+              if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
+                category = 'Game';
+              } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion')) {
+                category = 'Survey';
+              }
+              return {
+                id: offer.id || `abm_${Math.random()}`,
+                title: offer.name || 'AdBlueMedia Task',
+                coins,
+                payout: rawPayout,
+                provider: 'AdBlueMedia',
+                icon: offer.network_icon || null,
+                category,
+                url: offer.url,
+                devices: text.includes('android') ? ['android'] : text.includes('ios') || text.includes('iphone') || text.includes('ipad') ? ['ios'] : ['desktop']
+              };
+            });
+          }
+        } catch (e) {
+          console.error(e);
+        }
+
+        // 2. Fetch OGAds
+        try {
+          const res = await fetch(`/api/offers/ogads?s1=${s1}`);
+          if (res.ok) {
+            const data = await res.json();
+            const rawOffers = Array.isArray(data) ? data : (data.offers || []);
+            ogList = rawOffers.map(offer => {
+              const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
+              const coins = Math.round(rawPayout * 150 * 3);
+              const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
+              let category = 'App';
+              if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
+                category = 'Game';
+              } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion')) {
+                category = 'Survey';
+              }
+              return {
+                id: offer.offerid || offer.id || `og_${Math.random()}`,
+                title: offer.name_short || offer.name || 'OGAds Task',
+                coins,
+                payout: rawPayout,
+                provider: 'OGAds',
+                icon: offer.picture || null,
+                category,
+                url: offer.link || offer.url,
+                devices: text.includes('android') ? ['android'] : text.includes('ios') || text.includes('iphone') || text.includes('ipad') ? ['ios'] : ['desktop']
+              };
+            });
+          }
+        } catch (e) {
+          console.error(e);
+        }
+
+        const merged = [...abmList, ...ogList];
+        if (merged.length > 0) {
+          setRealOffers(merged);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchAllOffers();
+  }, [user]);
+
+  const handleOfferClick = async (offer) => {
+    if (!user) {
+      openAuth('login');
+      return;
+    }
+    try {
+      await db.logOfferClick(user.id, user.username, offer);
+      const clicks = await db.adminGetOfferClicks(user.id);
+      setClickedOffers(clicks || []);
+    } catch (e) {
+      console.error(e);
+    }
+    window.open(offer.url, '_blank', 'noopener,noreferrer');
+  };
 
   useEffect(() => {
     const fetchLB = async () => {
@@ -256,39 +403,72 @@ export default function OfferwallPage() {
 
               {/* Horizontal Scroll Row */}
               <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                {/* Clicked Offer 1 */}
-                <div className="flex flex-col select-none shrink-0">
-                  <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-[#f59e0b]/30 shadow-lg flex flex-col justify-end group">
-                    <img 
-                      src="/banners/ogads.png" 
-                      alt="Bus Puzzle" 
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500 z-0" 
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
-                    
-                    {/* Clicked Badge */}
-                    <div className="absolute top-2.5 left-2.5 z-20 bg-amber-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded shadow-lg uppercase tracking-wider">
-                      Clicked
-                    </div>
+                {clickedOffers.length === 0 ? (
+                  /* Default Mock Clicked Card */
+                  <div className="flex flex-col select-none shrink-0">
+                    <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-[#f59e0b]/30 shadow-lg flex flex-col justify-end group">
+                      <img 
+                        src="/banners/ogads.png" 
+                        alt="Bus Puzzle" 
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500 z-0" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
+                      
+                      {/* Clicked Badge */}
+                      <div className="absolute top-2.5 left-2.5 z-20 bg-amber-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded shadow-lg uppercase tracking-wider">
+                        Clicked
+                      </div>
 
-                    {/* OS Badges */}
-                    <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10">
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-300">
-                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.61.7-1.15 1.84-1.01 2.96 1.12.09 2.27-.58 2.96-1.4z"/>
-                      </svg>
-                    </div>
+                      {/* OS Badges */}
+                      <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10 text-zinc-300">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.61.7-1.15 1.84-1.01 2.96 1.12.09 2.27-.58 2.96-1.4z"/>
+                        </svg>
+                      </div>
 
-                    <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
-                      <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">
-                        Bus Puzzle - Multiplayer
-                      </h4>
-                      <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
-                        <Coins className="h-3 w-3 shrink-0" />
-                        <span>126</span>
+                      <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
+                        <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">
+                          Bus Puzzle - Multiplayer
+                        </h4>
+                        <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
+                          <Coins className="h-3 w-3 shrink-0" />
+                          <span>126</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  clickedOffers.map(click => {
+                    const activeOffer = realOffers.find(o => String(o.id) === String(click.offer_id));
+                    const title = click.offer_title || 'Offer';
+                    const coins = activeOffer ? activeOffer.coins : 300;
+                    const icon = activeOffer?.icon;
+                    return (
+                      <div key={click.id} className="flex flex-col select-none shrink-0" onClick={() => activeOffer && handleOfferClick(activeOffer)}>
+                        <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-[#f59e0b]/30 shadow-lg flex flex-col justify-end group">
+                          {icon ? (
+                            <img src={icon} alt={title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500 z-0" />
+                          ) : (
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#1e1b4b] to-[#0a0a0f] z-0 flex items-center justify-center">
+                              <span className="text-4xl">🎰</span>
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
+                          <div className="absolute top-2.5 left-2.5 z-20 bg-amber-500 text-black text-[8px] font-black px-1.5 py-0.5 rounded shadow-lg uppercase tracking-wider">
+                            Clicked
+                          </div>
+                          <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
+                            <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">{title}</h4>
+                            <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
+                              <Coins className="h-3 w-3 shrink-0" />
+                              <span>{coins}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
 
@@ -316,21 +496,23 @@ export default function OfferwallPage() {
 
               {/* Horizontal Scroll Row */}
               <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                {OFFERS.filter(o => o.difficulty === 'Easy').slice(0, 4).map(offer => {
-                  const coins = Math.round(offer.payout * 150 * 3);
+                {(realOffers.length > 0 
+                  ? realOffers.filter(o => o.category === 'Game' || o.payout < 2.0).slice(0, 4)
+                  : MOCK_FAST_OFFERS
+                ).map(offer => {
                   return (
-                    <div key={offer.id} className="flex flex-col select-none shrink-0">
+                    <div key={offer.id} className="flex flex-col select-none shrink-0" onClick={() => handleOfferClick(offer)}>
                       <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-dark-border hover:border-primary/50 shadow-lg flex flex-col justify-end group transition-all duration-300 hover:scale-[1.02]">
                         <div className="absolute inset-0 bg-gradient-to-br from-[#1e1b4b] to-[#0a0a0f] z-0 flex items-center justify-center">
-                          <span className="text-4xl">{offer.icon}</span>
+                          {offer.icon && String(offer.icon).startsWith('http') ? (
+                            <img src={offer.icon} alt={offer.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                          ) : (
+                            <span className="text-4xl">{offer.icon || '🎮'}</span>
+                          )}
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
 
-                        <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10">
-                          <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-300">
-                            <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM19 5.5l-1.34-2.31c-.13-.24-.44-.32-.68-.19-.24.13-.32.44-.19.68L18.13 6H5.87l1.34-2.31c.13-.24.05-.55-.19-.68-.24-.13-.55-.05-.68.19L5 5.5C2.69 6.84 1.14 9.21 1 12h22c-.14-2.79-1.69-5.16-4-6.5zM9 9.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
-                          </svg>
-                        </div>
+                        {renderDeviceIcons(offer.devices || ['android', 'ios'])}
 
                         <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
                           <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">
@@ -338,7 +520,7 @@ export default function OfferwallPage() {
                           </h4>
                           <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
                             <Coins className="h-3 w-3 shrink-0" />
-                            <span>{coins.toLocaleString()}</span>
+                            <span>{offer.coins.toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
@@ -383,21 +565,23 @@ export default function OfferwallPage() {
 
               {/* Horizontal Scroll Row */}
               <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                {OFFERS.filter(o => o.payout >= 4.0).slice(0, 4).map(offer => {
-                  const coins = Math.round(offer.payout * 150 * 3);
+                {(realOffers.length > 0 
+                  ? realOffers.filter(o => o.category === 'Survey' || o.payout >= 2.0).slice(0, 4)
+                  : MOCK_FINANCE_OFFERS
+                ).map(offer => {
                   return (
-                    <div key={offer.id} className="flex flex-col select-none shrink-0">
+                    <div key={offer.id} className="flex flex-col select-none shrink-0" onClick={() => handleOfferClick(offer)}>
                       <div className="relative w-[130px] sm:w-[155px] h-[170px] sm:h-[195px] rounded-2xl overflow-hidden cursor-pointer border border-dark-border hover:border-primary/50 shadow-lg flex flex-col justify-end group transition-all duration-300 hover:scale-[1.02]">
                         <div className="absolute inset-0 bg-gradient-to-br from-[#1e1b4b] to-[#0a0a0f] z-0 flex items-center justify-center">
-                          <span className="text-4xl">{offer.icon}</span>
+                          {offer.icon && String(offer.icon).startsWith('http') ? (
+                            <img src={offer.icon} alt={offer.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                          ) : (
+                            <span className="text-4xl">{offer.icon || '💰'}</span>
+                          )}
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b10] via-black/40 to-transparent z-10" />
 
-                        <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1 bg-[#0a0b10]/80 px-1.5 py-0.5 rounded border border-white/10">
-                          <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-zinc-300">
-                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.61.7-1.15 1.84-1.01 2.96 1.12.09 2.27-.58 2.96-1.4z"/>
-                          </svg>
-                        </div>
+                        {renderDeviceIcons(offer.devices || ['desktop'])}
 
                         <div className="absolute inset-x-0 bottom-0 p-3 z-20 flex flex-col justify-end text-left">
                           <h4 className="text-[10px] sm:text-xs font-black text-white line-clamp-1 mb-0.5">
@@ -405,7 +589,7 @@ export default function OfferwallPage() {
                           </h4>
                           <div className="text-xs sm:text-sm font-black text-primary flex items-center gap-1">
                             <Coins className="h-3 w-3 shrink-0" />
-                            <span>{coins.toLocaleString()}</span>
+                            <span>{offer.coins.toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
