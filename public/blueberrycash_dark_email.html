@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlueberryCash – Easiest way to earn PayPal & Robux</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;450;600;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #050507;
+    font-family: 'Rubik', sans-serif;
+    color: #e4e4e7;
+    padding: 40px 16px;
+  }
+
+  .wrap {
+    max-width: 580px;
+    margin: 0 auto;
+    background-color: #0b0b0e;
+    border: 1px solid #1c1c25;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 2px rgba(139, 92, 246, 0.15);
+  }
+
+  /* HEADER */
+  .header {
+    padding: 48px 40px 32px;
+    text-align: center;
+    border-bottom: 1px solid #16161f;
+    background: radial-gradient(circle at top, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+  }
+
+  .logo-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .logo-icon {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #bf5aff 100%);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    display: inline-block;
+  }
+
+  .logo-text {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-text span {
+    color: #bf5aff;
+  }
+
+  .headline {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-bottom: 16px;
+    letter-spacing: -0.8px;
+  }
+
+  .headline span {
+    background: linear-gradient(135deg, #8b5cf6 0%, #bf5aff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .sub {
+    font-size: 14px;
+    color: #a1a1aa;
+    line-height: 1.6;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  /* VOUCHER / PROMO CARD */
+  .promo-section {
+    padding: 32px 40px;
+    border-bottom: 1px solid #16161f;
+  }
+
+  .promo-card {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(191, 90, 255, 0.03) 100%);
+    border: 1px dashed rgba(139, 92, 246, 0.35);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .promo-amount {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1;
+    color: #ffffff;
+    margin-bottom: 4px;
+    letter-spacing: -1.5px;
+    text-shadow: 0 0 15px rgba(191, 90, 255, 0.3);
+  }
+
+  .promo-label {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #bf5aff;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+
+  .promo-code-wrap {
+    display: inline-block;
+    background-color: #070709;
+    border: 1px solid #22222a;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-family: monospace;
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* EARNING STATS / OFFERS */
+  .offers-section {
+    padding: 32px 40px;
+    border-bottom: 1px solid #16161f;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #a1a1aa;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .offer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .offer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #101014;
+    border: 1px solid #1c1c24;
+    border-radius: 14px;
+    padding: 16px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .offer-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .offer-icon-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .offer-details strong {
+    display: block;
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .offer-details span {
+    font-size: 11px;
+    color: #71717a;
+  }
+
+  .offer-payout {
+    font-size: 13px;
+    font-weight: 800;
+    color: #8b5cf6;
+  }
+
+  /* PAYOUT BRANDS */
+  .payouts-section {
+    padding: 32px 40px;
+    border-bottom: 1px solid #16161f;
+    text-align: center;
+  }
+
+  .payout-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .payout-card {
+    background-color: #101014;
+    border: 1px solid #1c1c24;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #e4e4e7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 40px;
+    text-align: center;
+    border-bottom: 1px solid #16161f;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #8b5cf6 0%, #bf5aff 100%);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 18px 48px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 4px solid #5b2df6;
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+    transition: all 0.15s;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.45);
+    border-bottom-width: 5px;
+  }
+
+  .cta-note {
+    font-size: 11px;
+    color: #71717a;
+    margin-top: 16px;
+    display: block;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 40px;
+    text-align: center;
+    background-color: #08080a;
+  }
+
+  .footer p {
+    font-size: 11px;
+    color: #52525b;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: 11px;
+    font-weight: 600;
+    color: #71717a;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .footer-links a:hover {
+    color: #ffffff;
+  }
+
+  @media (max-width: 480px) {
+    .header, .promo-section, .offers-section, .payouts-section, .cta-section, .footer {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .headline { font-size: 26px; }
+    .promo-amount { font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="logo-wrap">
+      <div class="logo-icon"></div>
+      <div class="logo-text">BLUEBERRY<span>CASH</span></div>
+    </div>
+    <h1 class="headline">Easiest way to earn<br><span>PayPal & Robux</span></h1>
+    <p class="sub">Complete simple tasks, play games, and get paid instantly. Over $25,000 paid to users!</p>
+  </div>
+
+  <div class="promo-section">
+    <div class="promo-card">
+      <div class="promo-amount">500</div>
+      <div class="promo-label">Welcome Gems Voucher</div>
+      <div class="promo-code-wrap">WELCOME500</div>
+    </div>
+  </div>
+
+  <div class="offers-section">
+    <div class="section-label">Top Offers This Week</div>
+    <div class="offer-list">
+      <div class="offer-item">
+        <div class="offer-info">
+          <div class="offer-icon-placeholder">🎲</div>
+          <div class="offer-details">
+            <strong>Monopoly GO</strong>
+            <span>Board Game Offer</span>
+          </div>
+        </div>
+        <div class="offer-payout">+24,000 Gems</div>
+      </div>
+      <div class="offer-item">
+        <div class="offer-info">
+          <div class="offer-icon-placeholder">⚔️</div>
+          <div class="offer-details">
+            <strong>Raid: Shadow Legends</strong>
+            <span>RPG Strategy Game</span>
+          </div>
+        </div>
+        <div class="offer-payout">+48,000 Gems</div>
+      </div>
+      <div class="offer-item">
+        <div class="offer-info">
+          <div class="offer-icon-placeholder">📱</div>
+          <div class="offer-details">
+            <strong>TikTok Mobile Install</strong>
+            <span>Instant App Download</span>
+          </div>
+        </div>
+        <div class="offer-payout">+800 Gems</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="payouts-section">
+    <div class="section-label">Supported Payouts</div>
+    <div class="payout-grid">
+      <div class="payout-card">PayPal</div>
+      <div class="payout-card">Robux</div>
+      <div class="payout-card">Bitcoin</div>
+      <div class="payout-card">Steam</div>
+      <div class="payout-card">Litecoin</div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <a href="https://www.blueberrycash.com/" class="cta-button">Join & Start Earning</a>
+    <span class="cta-note">Instant Processing · Under 24h Payouts · No Fees</span>
+  </div>
+
+  <div class="footer">
+    <p>You are receiving this email because you registered on BlueberryCash. This offer is valid for new members only. Subject to terms of service. Withdrawal terms apply.</p>
+    <div class="footer-links">
+      <a href="https://www.blueberrycash.com/">Unsubscribe</a>
+      <a href="https://www.blueberrycash.com/">Privacy</a>
+      <a href="https://www.blueberrycash.com/">Terms</a>
+      <a href="https://www.blueberrycash.com/">Support</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
