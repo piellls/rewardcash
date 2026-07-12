@@ -204,22 +204,6 @@ export default function DirectTasksSection() {
         let abmOffers = [];
         let ogAdsOffers = [];
 
-        // 1. Fetch AdBlueMedia
-        try {
-          const url = `${ABM_FEED}?user_id=${ABM_USER_ID}&api_key=${ABM_API_KEY}&s1=${s1}&s2=`;
-          const raw = await fetchJSONP(url);
-          abmOffers = (Array.isArray(raw) ? raw : []).map(mapOffer);
-        } catch (err) {
-          console.warn('[OFFERS] AdBlueMedia JSONP failed, trying server proxy:', err.message);
-          try {
-            const res  = await fetch(`/api/offers?s1=${s1}`);
-            const data = await res.json();
-            abmOffers = (Array.isArray(data) ? data : []).map(mapOffer);
-          } catch (e) {
-            console.error('[OFFERS] AdBlueMedia both methods failed:', e.message);
-          }
-        }
-
         // 2. Fetch OGAds
         try {
           const res = await fetch(`/api/offers/ogads?s1=${s1}`);

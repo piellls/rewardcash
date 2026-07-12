@@ -626,6 +626,7 @@ export default function Dashboard() {
                         className="appearance-none rounded-xl bg-dark-bg border border-dark-border pl-3.5 pr-8 py-2 font-bold text-zinc-300 focus:outline-none text-[11px] cursor-pointer hover:border-dark-hover focus:border-primary/50 transition-all"
                       >
                         <option value="All" className="bg-dark-card text-white">All offer partners</option>
+                        <option value="OGAds" className="bg-dark-card text-white">OGAds</option>
                         <option value="AdBlueMedia" className="bg-dark-card text-white">AdBlueMedia</option>
                         <option value="Lootably" className="bg-dark-card text-white">Lootably</option>
                       </select>

@@ -112,7 +112,7 @@ function getRandomFallbackOffers(categoryFilter, limit = 4) {
       coins,
       payout,
       icon: item.icon,
-      provider: Math.random() > 0.5 ? 'AdBlueMedia' : 'OGAds',
+      provider: 'OGAds',
       url: '/earn',
       devices
     };
@@ -176,37 +176,6 @@ export default function OfferwallPage() {
         let abmList = [];
         let ogList = [];
         
-        // 1. Fetch AdBlueMedia
-        try {
-          const res = await fetch(`/api/offers?s1=${s1}`);
-          if (res.ok) {
-            const data = await res.json();
-            abmList = (Array.isArray(data) ? data : []).map(offer => {
-              const rawPayout = parseFloat(offer.payout || '0.20');
-              const coins = Math.round(rawPayout * 150 * 3);
-              const text = `${offer.name} ${offer.conversion || ''}`.toLowerCase();
-              let category = 'App';
-              if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
-                category = 'Game';
-              } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion')) {
-                category = 'Survey';
-              }
-              return {
-                id: offer.id || `abm_${Math.random()}`,
-                title: offer.name || 'AdBlueMedia Task',
-                coins,
-                payout: rawPayout,
-                provider: 'AdBlueMedia',
-                icon: offer.network_icon || null,
-                category,
-                url: offer.url,
-                devices: text.includes('android') ? ['android'] : text.includes('ios') || text.includes('iphone') || text.includes('ipad') ? ['ios'] : ['desktop']
-              };
-            });
-          }
-        } catch (e) {
-          console.error(e);
-        }
 
         // 2. Fetch OGAds
         try {
