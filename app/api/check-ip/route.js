@@ -42,8 +42,50 @@ export async function GET(request) {
     const data = await response.json();
     
     if (data && data.status === 'success') {
-      // hosting = true (data center / VPN server), proxy = true (web proxy / VPN)
-      const isVPN = data.hosting === true || data.proxy === true;
+      const ispLower = (data.isp || '').toLowerCase();
+      const orgLower = (data.org || '').toLowerCase();
+      
+      const isKnownDatacenterOrVPN = 
+        ispLower.includes('digitalocean') ||
+        ispLower.includes('vultr') ||
+        ispLower.includes('linode') ||
+        ispLower.includes('hetzner') ||
+        ispLower.includes('ovh') ||
+        ispLower.includes('aws') ||
+        ispLower.includes('amazon') ||
+        ispLower.includes('google cloud') ||
+        ispLower.includes('azure') ||
+        ispLower.includes('expressvpn') ||
+        ispLower.includes('nordvpn') ||
+        ispLower.includes('surfshark') ||
+        ispLower.includes('mullvad') ||
+        ispLower.includes('cyberghost') ||
+        ispLower.includes('tor exit') ||
+        orgLower.includes('hosting') ||
+        orgLower.includes('vpn');
+
+      const isMoroccanISP = 
+        data.countryCode === 'MA' || 
+        ispLower.includes('maroc telecom') || 
+        ispLower.includes('iam') || 
+        ispLower.includes('orange') || 
+        ispLower.includes('inwi') || 
+        ispLower.includes('wana');
+
+      let isVPN = false;
+      if (data.proxy === true) {
+        isVPN = true;
+      } else if (data.hosting === true) {
+        // Moroccan residential ISPs use CGNAT which ip-api incorrectly flags as hosting.
+        // Ignore hosting flag for Moroccan residential connections unless explicit VPN/Datacenter is matched.
+        if (isMoroccanISP && !isKnownDatacenterOrVPN) {
+          isVPN = false;
+        } else {
+          isVPN = true;
+        }
+      } else if (isKnownDatacenterOrVPN) {
+        isVPN = true;
+      }
       
       // Convert countryCode to flag emoji
       let flag = '🌍';

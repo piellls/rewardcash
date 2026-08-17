@@ -5,8 +5,8 @@ import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import { FileText, Smartphone, Gamepad2, Lock, Check, Loader2, AlertTriangle, Award, CheckCircle, Coins } from 'lucide-react';
 
-const ABM_USER_ID = '199180';
-const ABM_API_KEY = '784b49bd7b4108039d10fac0f90cc372';
+const ABM_USER_ID = '516060';
+const ABM_API_KEY = '7c9eb5786d705edbd319f9cb81dabc5c';
 const ABM_FEED    = `https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php`;
 
 function fetchJSONP(url) {
@@ -204,17 +204,19 @@ export default function DirectTasksSection() {
         let abmOffers = [];
         let ogAdsOffers = [];
 
-        // 1. Fetch AdBlueMedia
+        // 1. Fetch AdBlueMedia via fast server proxy first
         try {
-          const url = `${ABM_FEED}?user_id=${ABM_USER_ID}&api_key=${ABM_API_KEY}&s1=${s1}&s2=`;
-          const raw = await fetchJSONP(url);
-          abmOffers = (Array.isArray(raw) ? raw : []).map(mapOffer);
-        } catch (err) {
-          console.warn('[OFFERS] AdBlueMedia JSONP failed, trying server proxy:', err.message);
-          try {
-            const res  = await fetch(`/api/offers?s1=${s1}`);
+          const res  = await fetch(`/api/offers?s1=${s1}`);
+          if (res.ok) {
             const data = await res.json();
             abmOffers = (Array.isArray(data) ? data : []).map(mapOffer);
+          }
+        } catch (err) {
+          console.warn('[OFFERS] Server proxy failed, trying JSONP fallback:', err.message);
+          try {
+            const url = `${ABM_FEED}?user_id=${ABM_USER_ID}&api_key=${ABM_API_KEY}&s1=${s1}&s2=`;
+            const raw = await fetchJSONP(url);
+            abmOffers = (Array.isArray(raw) ? raw : []).map(mapOffer);
           } catch (e) {
             console.error('[OFFERS] AdBlueMedia both methods failed:', e.message);
           }

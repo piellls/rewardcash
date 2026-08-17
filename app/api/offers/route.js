@@ -13,8 +13,8 @@ export async function GET(request) {
   let clientIp = cfIp || (forwardedFor ? forwardedFor.split(',')[0].trim() : null) || realIp || null;
 
   const userAgent = request.headers.get('user-agent') || '';
-  const apiKey    = '784b49bd7b4108039d10fac0f90cc372';
-  const userId    = '199180';
+  const apiKey    = '7c9eb5786d705edbd319f9cb81dabc5c';
+  const userId    = '516060';
 
   // Build URL — only add ip param if we have a real non-localhost IP
   let feedUrl = `https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php?user_id=${userId}&api_key=${apiKey}&s1=${s1}&s2=`;
