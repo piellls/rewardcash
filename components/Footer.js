@@ -65,8 +65,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm text-zinc-450">
                 <Mail className="h-4 w-4 text-zinc-500" />
-                <a href="mailto:support@rewardcash.com" className="hover:text-white transition-colors">
-                  support@rewardcash.com
+                <a href="mailto:support@blueberrycash.com" className="hover:text-white transition-colors">
+                  support@blueberrycash.com
                 </a>
               </li>
             </ul>
