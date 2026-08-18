@@ -833,19 +833,19 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="border-t border-[#1a1a22]/60 w-full mb-16" />
           <div className="mb-12">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">About <span className="text-[#8b5cf6]">RewardCash</span> &amp; FAQs</h2>
+            <h2 className="text-3xl font-extrabold text-white tracking-tight">About <span className="text-[#8b5cf6]">blueberrycash.com</span> &amp; FAQs</h2>
             <p className="text-sm text-zinc-450 mt-2">Get answers to the most common questions</p>
           </div>
 
           <div className="flex flex-col gap-4">
             {[
-              { q: "What kind of site is RewardCash?", a: "RewardCash is a Get Paid To (GPT) platform that allows users to earn money by completing a variety of tasks, including taking surveys, watching videos, downloading apps, and more. The earnings accumulated on the site can be exchanged for rewards such as Robux, PayPal cash, cryptocurrencies, gift cards, or gaming items like Steam skins." },
-              { q: "Can I cash out in real-world currencies?", a: "Yes, that’s exactly what RewardCash is designed for. You can redeem your earnings for a wide variety of real-world rewards, including popular gift cards, PayPal cash, Visa prepaid cards, and even cryptocurrencies like Bitcoin or Solana. Whether you prefer digital cash or spending credit, RewardCash offers flexible payout options to suit your needs." },
-              { q: "What’s the process behind how RewardCash pays its users?", a: `Users earn money by completing tasks, and RewardCash gets paid by advertisers in return. This allows the platform to fund user payouts. Here’s a step-by-step breakdown of how it works:
+              { q: "What kind of site is blueberrycash.com?", a: "blueberrycash.com is a Get Paid To (GPT) platform that allows users to earn money by completing a variety of tasks, including taking surveys, watching videos, downloading apps, and more. The earnings accumulated on the site can be exchanged for rewards such as Robux, PayPal cash, cryptocurrencies, gift cards, or gaming items like Steam skins." },
+              { q: "Can I cash out in real-world currencies?", a: "Yes, that’s exactly what blueberrycash.com is designed for. You can redeem your earnings for a wide variety of real-world rewards, including popular gift cards, PayPal cash, Visa prepaid cards, and even cryptocurrencies like Bitcoin or Solana. Whether you prefer digital cash or spending credit, blueberrycash.com offers flexible payout options to suit your needs." },
+              { q: "What’s the process behind how blueberrycash.com pays its users?", a: `Users earn money by completing tasks, and blueberrycash.com gets paid by advertisers in return. This allows the platform to fund user payouts. Here’s a step-by-step breakdown of how it works:
 1. Advertisers offer a range of tasks for users, such as downloading apps, registering on websites, watching videos, reaching specific in-game levels, and more.
-2. Advertisers pay RewardCash for the exposure. For each completed task, RewardCash earns a commission from the advertiser.
-3. RewardCash rewards users with payouts. Once all task conditions are fulfilled, RewardCash issues the corresponding payout to the user.` },
-              { q: "Do I need to make a deposit before my first cashout?", a: "No, there is no deposit required. RewardCash is completely free to use, and you can earn without ever risking or spending any money." },
+2. Advertisers pay blueberrycash.com for the exposure. For each completed task, blueberrycash.com earns a commission from the advertiser.
+3. blueberrycash.com rewards users with payouts. Once all task conditions are fulfilled, blueberrycash.com issues the corresponding payout to the user.` },
+              { q: "Do I need to make a deposit before my first cashout?", a: "No, there is no deposit required. blueberrycash.com is completely free to use, and you can earn without ever risking or spending any money." },
               { q: "What is the value of the balance coins?", a: "Our balance system is based in either USD or Robux (R$). The USD value is 1:1 with real currency, meaning it can be withdrawn through various options such as gift cards, cryptocurrencies, PayPal, and more." }
             ].map((item, idx) => (
               <div key={idx} className="bg-[#121217] border border-[#1e1e26] rounded-2xl overflow-hidden shadow-xl text-left">

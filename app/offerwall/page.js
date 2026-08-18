@@ -794,7 +794,7 @@ export default function OfferwallPage() {
             <div className="fgrid">
               <div>
                 <Link href="/offerwall" style={{display:'flex',alignItems:'center',gap:12,fontSize:20,fontWeight:900,textDecoration:'none',color:'#fff',marginBottom:12}}>
-                  <img src="/offerwall/blueberry_icon.png" alt="" style={{width:32,height:32,borderRadius:8,objectFit:'cover'}}/> RewardCash
+                  <img src="/offerwall/blueberry_icon.png" alt="" style={{width:32,height:32,borderRadius:8,objectFit:'cover'}}/> blueberrycash.com
                 </Link>
                 <p style={{fontSize:13,color:'rgba(255,255,255,.35)',lineHeight:1.6,maxWidth:260}}>The number 1 reward platform for earning free cash, crypto, and gift cards.</p>
               </div>
@@ -810,7 +810,7 @@ export default function OfferwallPage() {
               ))}
             </div>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:20,borderTop:'1px solid rgba(255,255,255,.06)',fontSize:12,color:'rgba(255,255,255,.25)',flexWrap:'wrap',gap:8}}>
-              <span>2025 RewardCash. All rights reserved.</span>
+              <span>© 2026 blueberrycash.com. All rights reserved.</span>
               <span>Made with love for our community</span>
             </div>
           </div>

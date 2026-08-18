@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 import AvatarSelectorModal from "@/components/AvatarSelectorModal";
 
 export const metadata = {
-  title: "RewardCash - Free Cash, Robux, Bitcoin, Gift Cards & more!",
-  description: "Earn money by completing tasks, testing apps and playing games. Cashout Gift cards, Bitcoin, Crypto, Robux and more instantly.",
+  title: "BlueberryCash – Earn Cash, Gift Cards, Crypto & Gaming Rewards",
+  description: "Earn money by completing tasks, testing apps and playing games on blueberrycash.com. Cashout Gift cards, Bitcoin, Crypto and more instantly.",
   icons: {
     icon: "/offerwall/blueberry_icon.png",
     apple: "/offerwall/blueberry_icon.png",

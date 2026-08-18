@@ -25,7 +25,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-sm text-zinc-450 max-w-sm leading-relaxed">
-              RewardCash is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.
+              blueberrycash.com is the ultimate platform to earn free rewards by completing simple online tasks, games, and surveys. Direct cashouts, instant processing.
             </p>
           </div>
 
@@ -76,7 +76,7 @@ export default function Footer() {
         <hr className="border-dark-border my-6" />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <p>© {new Date().getFullYear()} RewardCash. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} blueberrycash.com. All rights reserved.</p>
           <p className="flex items-center gap-1">
             Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> for the community.
           </p>
