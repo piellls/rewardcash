@@ -95,7 +95,7 @@ function getRandomFallbackOffers(categoryFilter, limit = 4) {
   return shuffled.slice(0, limit).map((item, idx) => {
     const randomMultiplier = 0.8 + Math.random() * 0.4;
     const payout = item.basePayout * randomMultiplier;
-    const coins = Math.round(payout * 150 * 3);
+    const coins = Math.round(payout * 300);
     
     const devicesPool = ['android', 'ios', 'desktop'];
     const deviceCount = Math.floor(Math.random() * 2) + 1;
@@ -183,7 +183,7 @@ export default function OfferwallPage() {
             const data = await res.json();
             abmList = (Array.isArray(data) ? data : []).map(offer => {
               const rawPayout = parseFloat(offer.payout || '0.20');
-              const coins = Math.round(rawPayout * 150 * 3);
+              const coins = Math.round(rawPayout * 300);
               const text = `${offer.name} ${offer.conversion || ''}`.toLowerCase();
               let category = 'App';
               if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
@@ -216,7 +216,7 @@ export default function OfferwallPage() {
             const rawOffers = Array.isArray(data) ? data : (data.offers || []);
             ogList = rawOffers.map(offer => {
               const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
-              const coins = Math.round(rawPayout * 150 * 3);
+              const coins = Math.round(rawPayout * 300);
               const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
               let category = 'App';
               if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {

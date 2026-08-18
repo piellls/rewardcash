@@ -44,8 +44,8 @@ export async function GET(request) {
 
   const payout = parseFloat(payoutStr);
   
-  // Calculate coins with 3x multiplier: $1.00 USD = 450 coins (150 * 3)
-  const coinsEarned = Math.round(payout * 150 * 3);
+  // Calculate coins at 30% user share rate: $1.00 USD payout = 300 coins (1000 * 0.30)
+  const coinsEarned = Math.round(payout * 300);
 
   if (isNaN(payout) || isNaN(coinsEarned) || coinsEarned <= 0) {
     return NextResponse.json({ error: 'Invalid payout or coin amounts.' }, { status: 400 });
