@@ -109,7 +109,7 @@ export default function Leaderboard() {
                   <div className="flex flex-col items-center">
                     <div className="relative mb-3">
                       <img 
-                        src={leaderboard[1].avatar_url || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150'} 
+                        src={leaderboard[1].avatar_url || '/avatars/1.png'} 
                         alt={leaderboard[1].username}
                         className="h-16 w-16 rounded-full border-2 border-primary/50 object-cover"
                       />
@@ -142,7 +142,7 @@ export default function Leaderboard() {
                     <Crown className="h-6 w-6 text-secondary mb-1" />
                     <div className="relative mb-3">
                       <img 
-                        src={leaderboard[0].avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                        src={leaderboard[0].avatar_url || '/avatars/1.png'} 
                         alt={leaderboard[0].username}
                         className="h-20 w-20 rounded-full border-2 border-secondary object-cover"
                       />
@@ -176,7 +176,7 @@ export default function Leaderboard() {
                   <div className="flex flex-col items-center">
                     <div className="relative mb-3">
                       <img 
-                        src={leaderboard[2].avatar_url || 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150'} 
+                        src={leaderboard[2].avatar_url || '/avatars/1.png'} 
                         alt={leaderboard[2].username}
                         className="h-16 w-16 rounded-full border-2 border-primary/50 object-cover"
                       />
@@ -241,7 +241,7 @@ export default function Leaderboard() {
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-3">
                               <img 
-                                src={player.avatar_url || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150'} 
+                                src={player.avatar_url || '/avatars/1.png'} 
                                 alt={player.username}
                                 className="h-7 w-7 rounded-full border border-dark-border object-cover"
                               />

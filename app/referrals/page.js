@@ -289,7 +289,7 @@ export default function Referrals() {
                 {/* Avatar */}
                 <div className="relative shrink-0">
                   <img 
-                    src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                    src={user.avatar_url || '/avatars/1.png'} 
                     alt={user.username}
                     className="h-20 w-20 rounded-full border-2 border-dark-border object-cover"
                   />

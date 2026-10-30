@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import { PAYOUT_OPTIONS, COINS_PER_USD } from '@/lib/cashout';
+import { Reveal, CountUp, usePrefersReducedMotion, useInView } from '@/components/motion';
 import {
   Check, ChevronDown, Gift, Trophy, Users, LifeBuoy, Wallet, UserPlus, Gamepad2,
   Smartphone, ClipboardList, Zap, Lock, ShieldCheck,
@@ -65,7 +66,7 @@ const TABS = {
 };
 
 const FAQ = [
-  { q: 'What is BlueberryCash?', a: 'A rewards site. Advertisers pay us when you try their games, apps or surveys, and we pass most of that money on to you as coins you can cash out.' },
+  { q: 'What is BlueberryCash?', a: 'A rewards site. Advertisers pay us when you try their games, apps or surveys. We share part of that with you as coins you can cash out.' },
   { q: 'How much is a coin worth?', a: '1,000 coins = $1.00. Every task shows its reward in coins before you start it.' },
   { q: 'Do I have to pay anything?', a: 'No. BlueberryCash is free. You never need to deposit money to earn or to cash out.' },
   { q: 'How do I get paid?', a: 'Open Cashout, pick PayPal, a Visa card or a crypto coin, and enter where to send it. Requests are checked within 24 hours.' },
@@ -82,31 +83,6 @@ function ago(iso) {
   return `${Math.floor(s / 86400)}d ago`;
 }
 
-function usePrefersReducedMotion() {
-  const [reduce, setReduce] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setReduce(mq.matches);
-    update();
-    mq.addEventListener('change', update);
-    return () => mq.removeEventListener('change', update);
-  }, []);
-  return reduce;
-}
-
-// true while the element is on screen (used to pause decorative loops offscreen)
-function useInView(ref) {
-  const [inView, setInView] = useState(true);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
-    io.observe(el);
-    return () => io.disconnect();
-  }, [ref]);
-  return inView;
-}
-
 function useLiveFeed() {
   const [data, setData] = useState({ feed: [], stats: null, loaded: false });
   useEffect(() => {
@@ -121,72 +97,6 @@ function useLiveFeed() {
     return () => { alive = false; clearInterval(iv); };
   }, []);
   return data;
-}
-
-/* ---------- Motion building blocks ---------- */
-
-// Fades and lifts a block in once, the first time it scrolls into view.
-function Reveal({ as: Tag = 'div', i = 0, plain = false, className = '', children, ...rest }) {
-  const ref = useRef(null);
-  const [seen, setSeen] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === 'undefined') { setSeen(true); return; }
-    const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setSeen(true); io.disconnect(); } },
-      { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <Tag
-      ref={ref}
-      data-visible={seen ? '' : undefined}
-      style={{ '--i': i }}
-      className={`${plain ? '' : 'bb-reveal'} ${className}`}
-      {...rest}
-    >
-      {children}
-    </Tag>
-  );
-}
-
-// Counts up from 0 once when it first becomes visible. Later refreshes of the number just update it.
-function CountUp({ value, decimals = 0, prefix = '' }) {
-  const ref = useRef(null);
-  const played = useRef(false);
-  const [shown, setShown] = useState(0);
-  const reduce = usePrefersReducedMotion();
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (reduce || played.current || typeof IntersectionObserver === 'undefined') { setShown(value); return; }
-    let raf = 0;
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      io.disconnect();
-      played.current = true;
-      const t0 = performance.now();
-      const duration = 1400;
-      const tick = (t) => {
-        const p = Math.min(1, (t - t0) / duration);
-        setShown(value * (1 - Math.pow(1 - p, 4))); // ease-out quart
-        if (p < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    }, { threshold: 0.4 });
-    io.observe(el);
-    return () => { io.disconnect(); cancelAnimationFrame(raf); };
-  }, [value, reduce]);
-
-  return (
-    <span ref={ref}>
-      {prefix}{shown.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}
-    </span>
-  );
 }
 
 /* ---------- Live earnings ---------- */

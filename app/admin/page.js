@@ -523,7 +523,7 @@ export default function AdminDashboard() {
                             <div className="flex items-center gap-2.5">
                               <div className="relative shrink-0">
                                 <img 
-                                  src={usr.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                                  src={usr.avatar_url || '/avatars/1.png'} 
                                   alt={usr.username}
                                   className="h-7 w-7 rounded-full border border-dark-border object-cover"
                                 />
@@ -804,7 +804,7 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-3">
                 <div className="relative shrink-0">
                   <img 
-                    src={inspectingUser.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                    src={inspectingUser.avatar_url || '/avatars/1.png'} 
                     alt={inspectingUser.username}
                     className="h-10 w-10 rounded-full border border-dark-border object-cover"
                   />

@@ -3,6 +3,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AvatarSelectorModal from "@/components/AvatarSelectorModal";
+import AmbientBackground from "@/components/AmbientBackground";
 
 export const metadata = {
   title: "BlueberryCash – Get paid for games, apps and surveys",
@@ -19,8 +20,7 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  themeColor: '#090d18',
 };
 
 export default function RootLayout({ children }) {
@@ -31,6 +31,7 @@ export default function RootLayout({ children }) {
       style={{ colorScheme: 'dark' }}
     >
       <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans pt-[80px] pb-16 md:pb-0 overflow-x-hidden max-w-[100vw]">
+        <AmbientBackground />
         <AuthProvider>
           <Navbar />
           <div className="flex-1 flex flex-col w-full md:pl-64">
