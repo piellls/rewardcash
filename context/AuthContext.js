@@ -239,14 +239,9 @@ export function AuthProvider({ children }) {
 
   const earnCoinsSimulated = async (offerId) => {
     if (!user) return;
-    try {
-      const result = await db.completeOffer(user.id, offerId);
-      await refreshUser();
-      return result;
-    } catch (err) {
-      console.error('Failed to complete offer:', err);
-      throw err;
-    }
+    // Coins are now credited only by the server (offer postbacks, the spin API).
+    // The old browser-side credit was removed for security, so rewards that relied on it are unavailable until they get a server route.
+    throw new Error('This reward is temporarily unavailable. It is being moved to a secure system.');
   };
 
   const updateAvatar = async (avatarUrl) => {

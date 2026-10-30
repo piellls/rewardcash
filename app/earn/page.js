@@ -23,10 +23,10 @@ export default function Earn() {
       {/* Page Title Header */}
       <div className="text-center py-10 flex flex-col items-center justify-center select-none">
         <h1 className="text-4xl font-extrabold text-white tracking-tight">
-          Earn <span className="text-gradient">Credits</span>
+          Earn <span className="text-gradient">Coins</span>
         </h1>
         <p className="text-sm text-zinc-400 mt-2">
-          Complete the tasks below to earn credits instantly.
+          Complete the tasks below to earn coins.
         </p>
       </div>
 
@@ -71,7 +71,7 @@ export default function Earn() {
                 <div className="absolute inset-0 bg-black/50 backdrop-blur-[1.5px] flex flex-col items-center justify-center z-10">
                   <Lock className="h-6 w-6 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" style={{ color: '#ffffff' }} />
                   <span className="text-xs font-semibold tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" style={{ color: '#ffffff' }}>
-                    Earn 2,500 Credits to unlock
+                    Earn 2,500 coins to unlock
                   </span>
                 </div>
               )}

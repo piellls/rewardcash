@@ -24,6 +24,13 @@ export default function Navbar() {
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [authTab, setAuthTab] = useState('login');
 
+  // Lets other components (the footer) open the support modal
+  useEffect(() => {
+    const open = () => setIsSupportOpen(true);
+    window.addEventListener('bb:open-support', open);
+    return () => window.removeEventListener('bb:open-support', open);
+  }, []);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
