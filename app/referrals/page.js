@@ -83,7 +83,7 @@ export default function Referrals() {
 
       {!user ? (
         <Reveal className="g-neon g-neon-live flex flex-col items-center gap-4 p-8 text-center">
-          <Users className="h-10 w-10 text-[#9cf3bf]" aria-hidden="true" />
+          <Users className="h-10 w-10 text-[#c3b2ff]" aria-hidden="true" />
           <p className="text-lg font-extrabold text-white">Log in to get your referral link</p>
           <div className="flex gap-3">
             <button onClick={() => { setAuthTab('login'); setIsAuthOpen(true); }} className="btn-gaming-secondary min-h-[44px] rounded-xl px-6 text-xs">Log in</button>

@@ -78,12 +78,12 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3 g-card rounded-xl! px-4 py-2 max-w-sm w-full group relative">
           {user ? (
             <>
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-secondary text-sm font-black text-[#04210f] shadow-[0_0_14px_rgba(47,214,114,0.55)]">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-secondary text-sm font-black text-white shadow-[0_0_14px_rgba(120,84,247,0.55)]">
                 {levelData.level}
               </span>
               <div className="flex flex-col flex-1 min-w-0 gap-1">
                 <div className="flex items-center justify-between text-[11px] font-bold">
-                  <span className="uppercase tracking-wider text-[#9cf3bf]">Level {levelData.level}</span>
+                  <span className="uppercase tracking-wider text-[#c3b2ff]">Level {levelData.level}</span>
                   <span className="text-zinc-400 tabular-nums">{levelData.current.toLocaleString()} / {levelData.next.toLocaleString()} XP</span>
                 </div>
                 <div className="g-xp" style={{ '--p': Math.max(0.02, Math.min(1, levelData.percentage / 100)) }}>
@@ -98,7 +98,7 @@ export default function Navbar() {
                 </div>
                 <div className="flex justify-between">
                   <span>To next level</span>
-                  <span className="font-bold text-[#9cf3bf] tabular-nums">{(levelData.next - levelData.current).toLocaleString()} XP</span>
+                  <span className="font-bold text-[#c3b2ff] tabular-nums">{(levelData.next - levelData.current).toLocaleString()} XP</span>
                 </div>
                 <p className="border-t border-dark-border pt-1.5 text-[11px] leading-relaxed text-zinc-400">Every coin you earn counts as 1 XP. Your level shows next to your name.</p>
               </div>
@@ -117,8 +117,8 @@ export default function Navbar() {
           ) : user ? (
             <div className="flex items-center gap-3 sm:gap-4">
               {/* Coin balance */}
-              <div className="flex items-center gap-2 rounded-xl border border-[rgba(47,214,114,0.4)] bg-[var(--bb-surface)] px-3.5 py-1.5 shadow-[0_0_18px_-4px_rgba(47,214,114,0.55)]">
-                <Coins className="h-4 w-4 text-[#9cf3bf]" aria-hidden="true" />
+              <div className="flex items-center gap-2 rounded-xl border border-[rgba(120,84,247,0.4)] bg-[var(--bb-surface)] px-3.5 py-1.5 shadow-[0_0_18px_-4px_rgba(120,84,247,0.55)]">
+                <Coins className="h-4 w-4 text-[#c3b2ff]" aria-hidden="true" />
                 <AnimatedNumber celebrate value={user.balance_coins || 0} className="font-black text-white text-sm tabular-nums" />
                 <span className="hidden text-[10px] font-bold uppercase tracking-wider text-zinc-400 sm:inline">Coins</span>
               </div>
@@ -128,7 +128,7 @@ export default function Navbar() {
               {/* Mobile free spin button */}
               <Link
                 href="/spin"
-                className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#9cf3bf] transition-transform duration-100 active:scale-95 md:hidden"
+                className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#c3b2ff] transition-transform duration-100 active:scale-95 md:hidden"
                 title="Daily Spin"
                 aria-label="Daily spin"
               >
@@ -160,7 +160,7 @@ export default function Navbar() {
               <SoundToggle className="hidden sm:flex" />
               <Link
                 href="/spin"
-                className="relative mr-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#9cf3bf] transition-transform duration-100 active:scale-95 md:hidden"
+                className="relative mr-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#c3b2ff] transition-transform duration-100 active:scale-95 md:hidden"
                 title="Daily Spin"
                 aria-label="Daily spin"
               >
@@ -212,7 +212,7 @@ export default function Navbar() {
                 aria-current={isActive ? 'page' : undefined}
                 className="g-nav text-sm"
               >
-                <Icon className={`h-5 w-5 ${isActive ? 'text-[#9cf3bf]' : ''}`} aria-hidden="true" />
+                <Icon className={`h-5 w-5 ${isActive ? 'text-[#c3b2ff]' : ''}`} aria-hidden="true" />
                 {item.name}
               </Link>
             );
@@ -241,7 +241,7 @@ export default function Navbar() {
 
           const inner = (
             <>
-              <span className={`mb-0.5 grid h-8 w-8 place-items-center rounded-xl transition-colors duration-150 ${isActive ? 'bg-primary/25 text-white shadow-[0_0_14px_rgba(47,214,114,0.6)]' : 'text-zinc-400'}`}>
+              <span className={`mb-0.5 grid h-8 w-8 place-items-center rounded-xl transition-colors duration-150 ${isActive ? 'bg-primary/25 text-white shadow-[0_0_14px_rgba(120,84,247,0.6)]' : 'text-zinc-400'}`}>
                 <Icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <span className={`text-[10px] font-bold tracking-wide ${isActive ? 'text-white' : 'text-zinc-400'}`}>{item.name}</span>

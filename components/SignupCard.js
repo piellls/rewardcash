@@ -28,7 +28,7 @@ export default function SignupCard() {
 
         <p className="mt-6 text-center text-sm text-[var(--bb-muted)]">
           Already a member?{' '}
-          <Link href="/signin" className="font-bold text-white underline-offset-4 transition-colors hover:text-[#9cf3bf] hover:underline">
+          <Link href="/signin" className="font-bold text-white underline-offset-4 transition-colors hover:text-[#c3b2ff] hover:underline">
             Sign in
           </Link>
         </p>

@@ -45,7 +45,7 @@ const MethodGiftCard = ({ id }) => {
       );
     case 'ltc':
       return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#4E5B70] to-[#7a9a89]`}>
+        <div className={`${cardClasses} bg-gradient-to-tr from-[#4E5B70] to-[#7B8B9E]`}>
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-white to-transparent" />
           <svg className="h-14 w-14 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5" fill="none" />
@@ -364,7 +364,7 @@ export default function Cashout() {
 
       <section className="mb-8">
         <Reveal as="h2" className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
-          <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(47,214,114,0.9)]" />
+          <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(120,84,247,0.9)]" />
           Cash
         </Reveal>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -374,7 +374,7 @@ export default function Cashout() {
 
       <section className="mb-8">
         <Reveal as="h2" className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
-          <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(44,201,181,0.9)]" />
+          <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(69,151,255,0.9)]" />
           Crypto
         </Reveal>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -454,7 +454,7 @@ export default function Cashout() {
                   {withdrawals.map((w) => (
                     <tr key={w.id} className="transition-colors hover:bg-white/[0.03]">
                       <td className="py-3 pr-4 font-bold uppercase text-white">{w.payment_method}</td>
-                      <td className="py-3 pr-4 font-extrabold tabular-nums text-[#9cf3bf]">${parseFloat(w.amount_usd).toFixed(2)}</td>
+                      <td className="py-3 pr-4 font-extrabold tabular-nums text-[#c3b2ff]">${parseFloat(w.amount_usd).toFixed(2)}</td>
                       <td className="py-3 pr-4 tabular-nums text-zinc-400">{w.coins_spent?.toLocaleString()}</td>
                       <td className="max-w-[180px] truncate py-3 pr-4 font-mono text-xs text-zinc-400" title={w.payment_address}>{w.payment_address}</td>
                       <td className="py-3 pr-4 text-zinc-400">{new Date(w.created_at).toLocaleDateString()}</td>
@@ -471,11 +471,11 @@ export default function Cashout() {
       {/* Cashout dialog */}
       {selectedMethod && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={`Cash out with ${selectedMethod.name}`}>
-          <div className="g-fade fixed inset-0 bg-[#030806]/80 backdrop-blur-sm" onClick={() => setSelectedMethod(null)} />
+          <div className="g-fade fixed inset-0 bg-[#04060c]/80 backdrop-blur-sm" onClick={() => setSelectedMethod(null)} />
 
           <div className="g-modal g-neon relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl p-6 shadow-2xl">
             <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-white">
-              <ArrowUpRight className="h-5 w-5 text-[#9cf3bf]" aria-hidden="true" />
+              <ArrowUpRight className="h-5 w-5 text-[#c3b2ff]" aria-hidden="true" />
               Cash out with {selectedMethod.name}
             </h2>
             <p className="mb-4 border-b border-dark-border pb-3 text-sm text-zinc-400">
@@ -504,7 +504,7 @@ export default function Cashout() {
                         onClick={() => setSelectedAmount(amount)}
                         className={`flex min-h-[56px] flex-col items-center justify-center gap-0.5 rounded-xl border p-3 text-center transition-[background-color,border-color,box-shadow,transform] duration-150 active:scale-95 ${
                           isSelected
-                            ? 'border-primary bg-primary text-[#04210f] shadow-[0_0_18px_rgba(47,214,114,0.55)]'
+                            ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
                             : 'border-dark-border bg-dark-bg text-white hover:border-primary/60'
                         } ${!canAfford && !isSelected ? 'opacity-45' : ''}`}
                       >
