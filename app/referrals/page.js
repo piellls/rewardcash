@@ -6,19 +6,23 @@ import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
 import PageHeader, { Chip } from '@/components/PageHeader';
+import CommissionCalculator from '@/components/CommissionCalculator';
+import TierProgress from '@/components/TierProgress';
 import { Reveal, CountUp } from '@/components/motion';
+import { MIN_RATE, MAX_RATE } from '@/lib/affiliate';
 import { Users, Copy, Check, Share2, Link2, UserCheck, Coins, Percent } from 'lucide-react';
 
 const STEPS = [
   { icon: Link2, title: 'Share your link', text: 'Send your personal link to friends, on social or in a group chat.' },
   { icon: UserCheck, title: 'They join and finish a task', text: 'When a friend signs up and completes their first task, you get a 100 coin bonus.' },
-  { icon: Percent, title: 'You earn 10% for good', text: 'After that you get 10% of the coins from every task they finish. It lands in your balance by itself.' },
+  { icon: Percent, title: `You earn ${MIN_RATE}% to ${MAX_RATE}%`, text: `After that you get a share of the coins from every task they finish: ${MIN_RATE}% to start, up to ${MAX_RATE}% the more your friends earn in a month. It lands in your balance by itself.` },
 ];
 
 export default function Referrals() {
   const { user } = useAuth();
   const [stats, setStats] = useState({ totalReferrals: 0, totalEarnings: 0 });
   const [friends, setFriends] = useState([]);
+  const [month, setMonth] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -29,10 +33,15 @@ export default function Referrals() {
     let alive = true;
     (async () => {
       try {
-        const [s, l] = await Promise.all([db.getReferralStats(user.id), db.getReferralsList(user.id)]);
+        const [s, l, m] = await Promise.all([
+          db.getReferralStats(user.id),
+          db.getReferralsList(user.id),
+          db.getReferralMonth(user.id).catch(() => null), // only the step card depends on it
+        ]);
         if (!alive) return;
         setStats(s);
         setFriends(l || []);
+        setMonth(m);
       } catch (err) {
         console.error('Error loading referral data:', err);
       } finally {
@@ -75,10 +84,10 @@ export default function Referrals() {
         eyebrow="Referrals"
         icon={Users}
         title="Invite friends,"
-        accent="earn 10%"
+        accent={`earn up to ${MAX_RATE}%`}
         art="referral"
         artGlow="purple"
-        subtitle="You get 10% of the coins your friends earn from tasks, for as long as they keep earning. No cap, no claim button."
+        subtitle={`You get ${MIN_RATE}% to ${MAX_RATE}% of the coins your friends earn from tasks, and the more they earn in a month, the higher your rate. No cap, no claim button.`}
       />
 
       {!user ? (
@@ -143,8 +152,22 @@ export default function Referrals() {
               </div>
             </Reveal>
           </div>
+
+          {month && (
+            <Reveal>
+              <TierProgress month={month} />
+            </Reveal>
+          )}
         </div>
       )}
+
+      <section className="mt-12">
+        <Reveal as="h2" className="g-title text-2xl sm:text-3xl">Estimate your commission</Reveal>
+        <Reveal as="p" className="mt-2 max-w-2xl text-sm text-zinc-400">Move the sliders to see what a group of friends would pay you each month.</Reveal>
+        <Reveal className="mt-6">
+          <CommissionCalculator />
+        </Reveal>
+      </section>
 
       <section className="mt-12">
         <Reveal as="h2" className="g-title text-2xl sm:text-3xl">How it works</Reveal>

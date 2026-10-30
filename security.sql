@@ -65,6 +65,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS completed_offers_provider_txn_uniq
 -- ============================================================
 
 -- Credit an offer completion. Returns: ok | duplicate | banned | no_user
+-- NOTE: the referrer's share here is the original flat 10%. tiered_referrals.sql replaces this
+-- function with the 5% to 15% ladder, so run that file AFTER this one (never re-run this file on its own
+-- once the ladder is live, or it puts the flat 10% back).
 CREATE OR REPLACE FUNCTION public.credit_offer(
   p_user UUID, p_provider TEXT, p_offer_id TEXT, p_txn TEXT, p_payout NUMERIC, p_coins INTEGER
 ) RETURNS TEXT

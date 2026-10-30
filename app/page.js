@@ -8,6 +8,8 @@ import { PAYOUT_OPTIONS, COINS_PER_USD } from '@/lib/cashout';
 import { Reveal, CountUp, usePrefersReducedMotion, useInView, useParallax } from '@/components/motion';
 import Art from '@/components/Art';
 import CoinCalculator from '@/components/CoinCalculator';
+import CommissionCalculator from '@/components/CommissionCalculator';
+import { MIN_RATE, MAX_RATE } from '@/lib/affiliate';
 import {
   Check, ChevronDown, Gift, Trophy, Users, LifeBuoy, Wallet, Gamepad2,
   Smartphone, ClipboardList, Zap, Lock, ShieldCheck, ArrowRight,
@@ -44,7 +46,7 @@ const STEPS = [
 const PERKS = [
   { icon: Gift, title: 'Daily free spin', text: 'Spin once every 24 hours. Whatever you win goes straight to your balance.' },
   { icon: Trophy, title: 'Levels', text: 'Every coin you earn moves you up a level, and your level shows next to your name.' },
-  { icon: Users, title: 'Referral earnings', text: 'Earn 10% of the offers your friends complete, for as long as they keep earning.' },
+  { icon: Users, title: 'Referral earnings', text: `Earn ${MIN_RATE}% to ${MAX_RATE}% of the offers your friends complete. The more they earn in a month, the higher your rate.` },
   { icon: Zap, title: 'Low minimums', text: `Cash out from $${MIN_CASHOUT}. We don't charge a fee to withdraw.` },
   { icon: ShieldCheck, title: 'Free to join', text: 'No deposit and no card. You only ever put time in, never money.' },
   { icon: LifeBuoy, title: 'Support on every page', text: 'Open a ticket from the menu any time something looks wrong.' },
@@ -54,8 +56,8 @@ const TABS = {
   referrals: {
     label: 'Referrals',
     title: 'Earn from the friends you invite',
-    text: 'Share your link. When a friend joins and completes their first offer you get a bonus, then 10% of every offer they finish after that.',
-    points: ['Copy your personal link from the Referrals page', 'Friends sign up and complete offers', 'You get 10% of what they earn, added to your balance'],
+    text: `Share your link. When a friend joins and completes their first offer you get a bonus, then ${MIN_RATE}% to ${MAX_RATE}% of every offer they finish after that.`,
+    points: ['Copy your personal link from the Referrals page', 'Friends sign up and complete offers', `You get ${MIN_RATE}% to ${MAX_RATE}% of what they earn, added to your balance`],
     cta: { label: 'Open referrals', href: '/referrals' },
   },
   spin: {
@@ -72,6 +74,7 @@ const FAQ = [
   { q: 'How much is a coin worth?', a: '1,000 coins = $1.00. Every task shows its reward in coins before you start it.' },
   { q: 'Do I have to pay anything?', a: 'No. BlueberryCash is free. You never need to deposit money to earn or to cash out.' },
   { q: 'How do I get paid?', a: 'Open Cashout, pick PayPal, a Visa card or a crypto coin, and enter where to send it. Requests are checked within 24 hours.' },
+  { q: 'How do referral rates work?', a: `You start at ${MIN_RATE}% of what your friends earn from tasks. Add up everything your friends earn in a calendar month: the more it is, the higher your rate, up to ${MAX_RATE}%, and it applies to all of it. Every month starts again at ${MIN_RATE}% on the 1st.` },
   { q: 'Why was my task not credited?', a: 'The advertiser has to confirm the task first. That can take from a few minutes to a few days. Using a VPN, or an account that already did the task, usually stops the credit.' },
 ];
 
@@ -496,6 +499,17 @@ export default function Home() {
             </div>
           </div>
         </Reveal>
+
+        {/* REFERRAL COMMISSION CALCULATOR */}
+        <section className="pt-14">
+          <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Estimate your commission</Reveal>
+          <Reveal as="p" className="mt-3 max-w-2xl text-[var(--bb-muted)]">
+            Invite friends and earn {MIN_RATE}% to {MAX_RATE}% of what they make. Slide to see what a group of friends would pay you every month.
+          </Reveal>
+          <Reveal className="mt-8">
+            <CommissionCalculator />
+          </Reveal>
+        </section>
 
         {/* FAQ */}
         <section className="pt-14">
