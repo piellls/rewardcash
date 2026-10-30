@@ -65,6 +65,28 @@ To earn money from CPALead, when a user completes a task, CPALead needs to notif
 
 ---
 
+## Step 4b: AdBluMedia offers and postback
+
+The Earn page lists offers from AdBluMedia (`app/api/offers/adblumedia/route.js`). The keys live only in Vercel, never in the code.
+
+1. In Vercel, **Settings -> Environment Variables**, add these for **Production** (and **Preview** if you want to test there), then redeploy:
+
+| Key | Value |
+|---|---|
+| `ADBLUMEDIA_USER_ID` | Your AdBluMedia account id (the `user_id` in the feed address) |
+| `ADBLUMEDIA_API_KEY` | The **API Key Offers** from the AdBluMedia dashboard |
+| `ADBLUMEDIA_FEED_URL` | Optional. Only if the dashboard shows a feed address other than the default in `lib/adblumedia.js` |
+
+2. In the AdBluMedia dashboard, open the postback settings and set the postback URL to:
+   ```text
+   https://www.blueberrycash.com/api/postback?secret=YOUR_POSTBACK_SECRET&provider=adblumedia&click_id={s1}&payout={payout}&transaction_id={lead_id}
+   ```
+   Use the macro names the dashboard lists for the sub ID 1 (`s1`) we send, the payout and a unique lead / conversion id. The names in braces above are the usual ones and may differ. `secret` must equal the `POSTBACK_SECRET` in Vercel.
+   The offer link carries our member id in the tracker's `sub5` field as `s1<member id>`; the postback accepts it with or without that `s1` prefix.
+3. Use the dashboard's **test postback** if it has one, then complete one real offer to confirm the coins arrive.
+
+---
+
 ## Step 5: Update Your Offer Wall Links
 
 In your production code, when creating links to CPALead offers:

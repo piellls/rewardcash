@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
+import { COINS_PER_PAYOUT_USD } from '@/lib/cashout';
+import { needsPhone } from '@/lib/adblumedia';
 import { Reveal } from '@/components/motion';
-import { FileText, Smartphone, Gamepad2, Lock, Award, CheckCircle, Coins, Info } from 'lucide-react';
+import { FileText, Smartphone, Gamepad2, Lock, Award, CheckCircle, Coins, Info, UserPlus, AlertCircle } from 'lucide-react';
 
 const AndroidIcon = () => (
   <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM19 5.5l-1.34-2.31c-.13-.24-.44-.32-.68-.19-.24.13-.32.44-.19.68L18.13 6H5.87l1.34-2.31c.13-.24.05-.55-.19-.68-.24-.13-.55-.05-.68.19L5 5.5C2.69 6.84 1.14 9.21 1 12h22c-.14-2.79-1.69-5.16-4-6.5zM9 9.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
@@ -146,43 +148,52 @@ export default function DirectTasksSection() {
       setLoading(true);
       try {
         const s1  = user ? user.id : 'guest';
-        let ogAdsOffers = [];
 
-        // 2. Fetch OGAds
-        try {
+        // AdBluMedia (ready to show: the server already shaped each offer)
+        const loadAdBluMedia = async () => {
+          const res = await fetch(`/api/offers/adblumedia?s1=${encodeURIComponent(s1)}`);
+          if (!res.ok) throw new Error(`status ${res.status}`);
+          const data = await res.json();
+          return Array.isArray(data) ? data : [];
+        };
+
+        // OGAds (only shows anything while its key is set and valid)
+        const loadOgAds = async () => {
           const res = await fetch(`/api/offers/ogads?s1=${s1}`);
-          if (res.ok) {
-            const data = await res.json();
-            const rawOffers = Array.isArray(data) ? data : (data.offers || []);
-            ogAdsOffers = rawOffers.map(offer => {
-              const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
-              const coins = Math.round(rawPayout * 150 * 3);
-              const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
-              let category = 'App';
-              if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
-                category = 'Game';
-              } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion') || text.includes('submit')) {
-                category = 'Survey';
-              }
-              return {
-                id: offer.offerid || offer.id || `og_${Math.random()}`,
-                title: offer.name_short || offer.name || 'OGAds Task',
-                description: simplifyDescription(offer.name || '', offer.description || offer.adcopy || '', category),
-                coins,
-                payout: rawPayout,
-                provider: 'OGAds',
-                icon: offer.picture || null,
-                category,
-                url: offer.link || offer.url,
-                anchor: offer.anchor || 'Install Now',
-              };
-            });
-          }
-        } catch (err) {
-          console.error('[OFFERS] Failed to load OGAds:', err.message);
-        }
+          if (!res.ok) throw new Error(`status ${res.status}`);
+          const data = await res.json();
+          const rawOffers = Array.isArray(data) ? data : (data.offers || []);
+          return rawOffers.map(offer => {
+            const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
+            const coins = Math.round(rawPayout * COINS_PER_PAYOUT_USD);
+            const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
+            let category = 'App';
+            if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
+              category = 'Game';
+            } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion') || text.includes('submit')) {
+              category = 'Survey';
+            }
+            return {
+              id: offer.offerid || offer.id || `og_${Math.random()}`,
+              title: offer.name_short || offer.name || 'OGAds Task',
+              description: simplifyDescription(offer.name || '', offer.description || offer.adcopy || '', category),
+              coins,
+              payout: rawPayout,
+              provider: 'OGAds',
+              icon: offer.picture || null,
+              category,
+              url: offer.link || offer.url,
+              anchor: offer.anchor || 'Install Now',
+            };
+          });
+        };
 
-        const allOffers = [...ogAdsOffers].sort((a, b) => b.payout - a.payout);
+        // One network being down must not hide the other
+        const [adBlu, ogAds] = await Promise.allSettled([loadAdBluMedia(), loadOgAds()]);
+        if (adBlu.status === 'rejected') console.error('[OFFERS] AdBluMedia unavailable:', adBlu.reason?.message);
+        if (ogAds.status === 'rejected') console.error('[OFFERS] OGAds unavailable:', ogAds.reason?.message);
+
+        const allOffers = [...(adBlu.value || []), ...(ogAds.value || [])].sort((a, b) => b.payout - a.payout);
         setOffers(allOffers);
       } catch (err) {
         console.error('Error fetching offers:', err);
@@ -234,12 +245,12 @@ export default function DirectTasksSection() {
     setExecutingOffer(null);
   };
 
-  const categories = ['All', 'Game', 'App', 'Survey'];
+  const categories = ['All', 'Game', 'App', 'Survey', 'Sign-up'];
   const filteredOffers = selectedCategory === 'All' 
     ? offers 
     : offers.filter(o => o.category === selectedCategory);
 
-  const TYPE_ICON = { Survey: FileText, Game: Gamepad2, App: Smartphone };
+  const TYPE_ICON = { Survey: FileText, Game: Gamepad2, App: Smartphone, 'Sign-up': UserPlus };
 
   return (
     <div id="direct-tasks" className="scroll-mt-24 flex-1 flex flex-col w-full">
@@ -377,6 +388,12 @@ export default function DirectTasksSection() {
                 <h4 className="mb-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
                 <p className="text-sm leading-relaxed text-zinc-300">{executingOffer.description}</p>
               </div>
+              {needsPhone(executingOffer) && (
+                <p className="flex items-start gap-2 rounded-xl border border-[rgba(243,199,107,0.4)] bg-[rgba(243,199,107,0.1)] p-3 text-xs leading-relaxed text-[#f3c76b]">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  This task asks for your phone number and a PIN sent by SMS. Some of these start a paid subscription, so read the terms on the offer page before you confirm.
+                </p>
+              )}
               <p className="flex items-start gap-2 text-xs leading-relaxed text-zinc-400">
                 <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--bb-success)]" aria-hidden="true" />
                 Coins are added after the advertiser confirms you finished. This can take a few minutes up to a few days.
