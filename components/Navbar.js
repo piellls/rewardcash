@@ -36,7 +36,8 @@ export default function Navbar() {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
       const ref = urlParams.get('ref');
-      if (ref && !user && !loading) {
+      // The home page has its own sign-up card, so the dialog is only needed on the other pages
+      if (ref && !user && !loading && pathname !== '/') {
         const hasAutoOpened = sessionStorage.getItem('rc_ref_auto_opened');
         if (!hasAutoOpened) {
           sessionStorage.setItem('rc_ref_auto_opened', 'true');
@@ -45,12 +46,7 @@ export default function Navbar() {
         }
       }
     }
-  }, [user, loading]);
-
-  const openAuth = (tab) => {
-    setAuthTab(tab);
-    setIsAuthOpen(true);
-  };
+  }, [user, loading, pathname]);
 
   const navItems = [
     { name: 'Earn', href: '/earn', icon: PlayCircle },
@@ -171,12 +167,12 @@ export default function Navbar() {
                 <Gift className="h-5 w-5" />
                 <span className="g-live absolute -right-0.5 -top-0.5" />
               </Link>
-              <button onClick={() => openAuth('login')} className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs sm:text-sm">
+              <Link href="/signin" className="btn-gaming-secondary inline-flex items-center justify-center rounded-xl px-4 py-2 text-xs sm:text-sm">
                 Sign in
-              </button>
-              <button onClick={() => openAuth('register')} className="btn-gaming rounded-xl px-4 py-2 text-xs sm:text-sm">
+              </Link>
+              <Link href="/#signup" className="btn-gaming inline-flex items-center justify-center rounded-xl px-4 py-2 text-xs sm:text-sm">
                 Register
-              </button>
+              </Link>
             </div>
           )}
         </div>

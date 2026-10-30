@@ -3,14 +3,14 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import AuthModal from '@/components/AuthModal';
+import SignupCard from '@/components/SignupCard';
 import { PAYOUT_OPTIONS, COINS_PER_USD } from '@/lib/cashout';
 import { Reveal, CountUp, usePrefersReducedMotion, useInView, useParallax } from '@/components/motion';
 import Art from '@/components/Art';
 import CoinCalculator from '@/components/CoinCalculator';
 import {
   Check, ChevronDown, Gift, Trophy, Users, LifeBuoy, Wallet, Gamepad2,
-  Smartphone, ClipboardList, Zap, Lock, ShieldCheck,
+  Smartphone, ClipboardList, Zap, Lock, ShieldCheck, ArrowRight,
 } from 'lucide-react';
 
 /* ---------- Content (all of it matches what the product really does) ---------- */
@@ -241,18 +241,9 @@ function HeroVisual({ feed }) {
 export default function Home() {
   const { user } = useAuth();
   const { feed, stats, loaded } = useLiveFeed();
-  const [authOpen, setAuthOpen] = useState(false);
-  const [authTab, setAuthTab] = useState('register');
-  const [authEmail, setAuthEmail] = useState('');
-  const [email, setEmail] = useState('');
   const [tab, setTab] = useState('referrals');
   const [open, setOpen] = useState(0);
 
-  const openAuth = (t, withEmail = '') => {
-    setAuthTab(t);
-    setAuthEmail(withEmail);
-    setAuthOpen(true);
-  };
   const tabKeys = Object.keys(TABS);
   const active = TABS[tab];
 
@@ -286,7 +277,7 @@ export default function Home() {
               Play games, try apps and answer surveys. Cash out to PayPal, a Visa card or crypto from ${MIN_CASHOUT}.
             </p>
 
-            {user ? (
+            {user && (
               <div className="bb-enter mt-7" style={{ '--i': 3 }}>
                 <p className="text-lg font-bold">Welcome back, {user.username}</p>
                 <p className="mt-1 text-[var(--bb-muted)]">Balance: {(user.balance_coins || 0).toLocaleString()} coins</p>
@@ -295,32 +286,6 @@ export default function Home() {
                   <Link href="/cashout" className="bb-ghost">Go to cashout</Link>
                 </div>
               </div>
-            ) : (
-              <>
-                <form
-                  className="bb-enter mt-7 flex max-w-lg flex-col gap-3 sm:flex-row"
-                  style={{ '--i': 3 }}
-                  onSubmit={(e) => { e.preventDefault(); openAuth('register', email.trim()); }}
-                >
-                  <label htmlFor="hero-email" className="sr-only">Email address</label>
-                  <input
-                    id="hero-email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    inputMode="email"
-                    placeholder="Email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="min-h-[48px] min-w-0 flex-1 rounded-[10px] border border-[var(--bb-border)] bg-[var(--bb-surface)] px-4 text-base text-[var(--bb-text)] placeholder:text-[var(--bb-subtle)] transition-colors focus:border-[var(--bb-primary)]"
-                  />
-                  <button type="submit" className="bb-cta">Start earning</button>
-                </form>
-                <p className="bb-enter mt-3 text-sm text-[var(--bb-muted)]" style={{ '--i': 4 }}>
-                  Already a member?{' '}
-                  <button type="button" onClick={() => openAuth('login')} className="font-semibold text-[var(--bb-berry-300)] underline underline-offset-2">Log in</button>
-                </p>
-              </>
             )}
 
             <ul className="bb-enter mt-6 flex flex-wrap gap-2 text-sm" style={{ '--i': 5 }}>
@@ -332,7 +297,7 @@ export default function Home() {
             </ul>
           </div>
 
-          <HeroVisual feed={feed} />
+          {user ? <HeroVisual feed={feed} /> : <SignupCard />}
         </section>
 
         {/* PROOF: real recent earnings and totals (space is reserved while loading so the page doesn't jump) */}
@@ -353,6 +318,79 @@ export default function Home() {
             )}
           </Reveal>
         )}
+
+        {/* HOW IT WORKS */}
+        <section id="how" className="scroll-mt-24 pt-14">
+          <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Three steps to your first payout</Reveal>
+          <Reveal as="div" plain className="relative mt-8">
+            <div aria-hidden="true" className="absolute left-[16.6%] right-[16.6%] top-[52px] hidden h-px bg-[var(--bb-border)] md:block">
+              <div className="bb-line h-full w-full bg-[var(--bb-primary)]" />
+            </div>
+            <ol className="relative grid gap-4 md:grid-cols-3">
+              {STEPS.map((s, i) => (
+                <Reveal as="li" key={s.title} i={i} className="bb-card g-spot relative overflow-hidden p-6">
+                  <span aria-hidden="true" className="g-title pointer-events-none absolute right-4 top-2 select-none text-[72px] text-white/[0.07]">0{i + 1}</span>
+                  <div className="-mt-1 w-[88px]" aria-hidden="true">
+                    <Art name={s.art} size="100%" sizes="88px" glow={s.glow} float style={{ '--delay': `${-i * 1.5}s` }} />
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--bb-muted)]">{s.text}</p>
+                </Reveal>
+              ))}
+            </ol>
+          </Reveal>
+        </section>
+
+        {/* WAYS TO EARN: each card goes to the real page for it */}
+        <section className="pt-14">
+          <Reveal>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Pick how you want to <span className="text-gradient">earn</span></h2>
+            <p className="mt-3 max-w-xl text-[var(--bb-muted)]">Three kinds of tasks and a free spin every day. The reward is always shown in coins before you start.</p>
+          </Reveal>
+          <div className="mt-8 grid gap-3 md:grid-cols-[1.25fr_1fr] md:grid-rows-2">
+            <Reveal className="md:row-span-2">
+              <Link href="/earn" className="bb-card bb-lift g-spot group relative flex h-full min-h-[260px] flex-col gap-5 overflow-hidden p-6 sm:p-8">
+                <div className="w-[140px] sm:w-[170px]" aria-hidden="true">
+                  <Art name="gem" size="100%" sizes="170px" glow="blue" float />
+                </div>
+                <div className="mt-auto">
+                  <div className="flex items-center gap-2 text-[var(--bb-berry-300)]" aria-hidden="true">
+                    <Gamepad2 className="h-5 w-5" /> <Smartphone className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-3 text-2xl font-bold">Games and apps</h3>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-[var(--bb-muted)]">Play a game to a set level or try a new app. Finish the steps and the coins land in your balance.</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[var(--bb-berry-300)]">
+                    Browse tasks <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" aria-hidden="true" />
+                  </span>
+                </div>
+              </Link>
+            </Reveal>
+
+            <Reveal i={1}>
+              <Link href="/earn" className="bb-card bb-lift g-spot group flex h-full items-center gap-5 p-5 sm:p-6">
+                <span aria-hidden="true" className="grid h-[84px] w-[84px] shrink-0 place-items-center rounded-2xl bg-[linear-gradient(145deg,rgba(69,151,255,0.25),rgba(120,84,247,0.2))] text-[var(--bb-berry-300)]">
+                  <ClipboardList className="h-9 w-9" />
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-xl font-bold">Surveys</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--bb-muted)]">Answer a few questions and get paid in coins.</p>
+                </div>
+              </Link>
+            </Reveal>
+
+            <Reveal i={2}>
+              <Link href="/spin" className="bb-card bb-lift g-spot group flex h-full items-center gap-5 p-5 sm:p-6">
+                <div className="w-[84px] shrink-0" aria-hidden="true">
+                  <Art name="wheel" size="100%" sizes="90px" glow="purple" float style={{ '--delay': '-1.5s' }} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-xl font-bold">Daily spin</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--bb-muted)]">One free spin every 24 hours. Prizes go straight to your balance.</p>
+                </div>
+              </Link>
+            </Reveal>
+          </div>
+        </section>
 
         {/* PAYOUT METHODS */}
         <section className="pt-12">
@@ -389,27 +427,6 @@ export default function Home() {
           </Reveal>
           <Reveal i={1} className="mt-8">
             <CoinCalculator payouts={PAYOUTS} />
-          </Reveal>
-        </section>
-
-        {/* HOW IT WORKS */}
-        <section id="how" className="scroll-mt-24 pt-14">
-          <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Three steps to your first payout</Reveal>
-          <Reveal as="div" plain className="relative mt-8">
-            <div aria-hidden="true" className="absolute left-[16.6%] right-[16.6%] top-[52px] hidden h-px bg-[var(--bb-border)] md:block">
-              <div className="bb-line h-full w-full bg-[var(--bb-primary)]" />
-            </div>
-            <ol className="relative grid gap-4 md:grid-cols-3">
-              {STEPS.map((s, i) => (
-                <Reveal as="li" key={s.title} i={i} className="bb-card g-spot p-6">
-                  <div className="-mt-1 w-[88px]" aria-hidden="true">
-                    <Art name={s.art} size="100%" sizes="88px" glow={s.glow} float style={{ '--delay': `${-i * 1.5}s` }} />
-                  </div>
-                  <h3 className="mt-5 text-lg font-bold">{i + 1}. {s.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--bb-muted)]">{s.text}</p>
-                </Reveal>
-              ))}
-            </ol>
           </Reveal>
         </section>
 
@@ -470,7 +487,7 @@ export default function Home() {
               {user ? (
                 <Link href={active.cta.href} className="bb-cta mt-7">{active.cta.label}</Link>
               ) : (
-                <button type="button" onClick={() => openAuth('register')} className="bb-cta mt-7">Sign up to start</button>
+                <a href="#signup" className="bb-cta mt-7">Sign up to start</a>
               )}
               </div>
               <div className="order-first mx-auto w-[170px] md:order-last md:w-[280px]">
@@ -517,7 +534,7 @@ export default function Home() {
               <div aria-hidden="true" className="pointer-events-none absolute -right-4 bottom-0 hidden w-[170px] sm:block lg:right-8 lg:w-[220px]"><Art name="gift" size="100%" glow="blue" float style={{ '--delay': '-3s' }} /></div>
               <h2 className="max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">Your first dollar is a few tasks away</h2>
               <p className="max-w-md text-[var(--bb-berry-300)]">Join free in under a minute. No deposit, no card.</p>
-              <button type="button" onClick={() => openAuth('register')} className="bb-cta">Sign up free</button>
+              <a href="#signup" className="bb-cta">Sign up free</a>
               <p className="flex items-center gap-1.5 text-sm text-[var(--bb-muted)]">
                 <Lock className="h-4 w-4" aria-hidden="true" /> We never ask for your card
               </p>
@@ -525,10 +542,6 @@ export default function Home() {
           </Reveal>
         )}
       </div>
-
-      {authOpen && (
-        <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} defaultEmail={authEmail} />
-      )}
     </div>
   );
 }

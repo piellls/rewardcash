@@ -2,37 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { sfx } from '@/lib/sfx';
-import { useAuth } from '@/context/AuthContext';
-import { X, Mail, Lock, User, AlertCircle, Loader2, ShieldAlert, Eye, EyeOff, Zap } from 'lucide-react';
-import { db } from '@/lib/db';
+import { X } from 'lucide-react';
 import Art from './Art';
+import AuthForm from './AuthForm';
 
 export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defaultEmail = '' }) {
   const [tab, setTab] = useState(defaultTab);
-  const { login, register } = useAuth();
-  
-  const [email, setEmail] = useState(defaultEmail);
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [deviceHasAccount, setDeviceHasAccount] = useState(null);
 
   useEffect(() => {
     setTab(defaultTab);
   }, [defaultTab, isOpen]);
-
-  useEffect(() => {
-    if (tab === 'register' && isOpen) {
-      db.checkDeviceHasAccount().then(existingUsername => {
-        setDeviceHasAccount(existingUsername);
-      });
-    } else {
-      setDeviceHasAccount(null);
-    }
-  }, [tab, isOpen]);
 
   useEffect(() => {
     if (isOpen) sfx.play('open');
@@ -47,30 +26,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      if (tab === 'login') {
-        await login(email, password);
-      } else {
-        if (!username.trim()) throw new Error('Username is required!');
-        await register(username, email, password);
-      }
-      sfx.play('success');
-      onClose();
-    } catch (err) {
-      sfx.play('error');
-      setError(err.message || 'Something went wrong!');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const isLogin = tab === 'login';
-  const field = 'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] py-3 pl-10 pr-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#7854f7] focus:outline-none focus:ring-2 focus:ring-[#7854f7]/30';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="auth-title">
@@ -125,109 +81,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
               {isLogin ? 'Sign in' : 'Create account'}
             </h2>
 
-            {error && (
-              <div role="alert" className="g-fade mb-4 flex items-start gap-2 rounded-xl border border-[#f17685]/40 bg-[#f17685]/10 p-3 text-sm text-[#f9a4af]">
-                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#f17685]" aria-hidden="true" />
-                <span className="font-semibold">{error}</span>
-              </div>
-            )}
-
-            {deviceHasAccount && !isLogin ? (
-              <div className="space-y-4 rounded-2xl border border-[#f17685]/30 bg-[#f17685]/10 px-4 py-6 text-center">
-                <div className="inline-flex rounded-full bg-[#f17685]/15 p-3.5 text-[#f17685]">
-                  <ShieldAlert className="h-7 w-7" aria-hidden="true" />
-                </div>
-                <h3 className="g-title text-lg text-white">Device already registered</h3>
-                <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--bb-muted)]">
-                  An account (<strong className="font-bold text-[#c3b2ff]">{deviceHasAccount}</strong>) already exists on this device. To keep rewards fair, only one account per device is allowed.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setTab('login')}
-                  className="btn-gaming w-full rounded-xl py-3 text-xs"
-                >
-                  Sign in to that account
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {!isLogin && (
-                  <div>
-                    <label htmlFor="auth-username" className="mb-1.5 block text-xs font-bold text-[var(--bb-muted)]">Username</label>
-                    <div className="relative">
-                      <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" aria-hidden="true" />
-                      <input
-                        id="auth-username"
-                        type="text"
-                        required
-                        autoComplete="username"
-                        placeholder="Pick a display name"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={field}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div>
-                  <label htmlFor="auth-email" className="mb-1.5 block text-xs font-bold text-[var(--bb-muted)]">Email</label>
-                  <div className="relative">
-                    <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" aria-hidden="true" />
-                    <input
-                      id="auth-email"
-                      type="email"
-                      required
-                      autoComplete="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className={field}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="auth-password" className="mb-1.5 block text-xs font-bold text-[var(--bb-muted)]">Password</label>
-                  <div className="relative">
-                    <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" aria-hidden="true" />
-                    <input
-                      id="auth-password"
-                      type={showPassword ? 'text' : 'password'}
-                      required
-                      autoComplete={isLogin ? 'current-password' : 'new-password'}
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className={`${field} pr-11`}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
-                      className="absolute right-1.5 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-zinc-500 transition-colors hover:text-zinc-200"
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-gaming flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm"
-                >
-                  {loading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                  ) : (
-                    <>
-                      <Zap className="h-4 w-4 shrink-0" aria-hidden="true" />
-                      <span>{isLogin ? 'Sign in' : 'Create account'}</span>
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+            <AuthForm mode={tab} onModeChange={setTab} defaultEmail={defaultEmail} onSuccess={onClose} active={isOpen} />
           </div>
 
           <div className="mt-8 space-y-4">
@@ -235,7 +89,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
               {isLogin ? 'New here?' : 'Already have an account?'}{' '}
               <button
                 type="button"
-                onClick={() => { setTab(isLogin ? 'register' : 'login'); setError(''); }}
+                onClick={() => setTab(isLogin ? 'register' : 'login')}
                 className="font-bold text-white underline-offset-4 transition-colors hover:text-[#c3b2ff] hover:underline"
               >
                 {isLogin ? 'Create an account' : 'Sign in'}
