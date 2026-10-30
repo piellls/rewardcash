@@ -24,7 +24,7 @@ export default function SignupCard() {
         <h2 className="g-title text-3xl text-white">Create your free account</h2>
         <p className="mb-6 mt-2 text-sm text-[var(--bb-muted)]">You start with 100 coins. No deposit, no card.</p>
 
-        <AuthForm mode="register" onSuccess={() => router.push('/earn')} />
+        <AuthForm mode="register" deviceCheck="on-focus" onSuccess={() => router.push('/earn')} />
 
         <p className="mt-6 text-center text-sm text-[var(--bb-muted)]">
           Already a member?{' '}

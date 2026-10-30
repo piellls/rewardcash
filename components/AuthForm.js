@@ -14,10 +14,12 @@ import { Mail, Lock, User, AlertCircle, Loader2, ShieldAlert, Eye, EyeOff, Zap }
 //   defaultEmail  pre-fills the email field
 //   onSuccess     called after a successful login / registration
 //   active        set false while the form is hidden so the device check does not run needlessly
+//   deviceCheck   'immediate' (default) checks as soon as the form is shown; 'on-focus' waits until the visitor
+//                 first touches a field, so a form that sits on a public page costs no request per visit
 const FIELD =
   'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] py-3 pl-10 pr-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#7854f7] focus:outline-none focus:ring-2 focus:ring-[#7854f7]/30';
 
-export default function AuthForm({ mode, onModeChange, defaultEmail = '', onSuccess, active = true }) {
+export default function AuthForm({ mode, onModeChange, defaultEmail = '', onSuccess, active = true, deviceCheck = 'immediate' }) {
   const { login, register } = useAuth();
   const uid = useId();
   const isLogin = mode === 'login';
@@ -29,16 +31,17 @@ export default function AuthForm({ mode, onModeChange, defaultEmail = '', onSucc
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [deviceHasAccount, setDeviceHasAccount] = useState(null);
+  const [touched, setTouched] = useState(deviceCheck === 'immediate');
 
   // A message about one mode should not follow the visitor to the other
   useEffect(() => { setError(''); }, [mode]);
 
   useEffect(() => {
-    if (mode !== 'register' || !active) { setDeviceHasAccount(null); return; }
+    if (mode !== 'register' || !active || !touched) { setDeviceHasAccount(null); return; }
     let alive = true;
     db.checkDeviceHasAccount().then((existing) => { if (alive) setDeviceHasAccount(existing); });
     return () => { alive = false; };
-  }, [mode, active]);
+  }, [mode, active, touched]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,7 +93,7 @@ export default function AuthForm({ mode, onModeChange, defaultEmail = '', onSucc
           )}
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} onFocusCapture={() => setTouched(true)} className="space-y-4">
           {!isLogin && (
             <div>
               <label htmlFor={`${uid}-username`} className="mb-1.5 block text-xs font-bold text-[var(--bb-muted)]">Username</label>
