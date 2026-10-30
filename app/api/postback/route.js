@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { timingSafeEqual } from 'node:crypto';
 
 // Initialize Supabase admin client using service role key (bypasses RLS to write to database)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -33,6 +34,19 @@ export async function GET(request) {
   const coinsStr = searchParams.get('coins');
   const provider = searchParams.get('provider') || searchParams.get('network') || 'cpalead';
   const secret = searchParams.get('secret') || searchParams.get('password');
+
+  // Only the offer network knows POSTBACK_SECRET; without it anyone could credit themselves coins.
+  const expectedSecret = process.env.POSTBACK_SECRET;
+  if (!expectedSecret) {
+    console.error('[POSTBACK ERROR] POSTBACK_SECRET is not set; refusing all postbacks.');
+    return NextResponse.json({ error: 'Postback not configured.' }, { status: 500 });
+  }
+  const given = Buffer.from(secret || '');
+  const expected = Buffer.from(expectedSecret);
+  if (given.length !== expected.length || !timingSafeEqual(given, expected)) {
+    console.warn(`[POSTBACK REJECTED] bad secret for click_id: ${click_id}`);
+    return NextResponse.json({ error: 'Forbidden.' }, { status: 403 });
+  }
 
   // Log incoming postback request for debugging
   console.log(`[POSTBACK RECEIVED] click_id: ${click_id}, payout: ${payoutStr}, coins: ${coinsStr}, provider: ${provider}`);
