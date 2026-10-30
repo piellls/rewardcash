@@ -47,6 +47,13 @@ export async function GET(request) {
 
   console.log(`[POSTBACK RECEIVED] click_id: ${click_id}, payout: ${payoutStr}, provider: ${provider}, txn: ${txn}`);
 
+  // AdBluMedia's {status} is 1 for a conversion and 0 for a chargeback / reversal. A reversal earns nothing;
+  // answer "1" so the network does not keep retrying it.
+  if (searchParams.get('status') === '0') {
+    console.log(`[POSTBACK REVERSAL IGNORED] txn: ${txn}`);
+    return ok();
+  }
+
   if (!click_id) {
     return NextResponse.json({ error: 'Missing click_id / tracking user parameter.' }, { status: 400 });
   }
