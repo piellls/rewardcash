@@ -77,13 +77,13 @@ The Earn page lists offers from AdBluMedia (`app/api/offers/adblumedia/route.js`
 | `ADBLUMEDIA_API_KEY` | The **API Key Offers** from the AdBluMedia dashboard |
 | `ADBLUMEDIA_FEED_URL` | Optional. Only if the dashboard shows a feed address other than the default in `lib/adblumedia.js` |
 
-2. In the AdBluMedia dashboard, open the postback settings and set the postback URL to:
+2. In the AdBluMedia dashboard, go to **API -> Postback** and set the postback URL to:
    ```text
-   https://www.blueberrycash.com/api/postback?secret=YOUR_POSTBACK_SECRET&provider=adblumedia&click_id={s1}&payout={payout}&transaction_id={lead_id}
+   https://www.blueberrycash.com/api/postback?secret=YOUR_POSTBACK_SECRET&provider=adbluemedia&s1={s1}&payout={payout}&transaction_id={lead_id}&status={status}
    ```
-   Use the macro names the dashboard lists for the sub ID 1 (`s1`) we send, the payout and a unique lead / conversion id. The names in braces above are the usual ones and may differ. `secret` must equal the `POSTBACK_SECRET` in Vercel.
+   `secret` must equal the `POSTBACK_SECRET` in Vercel. These are the macro names the dashboard lists: `{s1}` is the member id we send in the feed, `{payout}` is the decimal payout, `{lead_id}` is unique per conversion (a repeated postback is ignored) and `{status}` is `1` for a conversion and `0` for a chargeback (nothing is credited for `0`).
    The offer link carries our member id in the tracker's `sub5` field as `s1<member id>`; the postback accepts it with or without that `s1` prefix.
-3. Use the dashboard's **test postback** if it has one, then complete one real offer to confirm the coins arrive.
+3. Press **Save & Test** (the test sends a made-up `s1`, which is answered with `1` and credits nobody), then complete one real offer to confirm the coins arrive.
 
 ---
 
