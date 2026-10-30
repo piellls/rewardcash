@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import Link from 'next/link';
 import AuthModal from '@/components/AuthModal';
+import Art from '@/components/Art';
 import { 
   Coins, 
   Settings, 
@@ -207,7 +208,9 @@ export default function Dashboard() {
             
             {/* Left Card: Profile Details */}
             <div className="lg:col-span-5 g-card p-6 flex flex-col justify-between relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+              <div aria-hidden="true" className="pointer-events-none absolute -right-6 -top-8 w-[150px] opacity-90 sm:w-[170px]">
+                <Art name="trophy" size="100%" glow="gold" float />
+              </div>
               
               <div className="flex items-center gap-5">
                 {/* Avatar */}
@@ -215,7 +218,7 @@ export default function Dashboard() {
                   <img 
                     src={user.avatar_url || '/avatars/1.png'} 
                     alt={user.username}
-                    className="h-20 w-20 rounded-full border-2 border-dark-border object-cover bg-zinc-100"
+                    className="h-20 w-20 rounded-full border-2 border-[#7854f7] object-cover bg-[var(--bb-surface-2)] shadow-[0_0_0_4px_rgba(120,84,247,0.2),0_0_24px_rgba(120,84,247,0.45)]"
                   />
                 </div>
 
@@ -245,11 +248,8 @@ export default function Dashboard() {
                     {coinsToLevelUp.toLocaleString()} coins to level up
                   </span>
                 </div>
-                <div className="h-2 w-full rounded-full bg-dark-bg/85 border border-dark-border overflow-hidden p-[2px]">
-                  <div 
-                    className="h-full rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_8px_rgba(120,84,247,0.4)] transition-all duration-500"
-                    style={{ width: `${levelData.percentage}%` }}
-                  />
+                <div className="g-xp" role="progressbar" aria-label="Level progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(levelData.percentage)}>
+                  <i style={{ '--p': Math.min(1, Math.max(0, levelData.percentage / 100)) }} />
                 </div>
               </div>
             </div>
@@ -308,7 +308,7 @@ export default function Dashboard() {
           </div>
 
           {/* DAILY SPIN SHORTCUT */}
-          <Link href="/spin" className="g-card g-card-hover group flex items-center justify-between gap-4 p-5">
+          <Link href="/spin" className="g-card g-card-hover g-spot group flex items-center justify-between gap-4 p-5">
             <div className="flex items-center gap-4">
               <span className="icon-wrapper-gradient h-12 w-12 shrink-0"><Gift className="h-6 w-6" aria-hidden="true" /></span>
               <div>

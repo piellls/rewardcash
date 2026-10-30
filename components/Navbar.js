@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
 import SupportModal from './SupportModal';
 import { AnimatedNumber } from './motion';
+import SoundToggle from './SoundToggle';
 import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, Users, Gift } from 'lucide-react';
 
 const calculateLevel = (totalEarned = 0) => {
@@ -122,9 +123,11 @@ export default function Navbar() {
               {/* Coin balance */}
               <div className="flex items-center gap-2 rounded-xl border border-[rgba(120,84,247,0.4)] bg-[var(--bb-surface)] px-3.5 py-1.5 shadow-[0_0_18px_-4px_rgba(120,84,247,0.55)]">
                 <Coins className="h-4 w-4 text-[#c3b2ff]" aria-hidden="true" />
-                <AnimatedNumber value={user.balance_coins || 0} className="font-black text-white text-sm tabular-nums" />
+                <AnimatedNumber celebrate value={user.balance_coins || 0} className="font-black text-white text-sm tabular-nums" />
                 <span className="hidden text-[10px] font-bold uppercase tracking-wider text-zinc-400 sm:inline">Coins</span>
               </div>
+
+              <SoundToggle className="hidden sm:flex" />
 
               {/* Mobile free spin button */}
               <Link
@@ -158,6 +161,7 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="flex items-center gap-2 sm:gap-3">
+              <SoundToggle className="hidden sm:flex" />
               <Link
                 href="/spin"
                 className="relative mr-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#c3b2ff] transition-transform duration-100 active:scale-95 md:hidden"

@@ -28,6 +28,8 @@ export default function Earn() {
         icon={PlayCircle}
         title="Earn"
         accent="coins"
+        art="gem"
+        artGlow="blue"
         subtitle="Play games, try apps and answer surveys. Pick a task and get paid in coins."
       >
         <Chip icon={Coins} tone="gold">1,000 coins = $1.00</Chip>

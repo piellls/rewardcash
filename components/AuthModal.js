@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
-import { X, Mail, Lock, User, AlertCircle, Loader2, ShieldAlert, Eye, EyeOff, Zap, Gift } from 'lucide-react';
+import { X, Mail, Lock, User, AlertCircle, Loader2, ShieldAlert, Eye, EyeOff, Zap } from 'lucide-react';
 import { db } from '@/lib/db';
+import Art from './Art';
 
 export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defaultEmail = '' }) {
   const [tab, setTab] = useState(defaultTab);
@@ -33,6 +35,10 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
   }, [tab, isOpen]);
 
   useEffect(() => {
+    if (isOpen) sfx.play('open');
+  }, [isOpen]);
+
+  useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
@@ -53,8 +59,10 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
         if (!username.trim()) throw new Error('Username is required!');
         await register(username, email, password);
       }
+      sfx.play('success');
       onClose();
     } catch (err) {
+      sfx.play('error');
       setError(err.message || 'Something went wrong!');
     } finally {
       setLoading(false);
@@ -79,9 +87,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
           <img src="/offerwall/blueberry_logo.png" alt="BlueberryCash" className="relative h-14 w-auto object-contain" />
 
           <div className="relative my-auto flex flex-col items-center py-6">
-            <div className="bb-float mb-5 text-[#f3c76b]" style={{ '--d': '5s' }}>
-              <Gift className="h-20 w-20 drop-shadow-[0_10px_24px_rgba(243,199,107,0.35)]" strokeWidth={1.4} aria-hidden="true" />
-            </div>
+            <Art name="gift" size={200} float tilt glow="blue" priority className="mb-3" />
             <p className="g-title text-2xl text-white">Start earning in minutes</p>
             <p className="mt-2 max-w-[16rem] text-sm leading-relaxed text-[var(--bb-muted)]">
               Free to join. Complete offers, collect coins and cash out at 1,000 coins = $1.

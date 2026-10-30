@@ -79,6 +79,8 @@ export default function Leaderboard() {
         icon={Trophy}
         title="Top"
         accent="earners"
+        art="trophy"
+        artGlow="gold"
         subtitle="The ten members who have earned the most coins on BlueberryCash."
       >
         {user && (

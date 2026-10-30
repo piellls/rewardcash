@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import { PAYOUT_OPTIONS, COINS_PER_USD } from '@/lib/cashout';
-import { Reveal, CountUp, usePrefersReducedMotion, useInView } from '@/components/motion';
+import { Reveal, CountUp, usePrefersReducedMotion, useInView, useParallax } from '@/components/motion';
+import Art from '@/components/Art';
+import CoinCalculator from '@/components/CoinCalculator';
 import {
-  Check, ChevronDown, Gift, Trophy, Users, LifeBuoy, Wallet, UserPlus, Gamepad2,
+  Check, ChevronDown, Gift, Trophy, Users, LifeBuoy, Wallet, Gamepad2,
   Smartphone, ClipboardList, Zap, Lock, ShieldCheck,
 } from 'lucide-react';
 
@@ -34,9 +36,9 @@ const PAYOUTS = Object.entries(PAYOUT_OPTIONS)
 const MIN_CASHOUT = PAYOUTS[0]?.min ?? 1;
 
 const STEPS = [
-  { icon: UserPlus, title: 'Create your account', text: 'Sign up free with an email. It takes under a minute and you start with 100 coins.' },
-  { icon: Gamepad2, title: 'Complete tasks', text: 'Play a game to a set level, try an app or answer a survey. The reward is shown before you start.' },
-  { icon: Wallet, title: 'Cash out', text: `Withdraw from $${MIN_CASHOUT} to PayPal, a Visa card or crypto. Requests are checked within 24 hours.` },
+  { art: 'berry', glow: 'purple', title: 'Create your account', text: 'Sign up free with an email. It takes under a minute and you start with 100 coins.' },
+  { art: 'gem', glow: 'blue', title: 'Complete tasks', text: 'Play a game to a set level, try an app or answer a survey. The reward is shown before you start.' },
+  { art: 'coins', glow: 'gold', title: 'Cash out', text: `Withdraw from $${MIN_CASHOUT} to PayPal, a Visa card or crypto. Requests are checked within 24 hours.` },
 ];
 
 const PERKS = [
@@ -180,15 +182,16 @@ const CHIPS = [
 function HeroVisual({ feed }) {
   const ref = useRef(null);
   const inView = useInView(ref);
+  useParallax(ref);
   return (
     <div
       ref={ref}
-      className={`bb-hero bb-enter relative h-[340px] overflow-hidden rounded-[22px] sm:h-[420px] lg:h-[480px] ${inView ? '' : 'bb-paused'}`}
+      className={`bb-hero g-ring bb-enter relative h-[340px] overflow-hidden rounded-[22px] sm:h-[420px] lg:h-[480px] ${inView ? '' : 'bb-paused'}`}
       style={{ '--i': 3 }}
     >
       <div aria-hidden="true" className="absolute left-1/2 top-[40%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(195,178,255,0.45),transparent)]" />
 
-      <div className="absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2">
+      <div className="g-depth absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2" data-depth="16">
         <img
           src="/offerwall/blueberry_icon.png"
           alt=""
@@ -198,6 +201,17 @@ function HeroVisual({ feed }) {
           className="bb-float h-[170px] w-[170px] drop-shadow-[0_18px_30px_rgba(9,13,24,0.45)] sm:h-[210px] sm:w-[210px]"
           style={{ '--d': '7s' }}
         />
+      </div>
+
+      {/* Floating rewards around the mascot; each layer drifts a different amount with the mouse */}
+      <div aria-hidden="true" className="g-depth absolute right-[20%] top-[3%] w-[78px] sm:w-[104px]" data-depth="34">
+        <Art name="coins" size="100%" glow="gold" float />
+      </div>
+      <div aria-hidden="true" className="g-depth absolute right-[5%] top-[46%] w-[82px] sm:w-[112px]" data-depth="26">
+        <Art name="gem" size="100%" glow="blue" float style={{ '--delay': '-2s' }} />
+      </div>
+      <div aria-hidden="true" className="g-depth absolute left-[3%] top-[27%] w-[84px] sm:w-[110px]" data-depth="30">
+        <Art name="gift" size="100%" glow="blue" float />
       </div>
 
       {CHIPS.map(({ icon: Icon, label, pos, d, delay, r }) => (
@@ -251,7 +265,7 @@ export default function Home() {
     : [];
 
   return (
-    <div className="bb-home min-h-screen bg-[var(--bb-bg)] text-[var(--bb-text)]">
+    <div className="bb-home min-h-screen text-[var(--bb-text)]">
       {/* Without JS the reveal blocks would stay hidden */}
       <noscript>
         <style>{'.bb-reveal{opacity:1!important;transform:none!important}.bb-line{transform:none!important}'}</style>
@@ -266,7 +280,7 @@ export default function Home() {
               Games · Apps · Surveys
             </p>
             <h1 className="bb-enter mt-5 text-[40px] font-extrabold leading-[1.05] tracking-[-0.02em] sm:text-[56px]" style={{ '--i': 1 }}>
-              Turn spare minutes into real rewards
+              Turn spare minutes into <span className="text-gradient">real rewards</span>
             </h1>
             <p className="bb-enter mt-5 max-w-lg text-base text-[var(--bb-muted)] sm:text-lg" style={{ '--i': 2 }}>
               Play games, try apps and answer surveys. Cash out to PayPal, a Visa card or crypto from ${MIN_CASHOUT}.
@@ -349,7 +363,7 @@ export default function Home() {
           <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {PAYOUTS.map((m, i) => (
               <Reveal as="li" key={m.key} i={i}>
-                <div className="bb-card bb-lift flex h-full flex-col items-center gap-3 px-3 py-5 text-center">
+                <div className="bb-card bb-lift g-spot flex h-full flex-col items-center gap-3 px-3 py-5 text-center">
                   <span
                     aria-hidden="true"
                     className="grid h-12 w-12 place-items-center rounded-full text-xl font-bold"
@@ -367,6 +381,17 @@ export default function Home() {
           </ul>
         </section>
 
+        {/* CALCULATOR: the one interactive thing, built from the real rate and minimums */}
+        <section className="pt-14">
+          <Reveal>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">See what your coins are <span className="text-gradient">worth</span></h2>
+            <p className="mt-3 max-w-xl text-[var(--bb-muted)]">Drag the slider to see the dollar value and which payout methods you unlock.</p>
+          </Reveal>
+          <Reveal i={1} className="mt-8">
+            <CoinCalculator payouts={PAYOUTS} />
+          </Reveal>
+        </section>
+
         {/* HOW IT WORKS */}
         <section id="how" className="scroll-mt-24 pt-14">
           <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Three steps to your first payout</Reveal>
@@ -376,10 +401,10 @@ export default function Home() {
             </div>
             <ol className="relative grid gap-4 md:grid-cols-3">
               {STEPS.map((s, i) => (
-                <Reveal as="li" key={s.title} i={i} className="bb-card p-6">
-                  <span className="grid h-14 w-14 place-items-center rounded-2xl border border-[var(--bb-border)] bg-[var(--bb-surface-2)] text-[var(--bb-berry-300)]">
-                    <s.icon className="h-7 w-7" aria-hidden="true" />
-                  </span>
+                <Reveal as="li" key={s.title} i={i} className="bb-card g-spot p-6">
+                  <div className="-mt-1 w-[88px]" aria-hidden="true">
+                    <Art name={s.art} size="100%" glow={s.glow} float style={{ '--delay': `${-i * 1.5}s` }} />
+                  </div>
                   <h3 className="mt-5 text-lg font-bold">{i + 1}. {s.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--bb-muted)]">{s.text}</p>
                 </Reveal>
@@ -394,7 +419,7 @@ export default function Home() {
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {PERKS.map((p, i) => (
               <Reveal key={p.title} i={i % 3}>
-                <div className="bb-card bb-lift h-full p-5">
+                <div className="bb-card bb-lift g-spot h-full p-5">
                   <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--bb-surface-2)] text-[var(--bb-berry-300)]">
                     <p.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
@@ -431,7 +456,8 @@ export default function Home() {
                 style={{ transform: `translateX(${tabKeys.indexOf(tab) * 100}%)` }}
               />
             </div>
-            <div key={tab} id="tab-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="bb-swap p-6 sm:p-10">
+            <div key={tab} id="tab-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="bb-swap grid items-center gap-6 p-6 sm:p-10 md:grid-cols-[1fr_auto] md:gap-10">
+              <div>
               <h2 className="text-2xl font-bold sm:text-3xl">{active.title}</h2>
               <p className="mt-3 max-w-xl text-[var(--bb-muted)]">{active.text}</p>
               <ul className="mt-6 grid gap-3 sm:max-w-xl">
@@ -446,6 +472,10 @@ export default function Home() {
               ) : (
                 <button type="button" onClick={() => openAuth('register')} className="bb-cta mt-7">Sign up to start</button>
               )}
+              </div>
+              <div className="order-first mx-auto w-[170px] md:order-last md:w-[280px]">
+                <Art name={tab === 'spin' ? 'wheel' : 'referral'} size="100%" glow="purple" float tilt />
+              </div>
             </div>
           </div>
         </Reveal>
@@ -482,7 +512,9 @@ export default function Home() {
         {/* FINAL CTA */}
         {!user && (
           <Reveal as="section" className="pt-14">
-            <div className="bb-hero relative flex flex-col items-center gap-5 overflow-hidden rounded-[22px] px-6 py-12 text-center sm:py-14">
+            <div className="bb-hero g-ring relative flex flex-col items-center gap-5 overflow-hidden rounded-[22px] px-6 py-12 text-center sm:py-16">
+              <div aria-hidden="true" className="pointer-events-none absolute -left-4 bottom-0 hidden w-[170px] sm:block lg:left-8 lg:w-[220px]"><Art name="trophy" size="100%" glow="gold" float /></div>
+              <div aria-hidden="true" className="pointer-events-none absolute -right-4 bottom-0 hidden w-[170px] sm:block lg:right-8 lg:w-[220px]"><Art name="gift" size="100%" glow="blue" float style={{ '--delay': '-3s' }} /></div>
               <h2 className="max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">Your first dollar is a few tasks away</h2>
               <p className="max-w-md text-[var(--bb-berry-300)]">Join free in under a minute. No deposit, no card.</p>
               <button type="button" onClick={() => openAuth('register')} className="bb-cta">Sign up free</button>
