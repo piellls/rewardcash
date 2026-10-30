@@ -121,12 +121,14 @@ export default function Home() {
               Play games, try apps and answer surveys. Get paid in PayPal, crypto or gift cards from your first dollar.
             </p>
 
-            {stats && (stats.offersCompleted > 0 || stats.paidUsd > 0) && (
-              <dl className="mt-8 grid w-full max-w-md grid-cols-3 divide-x divide-white/15">
-                <div className="px-2">
-                  <dt className="text-xs text-white/65">Paid out</dt>
-                  <dd className="text-2xl font-bold">{money(stats.paidUsd)}</dd>
-                </div>
+            {stats && stats.offersCompleted > 0 && (
+              <dl className={`mt-8 grid w-full divide-x divide-white/15 ${stats.paidUsd > 0 ? 'max-w-md grid-cols-3' : 'max-w-xs grid-cols-2'}`}>
+                {stats.paidUsd > 0 && (
+                  <div className="px-2">
+                    <dt className="text-xs text-white/65">Paid out</dt>
+                    <dd className="text-2xl font-bold">{money(stats.paidUsd)}</dd>
+                  </div>
+                )}
                 <div className="px-2">
                   <dt className="text-xs text-white/65">Tasks done</dt>
                   <dd className="text-2xl font-bold">{stats.offersCompleted.toLocaleString()}</dd>
