@@ -11,7 +11,7 @@ import { useRef } from 'react';
 //   glow     soft coloured light behind the art
 //   sizes    the rendered width hint for srcSet (pass e.g. "110px" for small decorative uses)
 //   priority load now with high fetch priority (the main picture of a page); eager loads now without it
-const GLOW = { purple: 'rgba(120,84,247,0.45)', blue: 'rgba(69,151,255,0.4)', gold: 'rgba(243,199,107,0.35)', green: 'rgba(66,216,160,0.32)' };
+const GLOW = { purple: 'rgba(47,214,114,0.45)', blue: 'rgba(44,201,181,0.4)', gold: 'rgba(243,199,107,0.35)', green: 'rgba(66,216,160,0.32)' };
 
 export default function Art({ name, size = 240, float = false, tilt = false, glow = 'purple', priority = false, eager = false, sizes = '(max-width: 767px) 180px, 280px', className = '', style, alt = '' }) {
   const ref = useRef(null);

@@ -8,7 +8,7 @@ import { Trophy, Crown, Coins } from 'lucide-react';
 
 const MEDAL = {
   1: { c: '#f3c76b', label: '1st' },
-  2: { c: '#c9d3e6', label: '2nd' },
+  2: { c: '#cbdacf', label: '2nd' },
   3: { c: '#d99b6c', label: '3rd' },
 };
 
@@ -98,7 +98,7 @@ export default function Leaderboard() {
         </div>
       ) : players.length === 0 ? (
         <div className="g-card py-16 text-center">
-          <Trophy className="mx-auto h-10 w-10 text-[#c3b2ff]" aria-hidden="true" />
+          <Trophy className="mx-auto h-10 w-10 text-[#9cf3bf]" aria-hidden="true" />
           <p className="mt-3 text-lg font-extrabold text-white">No rankings yet</p>
           <p className="mt-1 text-sm text-zinc-400">Complete a task on the Earn page and you could be the first name here.</p>
         </div>
@@ -123,7 +123,7 @@ export default function Leaderboard() {
                       <img src={p.avatar_url || '/avatars/1.png'} alt="" className="h-10 w-10 shrink-0 rounded-full border border-dark-border object-cover" onError={(e) => { e.currentTarget.src = '/avatars/1.png'; }} />
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-3">
-                          <span className="truncate font-bold text-white">{p.username}{isMe && <span className="ml-2 text-xs font-bold text-[#c3b2ff]">You</span>}</span>
+                          <span className="truncate font-bold text-white">{p.username}{isMe && <span className="ml-2 text-xs font-bold text-[#9cf3bf]">You</span>}</span>
                           <span className="shrink-0 text-sm font-extrabold tabular-nums text-[#f3c76b]">{p.total_earned_coins.toLocaleString()}</span>
                         </div>
                         <div className="g-xp mt-2" style={{ '--p': Math.max(0.03, p.total_earned_coins / leader) }}><i /></div>

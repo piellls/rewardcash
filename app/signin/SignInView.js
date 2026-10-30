@@ -22,7 +22,7 @@ export default function SignInView() {
       <Reveal className="g-neon g-neon-live grid w-full overflow-hidden rounded-3xl shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] md:grid-cols-[0.9fr_1.1fr]">
         {/* Left: art (wide screens) */}
         <div className="relative hidden flex-col items-center justify-center gap-4 overflow-hidden border-r border-[var(--bb-border)] bg-[linear-gradient(160deg,#101935_0%,#0f1424_60%)] p-8 text-center md:flex">
-          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/3 h-56 w-56 -translate-x-1/2 rounded-full bg-[#7854f7]/30 blur-3xl" />
+          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/3 h-56 w-56 -translate-x-1/2 rounded-full bg-[#2fd672]/30 blur-3xl" />
           <Art name="trophy" size={220} float tilt glow="gold" priority className="relative" />
           <p className="g-title relative text-2xl text-white">Good to see you again</p>
           <p className="relative max-w-[16rem] text-sm leading-relaxed text-[var(--bb-muted)]">
@@ -42,7 +42,7 @@ export default function SignInView() {
 
           <p className="mt-6 text-center text-sm text-[var(--bb-muted)]">
             New here?{' '}
-            <Link href="/#signup" className="font-bold text-white underline-offset-4 transition-colors hover:text-[#c3b2ff] hover:underline">
+            <Link href="/#signup" className="font-bold text-white underline-offset-4 transition-colors hover:text-[#9cf3bf] hover:underline">
               Create an account
             </Link>
           </p>

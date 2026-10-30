@@ -200,7 +200,7 @@ export default function SupportModal({ isOpen, onClose }) {
     }
   };
 
-  const input = 'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] px-4 py-3 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#7854f7] focus:outline-none focus:ring-2 focus:ring-[#7854f7]/30';
+  const input = 'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] px-4 py-3 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#2fd672] focus:outline-none focus:ring-2 focus:ring-[#2fd672]/30';
   const tabBtn = (on) => `relative px-1 pb-2.5 text-xs font-extrabold uppercase tracking-wider transition-colors ${on ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`;
   const statusPill = (status) => (
     status === 'resolved' ? (
@@ -212,7 +212,7 @@ export default function SupportModal({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Support">
-      <div className="g-fade fixed inset-0 bg-[#05070d]/80 backdrop-blur-sm" onClick={closeAll} />
+      <div className="g-fade fixed inset-0 bg-[#040a07]/80 backdrop-blur-sm" onClick={closeAll} />
 
       <div className="g-modal g-neon relative z-10 flex max-h-[calc(100dvh-2rem)] w-full max-w-lg flex-col overflow-hidden rounded-3xl bg-[var(--bb-surface)] p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
         <button
@@ -236,7 +236,7 @@ export default function SupportModal({ isOpen, onClose }) {
 
         {!selectedTicket && (
           <div className="mb-5 text-center">
-            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#7854f7]/40 bg-[#7854f7]/15 text-[#c3b2ff]">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#2fd672]/40 bg-[#2fd672]/15 text-[#9cf3bf]">
               <MessageSquare className="h-6 w-6" aria-hidden="true" />
             </div>
             <h2 className="g-title text-2xl text-white">Support</h2>
@@ -248,11 +248,11 @@ export default function SupportModal({ isOpen, onClose }) {
           <div className="mb-5 flex gap-6 border-b border-[var(--bb-border)]" role="tablist">
             <button type="button" role="tab" aria-selected={activeTab === 'submit'} onClick={() => setActiveTab('submit')} className={tabBtn(activeTab === 'submit')}>
               Open ticket
-              {activeTab === 'submit' && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#7854f7]" />}
+              {activeTab === 'submit' && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#2fd672]" />}
             </button>
             <button type="button" role="tab" aria-selected={activeTab === 'list'} onClick={() => { setActiveTab('list'); loadTickets(); }} className={tabBtn(activeTab === 'list')}>
               My tickets
-              {activeTab === 'list' && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#7854f7]" />}
+              {activeTab === 'list' && <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[#2fd672]" />}
             </button>
           </div>
         )}
@@ -325,7 +325,7 @@ export default function SupportModal({ isOpen, onClose }) {
             <div className="space-y-3 pr-1">
               {loadingList ? (
                 <div className="flex items-center justify-center py-10">
-                  <Loader2 className="h-6 w-6 animate-spin text-[#7854f7]" aria-label="Loading" />
+                  <Loader2 className="h-6 w-6 animate-spin text-[#2fd672]" aria-label="Loading" />
                 </div>
               ) : tickets.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-[var(--bb-border)] py-10 text-center text-sm text-[var(--bb-muted)]">
@@ -337,7 +337,7 @@ export default function SupportModal({ isOpen, onClose }) {
                     type="button"
                     key={t.id}
                     onClick={() => setSelectedTicket(t)}
-                    className="group flex w-full items-center justify-between gap-3 rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)]/60 p-4 text-left transition-[transform,border-color,background-color] duration-200 hover:border-[#7854f7]/60 hover:bg-[var(--bb-surface-2)] active:scale-[0.99]"
+                    className="group flex w-full items-center justify-between gap-3 rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)]/60 p-4 text-left transition-[transform,border-color,background-color] duration-200 hover:border-[#2fd672]/60 hover:bg-[var(--bb-surface-2)] active:scale-[0.99]"
                   >
                     <span className="min-w-0 flex-1 space-y-1">
                       <span className="flex items-center gap-2">
@@ -382,13 +382,13 @@ export default function SupportModal({ isOpen, onClose }) {
                   return (
                     <div key={msg.id} className={`flex max-w-[88%] flex-col ${mine ? 'items-start' : 'ml-auto items-end'}`}>
                       <div className={`mb-1 flex flex-wrap items-center gap-2 ${mine ? '' : 'justify-end'}`}>
-                        <span className={`font-bold ${mine ? 'text-zinc-200' : 'text-[#c3b2ff]'}`}>{mine ? msg.sender_username : 'BlueberryCash support'}</span>
+                        <span className={`font-bold ${mine ? 'text-zinc-200' : 'text-[#9cf3bf]'}`}>{mine ? msg.sender_username : 'BlueberryCash support'}</span>
                         <span className="text-[10px] text-zinc-500">{new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                       <p className={`select-text whitespace-pre-wrap break-words rounded-2xl border px-3.5 py-2.5 text-sm leading-relaxed ${
                         mine
                           ? 'rounded-tl-sm border-[var(--bb-border)] bg-[var(--bb-surface-2)] text-zinc-200'
-                          : 'rounded-tr-sm border-[#7854f7]/40 bg-[#7854f7]/15 text-white'
+                          : 'rounded-tr-sm border-[#2fd672]/40 bg-[#2fd672]/15 text-white'
                       }`}>
                         {msg.message}
                       </p>
@@ -398,7 +398,7 @@ export default function SupportModal({ isOpen, onClose }) {
 
                 {loadingChat && (
                   <div className="flex items-center justify-center py-8">
-                    <Loader2 className="h-5 w-5 animate-spin text-[#7854f7]" aria-label="Loading" />
+                    <Loader2 className="h-5 w-5 animate-spin text-[#2fd672]" aria-label="Loading" />
                   </div>
                 )}
                 <div ref={messagesEndRef} />
