@@ -205,13 +205,13 @@ function HeroVisual({ feed }) {
 
       {/* Floating rewards around the mascot; each layer drifts a different amount with the mouse */}
       <div aria-hidden="true" className="g-depth absolute right-[20%] top-[3%] w-[78px] sm:w-[104px]" data-depth="34">
-        <Art name="coins" size="100%" glow="gold" float />
+        <Art name="coins" size="100%" sizes="110px" glow="gold" float eager />
       </div>
       <div aria-hidden="true" className="g-depth absolute right-[5%] top-[46%] w-[82px] sm:w-[112px]" data-depth="26">
-        <Art name="gem" size="100%" glow="blue" float style={{ '--delay': '-2s' }} />
+        <Art name="gem" size="100%" sizes="110px" glow="blue" float eager style={{ '--delay': '-2s' }} />
       </div>
       <div aria-hidden="true" className="g-depth absolute left-[3%] top-[27%] w-[84px] sm:w-[110px]" data-depth="30">
-        <Art name="gift" size="100%" glow="blue" float />
+        <Art name="gift" size="100%" sizes="110px" glow="blue" float eager />
       </div>
 
       {CHIPS.map(({ icon: Icon, label, pos, d, delay, r }) => (
@@ -403,7 +403,7 @@ export default function Home() {
               {STEPS.map((s, i) => (
                 <Reveal as="li" key={s.title} i={i} className="bb-card g-spot p-6">
                   <div className="-mt-1 w-[88px]" aria-hidden="true">
-                    <Art name={s.art} size="100%" glow={s.glow} float style={{ '--delay': `${-i * 1.5}s` }} />
+                    <Art name={s.art} size="100%" sizes="88px" glow={s.glow} float style={{ '--delay': `${-i * 1.5}s` }} />
                   </div>
                   <h3 className="mt-5 text-lg font-bold">{i + 1}. {s.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--bb-muted)]">{s.text}</p>

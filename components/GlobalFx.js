@@ -18,6 +18,8 @@ export default function GlobalFx() {
       sfx.play('tap');
     };
     const onKey = () => sfx.unlock();
+    // iOS only counts click/touchend as a gesture for audio, so unlock on those too
+    const onGesture = () => sfx.unlock();
 
     let raf = 0;
     const onMove = (e) => {
@@ -34,10 +36,14 @@ export default function GlobalFx() {
 
     document.addEventListener('pointerdown', onDown, { capture: true, passive: true });
     document.addEventListener('keydown', onKey, { capture: true, passive: true });
+    document.addEventListener('touchend', onGesture, { capture: true, passive: true });
+    document.addEventListener('click', onGesture, { capture: true, passive: true });
     document.addEventListener('pointermove', onMove, { passive: true });
     return () => {
       document.removeEventListener('pointerdown', onDown, { capture: true });
       document.removeEventListener('keydown', onKey, { capture: true });
+      document.removeEventListener('touchend', onGesture, { capture: true });
+      document.removeEventListener('click', onGesture, { capture: true });
       document.removeEventListener('pointermove', onMove);
       cancelAnimationFrame(raf);
     };
