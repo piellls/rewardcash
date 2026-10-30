@@ -3,11 +3,11 @@ import { useAuth } from '@/context/AuthContext';
 import { X, Mail, Lock, User, AlertCircle, Loader2, ShieldAlert, Eye, EyeOff, Zap } from 'lucide-react';
 import { db } from '@/lib/db';
 
-export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }) {
+export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defaultEmail = '' }) {
   const [tab, setTab] = useState(defaultTab);
   const { login, register } = useAuth();
   
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(defaultEmail);
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   

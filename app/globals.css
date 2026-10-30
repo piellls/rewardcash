@@ -54,12 +54,12 @@
   --font-sans: 'Rubik', system-ui, -apple-system, sans-serif;
   --font-display: 'Rubik', system-ui, sans-serif;
 
-  --color-primary: #3b82f6; /* Blueberry Cash Electric Blue */
-  --color-secondary: #5d5fef; /* Blueberry Cash Indigo */
-  --color-dark-bg: #0a0a0c; /* Sleek Dark Background */
-  --color-dark-card: #0f0f12; /* Elevated Card Background */
-  --color-dark-border: #1a1a22; /* Sleek Dark Border */
-  --color-dark-hover: #15151c; /* Hover style background */
+  --color-primary: #7854f7; /* BlueberryCash primary */
+  --color-secondary: #4597ff; /* BlueberryCash blue (links) */
+  --color-dark-bg: #090d18; /* page background */
+  --color-dark-card: #151c2e; /* card surface */
+  --color-dark-border: #29334a; /* borders */
+  --color-dark-hover: #202c46; /* hover surface */
   --color-accent-red: #ef4444; /* Accent Red */
 
   --color-white: #ffffff;
@@ -98,8 +98,8 @@
 }
 
 :root {
-  --background: #0a0a0c;
-  --foreground: #f4f4f5;
+  --background: #090d18;
+  --foreground: #f4f6fe;
 }
 
 /* ============================================================
@@ -183,7 +183,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 .glass-nav {
-  background: rgba(10, 10, 12, 0.85);
+  background: rgba(9, 13, 24, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--color-dark-border);
@@ -971,47 +971,154 @@ h1, h2, h3, h4, h5, h6, .font-display {
 
 
 /* ============================================================
-   BLUEBERRY BRAND TOKENS (landing redesign)
+   BLUEBERRYCASH TOKENS (from the design pack)
    ============================================================ */
 :root {
-  --bb-bg: #0c0a1f;          /* blueberry night */
-  --bb-surface: #16133a;     /* cards */
-  --bb-surface-2: #221d52;   /* raised / avatar */
-  --bb-muted: #a7a2cf;       /* secondary text */
-  --bb-berry-300: #c4b5ff;
-  --bb-berry-400: #9d84ff;
-  --bb-berry-500: #7c5cff;   /* brand */
-  --bb-berry-700: #4527c9;
-  --bb-berry-900: #241066;
-  --bb-leaf: #b4f26a;        /* blueberry leaf: CTA + money */
+  --bb-bg: #090d18;
+  --bb-sidebar: #0f1424;
+  --bb-surface: #151c2e;
+  --bb-surface-2: #1c2540;
+  --bb-surface-hover: #202c46;
+  --bb-border: #29334a;
+  --bb-text: #f4f6fe;
+  --bb-muted: #aab4c9;
+  --bb-subtle: #8391ad;
+  --bb-primary: #7854f7;
+  --bb-primary-hover: #6945e4;
+  --bb-blue: #4597ff;
+  --bb-success: #42d8a0;
+  --bb-warning: #f3c76b;
+  --bb-danger: #f17685;
+  --bb-berry-300: #c3b2ff;
+  --radius-control: 10px;
+  --radius-card: 16px;
+  --radius-hero: 22px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-.bb-home { font-family: var(--font-sans); }
+.bb-home { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
 
 .bb-hero {
   background:
-    radial-gradient(60% 50% at 50% 0%, rgba(196, 181, 255, 0.35), transparent 70%),
-    linear-gradient(160deg, var(--bb-berry-500) 0%, var(--bb-berry-700) 50%, var(--bb-berry-900) 100%);
+    radial-gradient(70% 90% at 85% 0%, rgba(120, 84, 247, 0.45), transparent 65%),
+    linear-gradient(115deg, #152652, #33256d);
 }
 
+.bb-card {
+  background: var(--bb-surface);
+  border: 1px solid var(--bb-border);
+  border-radius: var(--radius-card);
+}
+
+/* One primary button everywhere: white text on the primary purple */
 .bb-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  background: var(--bb-leaf);
-  color: #14200a;
+  gap: 0.5rem;
+  border-radius: var(--radius-control);
+  background: var(--bb-primary);
+  color: #fff;
   font-weight: 700;
   padding: 0.8rem 1.5rem;
-  transition: filter 0.15s ease, transform 0.15s ease;
+  min-height: 44px;
+  transition: background-color 150ms ease, transform 120ms var(--ease-out);
 }
-.bb-cta:hover { filter: brightness(1.06); }
-.bb-cta:active { transform: scale(0.98); }
+.bb-cta:hover { background: var(--bb-primary-hover); }
+.bb-cta:active { transform: scale(0.97); }
+
+.bb-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-control);
+  background: var(--bb-surface);
+  border: 1px solid var(--bb-border);
+  font-weight: 600;
+  padding: 0.8rem 1.25rem;
+  min-height: 44px;
+  transition: background-color 150ms ease, transform 120ms var(--ease-out);
+}
+.bb-ghost:hover { background: var(--bb-surface-hover); }
+.bb-ghost:active { transform: scale(0.97); }
+
 .bb-cta:focus-visible,
+.bb-ghost:focus-visible,
 .bb-home a:focus-visible,
-.bb-home button:focus-visible { outline: 2px solid var(--bb-leaf); outline-offset: 2px; }
+.bb-home button:focus-visible,
+.bb-home input:focus-visible { outline: 2px solid var(--bb-blue); outline-offset: 2px; }
+
+/* ---------- Motion ---------- */
+
+/* Page-load sequence in the hero: one orchestrated moment, 70ms apart */
+@keyframes bb-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.bb-enter { animation: bb-rise 600ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 70ms); }
+
+/* Scroll reveal: plays once when the block first enters the viewport */
+.bb-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.bb-reveal[data-visible] { opacity: 1; transform: none; }
+
+/* Hero mascot and coins drift slowly. Decorative, paused when offscreen (see Home). */
+@keyframes bb-float {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-12px) rotate(var(--r, 0deg)); }
+}
+.bb-float { animation: bb-float var(--d, 6s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+.bb-paused .bb-float { animation-play-state: paused; }
+
+/* New live-feed row slides in at the top */
+@keyframes bb-slide-in {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.bb-slide-in { animation: bb-slide-in 350ms var(--ease-out) both; }
+
+/* Tab panel content: quick fade as the tab changes */
+@keyframes bb-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.bb-swap { animation: bb-fade 250ms var(--ease-out) both; }
+
+/* Steps connector draws itself once */
+.bb-line { transform: scaleX(0); transform-origin: left center; transition: transform 900ms var(--ease-in-out) 200ms; }
+[data-visible] .bb-line, .bb-line[data-visible] { transform: scaleX(1); }
+
+/* Tab indicator slides between tabs */
+.bb-tab-indicator { transition: transform 250ms var(--ease-in-out); }
+
+/* Accordion without animating height: grid rows 0fr -> 1fr */
+.bb-acc { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 250ms var(--ease-in-out); }
+.bb-acc[data-open] { grid-template-rows: 1fr; }
+.bb-acc > div { overflow: hidden; }
+
+@media (hover: hover) and (pointer: fine) {
+  .bb-lift { transition: transform 200ms var(--ease-out), border-color 200ms ease; }
+  .bb-lift:hover { transform: translateY(-3px); border-color: var(--bb-primary); }
+}
 
 @keyframes bb-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .bb-ticker { animation: bb-ticker 60s linear infinite; }
 .bb-ticker:hover { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) { .bb-ticker { animation: none; } }
+
+/* Reduced motion: keep fades, drop movement and loops */
+@media (prefers-reduced-motion: reduce) {
+  .bb-enter { animation: none; }
+  .bb-reveal { transform: none; transition: opacity 200ms ease; transition-delay: 0ms; }
+  .bb-float, .bb-ticker { animation: none; }
+  .bb-slide-in { animation: none; }
+  .bb-swap { animation: none; }
+  .bb-line { transform: none; transition: none; }
+  .bb-acc, .bb-tab-indicator { transition: none; }
+}
