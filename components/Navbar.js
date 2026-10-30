@@ -167,10 +167,10 @@ export default function Navbar() {
                 <Gift className="h-5 w-5" />
                 <span className="g-live absolute -right-0.5 -top-0.5" />
               </Link>
-              <Link href="/signin" className="btn-gaming-secondary inline-flex items-center justify-center rounded-xl px-4 py-2 text-xs sm:text-sm">
+              <Link href="/signin" className="btn-gaming-secondary inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-xl px-3 py-2 text-xs sm:px-4 sm:text-sm">
                 Sign in
               </Link>
-              <Link href="/#signup" className="btn-gaming inline-flex items-center justify-center rounded-xl px-4 py-2 text-xs sm:text-sm">
+              <Link href="/#signup" className="btn-gaming inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-xl px-3 py-2 text-xs sm:px-4 sm:text-sm">
                 Register
               </Link>
             </div>

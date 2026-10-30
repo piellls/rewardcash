@@ -806,3 +806,11 @@ h1, h2, h3, h4, h5, h6, .font-display {
   .bb-ghost:hover { border-color: rgba(120, 84, 247, 0.7); }
 }
 .bb-cta:active { transform: translateY(3px); box-shadow: 0 1px 0 #4b2fc2, 0 4px 10px -4px rgba(120, 84, 247, 0.5); }
+
+
+/* ---- Home hero scene (see components/HeroScene.js) ---- */
+.bb-scene { background: linear-gradient(180deg, #070a18 0%, #0b1130 42%, #171a52 78%, #20196a 100%); }
+@keyframes g-twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+.g-star { animation: g-twinkle 3.4s ease-in-out infinite; }
+.bb-paused .g-star { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .g-star { animation: none; opacity: 0.7; } }

@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import SignupCard from '@/components/SignupCard';
+import HeroScene from '@/components/HeroScene';
 import { PAYOUT_OPTIONS, COINS_PER_USD } from '@/lib/cashout';
-import { Reveal, CountUp, usePrefersReducedMotion, useInView, useParallax } from '@/components/motion';
+import { Reveal, CountUp, usePrefersReducedMotion } from '@/components/motion';
 import Art from '@/components/Art';
 import CoinCalculator from '@/components/CoinCalculator';
 import {
@@ -171,67 +172,15 @@ function LiveCard({ feed }) {
   );
 }
 
-/* ---------- Hero visual ---------- */
+/* ---------- Hero card for signed-in members ---------- */
 
-const CHIPS = [
-  { icon: Gamepad2, label: 'Games', pos: 'left-[6%] top-[10%]', d: '5.5s', delay: '0s', r: '-4deg' },
-  { icon: Smartphone, label: 'Apps', pos: 'right-[6%] top-[22%]', d: '6.5s', delay: '-2s', r: '3deg' },
-  { icon: ClipboardList, label: 'Surveys', pos: 'left-[10%] top-[54%]', d: '7s', delay: '-4s', r: '2deg' },
-];
-
-function HeroVisual({ feed }) {
-  const ref = useRef(null);
-  const inView = useInView(ref);
-  useParallax(ref);
+function MemberCard({ feed }) {
   return (
-    <div
-      ref={ref}
-      className={`bb-hero g-ring bb-enter relative h-[340px] overflow-hidden rounded-[22px] sm:h-[420px] lg:h-[480px] ${inView ? '' : 'bb-paused'}`}
-      style={{ '--i': 3 }}
-    >
-      <div aria-hidden="true" className="absolute left-1/2 top-[40%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(195,178,255,0.45),transparent)]" />
-
-      <div className="g-depth absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2" data-depth="16">
-        <img
-          src="/offerwall/blueberry_icon.png"
-          alt=""
-          width="500"
-          height="500"
-          decoding="async"
-          className="bb-float h-[170px] w-[170px] drop-shadow-[0_18px_30px_rgba(9,13,24,0.45)] sm:h-[210px] sm:w-[210px]"
-          style={{ '--d': '7s' }}
-        />
-      </div>
-
-      {/* Floating rewards around the mascot; each layer drifts a different amount with the mouse */}
-      <div aria-hidden="true" className="g-depth absolute right-[20%] top-[3%] w-[78px] sm:w-[104px]" data-depth="34">
-        <Art name="coins" size="100%" sizes="110px" glow="gold" float eager />
-      </div>
-      <div aria-hidden="true" className="g-depth absolute right-[5%] top-[46%] w-[82px] sm:w-[112px]" data-depth="26">
-        <Art name="gem" size="100%" sizes="110px" glow="blue" float eager style={{ '--delay': '-2s' }} />
-      </div>
-      <div aria-hidden="true" className="g-depth absolute left-[3%] top-[27%] w-[84px] sm:w-[110px]" data-depth="30">
-        <Art name="gift" size="100%" sizes="110px" glow="blue" float eager />
-      </div>
-
-      {CHIPS.map(({ icon: Icon, label, pos, d, delay, r }) => (
-        <div
-          key={label}
-          aria-hidden="true"
-          className={`absolute ${pos}`}
-        >
-          <div
-            className="bb-float flex items-center gap-2 rounded-full border border-white/15 bg-[var(--bb-bg)]/70 px-3.5 py-2 text-sm font-semibold"
-            style={{ '--d': d, '--delay': delay, '--r': r }}
-          >
-            <Icon className="h-4 w-4 text-[var(--bb-berry-300)]" /> {label}
-          </div>
-        </div>
-      ))}
-
-      <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6">
-        <LiveCard feed={feed} />
-      </div>
+    <div className="g-neon g-neon-live relative rounded-3xl p-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] sm:p-8">
+      <p className="g-eyebrow mb-3">Live now</p>
+      <h2 className="g-title mb-5 text-2xl text-white">Members are earning</h2>
+      <LiveCard feed={feed} />
+      <Link href="/earn" className="bb-cta mt-6 w-full">Find a task</Link>
     </div>
   );
 }
@@ -262,15 +211,14 @@ export default function Home() {
         <style>{'.bb-reveal{opacity:1!important;transform:none!important}.bb-line{transform:none!important}'}</style>
       </noscript>
 
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 pb-20 pt-4 sm:px-6">
-
-        {/* HERO */}
-        <section className="grid items-center gap-8 py-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:py-14">
-          <div>
+      {/* HERO: the scene fills the width of the page, the text and the sign-up card sit on top of it */}
+      <HeroScene>
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 pb-32 pt-8 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:pb-28 lg:pt-10">
+          <div className="lg:self-start lg:pt-12">
             <p className="bb-enter inline-flex items-center gap-2 rounded-full border border-[var(--bb-border)] bg-[var(--bb-surface)] px-3 py-1.5 text-sm font-medium text-[var(--bb-berry-300)]" style={{ '--i': 0 }}>
               Games · Apps · Surveys
             </p>
-            <h1 className="bb-enter mt-5 text-[40px] font-extrabold leading-[1.05] tracking-[-0.02em] sm:text-[56px]" style={{ '--i': 1 }}>
+            <h1 className="bb-enter mt-5 text-[42px] font-extrabold leading-[1.04] tracking-[-0.02em] sm:text-[58px] lg:text-[66px]" style={{ '--i': 1 }}>
               Turn spare minutes into <span className="text-gradient">real rewards</span>
             </h1>
             <p className="bb-enter mt-5 max-w-lg text-base text-[var(--bb-muted)] sm:text-lg" style={{ '--i': 2 }}>
@@ -297,8 +245,11 @@ export default function Home() {
             </ul>
           </div>
 
-          {user ? <HeroVisual feed={feed} /> : <SignupCard />}
-        </section>
+          {user ? <MemberCard feed={feed} /> : <SignupCard />}
+        </div>
+      </HeroScene>
+
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 pb-20 pt-4 sm:px-6">
 
         {/* PROOF: real recent earnings and totals (space is reserved while loading so the page doesn't jump) */}
         {(!loaded || feed.length > 0 || statItems.length > 0) && (
