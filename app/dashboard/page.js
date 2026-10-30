@@ -22,9 +22,9 @@ import {
   Sparkles,
   Check,
   TrendingUp,
-  Loader2
+  Loader2,
+  Gift
 } from 'lucide-react';
-import { playCoinSound, triggerCoinBurst } from '../referrals/page';
 
 const calculateLevel = (totalEarned = 0) => {
   if (totalEarned < 1000) return { level: 1, current: totalEarned, next: 1000, percentage: (totalEarned / 1000) * 100 };
@@ -35,7 +35,7 @@ const calculateLevel = (totalEarned = 0) => {
 };
 
 export default function Dashboard() {
-  const { user, earnCoinsSimulated, updateAvatar, updateProfileDetails } = useAuth();
+  const { user, updateAvatar, updateProfileDetails } = useAuth();
   
   const [completions, setCompletions] = useState([]);
   const [withdrawals, setWithdrawals] = useState([]);
@@ -87,23 +87,6 @@ export default function Dashboard() {
   // Auth Redirect Modal
   const [isAuthOpen, setIsAuthOpen] = useState(false);
 
-  // Daily Streak State
-  const [streak, setStreak] = useState({ currentDay: 1, lastClaimed: null });
-  const [canClaim, setCanClaim] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState('');
-  const [loadingOfferId, setLoadingOfferId] = useState(null);
-  const [successMessage, setSuccessMessage] = useState('');
-
-  const STREAK_REWARDS = [
-    { day: 1, coins: 25 },
-    { day: 2, coins: 50 },
-    { day: 3, coins: 75 },
-    { day: 4, coins: 100 },
-    { day: 5, coins: 150 },
-    { day: 6, coins: 250 },
-    { day: 7, coins: 500 }
-  ];
-
   const loadUserData = async () => {
     if (user) {
       setLoading(true);
@@ -126,112 +109,6 @@ export default function Dashboard() {
     loadUserData();
   }, [user?.id]);
 
-  // Load streak state from localStorage
-  useEffect(() => {
-    if (!user) return;
-    
-    const loadStreak = () => {
-      const storedLastClaimed = localStorage.getItem(`rc_streak_last_claimed_${user.id}`);
-      const storedCurrentDay = localStorage.getItem(`rc_streak_current_day_${user.id}`);
-      
-      const lastClaimedTime = storedLastClaimed ? parseInt(storedLastClaimed, 10) : null;
-      let currentDay = storedCurrentDay ? parseInt(storedCurrentDay, 10) : 1;
-      
-      if (lastClaimedTime) {
-        const now = Date.now();
-        const diffMs = now - lastClaimedTime;
-        const diffHours = diffMs / (1000 * 60 * 60);
-        
-        if (diffHours >= 48) {
-          currentDay = 1;
-          setCanClaim(true);
-        } else if (diffHours >= 24) {
-          setCanClaim(true);
-        } else {
-          setCanClaim(false);
-        }
-      } else {
-        setCanClaim(true);
-      }
-      
-      setStreak({ currentDay, lastClaimed: lastClaimedTime });
-    };
-
-    loadStreak();
-    const interval = setInterval(loadStreak, 60000);
-    return () => clearInterval(interval);
-  }, [user?.id]);
-
-  // Tick timer countdown for next claim
-  useEffect(() => {
-    if (!streak.lastClaimed || canClaim) {
-      setTimeRemaining('');
-      return;
-    }
-    
-    const updateTimer = () => {
-      const now = Date.now();
-      const nextClaimTime = streak.lastClaimed + 24 * 60 * 60 * 1000;
-      const remainingMs = nextClaimTime - now;
-      
-      if (remainingMs <= 0) {
-        setCanClaim(true);
-        setTimeRemaining('');
-      } else {
-        const hours = Math.floor(remainingMs / (1000 * 60 * 60));
-        const minutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((remainingMs % (1000 * 60)) / 1000);
-        
-        const hStr = hours > 0 ? `${hours}h ` : '';
-        const mStr = minutes > 0 || hours > 0 ? `${minutes}m ` : '';
-        setTimeRemaining(`${hStr}${mStr}${seconds}s`);
-      }
-    };
-    
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-    return () => clearInterval(interval);
-  }, [streak.lastClaimed, canClaim]);
-
-  const handleClaimStreak = async () => {
-    if (!user) return;
-    if (!canClaim) return;
-    
-    playCoinSound();
-    triggerCoinBurst('streak-claim-btn');
-    
-    const rewardCoins = STREAK_REWARDS[streak.currentDay - 1].coins;
-    
-    setLoadingOfferId('streak');
-    try {
-      if (earnCoinsSimulated) {
-        await earnCoinsSimulated({
-          id: `streak_day_${streak.currentDay}_${Date.now()}`,
-          name: `Daily Streak Day ${streak.currentDay}`,
-          payout: rewardCoins / 1000,
-          coins: rewardCoins,
-          provider: 'Daily Streak'
-        });
-      }
-      
-      const nextDay = streak.currentDay === 7 ? 1 : streak.currentDay + 1;
-      const now = Date.now();
-      
-      localStorage.setItem(`rc_streak_last_claimed_${user.id}`, now.toString());
-      localStorage.setItem(`rc_streak_current_day_${user.id}`, nextDay.toString());
-      
-      setStreak({ currentDay: nextDay, lastClaimed: now });
-      setCanClaim(false);
-      setSuccessMessage(`Success! You claimed Day ${streak.currentDay} bonus of ${rewardCoins} coins!`);
-      setTimeout(() => setSuccessMessage(''), 5000);
-      loadUserData(); // refresh stats
-    } catch (err) {
-      alert(err.message || 'Failed to claim daily bonus');
-    } finally {
-      setLoadingOfferId(null);
-    }
-  };
-
   // Guest view
   if (!user) {
     return (
@@ -253,7 +130,7 @@ export default function Dashboard() {
         <AuthModal 
           isOpen={isAuthOpen} 
           onClose={() => setIsAuthOpen(false)} 
-          initialTab="login" 
+          defaultTab="login" 
         />
       </div>
     );
@@ -291,8 +168,8 @@ export default function Dashboard() {
       
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(93,95,239,0.2)]">
+        <h1 className="g-title text-2xl sm:text-3xl flex items-center gap-3">
+          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(120,84,247,0.2)]">
             <User className="h-5.5 w-5.5" />
           </div>
           My Profile
@@ -329,7 +206,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
             
             {/* Left Card: Profile Details */}
-            <div className="lg:col-span-5 rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col justify-between relative overflow-hidden">
+            <div className="lg:col-span-5 g-card p-6 flex flex-col justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
               
               <div className="flex items-center gap-5">
@@ -370,7 +247,7 @@ export default function Dashboard() {
                 </div>
                 <div className="h-2 w-full rounded-full bg-dark-bg/85 border border-dark-border overflow-hidden p-[2px]">
                   <div 
-                    className="h-full rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_8px_rgba(93,95,239,0.4)] transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-secondary to-primary shadow-[0_0_8px_rgba(120,84,247,0.4)] transition-all duration-500"
                     style={{ width: `${levelData.percentage}%` }}
                   />
                 </div>
@@ -378,7 +255,7 @@ export default function Dashboard() {
             </div>
 
             {/* Right Card: Stats Grid */}
-            <div className="lg:col-span-7 rounded-2xl border border-dark-border bg-dark-card p-6">
+            <div className="lg:col-span-7 g-card p-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
                 
                 {/* Stat 1: Total Earnings */}
@@ -430,126 +307,17 @@ export default function Dashboard() {
 
           </div>
 
-          {/* DAILY STREAK PANEL */}
-          <div className="rounded-2xl border border-dark-border bg-dark-card p-6 relative overflow-hidden shadow-xl">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-secondary/10 to-primary/5 rounded-full filter blur-[80px] pointer-events-none" />
-            
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-dark-border/40 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="icon-wrapper-gradient p-2.5">
-                  <Flame className="h-6 w-6 text-primary animate-pulse" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                    7-Day Daily Streak
-                    <span className="text-xs bg-primary/10 text-primary px-2.5 py-0.5 rounded-full border border-primary/20 font-bold">
-                      Active
-                    </span>
-                  </h2>
-                  <p className="text-xs text-zinc-400">
-                    Log in and claim every 24 hours. Don't break your streak!
-                  </p>
-                </div>
-              </div>
-
+          {/* DAILY SPIN SHORTCUT */}
+          <Link href="/spin" className="g-card g-card-hover group flex items-center justify-between gap-4 p-5">
+            <div className="flex items-center gap-4">
+              <span className="icon-wrapper-gradient h-12 w-12 shrink-0"><Gift className="h-6 w-6" aria-hidden="true" /></span>
               <div>
-                {canClaim ? (
-                  <button
-                    id="streak-claim-btn"
-                    onClick={handleClaimStreak}
-                    disabled={loadingOfferId === 'streak'}
-                    className="btn-gaming rounded-xl px-5 py-2.5 text-xs font-extrabold flex items-center gap-1.5"
-                  >
-                    {loadingOfferId === 'streak' ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <>
-                        Claim Day {streak.currentDay} Reward
-                        <TrendingUp className="h-3.5 w-3.5" />
-                      </>
-                    )}
-                  </button>
-                ) : (
-                  <div className="flex flex-col items-end">
-                    <button
-                      disabled
-                      className="rounded-xl bg-zinc-50 border border-dark-border px-5 py-2.5 text-xs font-bold text-zinc-500 cursor-not-allowed"
-                    >
-                      Streak Claimed
-                    </button>
-                    {timeRemaining && (
-                      <span className="text-[10px] text-zinc-500 mt-1.5 font-bold tracking-wider uppercase">
-                        Next Claim: {timeRemaining}
-                      </span>
-                    )}
-                  </div>
-                )}
+                <p className="font-extrabold text-white">Free spin every 24 hours</p>
+                <p className="text-sm text-zinc-400">Open the spin page to claim yours. Prizes are added to your balance.</p>
               </div>
             </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-              {STREAK_REWARDS.map((reward) => {
-                const isClaimed = reward.day < streak.currentDay;
-                const isActive = reward.day === streak.currentDay;
-                const isLocked = reward.day > streak.currentDay;
-                const isFinalDay = reward.day === 7;
-
-                return (
-                  <div 
-                    key={reward.day}
-                    className={`relative flex flex-col items-center justify-between rounded-xl border p-4 transition-all overflow-hidden ${
-                      isActive
-                        ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(93,95,239,0.25)]'
-                        : isClaimed
-                        ? 'border-primary/20 bg-primary/5'
-                        : 'border-dark-border bg-dark-bg/40 opacity-70'
-                    }`}
-                  >
-                    {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-tr from-secondary/5 to-primary/5 pointer-events-none animate-pulse-slow" />
-                    )}
-
-                    <span className={`text-[10px] font-bold uppercase tracking-widest ${
-                      isActive ? 'text-primary' : isClaimed ? 'text-primary' : 'text-zinc-500'
-                    }`}>
-                      Day {reward.day}
-                    </span>
-
-                    <div className="my-4 flex items-center justify-center">
-                      {isClaimed ? (
-                        <div className="icon-wrapper-primary p-2 shadow-inner border-primary/30 bg-primary/5">
-                          <Check className="h-5 w-5 text-primary" />
-                        </div>
-                      ) : isLocked ? (
-                        <div className="icon-wrapper-primary p-2 opacity-40 border-dark-border bg-zinc-100/80">
-                          <Lock className="h-5 w-5 text-zinc-500" />
-                        </div>
-                      ) : (
-                        <div className="icon-wrapper-gradient p-2 animate-bounce">
-                          <Flame className="h-5 w-5 text-primary" />
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col items-center">
-                      <span className={`text-sm font-black ${
-                        isActive ? 'text-white' : isClaimed ? 'text-zinc-400' : 'text-zinc-400'
-                      }`}>
-                        +{reward.coins}
-                      </span>
-                      <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Coins</span>
-                    </div>
-
-                    {isFinalDay && (
-                      <div className="absolute top-1 right-1">
-                        <Sparkles className="h-3 w-3 text-secondary animate-pulse" />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+            <span className="btn-gaming hidden rounded-xl px-5 py-2.5 text-xs sm:inline-flex">Spin</span>
+          </Link>
 
           {/* Main Tabs */}
           <div className="flex gap-2.5 pb-2">
@@ -561,7 +329,7 @@ export default function Dashboard() {
                   onClick={() => setActiveMainTab(tab)}
                   className={`rounded-xl px-5 py-2 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all cursor-pointer ${
                     isActive 
-                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(93,95,239,0.2)]' 
+                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(120,84,247,0.2)]' 
                       : 'bg-dark-bg/60 border border-dark-border text-zinc-400 hover:text-zinc-800 hover:bg-dark-card'
                   }`}
                 >
@@ -607,7 +375,7 @@ export default function Dashboard() {
                       <button
                         onClick={() => setShowPendingOnly(!showPendingOnly)}
                         className={`w-9 h-5 rounded-full p-[2px] transition-all relative focus:outline-none cursor-pointer shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] ${
-                          showPendingOnly ? 'bg-primary shadow-[0_0_8px_rgba(93,95,239,0.3)]' : 'bg-dark-bg border border-dark-border'
+                          showPendingOnly ? 'bg-primary shadow-[0_0_8px_rgba(120,84,247,0.3)]' : 'bg-dark-bg border border-dark-border'
                         }`}
                       >
                         <div 
@@ -640,7 +408,7 @@ export default function Dashboard() {
 
               {/* Lists / Tables */}
               {activeSubTab === 'Surveys' ? (
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
+                <div className="g-card p-5 shadow-custom-card">
                   {surveysList.length === 0 ? (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No surveys have been completed yet</p>
@@ -678,7 +446,7 @@ export default function Dashboard() {
                   )}
                 </div>
               ) : activeSubTab === 'Offers' ? (
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
+                <div className="g-card p-5 shadow-custom-card">
                   {offersList.length === 0 ? (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No offers have been completed yet</p>
@@ -716,14 +484,14 @@ export default function Dashboard() {
                   )}
                 </div>
               ) : activeSubTab === 'Rewards' ? (
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
+                <div className="g-card p-5 shadow-custom-card">
                   <div className="text-center py-12">
                     <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No rewards claimed yet</p>
                   </div>
                 </div>
               ) : (
                 /* Referrals sub tab */
-                <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
+                <div className="g-card p-5 shadow-custom-card">
                   {referralsCount === 0 ? (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No users referred yet</p>
@@ -739,7 +507,7 @@ export default function Dashboard() {
               )}
             </div>
           ) : activeMainTab === 'Started offers' ? (
-            <div className="rounded-2xl border border-dark-border bg-dark-card p-6 shadow-custom-card">
+            <div className="g-card p-6 shadow-custom-card">
               <div className="text-center py-12">
                 <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-2">No offers started yet</p>
                 <Link href="/earn" className="text-[10px] text-primary hover:underline font-extrabold uppercase tracking-wider">
@@ -749,7 +517,7 @@ export default function Dashboard() {
             </div>
           ) : (
             /* Withdrawals Tab */
-            <div className="rounded-2xl border border-dark-border bg-dark-card p-5 shadow-custom-card">
+            <div className="g-card p-5 shadow-custom-card">
               {withdrawals.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-2">No cashout payouts requested yet</p>
@@ -776,7 +544,7 @@ export default function Dashboard() {
                           <td className="py-3 px-4 font-semibold text-zinc-450 select-all">{w.payment_address}</td>
                           <td className="py-3 px-4 text-center font-extrabold text-white">${parseFloat(w.amount_usd).toFixed(2)}</td>
                           <td className="py-3 px-4 text-center font-bold">
-                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(93,95,239,0.1)]">Paid</span>}
+                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(120,84,247,0.1)]">Paid</span>}
                             {w.status === 'rejected' && <span className="text-[9px] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-2 py-0.5 rounded">Rejected</span>}
                             {w.status === 'pending' && <span className="text-[9px] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded">Pending</span>}
                           </td>
@@ -799,7 +567,7 @@ export default function Dashboard() {
           <div className="fixed inset-0 bg-black/85 backdrop-blur-md" onClick={() => setIsSettingsOpen(false)} />
           
           {/* Modal Container */}
-          <div className="relative w-full max-w-xl rounded-2xl border border-dark-border bg-dark-card p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[90vh] z-10">
+          <div className="relative w-full max-w-xl g-card p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[90vh] z-10">
             {/* Top glowing line */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-secondary" />
 

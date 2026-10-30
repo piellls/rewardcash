@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { User, Check, Loader2, Sparkles } from 'lucide-react';
+import { Check, Loader2, Sparkles } from 'lucide-react';
 
 const AVATARS = [
   { id: 'av1', url: '/avatars/avatar_1.png', name: 'Avatar 1' },
@@ -43,82 +43,62 @@ export default function AvatarSelectorModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Dark backdrop - click disabled to force selection */}
-      <div className="fixed inset-0 bg-black/90 backdrop-blur-md" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="avatar-title">
+      {/* Backdrop: no click-to-close, the user has to pick an avatar once */}
+      <div className="g-fade fixed inset-0 bg-[#05070d]/90 backdrop-blur-sm" />
 
-      {/* Modal Container */}
-      <div className="relative w-full max-w-lg rounded-2xl border border-dark-border bg-dark-card p-6 sm:p-8 shadow-2xl overflow-hidden">
-        
-        {/* Top glowing gradient line */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-secondary" />
-
-        {/* Decorative background glow */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full filter blur-3xl pointer-events-none" />
-        
-        <div className="text-center mb-6">
-          <div className="inline-flex rounded-2xl bg-primary/10 border border-primary/20 p-3 text-primary mb-3 shadow-[0_0_15px_rgba(56,189,248,0.15)] animate-pulse-slow">
-            <Sparkles className="h-6 w-6 text-primary" />
+      <div className="g-modal g-neon relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-3xl bg-[var(--bb-surface)] p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] sm:p-8">
+        <div className="mb-6 text-center">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#7854f7]/40 bg-[#7854f7]/15 text-[#c3b2ff]">
+            <Sparkles className="h-6 w-6" aria-hidden="true" />
           </div>
-          <h2 className="text-xl font-bold text-white tracking-tight">Choose Your Avatar</h2>
-          <p className="text-xs text-zinc-400 mt-1 max-w-sm mx-auto leading-relaxed">
-            Welcome to BlueberryCash! Pick a style to personalize your user profile and finalize your account setup.
+          <h2 id="avatar-title" className="g-title text-2xl text-white">Choose your avatar</h2>
+          <p className="mx-auto mt-1.5 max-w-sm text-sm leading-relaxed text-[var(--bb-muted)]">
+            Welcome to BlueberryCash. Pick a look for your profile and you are ready to earn.
           </p>
         </div>
 
         {error && (
-          <div className="mb-4 text-xs text-red-400 bg-red-950/20 border border-red-900/40 p-3 rounded-xl text-center">
+          <div role="alert" className="mb-4 rounded-xl border border-[#f17685]/40 bg-[#f17685]/10 p-3 text-center text-sm font-semibold text-[#f9a4af]">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Grid of avatars */}
-          <div className="grid grid-cols-5 gap-4">
+          <div className="grid grid-cols-5 gap-3 sm:gap-4" role="radiogroup" aria-label="Avatar">
             {AVATARS.map((av) => {
               const isSelected = selectedUrl === av.url;
               return (
                 <button
                   key={av.id}
                   type="button"
+                  role="radio"
+                  aria-checked={isSelected}
+                  aria-label={av.name}
                   onClick={() => setSelectedUrl(av.url)}
-                  className={`relative rounded-full aspect-square border-2 transition-all overflow-hidden group active:scale-95 ${
+                  className={`group relative aspect-square overflow-hidden rounded-full border-2 transition-[transform,border-color,box-shadow] duration-200 active:scale-95 ${
                     isSelected
-                      ? 'border-primary shadow-[0_0_15px_rgba(56,189,248,0.35)] scale-105'
-                      : 'border-dark-border hover:border-zinc-555'
+                      ? 'scale-105 border-[#7854f7] shadow-[0_0_0_3px_rgba(120,84,247,0.25),0_0_22px_rgba(120,84,247,0.5)]'
+                      : 'border-[var(--bb-border)] hover:border-[#7854f7]/60'
                   }`}
                 >
-                  <img
-                    src={av.url}
-                    alt={av.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <img src={av.url} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                   {isSelected && (
-                    <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                      <div className="rounded-full bg-primary p-0.5 shadow-md">
-                        <Check className="h-3 w-3 text-black stroke-[3.5]" />
-                      </div>
-                    </div>
+                    <span className="absolute inset-0 flex items-center justify-center bg-[#7854f7]/25">
+                      <span className="rounded-full bg-[#7854f7] p-0.5 shadow-md">
+                        <Check className="h-3.5 w-3.5 text-white" strokeWidth={3.5} aria-hidden="true" />
+                      </span>
+                    </span>
                   )}
                 </button>
               );
             })}
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-gaming w-full flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-extrabold"
-          >
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              'Save & Continue'
-            )}
+          <button type="submit" disabled={loading} className="btn-gaming flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm">
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : 'Save and continue'}
           </button>
         </form>
-
       </div>
     </div>
   );

@@ -645,3 +645,9 @@ h1, h2, h3, h4, h5, h6, .font-display {
   .g-modal { animation: g-fade-in 150ms ease-out both; }
   .g-offer-img, .g-offer { transition: none; }
 }
+
+/* Used by dialogs and result panels */
+.animate-new-card { animation: g-fade-up 300ms var(--ease-out) both; }
+.animate-fade-in { animation: g-fade-in 200ms ease-out both; }
+@keyframes g-fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .animate-new-card { animation: g-fade-in 150ms ease-out both; } }

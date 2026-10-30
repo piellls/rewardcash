@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { db, isMockMode, supabase } from '@/lib/db';
-import { ShieldAlert, Globe } from 'lucide-react';
+import { ShieldAlert, Globe, Lock } from 'lucide-react';
 
 const AuthContext = createContext({
   user: null,
@@ -16,6 +16,35 @@ const AuthContext = createContext({
   earnCoinsSimulated: async () => {},
   signInWithSocial: async () => {}
 });
+
+// Shared full-screen notice used for device, VPN and ban blocks
+function BlockScreen({ icon: Icon, title, tag, body, action }) {
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-[#090d18] p-4 text-center">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{
+        backgroundImage: 'radial-gradient(60% 50% at 50% 0%, rgba(241,118,133,0.18), transparent 70%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+        backgroundSize: '100% 100%, 40px 40px, 40px 40px',
+      }} />
+      <div role="alertdialog" aria-labelledby="block-title" className="g-modal relative w-full max-w-md space-y-6 rounded-3xl border border-[#f17685]/30 bg-[#151c2e] p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-[#f17685]/40 bg-[#f17685]/10 text-[#f17685]">
+          <Icon className="h-8 w-8" aria-hidden="true" />
+        </div>
+        <div className="space-y-2">
+          <h1 id="block-title" className="g-title text-2xl text-white">{title}</h1>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#f17685]">{tag}</p>
+        </div>
+        <div className="space-y-3 rounded-2xl border border-[#29334a] bg-[#0f1424] p-4 text-left text-sm leading-relaxed text-[#aab4c9]">
+          {body.map((line) => <p key={line}>{line}</p>)}
+        </div>
+        {action && (
+          <button type="button" onClick={action.onClick} className="btn-gaming w-full rounded-xl py-3.5 text-sm">
+            {action.label}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -266,153 +295,58 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Fullscreen premium layout blocking screen if they try to use multiple accounts on the same machine
+  // Full-screen notices for blocked devices, VPN/proxy traffic and banned accounts
   if (deviceBlocked) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#050811] p-4 text-center">
-        {/* Glowing Cyber Grid Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-20" style={{
-          backgroundImage: `
-            radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.15) 0px, transparent 60%),
-            linear-gradient(rgba(239, 68, 68, 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(239, 68, 68, 0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: '100% 100%, 35px 35px, 35px 35px'
-        }} />
-
-        <div className="relative w-full max-w-md rounded-2xl border border-red-950/40 bg-dark-card/95 p-8 shadow-2xl backdrop-blur-md space-y-6">
-          {/* Top warning line */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-primary to-red-600" />
-          
-          <div className="inline-flex rounded-full bg-red-500/10 p-4 text-red-500 animate-bounce">
-            <ShieldAlert className="h-10 w-10" />
-          </div>
-
-          <div className="space-y-2">
-            <h1 className="text-2xl font-black text-white tracking-tight uppercase">Access Blocked</h1>
-            <p className="text-xs text-red-400 font-bold uppercase tracking-widest animate-pulse">Multi-Accounting Violation</p>
-          </div>
-
-          <div className="rounded-xl bg-zinc-950/80 p-4 border border-dark-border/60 text-left space-y-2.5">
-            <p className="text-xs text-zinc-300 leading-relaxed">
-              Our anti-fraud system detected that this device is already associated with another registered account:
-            </p>
-            <div className="flex items-center gap-2 text-xs font-bold text-white bg-red-950/30 border border-red-900/40 p-2.5 rounded-lg">
-              <span className="text-zinc-500">Original Owner:</span>
-              <span className="text-[#38bdf8] font-black">{blockedUsername}</span>
-            </div>
-            <p className="text-[10.5px] text-zinc-500 leading-relaxed pt-1">
-              To guarantee system integrity and prevent reward abuse, BlueberryCash permits only one user account per device/PC.
-            </p>
-          </div>
-
-          <div className="pt-2">
-            <button
-              onClick={() => {
-                setDeviceBlocked(false);
-                setBlockedUsername('');
-                db.signOut().then(() => {
-                  window.location.reload();
-                });
-              }}
-              className="btn-gaming w-full py-3 text-xs font-extrabold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all"
-            >
-              Log In to {blockedUsername}
-            </button>
-          </div>
-        </div>
-      </div>
+      <BlockScreen
+        icon={ShieldAlert}
+        title="Access blocked"
+        tag="One account per device"
+        body={[
+          'Our anti-fraud system found that this device already belongs to another account:',
+          `Original account: ${blockedUsername}`,
+          'To keep rewards fair, BlueberryCash allows only one account per device.',
+        ]}
+        action={{
+          label: `Sign in to ${blockedUsername}`,
+          onClick: () => {
+            setDeviceBlocked(false);
+            setBlockedUsername('');
+            db.signOut().then(() => { window.location.reload(); });
+          },
+        }}
+      />
     );
   }
 
   // If VPN is detected, show a block page (exempt admin users)
   if (vpnBlocked && (!user || user.role !== 'admin')) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#09090b] p-4 text-center font-display select-none">
-        {/* Glowing Cyber Grid Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-20" style={{
-          backgroundImage: `
-            radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.15) 0px, transparent 60%),
-            linear-gradient(rgba(239, 68, 68, 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(239, 68, 68, 0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: '100% 100%, 35px 35px, 35px 35px'
-        }} />
-
-        <div className="relative w-full max-w-md rounded-2xl border border-red-950/40 bg-dark-card/95 p-8 shadow-2xl backdrop-blur-md space-y-6">
-          {/* Top warning line */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-primary to-red-600" />
-          
-          <div className="inline-flex rounded-full bg-red-500/10 p-4 text-red-500 animate-bounce">
-            <Globe className="h-10 w-10" />
-          </div>
-
-          <div className="space-y-2">
-            <h1 className="text-2xl font-black text-white tracking-tight uppercase">VPN / Proxy Blocked</h1>
-            <p className="text-xs text-red-400 font-bold uppercase tracking-widest animate-pulse">Security Protection Active</p>
-          </div>
-
-          <div className="rounded-xl bg-zinc-950/80 p-4 border border-dark-border/60 text-left space-y-2.5">
-            <p className="text-xs text-zinc-300 leading-relaxed">
-              Our automated system detected that you are accessing BlueberryCash through a **VPN, Proxy, or Data Center IP address**.
-            </p>
-            <p className="text-[10.5px] text-zinc-500 leading-relaxed pt-1">
-              To prevent fraud, bot activity, and ensure compliance with advertiser requirements, VPN or proxy usage is strictly prohibited on our platform.
-            </p>
-          </div>
-
-          <div className="pt-2 text-xs text-zinc-400 font-semibold animate-pulse">
-            Please disconnect from your VPN/Proxy service and refresh the page to continue.
-          </div>
-        </div>
-      </div>
+      <BlockScreen
+        icon={Globe}
+        title="VPN or proxy detected"
+        tag="Security protection"
+        body={[
+          'You seem to be connecting through a VPN, proxy or data-center IP address.',
+          'To prevent fraud and meet advertiser requirements, these connections are not allowed. Turn it off and refresh the page to continue.',
+        ]}
+      />
     );
   }
 
   // If user is banned, show a block page
   if (bannedBlocked) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#09090b] p-4 text-center font-display select-none">
-        {/* Glowing Cyber Grid Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-20" style={{
-          backgroundImage: `
-            radial-gradient(at 50% 0%, rgba(239, 68, 68, 0.15) 0px, transparent 60%),
-            linear-gradient(rgba(239, 68, 68, 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(239, 68, 68, 0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: '100% 100%, 35px 35px, 35px 35px'
-        }} />
-
-        <div className="relative w-full max-w-md rounded-2xl border border-red-950/40 bg-dark-card/95 p-8 shadow-2xl backdrop-blur-md space-y-6">
-          {/* Top warning line */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-primary to-red-600" />
-          
-          <div className="inline-flex rounded-full bg-red-500/10 p-4 text-red-500 animate-bounce">
-            <Lock className="h-10 w-10" />
-          </div>
-
-          <div className="space-y-2">
-            <h1 className="text-2xl font-black text-white tracking-tight uppercase">Account Banned</h1>
-            <p className="text-xs text-red-400 font-bold uppercase tracking-widest animate-pulse">Access Terminated</p>
-          </div>
-
-          <div className="rounded-xl bg-zinc-950/80 p-4 border border-dark-border/60 text-left space-y-2.5">
-            <p className="text-xs text-zinc-300 leading-relaxed">
-              Your account has been suspended by the administration for violating the platform **Terms of Service**.
-            </p>
-            <p className="text-[10.5px] text-zinc-500 leading-relaxed pt-1">
-              Common reasons include multi-accounting, VPN/Proxy utilization, emulator usage, botting, or invalid referral farming.
-            </p>
-          </div>
-
-          <button
-            onClick={() => setBannedBlocked(false)}
-            className="w-full btn-gaming rounded-xl py-3 text-xs font-bold uppercase"
-          >
-            Acknowledge
-          </button>
-        </div>
-      </div>
+      <BlockScreen
+        icon={Lock}
+        title="Account suspended"
+        tag="Access terminated"
+        body={[
+          'Your account was suspended for breaking the Terms of Service.',
+          'Common reasons: multiple accounts, VPN or proxy use, emulators, bots or referral abuse.',
+        ]}
+        action={{ label: 'Got it', onClick: () => setBannedBlocked(false) }}
+      />
     );
   }
 

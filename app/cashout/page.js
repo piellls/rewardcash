@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Coins, Wallet, History, AlertCircle, CheckCircle2, ChevronRight, Loader2, ArrowUpRight, DollarSign, Clock, Percent, CreditCard } from 'lucide-react';
+import PageHeader, { Chip } from '@/components/PageHeader';
+import { Reveal, AnimatedNumber } from '@/components/motion';
+import { Coins, Wallet, History, AlertCircle, CheckCircle2, Loader2, ArrowUpRight, ShieldCheck, Clock, Percent, CreditCard } from 'lucide-react';
 
 const MethodGiftCard = ({ id }) => {
-  const cardClasses = "w-full aspect-[1.58/1] rounded-xl flex items-center justify-center relative overflow-hidden shadow-md group-hover:scale-[1.02] group-hover:shadow-primary/5 transition-all duration-300";
+  const cardClasses = "w-full aspect-[1.58/1] rounded-xl flex items-center justify-center relative overflow-hidden shadow-md";
   
   switch (id) {
     case 'paypal':
@@ -90,83 +92,6 @@ const MethodGiftCard = ({ id }) => {
           </div>
         </div>
       );
-    case 'doge':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#C2A633] to-[#E1B300]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white to-transparent" />
-          <svg className="h-14 w-14 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5" />
-            <path d="M8.5 8h4.5c2 0 3.5 1 3.5 3v2c0 2-1.5 3-3.5 3H8.5V8z" stroke="white" strokeWidth="1.5" />
-            <path d="M8.5 12h9" stroke="white" strokeWidth="1.5" />
-          </svg>
-        </div>
-      );
-    case 'amazon':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#191E26] to-[#232F3E]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white to-transparent" />
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-xl font-bold tracking-wider text-white select-none">amazon</span>
-            <svg className="h-4 w-16 text-[#FF9900]" viewBox="0 0 50 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 3c15 8 30 8 46 0m-4-2c2 1 4 3 4 3s-3 .5-5 .5" stroke="#FF9900" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-        </div>
-      );
-    case 'steam':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#171a21] to-[#2a475e]`}>
-          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-400 to-transparent" />
-          <svg className="h-12 w-12 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="5" width="18" height="14" rx="2" stroke="white" strokeWidth="1.5" />
-            <circle cx="10" cy="12" r="3.5" stroke="white" strokeWidth="1.5" />
-            <path d="M12.5 10.5l4-2.5" stroke="white" strokeWidth="1.5" />
-            <circle cx="16.5" cy="8.5" r="1" fill="white" />
-            <circle cx="10" cy="12" r="1" fill="white" />
-          </svg>
-        </div>
-      );
-    case 'googleplay':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#000000] to-[#1F2022]`}>
-          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-500 to-transparent" />
-          <div className="flex items-center gap-2">
-            <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 3.5v17c0 .8.8 1.3 1.5.8l13.5-8.5c.6-.4.6-1.2 0-1.6L5.5 2.7c-.7-.5-1.5 0-1.5.8z" fill="url(#playGradCard)" />
-              <defs>
-                <linearGradient id="playGradCard" x1="4" y1="3" x2="19" y2="21" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#EA4335" />
-                  <stop offset="33%" stopColor="#FBBC05" />
-                  <stop offset="66%" stopColor="#34A853" />
-                  <stop offset="100%" stopColor="#4285F4" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <span className="text-xs font-black tracking-widest text-white uppercase select-none font-sans">
-              Google Play
-            </span>
-          </div>
-        </div>
-      );
-    case 'apple':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#1E1E1E] to-[#333333]`}>
-          <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white to-transparent" />
-          <svg className="h-10 w-10 fill-white text-white drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21a6 6 0 0 1-5-3 6.5 6.5 0 0 1 0-7 6.5 6.5 0 0 1 9.5-1 5 5 0 0 0-1.5 3.5c0 2 1.5 3.5 3 3.5a6 6 0 0 1-6 4z" />
-            <path d="M14 6c0-1.2-.8-2.2-2-2.2.1 1.2-.7 2.2-1.9 2.2.2-1.2.7-2.2 2-2.2" stroke="white" strokeWidth="0.5" />
-          </svg>
-        </div>
-      );
-    case 'netflix':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#000000] to-[#141414]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#E50914] to-transparent" />
-          <span className="text-3xl font-black text-[#E50914] tracking-wider drop-shadow-md select-none font-sans">
-            NETFLIX
-          </span>
-        </div>
-      );
     default:
       return (
         <div className={`${cardClasses} bg-gradient-to-tr from-primary/20 to-secondary/10`}>
@@ -201,7 +126,7 @@ export default function Cashout() {
       description: 'Withdraw funds directly to your PayPal account. Safe and secure.',
       badge: 'Popular',
       fee: '0%',
-      time: 'Instant - 24h',
+      time: 'Within 24h',
       amounts: [
         { usd: 1, coins: 1000 },
         { usd: 5, coins: 5000 },
@@ -219,7 +144,7 @@ export default function Cashout() {
       description: 'Get a virtual prepaid Visa card to shop online globally.',
       badge: 'Shopping',
       fee: '0%',
-      time: '1 - 12 Hours',
+      time: 'Within 24h',
       amounts: [
         { usd: 5, coins: 5000 },
         { usd: 10, coins: 10000 },
@@ -236,7 +161,7 @@ export default function Cashout() {
       description: 'Direct transfer to any Bitcoin wallet. Classic cryptocurrency storage.',
       badge: 'Classic Crypto',
       fee: '2%',
-      time: 'Instant',
+      time: 'Within 24h',
       amounts: [
         { usd: 10, coins: 10000 },
         { usd: 25, coins: 25000 },
@@ -253,7 +178,7 @@ export default function Cashout() {
       description: 'Crypto payout with near-zero network fees. Instant blockchain transfer.',
       badge: 'Lowest Fees',
       fee: '0%',
-      time: 'Instant',
+      time: 'Within 24h',
       amounts: [
         { usd: 2, coins: 2000 },
         { usd: 5, coins: 5000 },
@@ -270,7 +195,7 @@ export default function Cashout() {
       description: 'Withdraw to any ERC-20 compatible Ethereum address instantly.',
       badge: 'Secure',
       fee: '1.5%',
-      time: 'Instant',
+      time: 'Within 24h',
       amounts: [
         { usd: 5, coins: 5000 },
         { usd: 10, coins: 10000 },
@@ -287,7 +212,7 @@ export default function Cashout() {
       description: 'Withdraw SOL directly to your Solana wallet instantly.',
       badge: 'Fastest',
       fee: '0%',
-      time: 'Instant',
+      time: 'Within 24h',
       amounts: [
         { usd: 5, coins: 5000 },
         { usd: 10, coins: 10000 },
@@ -360,242 +285,206 @@ export default function Cashout() {
     }
   };
 
+  const STATUS = {
+    approved: { label: 'Approved', c: '#42d8a0' },
+    rejected: { label: 'Rejected', c: '#f17685' },
+    pending: { label: 'Pending', c: '#f3c76b' },
+  };
   const getStatusBadge = (status) => {
-    switch (status) {
-      case 'approved':
-        return <span className="rounded-full bg-emerald-950/40 border border-emerald-900/60 px-2.5 py-0.5 text-xs font-bold text-primary">Approved</span>;
-      case 'rejected':
-        return <span className="rounded-full bg-red-950/40 border border-red-900/60 px-2.5 py-0.5 text-xs font-bold text-red-400">Rejected</span>;
-      default:
-        return <span className="rounded-full bg-amber-950/40 border border-amber-900/60 px-2.5 py-0.5 text-xs font-bold text-yellow-500">Pending</span>;
-    }
+    const st = STATUS[status] || STATUS.pending;
+    return <span className="g-rarity" style={{ '--c': st.c }}>{st.label}</span>;
   };
 
-  const renderMethodCard = (method) => {
+  const userUSD = user ? (user.balance_coins || 0) / 1000 : 0;
+
+  const renderMethodCard = (method, idx) => {
     const minUSD = method.amounts[0].usd;
-    const userUSD = user ? (user.balance_coins / 1000) : 0;
-    const progressPercent = Math.min((userUSD / minUSD) * 100, 100);
+    const progress = Math.min(userUSD / minUSD, 1);
+    const ready = !!user && userUSD >= minUSD;
 
     return (
-      <div 
-        key={method.id}
-        onClick={() => handleMethodClick(method)}
-        className="flex flex-col justify-between rounded-2xl border border-dark-border bg-dark-card/65 p-5 hover:border-primary/20 hover:bg-dark-card active:scale-[0.99] transition-all cursor-pointer group relative overflow-hidden"
-      >
-        {/* Name Title at top center */}
-        <h3 className="text-sm font-bold text-zinc-800 group-hover:text-white text-center mb-4 transition-colors font-sans">
-          {method.name}
-        </h3>
-
-        {/* Center Gift Card Area */}
-        <div className="mb-4">
-          <MethodGiftCard id={method.id} />
-        </div>
-
-        {/* Payout Progress Area */}
-        <div className="w-full mt-2 space-y-2">
-          {/* Progress bar */}
-          <div className="h-1.5 w-full bg-dark-bg rounded-full overflow-hidden p-[1px] border border-dark-border">
-            <div 
-              className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500 shadow-[0_0_6px_rgba(93,95,239,0.4)]" 
-              style={{ width: `${progressPercent}%` }}
-            />
+      <Reveal key={method.id} i={idx}>
+        <button
+          type="button"
+          onClick={() => handleMethodClick(method)}
+          aria-label={`Cash out with ${method.name}, minimum $${minUSD}`}
+          className={`g-card g-card-hover group flex h-full w-full flex-col justify-between p-5 text-left ${ready ? 'ring-1 ring-[rgba(66,216,160,0.5)]' : ''}`}
+        >
+          <div className="mb-4 flex items-center justify-between gap-2">
+            <h3 className="text-sm font-bold text-white">{method.name}</h3>
+            {ready && <span className="g-rarity" style={{ '--c': '#42d8a0' }}>Ready</span>}
           </div>
-          {/* Minimum and threshold value labels */}
-          <div className="flex items-center justify-between text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
-            <span>Minimum $</span>
-            <span className="text-zinc-300 font-extrabold font-sans normal-case">
-              ${userUSD.toFixed(2)} / ${minUSD}
-            </span>
+
+          <div className="mb-4">
+            <MethodGiftCard id={method.id} />
           </div>
-        </div>
-      </div>
+
+          <div className="w-full space-y-2">
+            <div className="g-xp" style={{ '--p': progress }}><i /></div>
+            <div className="flex items-center justify-between text-xs font-semibold text-zinc-400">
+              <span>Minimum ${minUSD}</span>
+              <span className="tabular-nums text-zinc-200">${userUSD.toFixed(2)} / ${minUSD}</span>
+            </div>
+          </div>
+        </button>
+      </Reveal>
     );
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
-      
-      {/* Header */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
-            <div className="icon-wrapper-primary p-2">
-              <Wallet className="h-6 w-6" />
-            </div>
-            Cashout Portal
-          </h1>
-          <p className="text-sm text-zinc-400 mt-1">
-            Convert your earned coins into real cash or crypto. Checked and processed within 24 hours.
-          </p>
-        </div>
-      </div>
+    <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 pb-10 pt-2 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Cashout"
+        icon={Wallet}
+        title="Cash out"
+        accent="your coins"
+        subtitle="Turn coins into PayPal, a Visa card or crypto. Requests are checked within 24 hours."
+      >
+        <Chip icon={Coins} tone="gold">1,000 coins = $1.00</Chip>
+        {user && (
+          <Chip tone="green">
+            <AnimatedNumber value={user.balance_coins || 0} className="tabular-nums" /> coins · ${userUSD.toFixed(2)}
+          </Chip>
+        )}
+      </PageHeader>
 
-      {/* Success Notification */}
       {success && (
-        <div className="mb-6 flex items-center gap-3 rounded-xl bg-emerald-950/40 border border-emerald-900/60 p-4 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-          <CheckCircle2 className="h-5 w-5 shrink-0 text-primary animate-pulse" />
+        <div role="status" className="bb-swap mb-6 flex items-center gap-3 rounded-xl border border-[rgba(66,216,160,0.4)] bg-[rgba(66,216,160,0.1)] p-4 text-[#42d8a0]">
+          <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" />
           <span className="text-sm font-bold">{success}</span>
         </div>
       )}
 
-      {/* 1. Cash Withdrawals Section */}
-      <div className="mb-8">
-        <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-          Withdraw Cash
-          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-dark-bg px-2 py-0.5 rounded-md border border-dark-border">Direct Payouts</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {methods.filter(m => m.category === 'cash').map((method) => renderMethodCard(method))}
+      <section className="mb-8">
+        <Reveal as="h2" className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
+          <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(120,84,247,0.9)]" />
+          Cash
+        </Reveal>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {methods.filter((m) => m.category === 'cash').map((m, i) => renderMethodCard(m, i))}
         </div>
-      </div>
+      </section>
 
-      {/* 2. Cryptocurrencies Section */}
-      <div className="mb-8">
-        <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-secondary" />
-          Cryptocurrencies
-          <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider bg-dark-bg px-2 py-0.5 rounded-md border border-dark-border">Instant Blockchain</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {methods.filter(m => m.category === 'crypto').map((method) => renderMethodCard(method))}
+      <section className="mb-8">
+        <Reveal as="h2" className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
+          <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(69,151,255,0.9)]" />
+          Crypto
+        </Reveal>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {methods.filter((m) => m.category === 'crypto').map((m, i) => renderMethodCard(m, i))}
         </div>
-      </div>
+      </section>
 
-      {/* Summary Fee & Speed Chart */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* Method Info Block */}
-        <div className="lg:col-span-2 rounded-2xl border border-dark-border bg-dark-card p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full filter blur-[80px] pointer-events-none" />
-          
-          <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-            <div className="icon-wrapper-secondary p-1.5">
-              <Percent className="h-4 w-4" />
-            </div>
-            Payout Parameters & Fee Structures
+      <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <Reveal className="g-card relative overflow-hidden p-6 lg:col-span-2">
+          <h2 className="mb-4 flex items-center gap-2 text-base font-bold text-white">
+            <span className="icon-wrapper-secondary p-1.5"><Percent className="h-4 w-4" aria-hidden="true" /></span>
+            Limits and fees
           </h2>
-          
-          <div className="overflow-x-auto text-xs" style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}>
-            <table className="w-full text-left border-collapse">
+          <div className="overflow-x-auto text-sm" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-550 uppercase tracking-widest pb-2">
-                  <th className="pb-2">Method</th>
-                  <th className="pb-2">Minimum Limit</th>
-                  <th className="pb-2">Network Fee</th>
-                  <th className="pb-2">Average Speed</th>
+                <tr className="border-b border-dark-border text-xs font-bold uppercase tracking-wider text-zinc-400">
+                  <th className="pb-2 pr-4">Method</th>
+                  <th className="pb-2 pr-4">Minimum</th>
+                  <th className="pb-2 pr-4">Fee</th>
+                  <th className="pb-2">Speed</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-dark-border/40 text-zinc-300">
+              <tbody className="divide-y divide-dark-border text-zinc-300">
                 {methods.map((m) => (
-                  <tr key={m.id} className="group hover:bg-zinc-50/10 transition-colors">
-                    <td className="py-2.5 font-semibold text-white">{m.name}</td>
-                    <td className="py-2.5">${m.amounts[0].usd.toFixed(2)} ({m.amounts[0].coins.toLocaleString()} Coins)</td>
-                    <td className={`py-2.5 font-bold ${m.fee === '0%' ? 'text-emerald-400' : 'text-amber-500'}`}>{m.fee}</td>
-                    <td className="py-2.5 flex items-center gap-1.5"><Clock className="h-3 w-3 text-zinc-500" /> {m.time}</td>
+                  <tr key={m.id} className="transition-colors hover:bg-white/[0.03]">
+                    <td className="py-2.5 pr-4 font-semibold text-white">{m.name}</td>
+                    <td className="py-2.5 pr-4 tabular-nums">${m.amounts[0].usd.toFixed(2)} ({m.amounts[0].coins.toLocaleString()} coins)</td>
+                    <td className={`py-2.5 pr-4 font-bold ${m.fee === '0%' ? 'text-[#42d8a0]' : 'text-[#f3c76b]'}`}>{m.fee}</td>
+                    <td className="py-2.5"><span className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-zinc-400" aria-hidden="true" /> {m.time}</span></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Withdrawal Note */}
-        <div className="rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-tr from-secondary/5 to-primary/5 rounded-full filter blur-[80px] pointer-events-none" />
+        <Reveal i={1} className="g-card relative flex flex-col justify-between overflow-hidden p-6">
           <div>
-            <h2 className="text-base font-bold text-white mb-2 flex items-center gap-2">
-              <div className="icon-wrapper-secondary p-1.5">
-                <DollarSign className="h-4 w-4" />
-              </div>
-              Cashout Guidelines
+            <h2 className="mb-2 flex items-center gap-2 text-base font-bold text-white">
+              <span className="icon-wrapper-secondary p-1.5"><ShieldCheck className="h-4 w-4" aria-hidden="true" /></span>
+              Before you cash out
             </h2>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              We monitor all withdrawals manually to ensure the integrity of the network. Attempting to complete offers with virtual machines, proxies/VPNs, or temporary emails is strictly prohibited and will lead to an immediate ban and refund rejection.
+            <p className="text-sm leading-relaxed text-zinc-400">
+              Every withdrawal is checked by hand. Using virtual machines, proxies or VPNs, or temporary emails to complete tasks is not allowed and leads to a ban and a rejected withdrawal.
             </p>
           </div>
-          <div className="text-[10px] text-zinc-555 font-bold uppercase tracking-wider mt-4">
-            Security Status: Secure SSL Active
-          </div>
-        </div>
+        </Reveal>
       </div>
 
-      {/* Withdrawal History */}
       {user && (
-        <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
-          <h2 className="text-base font-bold text-white mb-5 flex items-center gap-2">
-            <div className="icon-wrapper-gradient p-1.5">
-              <History className="h-4 w-4" />
-            </div>
-            Withdrawal Log History
+        <Reveal className="g-card p-6">
+          <h2 className="mb-5 flex items-center gap-2 text-base font-bold text-white">
+            <span className="icon-wrapper-gradient p-1.5"><History className="h-4 w-4" aria-hidden="true" /></span>
+            Your withdrawals
           </h2>
 
           {withdrawals.length === 0 ? (
-            <div className="text-center py-10 rounded-xl bg-zinc-100/20 border border-dashed border-dark-border">
-              <p className="text-xs text-zinc-500 font-bold">You haven't requested any withdrawals yet.</p>
-              <p className="text-[10px] text-zinc-500 mt-1 uppercase tracking-wider font-semibold">Complete tasks on the earn page to claim payouts!</p>
+            <div className="rounded-xl border border-dashed border-dark-border py-10 text-center">
+              <p className="text-sm font-bold text-zinc-300">No withdrawals yet</p>
+              <p className="mt-1 text-sm text-zinc-400">Finish a few tasks on the Earn page, then come back to cash out.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto text-xs" style={{ contain: 'paint', WebkitOverflowScrolling: 'touch' }}>
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto text-sm" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <table className="w-full border-collapse text-left">
                 <thead>
-                  <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-550 uppercase tracking-widest pb-3">
+                  <tr className="border-b border-dark-border text-xs font-bold uppercase tracking-wider text-zinc-400">
                     <th className="pb-3 pr-4">Method</th>
-                    <th className="pb-3 px-4">Amount</th>
-                    <th className="pb-3 px-4">Spent</th>
-                    <th className="pb-3 px-4">Address</th>
-                    <th className="pb-3 px-4">Date</th>
-                    <th className="pb-3 pl-4">Status</th>
+                    <th className="pb-3 pr-4">Amount</th>
+                    <th className="pb-3 pr-4">Coins</th>
+                    <th className="pb-3 pr-4">Address</th>
+                    <th className="pb-3 pr-4">Date</th>
+                    <th className="pb-3">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-dark-border/30 text-zinc-300">
+                <tbody className="divide-y divide-dark-border text-zinc-300">
                   {withdrawals.map((w) => (
-                    <tr key={w.id} className="group hover:bg-zinc-50/10 transition-colors">
-                      <td className="py-3 pr-4 font-bold text-white uppercase">{w.payment_method}</td>
-                      <td className="py-3 px-4 font-extrabold text-primary">${parseFloat(w.amount_usd).toFixed(2)}</td>
-                      <td className="py-3 px-4 text-zinc-400">{w.coins_spent?.toLocaleString()} Coins</td>
-                      <td className="py-3 px-4 font-mono text-[10px] text-zinc-500 max-w-[180px] truncate" title={w.payment_address}>{w.payment_address}</td>
-                      <td className="py-3 px-4 text-zinc-500">{new Date(w.created_at).toLocaleDateString()}</td>
-                      <td className="py-3 pl-4">{getStatusBadge(w.status)}</td>
+                    <tr key={w.id} className="transition-colors hover:bg-white/[0.03]">
+                      <td className="py-3 pr-4 font-bold uppercase text-white">{w.payment_method}</td>
+                      <td className="py-3 pr-4 font-extrabold tabular-nums text-[#c3b2ff]">${parseFloat(w.amount_usd).toFixed(2)}</td>
+                      <td className="py-3 pr-4 tabular-nums text-zinc-400">{w.coins_spent?.toLocaleString()}</td>
+                      <td className="max-w-[180px] truncate py-3 pr-4 font-mono text-xs text-zinc-400" title={w.payment_address}>{w.payment_address}</td>
+                      <td className="py-3 pr-4 text-zinc-400">{new Date(w.created_at).toLocaleDateString()}</td>
+                      <td className="py-3">{getStatusBadge(w.status)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           )}
-        </div>
+        </Reveal>
       )}
 
-      {/* Cashout Modal */}
+      {/* Cashout dialog */}
       {selectedMethod && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="fixed inset-0 bg-black/85 backdrop-blur-md" onClick={() => setSelectedMethod(null)} />
-          
-          <div className="relative w-full max-w-md rounded-2xl border border-dark-border bg-dark-card p-6 shadow-2xl overflow-hidden">
-            {/* Accent border top */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-secondary" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={`Cash out with ${selectedMethod.name}`}>
+          <div className="g-fade fixed inset-0 bg-[#04060c]/80 backdrop-blur-sm" onClick={() => setSelectedMethod(null)} />
 
-            <h2 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
-              <ArrowUpRight className="h-5 w-5 text-primary" />
-              Cashout: {selectedMethod.name}
+          <div className="g-modal g-neon relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl p-6 shadow-2xl">
+            <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-white">
+              <ArrowUpRight className="h-5 w-5 text-[#c3b2ff]" aria-hidden="true" />
+              Cash out with {selectedMethod.name}
             </h2>
-            <p className="text-[11px] text-zinc-400 border-b border-dark-border/60 pb-3 mb-4">
-              Select your reward size and enter your payment details below.
+            <p className="mb-4 border-b border-dark-border pb-3 text-sm text-zinc-400">
+              Pick an amount and enter where to send it.
             </p>
 
             {error && (
-              <div className="mb-4 flex items-center gap-2 rounded-xl bg-red-950/30 border border-red-900/50 p-3 text-xs text-red-400 animate-pulse">
-                <AlertCircle className="h-4 w-4 shrink-0" />
+              <div role="alert" className="mb-4 flex items-center gap-2 rounded-xl border border-[rgba(241,118,133,0.4)] bg-[rgba(241,118,133,0.1)] p-3 text-sm text-[#f17685]">
+                <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span>{error}</span>
               </div>
             )}
 
             <form onSubmit={handleWithdrawSubmit} className="space-y-4">
-              {/* Select Payout Grid */}
-              <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 mb-2">
-                  Select Payout Amount
-                </label>
+              <fieldset>
+                <legend className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Amount</legend>
                 <div className="grid grid-cols-2 gap-2">
                   {selectedMethod.amounts.map((amount) => {
                     const isSelected = selectedAmount?.usd === amount.usd;
@@ -604,66 +493,52 @@ export default function Cashout() {
                       <button
                         type="button"
                         key={amount.usd}
+                        aria-pressed={isSelected}
                         onClick={() => setSelectedAmount(amount)}
-                        className={`rounded-xl p-3 text-center border active:scale-95 hover:scale-[1.02] transition-all flex flex-col items-center justify-center gap-0.5 ${
+                        className={`flex min-h-[56px] flex-col items-center justify-center gap-0.5 rounded-xl border p-3 text-center transition-[background-color,border-color,box-shadow,transform] duration-150 active:scale-95 ${
                           isSelected
-                            ? 'bg-primary border-primary text-white shadow-[0_0_12px_rgba(93,95,239,0.4)] font-bold'
-                            : 'bg-dark-bg border-dark-border text-white hover:border-primary/40'
-                        } ${!canAfford && !isSelected ? 'opacity-40' : ''}`}
+                            ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
+                            : 'border-dark-border bg-dark-bg text-white hover:border-primary/60'
+                        } ${!canAfford && !isSelected ? 'opacity-45' : ''}`}
                       >
-                        <span className="text-sm font-bold">${amount.usd.toFixed(2)}</span>
-                        <span className={`text-[10px] ${isSelected ? 'text-white/70 font-bold' : 'text-zinc-400'}`}>
-                          {amount.coins.toLocaleString()} Coins
-                        </span>
+                        <span className="text-base font-extrabold tabular-nums">${amount.usd.toFixed(2)}</span>
+                        <span className={`text-xs tabular-nums ${isSelected ? 'text-white/80' : 'text-zinc-400'}`}>{amount.coins.toLocaleString()} coins</span>
                       </button>
                     );
                   })}
                 </div>
-              </div>
+              </fieldset>
 
-              {/* Address input */}
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 mb-1.5">
-                  Payment Address / Account
+                <label htmlFor="payout-address" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-zinc-400">
+                  Send to
                 </label>
                 <input
+                  id="payout-address"
                   type={selectedMethod.type}
                   required
+                  autoComplete="off"
                   placeholder={selectedMethod.placeholder}
                   value={paymentAddress}
                   onChange={(e) => setPaymentAddress(e.target.value)}
-                  className="w-full rounded-xl bg-dark-bg border border-dark-border py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-primary focus:outline-none transition-colors"
+                  className="min-h-[48px] w-full rounded-xl border border-dark-border bg-dark-bg px-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-primary focus:outline-none"
                 />
               </div>
 
-              {/* User Balance Status */}
-              <div className="flex items-center justify-between text-xs rounded-xl bg-dark-bg border border-dark-border/80 px-4 py-3">
-                <span className="text-zinc-400 font-semibold uppercase tracking-wide">Your Balance:</span>
-                <span className="font-bold text-white flex items-center gap-1">
-                  <Coins className="h-3.5 w-3.5 text-primary" />
+              <div className="flex items-center justify-between rounded-xl border border-dark-border bg-dark-bg px-4 py-3 text-sm">
+                <span className="font-semibold text-zinc-400">Your balance</span>
+                <span className="flex items-center gap-1.5 font-bold tabular-nums text-white">
+                  <Coins className="h-4 w-4 text-[#f3c76b]" aria-hidden="true" />
                   {user.balance_coins.toLocaleString()} / {selectedAmount ? selectedAmount.coins.toLocaleString() : '0'}
                 </span>
               </div>
 
-              {/* Action buttons */}
               <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setSelectedMethod(null)}
-                  className="btn-gaming-secondary flex-1 rounded-xl py-3 text-xs font-extrabold"
-                >
+                <button type="button" onClick={() => setSelectedMethod(null)} className="btn-gaming-secondary min-h-[48px] flex-1 rounded-xl py-3 text-xs">
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-gaming flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-extrabold"
-                >
-                  {loading ? (
-                    <Loader2 className="h-4 w-4 animate-spin text-black" />
-                  ) : (
-                    'Submit Request'
-                  )}
+                <button type="submit" disabled={loading} className="btn-gaming flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl py-3 text-xs">
+                  {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-label="Sending" /> : 'Submit request'}
                 </button>
               </div>
             </form>
@@ -671,12 +546,7 @@ export default function Cashout() {
         </div>
       )}
 
-      {/* Redirect Auth Modal */}
-      <AuthModal 
-        isOpen={isAuthOpen} 
-        onClose={() => setIsAuthOpen(false)} 
-        initialTab={authTab} 
-      />
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} defaultTab={authTab} />
     </div>
   );
 }
