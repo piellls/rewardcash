@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { timingSafeEqual } from 'node:crypto';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { COINS_PER_PAYOUT_USD } from '@/lib/cashout';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -32,9 +33,13 @@ export async function GET(request) {
   }
 
   // Different networks name the same fields differently.
-  const click_id = firstParam(searchParams, [
-    'click_id', 'subid', 'sub1', 'sub2', 'sub3', 'sub4', 'aff_sub4', 'user_id', 'userId',
-  ]);
+  // AdBluMedia's tracker stores our s1 as "s1<value>", so a postback that hands the raw field back
+  // carries that prefix. A member id never starts with "s", so taking it off is unambiguous.
+  // The first field that holds a member id wins (AdBluMedia also fills sub2 with the account id).
+  const CLICK_FIELDS = ['click_id', 'subid', 's1', 'sub5', 'sub1', 'sub2', 'sub3', 'sub4', 'aff_sub4', 'user_id', 'userId'];
+  const asMemberId = (v) => (v && /^s1[0-9a-f]{8}-/i.test(v) && UUID_RE.test(v.slice(2)) ? v.slice(2) : v);
+  const candidates = CLICK_FIELDS.map((n) => asMemberId(searchParams.get(n))).filter(Boolean);
+  const click_id = candidates.find((v) => UUID_RE.test(v)) || candidates[0] || null;
   const payoutStr = (searchParams.get('payout') || searchParams.get('amount') || '0').replace('$', '');
   const provider = (searchParams.get('provider') || searchParams.get('network') || 'cpalead').slice(0, 40);
   // The network's own id for this conversion. It makes a repeated postback harmless.
@@ -47,8 +52,8 @@ export async function GET(request) {
   }
 
   const payout = parseFloat(payoutStr);
-  // $1.00 USD = 450 coins (150 * 3)
-  const coinsEarned = Math.round(payout * 150 * 3);
+  // $1.00 of payout = 450 coins (see COINS_PER_PAYOUT_USD)
+  const coinsEarned = Math.round(payout * COINS_PER_PAYOUT_USD);
   if (!(payout > 0) || payout > 5000 || !(coinsEarned > 0)) {
     return NextResponse.json({ error: 'Invalid payout or coin amounts.' }, { status: 400 });
   }
