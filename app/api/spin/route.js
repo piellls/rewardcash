@@ -1,92 +1,74 @@
 import { NextResponse } from 'next/server';
+import { randomInt } from 'node:crypto';
 import { db } from '@/lib/db';
-import { createClient } from '@supabase/supabase-js';
+import { authenticate } from '@/lib/supabaseAdmin';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+// Probabilities add up to 1. Keep in sync with the prizes shown on app/spin/page.js.
+const SPIN_PRIZES = [
+  { coins: 10, probability: 0.50, label: '$0.01', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.1)' },
+  { coins: 50, probability: 0.30, label: '$0.05', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.1)' },
+  { coins: 250, probability: 0.14, label: '$0.25', rarity: 'uncommon', border: '#10b981', bg: 'rgba(16,185,129,0.1)' },
+  { coins: 1000, probability: 0.045, label: '$1.00', rarity: 'rare', border: '#3b82f6', bg: 'rgba(59,130,246,0.1)' },
+  { coins: 2500, probability: 0.012, label: '$2.50', rarity: 'epic', border: '#a855f7', bg: 'rgba(168,85,247,0.1)' },
+  { coins: 10000, probability: 0.0029, label: '$10.00', rarity: 'legendary', border: '#eab308', bg: 'rgba(234,179,8,0.1)' },
+  { coins: 250000, probability: 0.0001, label: '$250.00', rarity: 'mythic', border: '#ef4444', bg: 'rgba(239,68,68,0.1)' },
+];
 
-const getSupabaseAdmin = () => {
-  if (!supabaseUrl || !supabaseServiceRoleKey) return null;
-  return createClient(supabaseUrl, supabaseServiceRoleKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false
-    }
-  });
-};
+function rollPrize() {
+  const roll = randomInt(0, 1_000_000) / 1_000_000;
+  let cumulative = 0;
+  for (let i = 0; i < SPIN_PRIZES.length; i++) {
+    cumulative += SPIN_PRIZES[i].probability;
+    if (roll < cumulative) return i;
+  }
+  return 0;
+}
 
 export async function POST(request) {
   try {
-    const authHeader = request.headers.get('Authorization') || '';
-    const token = authHeader.replace('Bearer ', '');
+    const auth = await authenticate(request);
+    if (auth.error) return auth.error;
+    const { sb, user } = auth;
 
-    const body = await request.json();
-    const { type } = body; // 'daily' or 'signup'
-
-    if (!type || (type !== 'daily' && type !== 'signup')) {
+    const { type } = await request.json();
+    if (type !== 'daily' && type !== 'signup') {
       return NextResponse.json({ error: 'Invalid claim type' }, { status: 400 });
     }
 
-    // Authenticate
-    const supabaseAdmin = getSupabaseAdmin();
-    let userId = null;
+    const prizeIndex = rollPrize();
+    const prize = SPIN_PRIZES[prizeIndex];
 
-    if (!supabaseAdmin) {
-      if (!token) {
-        return NextResponse.json({ error: 'Unauthorized: Missing session token.' }, { status: 401 });
+    let result;
+    if (type === 'daily') {
+      result = await sb.rpc('claim_daily_spin', { p_user: user.id, p_coins: prize.coins });
+      if (result.error) {
+        return NextResponse.json({ error: 'Daily spin is on cooldown. Come back in 24 hours.' }, { status: 400 });
       }
-      userId = token; // In mock mode, the token is the mock user ID
     } else {
-      if (!token) {
-        return NextResponse.json({ error: 'Unauthorized: Missing session token.' }, { status: 401 });
+      const state = await db.getSignupBonusState(user.id, null, sb);
+      const allowed = (state.claimedSpins || 0) + (state.claimsLeft || 0);
+      result = await sb.rpc('claim_signup_spin', { p_user: user.id, p_coins: prize.coins, p_allowed: allowed });
+      if (result.error) {
+        return NextResponse.json({ error: 'No sign-up spins left to claim.' }, { status: 400 });
       }
-      const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
-      if (authError || !user) {
-        return NextResponse.json({ error: 'Unauthorized: Invalid session token.' }, { status: 401 });
-      }
-      userId = user.id;
     }
 
-    const result = await db.claimSpin(userId, type, supabaseAdmin);
-    return NextResponse.json(result);
+    return NextResponse.json({ success: true, prize, prizeIndex, profile: result.data });
   } catch (err) {
     console.error('[SPIN ROUTE ERROR]', err.message);
-    return NextResponse.json({ error: err.message || 'Internal server error.' }, { status: 400 });
+    return NextResponse.json({ error: 'Internal server error.' }, { status: 500 });
   }
 }
 
 export async function GET(request) {
   try {
-    const authHeader = request.headers.get('Authorization') || '';
-    const token = authHeader.replace('Bearer ', '');
+    const auth = await authenticate(request);
+    if (auth.error) return auth.error;
 
-    const supabaseAdmin = getSupabaseAdmin();
-    let userId = null;
-
-    if (!supabaseAdmin) {
-      if (!token) {
-        return NextResponse.json({ error: 'Unauthorized: Missing session token.' }, { status: 401 });
-      }
-      userId = token;
-    } else {
-      if (!token) {
-        return NextResponse.json({ error: 'Unauthorized: Missing session token.' }, { status: 401 });
-      }
-      const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
-      if (authError || !user) {
-        return NextResponse.json({ error: 'Unauthorized: Invalid session token.' }, { status: 401 });
-      }
-      userId = user.id;
-    }
-
-    const signupState = await db.getSignupBonusState(userId, null, supabaseAdmin);
-    
-    return NextResponse.json({
-      success: true,
-      signup: signupState
-    });
+    const signup = await db.getSignupBonusState(auth.user.id, null, auth.sb);
+    return NextResponse.json({ success: true, signup });
   } catch (err) {
     console.error('[SPIN GET ROUTE ERROR]', err.message);
-    return NextResponse.json({ error: err.message || 'Internal server error.' }, { status: 400 });
+    return NextResponse.json({ error: 'Internal server error.' }, { status: 500 });
   }
 }
