@@ -269,7 +269,7 @@ export default function DirectTasksSection() {
               onClick={() => setSelectedCategory(cat)}
               className={`min-h-[40px] rounded-lg px-4 text-sm font-bold transition-[background-color,color,box-shadow,transform] duration-150 active:scale-95 ${
                 selectedCategory === cat
-                  ? 'bg-primary text-[#04210f] shadow-[0_0_16px_rgba(47,214,114,0.55)]'
+                  ? 'bg-primary text-white shadow-[0_0_16px_rgba(120,84,247,0.55)]'
                   : 'text-zinc-400 hover:bg-white/5 hover:text-white'
               }`}
             >
@@ -314,15 +314,15 @@ export default function DirectTasksSection() {
                   {offer.icon && offer.icon.startsWith('http') ? (
                     <img src={offer.icon} alt="" loading="lazy" className="g-offer-img absolute inset-0 z-0 h-full w-full object-cover" />
                   ) : (
-                    <div className="absolute inset-0 z-0 flex items-center justify-center bg-gradient-to-br from-[#26206a] to-[#0a1710]">
-                      <TypeIcon className="h-10 w-10 text-[#9cf3bf] opacity-70" aria-hidden="true" />
+                    <div className="absolute inset-0 z-0 flex items-center justify-center bg-gradient-to-br from-[#26206a] to-[#0c1222]">
+                      <TypeIcon className="h-10 w-10 text-[#c3b2ff] opacity-70" aria-hidden="true" />
                     </div>
                   )}
 
-                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#050c09] via-[#050c09]/40 to-transparent" />
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#070a14] via-[#070a14]/40 to-transparent" />
 
                   {isLocked && (
-                    <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-[#050c09]/85 p-3">
+                    <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-[#070a14]/85 p-3">
                       <span className="rounded-full border border-dark-border bg-dark-card p-2"><Lock className="h-4 w-4 text-zinc-400" aria-hidden="true" /></span>
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400">Locked 24h</span>
                       <span className="text-[11px] font-extrabold text-[#f3c76b]">{lockInfo}</span>
@@ -333,7 +333,7 @@ export default function DirectTasksSection() {
                     <span className="absolute left-2.5 top-2.5 z-20 rounded bg-[#f3c76b] px-1.5 py-0.5 text-[10px] font-black text-[#1a1405]">{clicksLeft} left</span>
                   )}
 
-                  <div className="absolute right-2.5 top-2.5 z-20 flex items-center gap-1.5 rounded-md border border-white/10 bg-[#050c09]/80 px-2 py-1 text-zinc-200">
+                  <div className="absolute right-2.5 top-2.5 z-20 flex items-center gap-1.5 rounded-md border border-white/10 bg-[#070a14]/80 px-2 py-1 text-zinc-200">
                     {isAndroid && <AndroidIcon />}
                     {isApple && <AppleIcon />}
                     <span className="h-3 w-px shrink-0 bg-white/15" />
@@ -358,10 +358,10 @@ export default function DirectTasksSection() {
       {/* Offer details */}
       {executingOffer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Task details">
-          <div className="g-fade fixed inset-0 bg-[#030806]/80 backdrop-blur-sm" onClick={() => setExecutingOffer(null)} />
+          <div className="g-fade fixed inset-0 bg-[#04060c]/80 backdrop-blur-sm" onClick={() => setExecutingOffer(null)} />
           <div className="g-modal g-neon relative w-full max-w-lg overflow-hidden rounded-2xl p-6 shadow-2xl">
             <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-white">
-              <Award className="h-5 w-5 text-[#9cf3bf]" aria-hidden="true" />
+              <Award className="h-5 w-5 text-[#c3b2ff]" aria-hidden="true" />
               Start this task
             </h2>
             <p className="mb-4 flex justify-between border-b border-dark-border pb-3 text-sm text-zinc-400">

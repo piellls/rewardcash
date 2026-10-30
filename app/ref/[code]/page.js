@@ -25,7 +25,7 @@ export default function ReferralRedirect() {
 
   return (
     <main className="g-fade flex min-h-[60vh] flex-1 flex-col items-center justify-center px-4 text-center" role="status">
-      <div className="g-neon g-neon-live flex h-16 w-16 items-center justify-center rounded-2xl text-[#9cf3bf]">
+      <div className="g-neon g-neon-live flex h-16 w-16 items-center justify-center rounded-2xl text-[#c3b2ff]">
         <Gift className="h-7 w-7" aria-hidden="true" />
       </div>
       <p className="g-title mt-5 text-xl text-white">Opening your invite…</p>

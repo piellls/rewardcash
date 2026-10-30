@@ -20,12 +20,12 @@ const AuthContext = createContext({
 // Shared full-screen notice used for device, VPN and ban blocks
 function BlockScreen({ icon: Icon, title, tag, body, action }) {
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-[#07110d] p-4 text-center">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-[#090d18] p-4 text-center">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{
         backgroundImage: 'radial-gradient(60% 50% at 50% 0%, rgba(241,118,133,0.18), transparent 70%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
         backgroundSize: '100% 100%, 40px 40px, 40px 40px',
       }} />
-      <div role="alertdialog" aria-labelledby="block-title" className="g-modal relative w-full max-w-md space-y-6 rounded-3xl border border-[#f17685]/30 bg-[#101f18] p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
+      <div role="alertdialog" aria-labelledby="block-title" className="g-modal relative w-full max-w-md space-y-6 rounded-3xl border border-[#f17685]/30 bg-[#151c2e] p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-[#f17685]/40 bg-[#f17685]/10 text-[#f17685]">
           <Icon className="h-8 w-8" aria-hidden="true" />
         </div>
@@ -33,7 +33,7 @@ function BlockScreen({ icon: Icon, title, tag, body, action }) {
           <h1 id="block-title" className="g-title text-2xl text-white">{title}</h1>
           <p className="text-xs font-bold uppercase tracking-widest text-[#f17685]">{tag}</p>
         </div>
-        <div className="space-y-3 rounded-2xl border border-[#223d2f] bg-[#0b1812] p-4 text-left text-sm leading-relaxed text-[#a8bcb0]">
+        <div className="space-y-3 rounded-2xl border border-[#29334a] bg-[#0f1424] p-4 text-left text-sm leading-relaxed text-[#aab4c9]">
           {body.map((line) => <p key={line}>{line}</p>)}
         </div>
         {action && (

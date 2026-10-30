@@ -45,11 +45,11 @@ export default function AvatarSelectorModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="avatar-title">
       {/* Backdrop: no click-to-close, the user has to pick an avatar once */}
-      <div className="g-fade fixed inset-0 bg-[#040a07]/90 backdrop-blur-sm" />
+      <div className="g-fade fixed inset-0 bg-[#05070d]/90 backdrop-blur-sm" />
 
       <div className="g-modal g-neon relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-3xl bg-[var(--bb-surface)] p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] sm:p-8">
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#2fd672]/40 bg-[#2fd672]/15 text-[#9cf3bf]">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#7854f7]/40 bg-[#7854f7]/15 text-[#c3b2ff]">
             <Sparkles className="h-6 w-6" aria-hidden="true" />
           </div>
           <h2 id="avatar-title" className="g-title text-2xl text-white">Choose your avatar</h2>
@@ -78,15 +78,15 @@ export default function AvatarSelectorModal() {
                   onClick={() => setSelectedUrl(av.url)}
                   className={`group relative aspect-square overflow-hidden rounded-full border-2 transition-[transform,border-color,box-shadow] duration-200 active:scale-95 ${
                     isSelected
-                      ? 'scale-105 border-[#2fd672] shadow-[0_0_0_3px_rgba(47,214,114,0.25),0_0_22px_rgba(47,214,114,0.5)]'
-                      : 'border-[var(--bb-border)] hover:border-[#2fd672]/60'
+                      ? 'scale-105 border-[#7854f7] shadow-[0_0_0_3px_rgba(120,84,247,0.25),0_0_22px_rgba(120,84,247,0.5)]'
+                      : 'border-[var(--bb-border)] hover:border-[#7854f7]/60'
                   }`}
                 >
                   <img src={av.url} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                   {isSelected && (
-                    <span className="absolute inset-0 flex items-center justify-center bg-[#2fd672]/25">
-                      <span className="rounded-full bg-[#2fd672] p-0.5 shadow-md">
-                        <Check className="h-3.5 w-3.5 text-[#04210f]" strokeWidth={3.5} aria-hidden="true" />
+                    <span className="absolute inset-0 flex items-center justify-center bg-[#7854f7]/25">
+                      <span className="rounded-full bg-[#7854f7] p-0.5 shadow-md">
+                        <Check className="h-3.5 w-3.5 text-white" strokeWidth={3.5} aria-hidden="true" />
                       </span>
                     </span>
                   )}

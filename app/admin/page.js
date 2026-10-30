@@ -895,7 +895,7 @@ export default function AdminDashboard() {
                     <button
                       type="submit"
                       disabled={adjusting || !adjustmentAmount}
-                      className="rounded-xl bg-primary px-5 py-2.5 text-xs font-extrabold text-[#04210f] transition-all hover:bg-primary-hover active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
+                      className="rounded-xl bg-primary px-5 py-2.5 text-xs font-extrabold text-white transition-all hover:bg-primary-hover active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
                     >
                       {adjusting ? 'Updating...' : 'Adjust Credits'}
                     </button>

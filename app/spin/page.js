@@ -68,18 +68,18 @@ const ChestIcon = ({ type = 'purple', size = 80 }) => {
   const isGold = type === 'gold';
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.75)] hover:scale-[1.05] transition-transform duration-300" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 28C10 28 10 52 14 52H50C54 52 54 28 54 28" fill="#0f0f15" stroke={isGold ? "#f59e0b" : "#4fe08a"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M12 28H52V48C52 50 50 52 48 52H16C14 52 12 50 12 48V28Z" fill="#13141f" stroke={isGold ? "#fbbf24" : "#2fd672"} strokeWidth="1.5" />
-      <path d="M8 20C8 15 15 12 32 12C49 12 56 15 56 20V28H8V20Z" fill={isGold ? "#451a03" : "#0c2a1a"} stroke={isGold ? "#fbbf24" : "#4fe08a"} strokeWidth="2.5" />
-      <rect x="20" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#1fb85c"} opacity="0.85" />
-      <rect x="38" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#1fb85c"} opacity="0.85" />
-      <rect x="27" y="24" width="10" height="12" rx="2" fill={isGold ? "#fbbf24" : "#8beeb0"} stroke={isGold ? "#ca8a04" : "#4fe08a"} strokeWidth="1.5" />
+      <path d="M10 28C10 28 10 52 14 52H50C54 52 54 28 54 28" fill="#0f0f15" stroke={isGold ? "#f59e0b" : "#9b7bff"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 28H52V48C52 50 50 52 48 52H16C14 52 12 50 12 48V28Z" fill="#13141f" stroke={isGold ? "#fbbf24" : "#7854f7"} strokeWidth="1.5" />
+      <path d="M8 20C8 15 15 12 32 12C49 12 56 15 56 20V28H8V20Z" fill={isGold ? "#451a03" : "#1e1b4b"} stroke={isGold ? "#fbbf24" : "#9b7bff"} strokeWidth="2.5" />
+      <rect x="20" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6945e4"} opacity="0.85" />
+      <rect x="38" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6945e4"} opacity="0.85" />
+      <rect x="27" y="24" width="10" height="12" rx="2" fill={isGold ? "#fbbf24" : "#e879f9"} stroke={isGold ? "#ca8a04" : "#c084fc"} strokeWidth="1.5" />
       <circle cx="32" cy="30" r="2" fill="#000" />
       {!isGold ? (
         <>
-          <path d="M22 22L24 14L27 22H22Z" fill="#2fd672" />
-          <path d="M29 22L32 10L35 22H29Z" fill="#4fe08a" />
-          <path d="M37 22L39 14L42 22H37Z" fill="#2fd672" />
+          <path d="M22 22L24 14L27 22H22Z" fill="#7854f7" />
+          <path d="M29 22L32 10L35 22H29Z" fill="#9b7bff" />
+          <path d="M37 22L39 14L42 22H37Z" fill="#7854f7" />
         </>
       ) : (
         <>
@@ -407,7 +407,7 @@ export default function SpinPage() {
           width: 140px;
           height: 130px;
           border-radius: 16px;
-          background: rgba(11, 20, 15, 0.6);
+          background: rgba(15, 17, 26, 0.6);
           border: 2px solid rgba(255,255,255,0.06);
           flex-shrink: 0;
           display: flex;
@@ -426,10 +426,10 @@ export default function SpinPage() {
         .stripes-progressbar {
           background: repeating-linear-gradient(
             45deg,
-            #5be58f,
-            #5be58f 12px,
-            #1fb85c 12px,
-            #1fb85c 24px
+            #8f6dff,
+            #8f6dff 12px,
+            #6945e4 12px,
+            #6945e4 24px
           );
           background-size: 40px 40px;
           animation: stripesShift 1.2s linear infinite;
@@ -452,7 +452,7 @@ export default function SpinPage() {
           disabled={spinning}
           className={`min-h-[44px] px-4 sm:px-6 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-[background-color,border-color,box-shadow,color,transform] duration-150 active:scale-95 ${
             activeTab === 'signup'
-              ? 'border-primary bg-primary text-[#04210f] shadow-[0_0_18px_rgba(47,214,114,0.55)]'
+              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
               : 'border-dark-border text-zinc-300 bg-[var(--bb-surface)] hover:bg-[var(--bb-surface-2)] hover:text-white'
           }`}
         >
@@ -463,7 +463,7 @@ export default function SpinPage() {
           disabled={spinning}
           className={`min-h-[44px] px-4 sm:px-6 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-[background-color,border-color,box-shadow,color,transform] duration-150 active:scale-95 ${
             activeTab === 'daily'
-              ? 'border-primary bg-primary text-[#04210f] shadow-[0_0_18px_rgba(47,214,114,0.55)]'
+              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
               : 'border-dark-border text-zinc-300 bg-[var(--bb-surface)] hover:bg-[var(--bb-surface-2)] hover:text-white'
           }`}
         >
@@ -485,9 +485,9 @@ export default function SpinPage() {
         </h2>
         <p className="text-zinc-400 font-semibold text-sm mt-2">
           {activeTab === 'signup' ? (
-            <>Win up to <span className="text-[#4fe08a] font-bold">$250</span></>
+            <>Win up to <span className="text-[#9b7bff] font-bold">$250</span></>
           ) : (
-            <>Claim your daily gift. Win up to <span className="text-[#4fe08a] font-bold">$250</span></>
+            <>Claim your daily gift. Win up to <span className="text-[#9b7bff] font-bold">$250</span></>
           )}
         </p>
 
@@ -518,7 +518,7 @@ export default function SpinPage() {
                       : item.rarity === 'uncommon' 
                       ? 'rgba(16,185,129,0.06)' 
                       : item.rarity === 'epic' 
-                      ? 'rgba(47,214,114,0.06)' 
+                      ? 'rgba(120,84,247,0.06)' 
                       : 'rgba(234,179,8,0.06)'
                   }}
                 >
@@ -589,7 +589,7 @@ export default function SpinPage() {
 
             {/* Progress bar matching the user mockup EXACTLY */}
             <div className="w-full max-w-full overflow-hidden flex items-center gap-2 sm:gap-3 mt-4 mb-4 select-none">
-              <div className="bg-[#2fd672] text-[#04210f] text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(47,214,114,0.3)]">
+              <div className="bg-[#7854f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(120,84,247,0.3)]">
                 $ 0
               </div>
               <div className="flex-1 h-6 sm:h-7 bg-[#0b0c10] rounded-full border border-zinc-800/80 overflow-hidden relative flex items-center p-[3px]">
@@ -598,21 +598,21 @@ export default function SpinPage() {
                   style={{ width: `${challengeProgress}%` }}
                 />
               </div>
-              <div className="bg-[#2fd672] text-[#04210f] text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(47,214,114,0.3)]">
+              <div className="bg-[#7854f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(120,84,247,0.3)]">
                 $ 1
               </div>
             </div>
 
             {/* Campaign info text */}
             <p className="text-zinc-300 text-[11px] sm:text-xs font-semibold tracking-wide text-center leading-relaxed mt-2 px-2">
-              Earn over <span className="text-white font-extrabold">$ 1</span> within <span className="text-[#4fe08a] font-extrabold">48 Hours</span> and receive <span className="text-[#4fe08a] font-extrabold">3 more free cases!</span>
+              Earn over <span className="text-white font-extrabold">$ 1</span> within <span className="text-[#9b7bff] font-extrabold">48 Hours</span> and receive <span className="text-[#9b7bff] font-extrabold">3 more free cases!</span>
             </p>
 
             {/* Extra chests reward list */}
             <div className="flex justify-center items-center gap-6 sm:gap-12 mt-6 mb-8 select-none">
               <div className="flex flex-col items-center">
                 <ChestIcon type="purple" size={48} />
-                <span className="text-xs font-extrabold text-[#4fe08a] mt-2">$ 250</span>
+                <span className="text-xs font-extrabold text-[#9b7bff] mt-2">$ 250</span>
               </div>
               <div className="flex flex-col items-center">
                 <ChestIcon type="gold" size={48} />
@@ -632,7 +632,7 @@ export default function SpinPage() {
               </div>
               <Link 
                 href="/earn"
-                className="w-full sm:w-auto sm:flex-1 bg-[#2fd672] hover:bg-[#5be58f] text-[#04210f] text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(47,214,114,0.3)]"
+                className="w-full sm:w-auto sm:flex-1 bg-[#9b7bff] hover:bg-[#7854f7] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(120,84,247,0.3)]"
               >
                 Start Earning <Play className="h-3.5 w-3.5 fill-white" />
               </Link>

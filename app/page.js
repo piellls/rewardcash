@@ -17,18 +17,18 @@ import {
 
 // Payout methods come from the same list the withdraw API enforces, so the home page can't promise a method that doesn't exist.
 const METHOD_META = {
-  paypal: { name: 'PayPal', glyph: 'P', tint: '#2cc9b5' },
-  visa: { name: 'Visa card', glyph: 'V', tint: '#2fd672' },
+  paypal: { name: 'PayPal', glyph: 'P', tint: '#4597ff' },
+  visa: { name: 'Visa card', glyph: 'V', tint: '#7854f7' },
   btc: { name: 'Bitcoin', glyph: '₿', tint: '#f3c76b' },
-  ltc: { name: 'Litecoin', glyph: 'Ł', tint: '#a8bcb0' },
-  eth: { name: 'Ethereum', glyph: 'Ξ', tint: '#9cf3bf' },
+  ltc: { name: 'Litecoin', glyph: 'Ł', tint: '#aab4c9' },
+  eth: { name: 'Ethereum', glyph: 'Ξ', tint: '#c3b2ff' },
   sol: { name: 'Solana', glyph: '◎', tint: '#42d8a0' },
 };
 
 const PAYOUTS = Object.entries(PAYOUT_OPTIONS)
   .map(([key, options]) => ({
     key,
-    ...(METHOD_META[key] || { name: key.toUpperCase(), glyph: key.charAt(0).toUpperCase(), tint: '#a8bcb0' }),
+    ...(METHOD_META[key] || { name: key.toUpperCase(), glyph: key.charAt(0).toUpperCase(), tint: '#aab4c9' }),
     min: Math.min(...options) / COINS_PER_USD,
   }))
   .sort((a, b) => a.min - b.min);
@@ -189,7 +189,7 @@ function HeroVisual({ feed }) {
       className={`bb-hero g-ring bb-enter relative h-[340px] overflow-hidden rounded-[22px] sm:h-[420px] lg:h-[480px] ${inView ? '' : 'bb-paused'}`}
       style={{ '--i': 3 }}
     >
-      <div aria-hidden="true" className="absolute left-1/2 top-[40%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(156,243,191,0.45),transparent)]" />
+      <div aria-hidden="true" className="absolute left-1/2 top-[40%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(195,178,255,0.45),transparent)]" />
 
       <div className="g-depth absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2" data-depth="16">
         <img
@@ -198,7 +198,7 @@ function HeroVisual({ feed }) {
           width="500"
           height="500"
           decoding="async"
-          className="bb-float h-[170px] w-[170px] drop-shadow-[0_18px_30px_rgba(7,17,13,0.45)] sm:h-[210px] sm:w-[210px]"
+          className="bb-float h-[170px] w-[170px] drop-shadow-[0_18px_30px_rgba(9,13,24,0.45)] sm:h-[210px] sm:w-[210px]"
           style={{ '--d': '7s' }}
         />
       </div>
@@ -368,7 +368,7 @@ export default function Home() {
 
             <Reveal i={1}>
               <Link href="/earn" className="bb-card bb-lift g-spot group flex h-full items-center gap-5 p-5 sm:p-6">
-                <span aria-hidden="true" className="grid h-[84px] w-[84px] shrink-0 place-items-center rounded-2xl bg-[linear-gradient(145deg,rgba(44,201,181,0.25),rgba(47,214,114,0.2))] text-[var(--bb-berry-300)]">
+                <span aria-hidden="true" className="grid h-[84px] w-[84px] shrink-0 place-items-center rounded-2xl bg-[linear-gradient(145deg,rgba(69,151,255,0.25),rgba(120,84,247,0.2))] text-[var(--bb-berry-300)]">
                   <ClipboardList className="h-9 w-9" />
                 </span>
                 <div className="min-w-0">
