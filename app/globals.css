@@ -969,3 +969,49 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 
 
+
+/* ============================================================
+   BLUEBERRY BRAND TOKENS (landing redesign)
+   ============================================================ */
+:root {
+  --bb-bg: #0c0a1f;          /* blueberry night */
+  --bb-surface: #16133a;     /* cards */
+  --bb-surface-2: #221d52;   /* raised / avatar */
+  --bb-muted: #a7a2cf;       /* secondary text */
+  --bb-berry-300: #c4b5ff;
+  --bb-berry-400: #9d84ff;
+  --bb-berry-500: #7c5cff;   /* brand */
+  --bb-berry-700: #4527c9;
+  --bb-berry-900: #241066;
+  --bb-leaf: #b4f26a;        /* blueberry leaf: CTA + money */
+}
+
+.bb-home { font-family: var(--font-sans); }
+
+.bb-hero {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(196, 181, 255, 0.35), transparent 70%),
+    linear-gradient(160deg, var(--bb-berry-500) 0%, var(--bb-berry-700) 50%, var(--bb-berry-900) 100%);
+}
+
+.bb-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--bb-leaf);
+  color: #14200a;
+  font-weight: 700;
+  padding: 0.8rem 1.5rem;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.bb-cta:hover { filter: brightness(1.06); }
+.bb-cta:active { transform: scale(0.98); }
+.bb-cta:focus-visible,
+.bb-home a:focus-visible,
+.bb-home button:focus-visible { outline: 2px solid var(--bb-leaf); outline-offset: 2px; }
+
+@keyframes bb-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.bb-ticker { animation: bb-ticker 60s linear infinite; }
+.bb-ticker:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .bb-ticker { animation: none; } }
