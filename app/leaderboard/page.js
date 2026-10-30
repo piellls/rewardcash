@@ -63,8 +63,9 @@ export default function Leaderboard() {
   }, []);
 
   const podium = [];
-  if (players[1]) podium.push({ ...players[1], rank: 2 });
+  // Source order is 1st, 2nd, 3rd (reads right when stacked on phones); md:order puts 1st in the middle on wide screens
   if (players[0]) podium.push({ ...players[0], rank: 1 });
+  if (players[1]) podium.push({ ...players[1], rank: 2 });
   if (players[2]) podium.push({ ...players[2], rank: 3 });
 
   const rest = players.slice(3);
@@ -103,7 +104,7 @@ export default function Leaderboard() {
         <div className="space-y-8">
           <div className="mt-6 flex flex-col items-center justify-center gap-6 md:flex-row md:items-end">
             {podium.map((p, i) => (
-              <Reveal key={p.username} i={i} className="w-full md:w-auto">
+              <Reveal key={p.username} i={i} className={`w-full md:w-auto ${p.rank === 1 ? 'md:order-2' : p.rank === 2 ? 'md:order-1' : 'md:order-3'}`}>
                 <PodiumCard player={p} rank={p.rank} lead={p.rank === 1} />
               </Reveal>
             ))}
