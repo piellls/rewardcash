@@ -1,167 +1,87 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { timingSafeEqual } from 'node:crypto';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 
-// Initialize Supabase admin client using service role key (bypasses RLS to write to database)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-const getSupabaseAdmin = () => {
-  if (!supabaseUrl || !supabaseServiceRoleKey) return null;
-  return createClient(supabaseUrl, supabaseServiceRoleKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false
-    }
-  });
+// Offer networks treat a plain "1" as "received" and retry on anything else.
+const ok = () => new Response('1', { status: 200, headers: { 'Content-Type': 'text/plain' } });
+
+const firstParam = (params, names) => {
+  for (const n of names) {
+    const v = params.get(n);
+    if (v) return v;
+  }
+  return null;
 };
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
 
-  // Extract parameters supporting multiple naming conventions from different CPA networks
-  const click_id = searchParams.get('click_id') || 
-                   searchParams.get('subid') || 
-                   searchParams.get('sub1') || 
-                   searchParams.get('sub2') || 
-                   searchParams.get('sub3') || 
-                   searchParams.get('sub4') || 
-                   searchParams.get('aff_sub4') || 
-                   searchParams.get('user_id') || 
-                   searchParams.get('userId');
-  const rawPayout = searchParams.get('payout') || searchParams.get('amount') || '0';
-  const payoutStr = typeof rawPayout === 'string' ? rawPayout.replace('$', '') : String(rawPayout);
-  const coinsStr = searchParams.get('coins');
-  const provider = searchParams.get('provider') || searchParams.get('network') || 'cpalead';
-  const secret = searchParams.get('secret') || searchParams.get('password');
+  // Only the offer network knows POSTBACK_SECRET; without it anyone could credit themselves coins.
+  const expectedSecret = process.env.POSTBACK_SECRET;
+  if (!expectedSecret) {
+    console.error('[POSTBACK ERROR] POSTBACK_SECRET is not set; refusing all postbacks.');
+    return NextResponse.json({ error: 'Postback not configured.' }, { status: 500 });
+  }
+  const given = Buffer.from(firstParam(searchParams, ['secret', 'password']) || '');
+  const expected = Buffer.from(expectedSecret);
+  if (given.length !== expected.length || !timingSafeEqual(given, expected)) {
+    console.warn('[POSTBACK REJECTED] bad secret');
+    return NextResponse.json({ error: 'Forbidden.' }, { status: 403 });
+  }
 
-  // Log incoming postback request for debugging
-  console.log(`[POSTBACK RECEIVED] click_id: ${click_id}, payout: ${payoutStr}, coins: ${coinsStr}, provider: ${provider}`);
+  // Different networks name the same fields differently.
+  const click_id = firstParam(searchParams, [
+    'click_id', 'subid', 'sub1', 'sub2', 'sub3', 'sub4', 'aff_sub4', 'user_id', 'userId',
+  ]);
+  const payoutStr = (searchParams.get('payout') || searchParams.get('amount') || '0').replace('$', '');
+  const provider = (searchParams.get('provider') || searchParams.get('network') || 'cpalead').slice(0, 40);
+  // The network's own id for this conversion. It makes a repeated postback harmless.
+  const txn = firstParam(searchParams, ['transaction_id', 'txid', 'tid', 'conversion_id', 'lead_id'])?.slice(0, 120) || null;
 
-  // Validation
+  console.log(`[POSTBACK RECEIVED] click_id: ${click_id}, payout: ${payoutStr}, provider: ${provider}, txn: ${txn}`);
+
   if (!click_id) {
     return NextResponse.json({ error: 'Missing click_id / tracking user parameter.' }, { status: 400 });
   }
 
   const payout = parseFloat(payoutStr);
-  
-  // Calculate coins with 3x multiplier: $1.00 USD = 450 coins (150 * 3)
+  // $1.00 USD = 450 coins (150 * 3)
   const coinsEarned = Math.round(payout * 150 * 3);
-
-  if (isNaN(payout) || isNaN(coinsEarned) || coinsEarned <= 0) {
+  if (!(payout > 0) || payout > 5000 || !(coinsEarned > 0)) {
     return NextResponse.json({ error: 'Invalid payout or coin amounts.' }, { status: 400 });
   }
 
-  // Check if we are in mock mode (missing Supabase configuration)
   const supabaseAdmin = getSupabaseAdmin();
   if (!supabaseAdmin) {
-    return NextResponse.json({
-      success: true,
-      mode: 'mock',
-      message: 'Supabase credentials missing. Postback received and validated in Mock Sandbox Mode.',
-      data: {
-        userId: click_id,
-        payout,
-        coinsEarned,
-        provider
-      }
-    });
+    return NextResponse.json({ error: 'Postback not configured.' }, { status: 500 });
+  }
+
+  if (!UUID_RE.test(click_id)) {
+    console.warn('[POSTBACK WARNING] Invalid UUID format for click_id:', click_id);
+    return ok();
   }
 
   try {
-    // Validate UUID format before querying database to avoid PostgreSQL syntax errors (22P02)
-    const isValidUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(click_id);
-    if (!isValidUUID) {
-      console.warn('[POSTBACK WARNING] Invalid UUID format for click_id:', click_id);
-      // Return 200 OK (with body '1') to satisfy test calls and avoid network retry spam
-      return new Response('1', { status: 200, headers: { 'Content-Type': 'text/plain' } });
+    const { data: result, error } = await supabaseAdmin.rpc('credit_offer', {
+      p_user: click_id,
+      p_provider: provider,
+      p_offer_id: 'cpa_network_offer',
+      p_txn: txn,
+      p_payout: payout,
+      p_coins: coinsEarned,
+    });
+
+    if (error) {
+      console.error('[POSTBACK ERROR] credit_offer failed:', error);
+      return NextResponse.json({ error: 'Failed to credit offer.' }, { status: 500 });
     }
 
-    // 1. Check if user profile exists
-    const { data: profile, error: profError } = await supabaseAdmin
-      .from('profiles')
-      .select('balance_coins, total_earned_coins, referred_by')
-      .eq('id', click_id)
-      .single();
-
-    if (profError || !profile) {
-      console.warn('[POSTBACK WARNING] User profile not found in Supabase:', click_id);
-      // Return 200 OK (with body '1') to satisfy test calls and avoid network retry spam
-      return new Response('1', { status: 200, headers: { 'Content-Type': 'text/plain' } });
-    }
-
-    // 2. Log completion in completed_offers table
-    const { error: logError } = await supabaseAdmin
-      .from('completed_offers')
-      .insert({
-        user_id: click_id,
-        offer_id: 'cpa_network_offer',
-        provider,
-        payout_usd: payout,
-        coins_earned: coinsEarned,
-        click_id: click_id
-      });
-
-    if (logError) {
-      console.error('[POSTBACK ERROR] Failed to log completed offer:', logError);
-      return NextResponse.json({ error: 'Failed to record completion log.' }, { status: 500 });
-    }
-
-    // 3. Update user profile balance (increment balance_coins and total_earned_coins)
-    const newBalance = profile.balance_coins + coinsEarned;
-    const newTotal = profile.total_earned_coins + coinsEarned;
-
-    const { error: updError } = await supabaseAdmin
-      .from('profiles')
-      .update({
-        balance_coins: newBalance,
-        total_earned_coins: newTotal
-      })
-      .eq('id', click_id);
-
-    if (updError) {
-      console.error('[POSTBACK ERROR] Failed to credit coins to user profile:', updError);
-      return NextResponse.json({ error: 'Failed to update user profile balance.' }, { status: 500 });
-    }
-
-    // 4. Process Referrer 10% Commission Payout
-    if (profile.referred_by) {
-      const commissionCoins = Math.floor(coinsEarned * 0.10);
-      if (commissionCoins > 0) {
-        // Fetch referrer's current balance and earnings
-        const { data: referrer, error: refFetchErr } = await supabaseAdmin
-          .from('profiles')
-          .select('balance_coins, referral_earnings_total')
-          .eq('id', profile.referred_by)
-          .single();
-
-        if (!refFetchErr && referrer) {
-          const newRefBalance = referrer.balance_coins + commissionCoins;
-          const newRefEarnings = (referrer.referral_earnings_total || 0) + commissionCoins;
-
-          const { error: refUpdErr } = await supabaseAdmin
-            .from('profiles')
-            .update({
-              balance_coins: newRefBalance,
-              referral_earnings_total: newRefEarnings
-            })
-            .eq('id', profile.referred_by);
-
-          if (refUpdErr) {
-            console.error('[POSTBACK ERROR] Failed to credit referral commission to referrer:', refUpdErr);
-          } else {
-            console.log(`[POSTBACK REFERRAL] Credited ${commissionCoins} coins commission to referrer ID: ${profile.referred_by}`);
-          }
-        }
-      }
-    }
-
-    console.log(`[POSTBACK SUCCESS] Credited ${coinsEarned} coins to user ID: ${click_id}`);
-    
-    // Return success to the CPA network (networks like CPALead check for positive responses like 1 or OK)
-    return new Response('1', { status: 200, headers: { 'Content-Type': 'text/plain' } });
-
+    console.log(`[POSTBACK ${String(result).toUpperCase()}] ${coinsEarned} coins for user ${click_id}`);
+    return ok();
   } catch (err) {
     console.error('[POSTBACK EXCEPTION]', err);
-    return NextResponse.json({ error: 'Internal server exception.' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error.' }, { status: 500 });
   }
 }

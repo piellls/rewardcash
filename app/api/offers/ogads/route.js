@@ -18,9 +18,11 @@ export async function GET(request) {
 
   const userAgent = request.headers.get('user-agent') || 'Mozilla/5.0';
   
-  // NOTE: User must set OGADS_API_KEY in .env.local
-  // Fallback to placeholder if not set
-  const apiKey = process.env.OGADS_API_KEY || '45239|Ejln6P32fepqTE4BR6XvcMMoRcTxvQ84jvGZ3Z4J59c8fa64';
+  const apiKey = process.env.OGADS_API_KEY;
+  if (!apiKey) {
+    console.error('[OGADS OFFERS] OGADS_API_KEY is not set.');
+    return NextResponse.json({ error: 'Offers are not configured.' }, { status: 500 });
+  }
   const affiliateId = apiKey.split('|')[0];
 
   try {
