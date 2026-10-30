@@ -213,8 +213,8 @@ export default function Home() {
 
       {/* HERO: the scene fills the width of the page, the text and the sign-up card sit on top of it */}
       <HeroScene>
-        <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 pb-32 pt-8 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:pb-44 lg:pt-14">
-          <div>
+        <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 pb-32 pt-8 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:pb-28 lg:pt-10">
+          <div className="lg:self-start lg:pt-12">
             <p className="bb-enter inline-flex items-center gap-2 rounded-full border border-[var(--bb-border)] bg-[var(--bb-surface)] px-3 py-1.5 text-sm font-medium text-[var(--bb-berry-300)]" style={{ '--i': 0 }}>
               Games · Apps · Surveys
             </p>

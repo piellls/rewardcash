@@ -19,10 +19,9 @@ export default function SignupCard() {
         <Art name="gem" size="100%" sizes="110px" glow="blue" float eager style={{ '--delay': '-2.5s' }} />
       </div>
 
-      <div className="g-neon g-neon-live relative rounded-3xl p-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] sm:p-8">
-        <p className="g-eyebrow mb-3">Join the game</p>
+      <div className="g-neon g-neon-live relative rounded-3xl p-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] sm:p-7">
         <h2 className="g-title text-3xl text-white">Create your free account</h2>
-        <p className="mb-6 mt-2 text-sm text-[var(--bb-muted)]">You start with 100 coins. No deposit, no card.</p>
+        <p className="mb-5 mt-2 text-sm text-[var(--bb-muted)]">You start with 100 coins. No deposit, no card.</p>
 
         <AuthForm mode="register" deviceCheck="on-focus" onSuccess={() => router.push('/earn')} />
 
