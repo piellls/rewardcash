@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
 import { isMockMode, supabase, db } from '@/lib/db';
 import { X, MessageSquare, AlertCircle, Loader2, CheckCircle2, ArrowLeft, Send, History } from 'lucide-react';
@@ -82,6 +83,10 @@ export default function SupportModal({ isOpen, onClose }) {
   };
 
   useEffect(() => {
+    if (isOpen) sfx.play('open');
+  }, [isOpen]);
+
+  useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => { if (e.key === 'Escape') closeAll(); };
     window.addEventListener('keydown', onKey);
@@ -140,6 +145,7 @@ export default function SupportModal({ isOpen, onClose }) {
       }
 
       setSuccess(true);
+      sfx.play('success');
       setSubject('');
       setMessage('');
       

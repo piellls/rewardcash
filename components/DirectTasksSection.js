@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import { Reveal } from '@/components/motion';
@@ -82,6 +83,7 @@ export default function DirectTasksSection() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [executingOffer, setExecutingOffer] = useState(null);
+  useEffect(() => { if (executingOffer) sfx.play('open'); }, [executingOffer]);
   const [notice, setNotice] = useState('');
   const [clickCounts, setClickCounts] = useState({});
   const [lockedOffers, setLockedOffers] = useState({});
@@ -305,7 +307,7 @@ export default function DirectTasksSection() {
                   type="button"
                   onClick={() => handleOfferClick(offer)}
                   aria-label={`${offer.title}, ${offer.coins.toLocaleString()} coins`}
-                  className={`g-offer group relative flex h-[190px] w-full flex-col justify-end overflow-hidden rounded-2xl border text-left sm:h-[230px] ${
+                  className={`g-offer g-spot group relative flex h-[190px] w-full flex-col justify-end overflow-hidden rounded-2xl border text-left sm:h-[230px] ${
                     isLocked ? 'border-dark-border opacity-60' : showWarning ? 'border-[rgba(243,199,107,0.5)]' : 'border-dark-border'
                   }`}
                 >

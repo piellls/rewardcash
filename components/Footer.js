@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShieldCheck, LifeBuoy } from 'lucide-react';
+import { ShieldCheck, LifeBuoy, Volume2, VolumeX } from 'lucide-react';
+import { useSound } from '@/lib/sfx';
 
 const LINKS = [
   { href: '/earn', label: 'Earn coins' },
@@ -14,6 +15,7 @@ const LINKS = [
 
 export default function Footer() {
   const pathname = usePathname();
+  const { on, toggle } = useSound();
 
   // The earn page is a full-screen offer wall, so it has no footer
   if (pathname === '/earn') {
@@ -62,6 +64,18 @@ export default function Footer() {
                   className="inline-flex items-center gap-2 text-sm text-[var(--bb-muted)] transition-colors hover:text-[var(--bb-text)]"
                 >
                   <LifeBuoy className="h-4 w-4" aria-hidden="true" /> Contact support
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  data-sfx="off"
+                  onClick={toggle}
+                  aria-pressed={on}
+                  className="inline-flex items-center gap-2 text-sm text-[var(--bb-muted)] transition-colors hover:text-[var(--bb-text)]"
+                >
+                  {on ? <Volume2 className="h-4 w-4" aria-hidden="true" /> : <VolumeX className="h-4 w-4" aria-hidden="true" />}
+                  Sound effects: {on ? 'on' : 'off'}
                 </button>
               </li>
               <li className="flex items-center gap-2 text-sm text-[var(--bb-muted)]">

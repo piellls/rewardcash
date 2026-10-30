@@ -368,8 +368,6 @@ h1, h2, h3, h4, h5, h6, .font-display {
   min-height: 44px;
   transition: background-color 150ms ease, transform 120ms var(--ease-out);
 }
-.bb-cta:hover { background: var(--bb-primary-hover); }
-.bb-cta:active { transform: scale(0.97); }
 
 .bb-ghost {
   display: inline-flex;
@@ -651,3 +649,160 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .animate-fade-in { animation: g-fade-in 200ms ease-out both; }
 @keyframes g-fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .animate-new-card { animation: g-fade-in 150ms ease-out both; } }
+
+/* ============================================================
+   POLISH LAYER: artwork, rising sparks, scroll progress, pointer spotlight, entrances.
+   Same rules as above: transform/opacity only, hover only on real pointers, reduced-motion safe.
+   ============================================================ */
+
+/* ---- Artwork (components/Art.js) ---- */
+.g-art { position: relative; display: block; flex: none; }
+.g-art::before {
+  content: '';
+  position: absolute; inset: 4%;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, var(--glow, rgba(120, 84, 247, 0.45)), transparent 74%);
+  animation: g-glow-pulse 4.5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.g-art > div { position: relative; }
+@keyframes g-glow-pulse { from { opacity: 0.55; transform: scale(0.94); } to { opacity: 1; transform: scale(1.06); } }
+.g-tilt { transition: transform 240ms var(--ease-out); }
+
+/* ---- Rising sparks in the ambient layer ---- */
+.g-spark {
+  position: absolute; bottom: -12px; left: var(--x, 50%);
+  width: var(--s, 4px); height: var(--s, 4px);
+  border-radius: 9999px;
+  background: #c3b2ff;
+  box-shadow: 0 0 10px 2px rgba(120, 84, 247, 0.8);
+  opacity: 0;
+  animation: g-rise var(--d, 18s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes g-rise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  10% { opacity: 0.85; }
+  85% { opacity: 0.5; }
+  100% { transform: translate3d(var(--dx, 30px), -105vh, 0); opacity: 0; }
+}
+
+/* ---- Page scroll progress (Chrome/Edge/Safari 26+: scroll-driven, no JS) ---- */
+.g-progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  .g-progress {
+    display: block;
+    position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60;
+    transform-origin: left center; transform: scaleX(0);
+    background: linear-gradient(90deg, #4597ff, #7854f7 60%, #f3c76b);
+    pointer-events: none;
+    animation: g-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+@keyframes g-progress { to { transform: scaleX(1); } }
+
+/* ---- Pointer spotlight on cards (vars set by components/GlobalFx.js) ---- */
+.g-spot { position: relative; }
+.g-spot::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(120, 84, 247, 0.22), transparent 70%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .g-spot:hover::after { opacity: 1; }
+}
+
+/* ---- Shine that crosses a surface now and then (coin chips, hero CTA) ---- */
+.g-shine { position: relative; overflow: hidden; }
+.g-shine::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.16) 50%, transparent 62%);
+  transform: translateX(-130%);
+  animation: g-shine 6s var(--ease-in-out) infinite;
+  animation-delay: var(--delay, 1.5s);
+  pointer-events: none;
+}
+@keyframes g-shine { 0%, 70% { transform: translateX(-130%); } 100% { transform: translateX(130%); } }
+
+/* ---- Pressed state for icon buttons (sound toggle, close buttons) ---- */
+.g-icon-btn { transition: transform 120ms var(--ease-out), background-color 150ms ease, color 150ms ease, border-color 150ms ease; }
+.g-icon-btn:active { transform: scale(0.92); }
+
+@media (prefers-reduced-motion: reduce) {
+  .g-art::before { animation: none; opacity: 0.8; }
+  .g-spark { display: none; }
+  .g-progress { animation: none; display: none; }
+  .g-shine::before { animation: none; display: none; }
+  .g-tilt { transition: none; }
+}
+
+/* ---- Ring: same neon edge as .g-neon but drawn on top, for panels that have their own background ---- */
+.g-ring { position: relative; }
+.g-ring::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--g-angle, 0deg), rgba(120, 84, 247, 0) 0deg, #7854f7 80deg, #4597ff 150deg, rgba(69, 151, 255, 0) 220deg, rgba(120, 84, 247, 0) 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: g-spin 9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) { .g-ring::after { animation: none; } }
+
+/* ---- Range slider (coin calculator) ---- */
+.g-range { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; }
+.g-range::-webkit-slider-runnable-track {
+  height: 10px; border-radius: 9999px;
+  background: linear-gradient(90deg, #4597ff, #7854f7 var(--p, 0%), #1c2540 var(--p, 0%));
+  border: 1px solid var(--bb-border);
+}
+.g-range::-moz-range-track { height: 10px; border-radius: 9999px; background: #1c2540; border: 1px solid var(--bb-border); }
+.g-range::-moz-range-progress { height: 10px; border-radius: 9999px; background: linear-gradient(90deg, #4597ff, #7854f7); }
+.g-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 26px; height: 26px; margin-top: -9px; border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #ffe9b0, #f3c76b 55%, #d89a2b);
+  border: 2px solid #fff3d1;
+  box-shadow: 0 0 0 4px rgba(243, 199, 107, 0.2), 0 6px 14px rgba(0, 0, 0, 0.5);
+  transition: transform 120ms var(--ease-out), box-shadow 150ms ease;
+}
+.g-range::-moz-range-thumb {
+  width: 22px; height: 22px; border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #ffe9b0, #f3c76b 55%, #d89a2b);
+  border: 2px solid #fff3d1; box-shadow: 0 0 0 4px rgba(243, 199, 107, 0.2);
+}
+.g-range:active::-webkit-slider-thumb { transform: scale(1.12); box-shadow: 0 0 0 7px rgba(243, 199, 107, 0.25), 0 6px 14px rgba(0, 0, 0, 0.5); }
+.g-range:focus-visible { outline: 2px solid var(--bb-blue); outline-offset: 6px; border-radius: 9999px; }
+
+/* Layer that drifts with the pointer (useParallax). Transform is set on the element itself. */
+.g-depth { transition: transform 350ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .g-depth { transition: none; } }
+
+/* Primary button on the home page: same glossy, pressable face as .btn-gaming, sentence case */
+.bb-cta {
+  position: relative; overflow: hidden; isolation: isolate;
+  background: linear-gradient(180deg, #8f6dff 0%, #7854f7 55%, #6945e4 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 0 #4b2fc2, 0 12px 22px -8px rgba(120, 84, 247, 0.6);
+  transition: transform 120ms var(--ease-out), box-shadow 120ms var(--ease-out);
+}
+.bb-cta::after {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bb-cta:hover { background: linear-gradient(180deg, #8f6dff 0%, #7854f7 55%, #6945e4 100%); transform: translateY(-2px); box-shadow: 0 6px 0 #4b2fc2, 0 16px 28px -8px rgba(120, 84, 247, 0.75); }
+  .bb-cta:hover::after { transform: translateX(120%); transition: transform 650ms var(--ease-out); }
+  .bb-ghost:hover { border-color: rgba(120, 84, 247, 0.7); }
+}
+.bb-cta:active { transform: translateY(3px); box-shadow: 0 1px 0 #4b2fc2, 0 4px 10px -4px rgba(120, 84, 247, 0.5); }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
@@ -49,6 +50,7 @@ export default function Referrals() {
     try {
       await navigator.clipboard.writeText(link);
       setCopied(true);
+      sfx.play('copy');
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // Clipboard can be blocked; the link stays selectable in the field.
@@ -74,6 +76,8 @@ export default function Referrals() {
         icon={Users}
         title="Invite friends,"
         accent="earn 10%"
+        art="referral"
+        artGlow="purple"
         subtitle="You get 10% of the coins your friends earn from tasks, for as long as they keep earning. No cap, no claim button."
       />
 
@@ -147,7 +151,7 @@ export default function Referrals() {
         <ol className="mt-6 grid gap-3 md:grid-cols-3">
           {STEPS.map((s, i) => (
             <Reveal as="li" key={s.title} i={i}>
-              <div className="g-card g-card-hover h-full p-5">
+              <div className="g-card g-card-hover g-spot h-full p-5">
                 <span className="icon-wrapper-primary h-12 w-12"><s.icon className="h-6 w-6" aria-hidden="true" /></span>
                 <h3 className="mt-4 text-lg font-bold text-white">{i + 1}. {s.title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-zinc-400">{s.text}</p>

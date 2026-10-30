@@ -3,6 +3,8 @@
 // Shared motion helpers used across pages. All of them respect prefers-reduced-motion.
 
 import { useState, useEffect, useRef } from 'react';
+import { sfx } from '@/lib/sfx';
+import { fx } from '@/lib/fx';
 
 export function usePrefersReducedMotion() {
   const [reduce, setReduce] = useState(false);
@@ -27,6 +29,36 @@ export function useInView(ref) {
     return () => io.disconnect();
   }, [ref]);
   return inView;
+}
+
+// Layers inside `ref` that carry data-depth="N" drift up to N px against the mouse (desktop only, off for reduced motion).
+export function useParallax(ref) {
+  const reduce = usePrefersReducedMotion();
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || reduce) return;
+    let raf = 0;
+    const move = (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.querySelectorAll('[data-depth]').forEach((l) => {
+          const d = Number(l.dataset.depth) || 0;
+          l.style.transform = `translate3d(${(px * d).toFixed(1)}px, ${(py * d).toFixed(1)}px, 0)`;
+        });
+      });
+    };
+    const leave = () => {
+      cancelAnimationFrame(raf);
+      el.querySelectorAll('[data-depth]').forEach((l) => { l.style.transform = ''; });
+    };
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerleave', leave);
+    return () => { cancelAnimationFrame(raf); el.removeEventListener('pointermove', move); el.removeEventListener('pointerleave', leave); };
+  }, [ref, reduce]);
 }
 
 // Fades and lifts a block in once, the first time it scrolls into view.
@@ -95,8 +127,10 @@ export function CountUp({ value, decimals = 0, prefix = '', suffix = '' }) {
 }
 
 // A number that glides to its new value and pops when it goes up (balances, XP).
-export function AnimatedNumber({ value = 0, className = '' }) {
+// `celebrate` adds a coin sound and a small coin burst whenever the number goes up (used for the balance).
+export function AnimatedNumber({ value = 0, className = '', celebrate = false }) {
   const reduce = usePrefersReducedMotion();
+  const elRef = useRef(null);
   const target = Number(value) || 0;
   const [shown, setShown] = useState(target);
   const [popKey, setPopKey] = useState(0);
@@ -106,7 +140,10 @@ export function AnimatedNumber({ value = 0, className = '' }) {
     const from = prev.current;
     prev.current = target;
     if (from === target) return;
-    if (target > from) setPopKey((k) => k + 1);
+    if (target > from) {
+      setPopKey((k) => k + 1);
+      if (celebrate) { sfx.play('coin'); fx.burstAt(elRef.current, { coins: 8, sparks: 10 }); }
+    }
     if (reduce) { setShown(target); return; }
     let raf = 0;
     const t0 = performance.now();
@@ -118,10 +155,10 @@ export function AnimatedNumber({ value = 0, className = '' }) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [target, reduce]);
+  }, [target, reduce, celebrate]);
 
   return (
-    <span key={popKey} className={`${popKey ? 'g-pop' : ''} ${className}`}>
+    <span ref={elRef} key={popKey} className={`${popKey ? 'g-pop' : ''} ${className}`}>
       {shown.toLocaleString('en-US')}
     </span>
   );

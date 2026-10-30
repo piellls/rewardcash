@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { sfx } from '@/lib/sfx';
+import { fx } from '@/lib/fx';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
@@ -274,11 +276,14 @@ export default function Cashout() {
         paymentAddress
       );
       
+      sfx.play('success');
+      fx.confetti({ count: 70 });
       setSuccess(`Your withdrawal of $${selectedAmount.usd} (${selectedAmount.coins} coins) via ${selectedMethod.name} has been submitted!`);
       setSelectedMethod(null);
       await refreshUser();
       await fetchHistory();
     } catch (err) {
+      sfx.play('error');
       setError(err.message || 'Withdrawal failed. Please try again.');
     } finally {
       setLoading(false);
@@ -308,7 +313,7 @@ export default function Cashout() {
           type="button"
           onClick={() => handleMethodClick(method)}
           aria-label={`Cash out with ${method.name}, minimum $${minUSD}`}
-          className={`g-card g-card-hover group flex h-full w-full flex-col justify-between p-5 text-left ${ready ? 'ring-1 ring-[rgba(66,216,160,0.5)]' : ''}`}
+          className={`g-card g-card-hover g-spot group flex h-full w-full flex-col justify-between p-5 text-left ${ready ? 'ring-1 ring-[rgba(66,216,160,0.5)]' : ''}`}
         >
           <div className="mb-4 flex items-center justify-between gap-2">
             <h3 className="text-sm font-bold text-white">{method.name}</h3>
@@ -338,6 +343,8 @@ export default function Cashout() {
         icon={Wallet}
         title="Cash out"
         accent="your coins"
+        art="coins"
+        artGlow="gold"
         subtitle="Turn coins into PayPal, a Visa card or crypto. Requests are checked within 24 hours."
       >
         <Chip icon={Coins} tone="gold">1,000 coins = $1.00</Chip>

@@ -10,6 +10,8 @@ import {
 import Link from 'next/link';
 import PageHeader, { Chip } from '@/components/PageHeader';
 import { AnimatedNumber } from '@/components/motion';
+import { sfx } from '@/lib/sfx';
+import { fx } from '@/lib/fx';
 
 // Coins Stack SVG Component
 const CoinsStack = ({ level = 'low', size = 50 }) => {
@@ -122,7 +124,8 @@ export default function SpinPage() {
   const [spinOffset, setSpinOffset] = useState(0);
   const [transitionDuration, setTransitionDuration] = useState('0s');
   
-  const [confetti, setConfetti] = useState([]);
+  const tickRaf = useRef(0);
+  useEffect(() => () => cancelAnimationFrame(tickRaf.current), []);
 
   const rowRef = useRef(null);
 
@@ -220,18 +223,11 @@ export default function SpinPage() {
     return () => clearInterval(interval);
   }, [user]);
 
+  // Win celebration: fanfare, confetti from the top and a coin fountain from the middle of the screen.
   const triggerConfetti = () => {
-    const list = Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100, 
-      y: -10 - Math.random() * 30, 
-      size: Math.random() * 8 + 5,
-      delay: Math.random() * 2,
-      duration: Math.random() * 3 + 2,
-      color: ['#9b7bff', '#4597ff', '#10b981', '#eab308', '#ef4444', '#f43f5e'][Math.floor(Math.random() * 6)]
-    }));
-    setConfetti(list);
-    setTimeout(() => setConfetti([]), 6000);
+    sfx.play('win');
+    fx.confetti({ count: 120 });
+    fx.burst(window.innerWidth / 2, window.innerHeight * 0.45, { coins: 24, sparks: 26 });
   };
 
   const handleSpin = async () => {
@@ -290,6 +286,21 @@ export default function SpinPage() {
       setTimeout(() => {
         setTransitionDuration('5.5s'); 
         setSpinOffset(-centerTarget);
+        sfx.play('open');
+
+        // One soft tick every time a prize card passes the pointer (reads the real position each frame)
+        const row = rowRef.current;
+        if (row) {
+          let lastIdx = -1;
+          const t0 = performance.now();
+          const loop = () => {
+            const x = new DOMMatrixReadOnly(getComputedStyle(row).transform).m41;
+            const idx = Math.floor((-x + parentWidth / 2) / pitch);
+            if (idx !== lastIdx) { if (lastIdx !== -1) sfx.play('tick'); lastIdx = idx; }
+            if (performance.now() - t0 < 5800) tickRaf.current = requestAnimationFrame(loop);
+          };
+          tickRaf.current = requestAnimationFrame(loop);
+        }
       }, 50);
 
       setTimeout(() => {
@@ -302,6 +313,7 @@ export default function SpinPage() {
     } catch (err) {
       setSpinning(false);
       setError(err.message);
+      sfx.play('error');
     }
   };
 
@@ -324,6 +336,8 @@ export default function SpinPage() {
         icon={Gift}
         title="Spin &"
         accent="win"
+        art="wheel"
+        artGlow="purple"
         subtitle="Open your sign-up chest or claim a free spin every 24 hours. Prizes go straight to your balance."
       >
         <Chip tone="gold">Top prize $250 (very rare)</Chip>
@@ -331,23 +345,6 @@ export default function SpinPage() {
       </PageHeader>
 
       
-      {/* Confetti falling effects */}
-      {confetti.map((particle) => (
-        <div 
-          key={particle.id}
-          className="absolute pointer-events-none rounded-sm z-50 animate-confetti-fall"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}px`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            backgroundColor: particle.color,
-            animationDelay: `${particle.delay}s`,
-            animationDuration: `${particle.duration}s`,
-          }}
-        />
-      ))}
-
       <style>{`
         .conveyor-container {
           position: relative;
@@ -438,14 +435,6 @@ export default function SpinPage() {
           animation: stripesShift 1.2s linear infinite;
         }
 
-        @keyframes confettiFall {
-          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(120vh) rotate(720deg); opacity: 0.2; }
-        }
-        .animate-confetti-fall {
-          animation: confettiFall linear forwards;
-        }
-        
         .timer-ends-box {
           background: var(--bb-surface-2);
           border: 1px solid var(--bb-border);
@@ -453,7 +442,6 @@ export default function SpinPage() {
 
         @media (prefers-reduced-motion: reduce) {
           .stripes-progressbar { animation: none; }
-          .animate-confetti-fall { animation: none; display: none; }
         }
       `}</style>
 
