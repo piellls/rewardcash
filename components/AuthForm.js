@@ -17,7 +17,7 @@ import { Mail, Lock, User, AlertCircle, Loader2, ShieldAlert, Eye, EyeOff, Zap }
 //   deviceCheck   'immediate' (default) checks as soon as the form is shown; 'on-focus' waits until the visitor
 //                 first touches a field, so a form that sits on a public page costs no request per visit
 const FIELD =
-  'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] py-3 pl-10 pr-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#7854f7] focus:outline-none focus:ring-2 focus:ring-[#7854f7]/30';
+  'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] py-3 pl-10 pr-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#2fd672] focus:outline-none focus:ring-2 focus:ring-[#2fd672]/30';
 
 export default function AuthForm({ mode, onModeChange, defaultEmail = '', onSuccess, active = true, deviceCheck = 'immediate' }) {
   const { login, register } = useAuth();
@@ -80,7 +80,7 @@ export default function AuthForm({ mode, onModeChange, defaultEmail = '', onSucc
           </div>
           <h3 className="g-title text-lg text-white">Device already registered</h3>
           <p className="mx-auto max-w-sm text-sm leading-relaxed text-[var(--bb-muted)]">
-            An account (<strong className="font-bold text-[#c3b2ff]">{deviceHasAccount}</strong>) already exists on this device. To keep rewards fair, only one account per device is allowed.
+            An account (<strong className="font-bold text-[#9cf3bf]">{deviceHasAccount}</strong>) already exists on this device. To keep rewards fair, only one account per device is allowed.
           </p>
           {onModeChange ? (
             <button type="button" onClick={() => onModeChange('login')} className="btn-gaming w-full rounded-xl py-3 text-xs">

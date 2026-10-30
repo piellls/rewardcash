@@ -170,7 +170,7 @@ export default function Dashboard() {
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">
         <h1 className="g-title text-2xl sm:text-3xl flex items-center gap-3">
-          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(120,84,247,0.2)]">
+          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(47,214,114,0.2)]">
             <User className="h-5.5 w-5.5" />
           </div>
           My Profile
@@ -218,7 +218,7 @@ export default function Dashboard() {
                   <img 
                     src={user.avatar_url || '/avatars/1.png'} 
                     alt={user.username}
-                    className="h-20 w-20 rounded-full border-2 border-[#7854f7] object-cover bg-[var(--bb-surface-2)] shadow-[0_0_0_4px_rgba(120,84,247,0.2),0_0_24px_rgba(120,84,247,0.45)]"
+                    className="h-20 w-20 rounded-full border-2 border-[#2fd672] object-cover bg-[var(--bb-surface-2)] shadow-[0_0_0_4px_rgba(47,214,114,0.2),0_0_24px_rgba(47,214,114,0.45)]"
                   />
                 </div>
 
@@ -329,7 +329,7 @@ export default function Dashboard() {
                   onClick={() => setActiveMainTab(tab)}
                   className={`rounded-xl px-5 py-2 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all cursor-pointer ${
                     isActive 
-                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(120,84,247,0.2)]' 
+                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-[0_0_12px_rgba(47,214,114,0.2)]' 
                       : 'bg-dark-bg/60 border border-dark-border text-zinc-400 hover:text-zinc-800 hover:bg-dark-card'
                   }`}
                 >
@@ -375,7 +375,7 @@ export default function Dashboard() {
                       <button
                         onClick={() => setShowPendingOnly(!showPendingOnly)}
                         className={`w-9 h-5 rounded-full p-[2px] transition-all relative focus:outline-none cursor-pointer shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] ${
-                          showPendingOnly ? 'bg-primary shadow-[0_0_8px_rgba(120,84,247,0.3)]' : 'bg-dark-bg border border-dark-border'
+                          showPendingOnly ? 'bg-primary shadow-[0_0_8px_rgba(47,214,114,0.3)]' : 'bg-dark-bg border border-dark-border'
                         }`}
                       >
                         <div 
@@ -544,7 +544,7 @@ export default function Dashboard() {
                           <td className="py-3 px-4 font-semibold text-zinc-450 select-all">{w.payment_address}</td>
                           <td className="py-3 px-4 text-center font-extrabold text-white">${parseFloat(w.amount_usd).toFixed(2)}</td>
                           <td className="py-3 px-4 text-center font-bold">
-                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(120,84,247,0.1)]">Paid</span>}
+                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(47,214,114,0.1)]">Paid</span>}
                             {w.status === 'rejected' && <span className="text-[9px] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-2 py-0.5 rounded">Rejected</span>}
                             {w.status === 'pending' && <span className="text-[9px] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded">Pending</span>}
                           </td>
@@ -623,7 +623,7 @@ export default function Dashboard() {
                         onClick={() => setSettingsAvatar(url)}
                         className={`relative rounded-full aspect-square border-2 transition-all overflow-hidden group active:scale-95 ${
                           isSelected
-                            ? 'border-primary shadow-[0_0_15px_rgba(56,189,248,0.35)] scale-105'
+                            ? 'border-primary shadow-[0_0_15px_rgba(47,214,114,0.35)] scale-105'
                             : 'border-dark-border hover:border-zinc-600'
                         }`}
                       >

@@ -14,10 +14,10 @@ export default function SoundToggle({ className = '' }) {
       aria-pressed={on}
       aria-label={on ? 'Sound on. Turn sound off' : 'Sound off. Turn sound on'}
       title={on ? 'Sound on' : 'Sound off'}
-      className={`g-icon-btn relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--bb-border)] bg-[var(--bb-surface)] text-zinc-300 hover:border-[#7854f7]/60 hover:text-white ${className}`}
+      className={`g-icon-btn relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--bb-border)] bg-[var(--bb-surface)] text-zinc-300 hover:border-[#2fd672]/60 hover:text-white ${className}`}
     >
       {on ? (
-        <span className="flex items-center gap-1.5 text-[#c3b2ff]">
+        <span className="flex items-center gap-1.5 text-[#9cf3bf]">
           <Volume2 className="h-4 w-4" aria-hidden="true" />
         </span>
       ) : (

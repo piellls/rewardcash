@@ -31,14 +31,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="auth-title">
       {/* Backdrop */}
-      <div className="g-fade fixed inset-0 bg-[#05070d]/80 backdrop-blur-sm" onClick={onClose} />
+      <div className="g-fade fixed inset-0 bg-[#040a07]/80 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
       <div className="g-modal g-neon relative z-10 flex max-h-[calc(100dvh-2rem)] w-full max-w-3xl flex-col overflow-hidden rounded-3xl bg-[var(--bb-surface)] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] md:flex-row">
 
         {/* Left: promo (desktop only) */}
         <div className="relative hidden shrink-0 flex-col items-center justify-between overflow-hidden border-r border-[var(--bb-border)] bg-[linear-gradient(160deg,#101935_0%,#0f1424_60%)] p-8 text-center md:flex md:w-[42%]">
-          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/3 h-48 w-48 -translate-x-1/2 rounded-full bg-[#7854f7]/30 blur-3xl" />
+          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/3 h-48 w-48 -translate-x-1/2 rounded-full bg-[#2fd672]/30 blur-3xl" />
 
           <img src="/offerwall/blueberry_logo.png" alt="BlueberryCash" className="relative h-14 w-auto object-contain" />
 
@@ -56,8 +56,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
               'Complete offers and earn coins',
               'Open your sign-up chest (up to $250, very rare)',
             ].map((t, n) => (
-              <li key={t} className="flex items-center gap-3 rounded-xl border border-[#7854f7]/20 bg-[#7854f7]/10 px-3.5 py-2.5">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#7854f7] text-xs font-extrabold text-white">{n + 1}</span>
+              <li key={t} className="flex items-center gap-3 rounded-xl border border-[#2fd672]/20 bg-[#2fd672]/10 px-3.5 py-2.5">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2fd672] text-xs font-extrabold text-[#04210f]">{n + 1}</span>
                 <span className="text-xs font-semibold text-zinc-200">{t}</span>
               </li>
             ))}
@@ -90,7 +90,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
               <button
                 type="button"
                 onClick={() => setTab(isLogin ? 'register' : 'login')}
-                className="font-bold text-white underline-offset-4 transition-colors hover:text-[#c3b2ff] hover:underline"
+                className="font-bold text-white underline-offset-4 transition-colors hover:text-[#9cf3bf] hover:underline"
               >
                 {isLogin ? 'Create an account' : 'Sign in'}
               </button>
