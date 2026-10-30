@@ -8,6 +8,8 @@ import {
   Trophy, Award, Gem, Crown, Play, ShieldCheck, HelpCircle
 } from 'lucide-react';
 import Link from 'next/link';
+import PageHeader, { Chip } from '@/components/PageHeader';
+import { AnimatedNumber } from '@/components/motion';
 
 // Coins Stack SVG Component
 const CoinsStack = ({ level = 'low', size = 50 }) => {
@@ -64,18 +66,18 @@ const ChestIcon = ({ type = 'purple', size = 80 }) => {
   const isGold = type === 'gold';
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.75)] hover:scale-[1.05] transition-transform duration-300" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 28C10 28 10 52 14 52H50C54 52 54 28 54 28" fill="#0f0f15" stroke={isGold ? "#f59e0b" : "#bf5aff"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M12 28H52V48C52 50 50 52 48 52H16C14 52 12 50 12 48V28Z" fill="#13141f" stroke={isGold ? "#fbbf24" : "#8b5cf6"} strokeWidth="1.5" />
-      <path d="M8 20C8 15 15 12 32 12C49 12 56 15 56 20V28H8V20Z" fill={isGold ? "#451a03" : "#1e1b4b"} stroke={isGold ? "#fbbf24" : "#bf5aff"} strokeWidth="2.5" />
-      <rect x="20" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#7c3aed"} opacity="0.85" />
-      <rect x="38" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#7c3aed"} opacity="0.85" />
+      <path d="M10 28C10 28 10 52 14 52H50C54 52 54 28 54 28" fill="#0f0f15" stroke={isGold ? "#f59e0b" : "#9b7bff"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 28H52V48C52 50 50 52 48 52H16C14 52 12 50 12 48V28Z" fill="#13141f" stroke={isGold ? "#fbbf24" : "#7854f7"} strokeWidth="1.5" />
+      <path d="M8 20C8 15 15 12 32 12C49 12 56 15 56 20V28H8V20Z" fill={isGold ? "#451a03" : "#1e1b4b"} stroke={isGold ? "#fbbf24" : "#9b7bff"} strokeWidth="2.5" />
+      <rect x="20" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6945e4"} opacity="0.85" />
+      <rect x="38" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6945e4"} opacity="0.85" />
       <rect x="27" y="24" width="10" height="12" rx="2" fill={isGold ? "#fbbf24" : "#e879f9"} stroke={isGold ? "#ca8a04" : "#c084fc"} strokeWidth="1.5" />
       <circle cx="32" cy="30" r="2" fill="#000" />
       {!isGold ? (
         <>
-          <path d="M22 22L24 14L27 22H22Z" fill="#a855f7" />
-          <path d="M29 22L32 10L35 22H29Z" fill="#bf5aff" />
-          <path d="M37 22L39 14L42 22H37Z" fill="#a855f7" />
+          <path d="M22 22L24 14L27 22H22Z" fill="#7854f7" />
+          <path d="M29 22L32 10L35 22H29Z" fill="#9b7bff" />
+          <path d="M37 22L39 14L42 22H37Z" fill="#7854f7" />
         </>
       ) : (
         <>
@@ -92,16 +94,12 @@ const SPIN_PRIZES = [
   { coins: 10, label: '$0.01', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.08)', color: '#a1a1aa', level: 'low' },
   { coins: 50, label: '$0.05', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.08)', color: '#a1a1aa', level: 'low' },
   { coins: 250, label: '$0.25', rarity: 'uncommon', border: '#10b981', bg: 'rgba(16,185,129,0.08)', color: '#10b981', level: 'medium' },
-  { coins: 1000, label: '$1.00', rarity: 'rare', border: '#3b82f6', bg: 'rgba(59,130,246,0.08)', color: '#3b82f6', level: 'medium' },
-  { coins: 2500, label: '$2.50', rarity: 'epic', border: '#a855f7', bg: 'rgba(168,85,247,0.08)', color: '#a855f7', level: 'high' },
+  { coins: 1000, label: '$1.00', rarity: 'rare', border: '#4597ff', bg: 'rgba(69,151,255,0.08)', color: '#4597ff', level: 'medium' },
+  { coins: 2500, label: '$2.50', rarity: 'epic', border: '#7854f7', bg: 'rgba(120,84,247,0.08)', color: '#7854f7', level: 'high' },
   { coins: 10000, label: '$10.00', rarity: 'legendary', border: '#eab308', bg: 'rgba(234,179,8,0.08)', color: '#eab308', level: 'high' },
   { coins: 250000, label: '$250.00', rarity: 'mythic', border: '#ef4444', bg: 'rgba(239,68,68,0.08)', color: '#ef4444', level: 'mythic' }
 ];
 
-const MOCK_NAMES = [
-  'Olivia', 'Noah', 'Amelia', 'Liam', 'Sophia', 'Lucas', 'Charlotte', 'Elijah', 
-  'Ava', 'James', 'Mia', 'Benjamin', 'Harper', 'Henry', 'Evelyn', 'Alexander'
-];
 
 export default function SpinPage() {
   const { user, login } = useAuth();
@@ -125,7 +123,6 @@ export default function SpinPage() {
   const [transitionDuration, setTransitionDuration] = useState('0s');
   
   const [confetti, setConfetti] = useState([]);
-  const [recentWins, setRecentWins] = useState([]);
 
   const rowRef = useRef(null);
 
@@ -160,56 +157,6 @@ export default function SpinPage() {
     }, 1000);
     return () => clearInterval(interval);
   }, [signupState.endsAt]);
-
-  // Initial recent wins populate
-  useEffect(() => {
-    const list = Array.from({ length: 5 }, () => {
-      const name = MOCK_NAMES[Math.floor(Math.random() * MOCK_NAMES.length)];
-      const rand = Math.random();
-      let pIdx = 0;
-      let cumulative = 0;
-      const probs = [0.55, 0.28, 0.12, 0.04, 0.008, 0.0019, 0.0001];
-      for (let j = 0; j < SPIN_PRIZES.length; j++) {
-        cumulative += probs[j] || 0;
-        if (rand <= cumulative) { pIdx = j; break; }
-      }
-      return {
-        id: Math.random().toString(),
-        user: name,
-        prize: SPIN_PRIZES[pIdx],
-        time: `${Math.floor(Math.random() * 15) + 1}m ago`
-      };
-    });
-    setRecentWins(list);
-  }, []);
-
-  // Update recent wins periodically
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const name = MOCK_NAMES[Math.floor(Math.random() * MOCK_NAMES.length)];
-      const rand = Math.random();
-      let pIdx = 0;
-      let cumulative = 0;
-      const probs = [0.55, 0.28, 0.12, 0.04, 0.008, 0.0019, 0.0001];
-      for (let j = 0; j < SPIN_PRIZES.length; j++) {
-        cumulative += probs[j] || 0;
-        if (rand <= cumulative) { pIdx = j; break; }
-      }
-      const newWin = {
-        id: Math.random().toString(),
-        user: name,
-        prize: SPIN_PRIZES[pIdx],
-        time: 'Just now'
-      };
-
-      setRecentWins(prev => {
-        const next = [newWin, ...prev];
-        return next.slice(0, 5);
-      });
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Generate conveyor carousel items
   const generateCarousel = (targetPrizeIdx = null) => {
@@ -281,7 +228,7 @@ export default function SpinPage() {
       size: Math.random() * 8 + 5,
       delay: Math.random() * 2,
       duration: Math.random() * 3 + 2,
-      color: ['#bf5aff', '#3b82f6', '#10b981', '#eab308', '#ef4444', '#f43f5e'][Math.floor(Math.random() * 6)]
+      color: ['#9b7bff', '#4597ff', '#10b981', '#eab308', '#ef4444', '#f43f5e'][Math.floor(Math.random() * 6)]
     }));
     setConfetti(list);
     setTimeout(() => setConfetti([]), 6000);
@@ -371,7 +318,18 @@ export default function SpinPage() {
   const challengeProgress = Math.min(100, (signupState.progressCoins / 1000) * 100);
 
   return (
-    <div className="page-spin mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start relative select-none w-full max-w-full overflow-x-hidden">
+    <div className="page-spin mx-auto flex w-full max-w-7xl flex-1 select-none flex-col justify-start overflow-x-hidden px-4 pb-10 pt-2 sm:px-6 lg:px-8 relative">
+      <PageHeader
+        eyebrow="Free rewards"
+        icon={Gift}
+        title="Spin &"
+        accent="win"
+        subtitle="Open your sign-up chest or claim a free spin every 24 hours. Prizes go straight to your balance."
+      >
+        <Chip tone="gold">Top prize $250 (very rare)</Chip>
+        {user && <Chip tone="green"><AnimatedNumber value={user.balance_coins || 0} className="tabular-nums" /> coins</Chip>}
+      </PageHeader>
+
       
       {/* Confetti falling effects */}
       {confetti.map((particle) => (
@@ -393,8 +351,8 @@ export default function SpinPage() {
       <style>{`
         .conveyor-container {
           position: relative;
-          background: #0f111a;
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: var(--bb-surface);
+          border: 1px solid var(--bb-border);
           border-radius: 20px;
           height: 190px;
           overflow: hidden;
@@ -459,7 +417,7 @@ export default function SpinPage() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          transition: all 0.3s;
+          transition: border-color 0.3s ease, background-color 0.3s ease;
           position: relative;
         }
 
@@ -471,10 +429,10 @@ export default function SpinPage() {
         .stripes-progressbar {
           background: repeating-linear-gradient(
             45deg,
-            #bf5aff,
-            #bf5aff 12px,
-            #9f3cdb 12px,
-            #9f3cdb 24px
+            #8f6dff,
+            #8f6dff 12px,
+            #6945e4 12px,
+            #6945e4 24px
           );
           background-size: 40px 40px;
           animation: stripesShift 1.2s linear infinite;
@@ -489,31 +447,36 @@ export default function SpinPage() {
         }
         
         .timer-ends-box {
-          background: #171822;
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          background: var(--bb-surface-2);
+          border: 1px solid var(--bb-border);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .stripes-progressbar { animation: none; }
+          .animate-confetti-fall { animation: none; display: none; }
         }
       `}</style>
 
       {/* Dynamic Tab Switchers (Daily vs Signup Chest) */}
-      <div className="mb-6 flex flex-wrap gap-2.5 border-b border-dark-border/40 pb-4 justify-center sm:justify-start">
+      <div role="tablist" aria-label="Spin type" className="mb-6 flex flex-wrap justify-center gap-2.5">
         <button
-          onClick={() => !spinning && setActiveTab('signup')}
+          role="tab" aria-selected={activeTab === 'signup'} onClick={() => !spinning && setActiveTab('signup')}
           disabled={spinning}
-          className={`px-4 sm:px-6 py-2 rounded-lg sm:rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
+          className={`min-h-[44px] px-4 sm:px-6 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-[background-color,border-color,box-shadow,color,transform] duration-150 active:scale-95 ${
             activeTab === 'signup'
-              ? 'border-primary/40 bg-primary/10 text-primary shadow-lg'
-              : 'border-dark-border/60 text-zinc-400 bg-dark-card hover:bg-dark-bg/60 hover:text-white'
+              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
+              : 'border-dark-border text-zinc-300 bg-[var(--bb-surface)] hover:bg-[var(--bb-surface-2)] hover:text-white'
           }`}
         >
           <Sparkles className="h-4 w-4" /> Sign-up Bonus Chest
         </button>
         <button
-          onClick={() => !spinning && setActiveTab('daily')}
+          role="tab" aria-selected={activeTab === 'daily'} onClick={() => !spinning && setActiveTab('daily')}
           disabled={spinning}
-          className={`px-4 sm:px-6 py-2 rounded-lg sm:rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-all ${
+          className={`min-h-[44px] px-4 sm:px-6 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-[background-color,border-color,box-shadow,color,transform] duration-150 active:scale-95 ${
             activeTab === 'daily'
-              ? 'border-primary/40 bg-primary/10 text-primary shadow-lg'
-              : 'border-dark-border/60 text-zinc-400 bg-dark-card hover:bg-dark-bg/60 hover:text-white'
+              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
+              : 'border-dark-border text-zinc-300 bg-[var(--bb-surface)] hover:bg-[var(--bb-surface-2)] hover:text-white'
           }`}
         >
           <Clock className="h-4 w-4" /> Daily Free Spin
@@ -521,7 +484,7 @@ export default function SpinPage() {
       </div>
 
       {/* Main spin interface wrapper */}
-      <div className="mx-auto max-w-4xl w-full bg-[#0a0a0f] border border-dark-border/40 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col items-center justify-start shadow-2xl relative overflow-hidden max-w-full">
+      <div className="g-card g-neon mx-auto w-full max-w-4xl p-4 sm:p-8 flex flex-col items-center justify-start shadow-2xl relative overflow-hidden">
         
         {/* Chest Illustration */}
         <div className="mb-4">
@@ -532,11 +495,11 @@ export default function SpinPage() {
         <h2 className="text-2xl sm:text-3xl font-black text-white leading-none text-center">
           {activeTab === 'signup' ? 'Sign up Bonus!' : 'Daily Free Spin!'}
         </h2>
-        <p className="text-zinc-450 font-semibold text-sm mt-2">
+        <p className="text-zinc-400 font-semibold text-sm mt-2">
           {activeTab === 'signup' ? (
-            <>Win up to <span className="text-[#bf5aff] font-bold">$250</span></>
+            <>Win up to <span className="text-[#9b7bff] font-bold">$250</span></>
           ) : (
-            <>Claim your daily gift. Win up to <span className="text-[#bf5aff] font-bold">$10.00</span></>
+            <>Claim your daily gift. Win up to <span className="text-[#9b7bff] font-bold">$250</span></>
           )}
         </p>
 
@@ -567,7 +530,7 @@ export default function SpinPage() {
                       : item.rarity === 'uncommon' 
                       ? 'rgba(16,185,129,0.06)' 
                       : item.rarity === 'epic' 
-                      ? 'rgba(168,85,247,0.06)' 
+                      ? 'rgba(120,84,247,0.06)' 
                       : 'rgba(234,179,8,0.06)'
                   }}
                 >
@@ -630,7 +593,7 @@ export default function SpinPage() {
 
             {spinning && (
               <div className="mb-6">
-                <button disabled className="rounded-full px-10 py-3.5 bg-dark-bg text-zinc-650 border border-dark-border/60 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
+                <button disabled className="rounded-full px-10 py-3.5 bg-[var(--bb-surface-2)] text-zinc-400 border border-dark-border text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
                   Opening Case...
                 </button>
               </div>
@@ -638,7 +601,7 @@ export default function SpinPage() {
 
             {/* Progress bar matching the user mockup EXACTLY */}
             <div className="w-full max-w-full overflow-hidden flex items-center gap-2 sm:gap-3 mt-4 mb-4 select-none">
-              <div className="bg-[#a855f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
+              <div className="bg-[#7854f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(120,84,247,0.3)]">
                 $ 0
               </div>
               <div className="flex-1 h-6 sm:h-7 bg-[#0b0c10] rounded-full border border-zinc-800/80 overflow-hidden relative flex items-center p-[3px]">
@@ -647,21 +610,21 @@ export default function SpinPage() {
                   style={{ width: `${challengeProgress}%` }}
                 />
               </div>
-              <div className="bg-[#a855f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(168,85,247,0.3)]">
+              <div className="bg-[#7854f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(120,84,247,0.3)]">
                 $ 1
               </div>
             </div>
 
             {/* Campaign info text */}
             <p className="text-zinc-300 text-[11px] sm:text-xs font-semibold tracking-wide text-center leading-relaxed mt-2 px-2">
-              Earn over <span className="text-white font-extrabold">$ 1</span> within <span className="text-[#bf5aff] font-extrabold">48 Hours</span> and receive <span className="text-[#bf5aff] font-extrabold">3 more free cases!</span>
+              Earn over <span className="text-white font-extrabold">$ 1</span> within <span className="text-[#9b7bff] font-extrabold">48 Hours</span> and receive <span className="text-[#9b7bff] font-extrabold">3 more free cases!</span>
             </p>
 
             {/* Extra chests reward list */}
             <div className="flex justify-center items-center gap-6 sm:gap-12 mt-6 mb-8 select-none">
               <div className="flex flex-col items-center">
                 <ChestIcon type="purple" size={48} />
-                <span className="text-xs font-extrabold text-[#bf5aff] mt-2">$ 250</span>
+                <span className="text-xs font-extrabold text-[#9b7bff] mt-2">$ 250</span>
               </div>
               <div className="flex flex-col items-center">
                 <ChestIcon type="gold" size={48} />
@@ -681,7 +644,7 @@ export default function SpinPage() {
               </div>
               <Link 
                 href="/earn"
-                className="w-full sm:w-auto sm:flex-1 bg-[#bf5aff] hover:bg-[#a855f7] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(191,90,255,0.3)]"
+                className="w-full sm:w-auto sm:flex-1 bg-[#9b7bff] hover:bg-[#7854f7] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(120,84,247,0.3)]"
               >
                 Start Earning <Play className="h-3.5 w-3.5 fill-white" />
               </Link>
@@ -696,7 +659,7 @@ export default function SpinPage() {
             {/* Daily spin eligibility actions */}
             {!canSpinDaily && (
               <div className="flex flex-col items-center gap-3 animate-new-card mt-4">
-                <button disabled className="rounded-full px-12 py-4 bg-dark-bg text-zinc-650 border border-dark-border/60 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
+                <button disabled className="rounded-full px-12 py-4 bg-[var(--bb-surface-2)] text-zinc-400 border border-dark-border text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
                   Daily Cooldown Active
                 </button>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-400 uppercase tracking-widest bg-dark-bg/60 px-4 py-1.5 rounded-full border border-dark-border/30">
@@ -718,13 +681,13 @@ export default function SpinPage() {
 
             {spinning && (
               <div className="mt-4 mb-4">
-                <button disabled className="rounded-full px-10 py-3.5 bg-dark-bg text-zinc-650 border border-dark-border/60 text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
+                <button disabled className="rounded-full px-10 py-3.5 bg-[var(--bb-surface-2)] text-zinc-400 border border-dark-border text-xs font-extrabold uppercase tracking-wide cursor-not-allowed">
                   Rolling...
                 </button>
               </div>
             )}
 
-            <p className="text-zinc-450 text-xs text-center max-w-md mt-6 leading-relaxed">
+            <p className="text-zinc-400 text-xs text-center max-w-md mt-6 leading-relaxed">
               Claim a free gold spin once every 24 hours. The reward will be automatically added to your total coin balance.
             </p>
 

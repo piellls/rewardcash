@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
 import SupportModal from './SupportModal';
-import LiveFeedBanner from './LiveFeedBanner';
-import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, User, Users, ChevronRight, Gift } from 'lucide-react';
+import { AnimatedNumber } from './motion';
+import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, Users, Gift } from 'lucide-react';
 
 const calculateLevel = (totalEarned = 0) => {
   if (totalEarned < 1000) return { level: 1, current: totalEarned, next: 1000, percentage: (totalEarned / 1000) * 100 };
@@ -54,7 +54,6 @@ export default function Navbar() {
   const navItems = [
     { name: 'Earn', href: '/earn', icon: PlayCircle },
     { name: 'Daily Spin', href: '/spin', icon: Gift },
-    { name: 'Offerwall', href: '/offerwall', icon: Coins },
     { name: 'Cashout', href: '/cashout', icon: Wallet },
     { name: 'Leaderboard', href: '/leaderboard', icon: Trophy },
     { name: 'Referrals', href: '/referrals', icon: Users },
@@ -66,50 +65,50 @@ export default function Navbar() {
   return (
     <>
       {/* 1. TOP HEADER (sticky on mobile, right-aligned next to sidebar on desktop) */}
-      <header className="fixed top-0 right-0 left-0 md:left-64 z-30 h-18 glass-nav flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-dark-border">
+      <header className="fixed top-0 right-0 left-0 md:left-64 z-30 h-18 glass-nav flex items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
-          <Link href="/" className="flex items-center group">
-            <img 
-              src="/offerwall/blueberry_logo.png" 
-              alt="blueberrycash Logo" 
-              className="h-16 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
+          <Link href="/" className="flex items-center" aria-label="BlueberryCash home">
+            <img
+              src="/offerwall/blueberry_logo.png"
+              alt="BlueberryCash"
+              className="h-14 w-auto object-contain"
             />
           </Link>
         </div>
 
-        {/* Level XP Progress Bar (Desktop Header Center) */}
-        <div className="hidden md:flex items-center gap-3 bg-dark-bg/80 border border-dark-border rounded-xl px-4 py-1.5 max-w-sm w-full group relative cursor-pointer transition-all hover:border-primary/30">
+        {/* Level XP bar (desktop header centre) */}
+        <div className="hidden md:flex items-center gap-3 g-card rounded-xl! px-4 py-2 max-w-sm w-full group relative">
           {user ? (
             <>
-              <div className="flex flex-col flex-1 min-w-0">
-                <div className="flex items-center justify-between text-[10px] font-bold text-zinc-400 mb-0.5">
-                  <span className="text-primary font-black uppercase">Level {levelData.level}</span>
-                  <span className="text-zinc-500">{levelData.current.toLocaleString()} / {levelData.next.toLocaleString()} XP</span>
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-secondary text-sm font-black text-white shadow-[0_0_14px_rgba(120,84,247,0.55)]">
+                {levelData.level}
+              </span>
+              <div className="flex flex-col flex-1 min-w-0 gap-1">
+                <div className="flex items-center justify-between text-[11px] font-bold">
+                  <span className="uppercase tracking-wider text-[#c3b2ff]">Level {levelData.level}</span>
+                  <span className="text-zinc-400 tabular-nums">{levelData.current.toLocaleString()} / {levelData.next.toLocaleString()} XP</span>
                 </div>
-                <div className="h-1.5 w-full bg-dark-card rounded-full overflow-hidden border border-dark-border/40">
-                  <div 
-                    className="h-full bg-gradient-to-r from-secondary to-primary rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(93,95,239,0.5)]" 
-                    style={{ width: `${levelData.percentage}%` }}
-                  />
+                <div className="g-xp" style={{ '--p': Math.max(0.02, Math.min(1, levelData.percentage / 100)) }}>
+                  <i />
                 </div>
               </div>
-              <div className="absolute top-12 left-0 right-0 p-4 bg-dark-card border border-dark-border rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-xs text-zinc-350 space-y-2">
-                <p className="font-bold text-white text-center border-b border-dark-border/60 pb-1.5 mb-1.5">XP Level Details</p>
+              <div className="pointer-events-none absolute left-0 right-0 top-14 z-50 space-y-2 rounded-xl border border-dark-border bg-dark-card p-4 text-xs text-zinc-300 opacity-0 shadow-2xl transition-opacity duration-150 group-hover:opacity-100">
+                <p className="mb-1.5 border-b border-dark-border pb-1.5 text-center font-bold text-white">XP level details</p>
                 <div className="flex justify-between">
-                  <span>Current XP:</span>
-                  <span className="font-bold text-white">{(user?.total_earned_coins || 0).toLocaleString()} XP</span>
+                  <span>Current XP</span>
+                  <span className="font-bold text-white tabular-nums">{(user?.total_earned_coins || 0).toLocaleString()} XP</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>XP to Next Lvl:</span>
-                  <span className="font-bold text-primary">{(levelData.next - levelData.current).toLocaleString()} XP</span>
+                  <span>To next level</span>
+                  <span className="font-bold text-[#c3b2ff] tabular-nums">{(levelData.next - levelData.current).toLocaleString()} XP</span>
                 </div>
-                <p className="text-[10px] text-zinc-500 leading-relaxed pt-1.5 border-t border-dark-border/40">Earn more coins by completing offers to level up. Higher levels show your dominance on the rankings!</p>
+                <p className="border-t border-dark-border pt-1.5 text-[11px] leading-relaxed text-zinc-400">Every coin you earn counts as 1 XP. Your level shows next to your name.</p>
               </div>
             </>
           ) : (
-            <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider text-center w-full">
-              Leveling bar locked • Register to start
+            <div className="w-full text-center text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+              Level bar unlocks when you register
             </div>
           )}
         </div>
@@ -120,80 +119,58 @@ export default function Navbar() {
             <div className="h-9 w-24 animate-pulse rounded-lg bg-dark-card border border-dark-border" />
           ) : user ? (
             <div className="flex items-center gap-3 sm:gap-4">
-              {/* Coin Display */}
-              <div className="flex items-center gap-2 rounded-xl bg-dark-bg border border-dark-border px-3.5 py-1.5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.6)]">
-                <div className="rounded-full bg-primary/10 p-0.5">
-                  <Coins className="h-4 w-4 text-primary animate-pulse" />
-                </div>
-                <span className="font-black text-white text-xs sm:text-sm tracking-wide">
-                  {user.balance_coins?.toLocaleString() || 0}
-                </span>
-                <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider hidden sm:inline">
-                  Coins
-                </span>
+              {/* Coin balance */}
+              <div className="flex items-center gap-2 rounded-xl border border-[rgba(120,84,247,0.4)] bg-[var(--bb-surface)] px-3.5 py-1.5 shadow-[0_0_18px_-4px_rgba(120,84,247,0.55)]">
+                <Coins className="h-4 w-4 text-[#c3b2ff]" aria-hidden="true" />
+                <AnimatedNumber value={user.balance_coins || 0} className="font-black text-white text-sm tabular-nums" />
+                <span className="hidden text-[10px] font-bold uppercase tracking-wider text-zinc-400 sm:inline">Coins</span>
               </div>
 
-              {/* Mobile Free Spin Gift Button */}
-              <Link 
-                href="/spin" 
-                className="flex md:hidden items-center justify-center h-9.5 w-9.5 rounded-xl bg-primary/10 border border-primary/25 text-primary hover:text-white hover:border-primary/50 shadow-md active:scale-95 transition-all relative shrink-0"
+              {/* Mobile free spin button */}
+              <Link
+                href="/spin"
+                className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#c3b2ff] transition-transform duration-100 active:scale-95 md:hidden"
                 title="Daily Spin"
+                aria-label="Daily spin"
               >
-                <Gift className="h-4.5 w-4.5 text-primary" />
-                <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
+                <Gift className="h-5 w-5" />
+                <span className="g-live absolute -right-0.5 -top-0.5" />
               </Link>
 
-              {/* Profile Avatar link */}
-              <Link 
-                href="/dashboard"
-                className="flex items-center gap-2 hover:text-primary text-zinc-800 transition-all active:scale-95 group"
-              >
-                <img 
-                  src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                  alt={user.username}
-                  className="h-8 w-8 rounded-full border border-dark-border group-hover:border-primary group-hover:shadow-[0_0_8px_rgba(93,95,239,0.3)] transition-all object-cover"
+              {/* Profile */}
+              <Link href="/dashboard" className="group flex items-center gap-2 active:scale-95 transition-transform duration-100">
+                <img
+                  src={user.avatar_url || '/avatars/1.png'}
+                  alt=""
+                  className="h-9 w-9 rounded-full border-2 border-primary/50 object-cover transition-[border-color] group-hover:border-primary"
                 />
-                <span className="text-xs sm:text-sm font-bold hidden sm:inline group-hover:text-primary transition-colors">
-                  {user.username}
-                </span>
+                <span className="hidden text-sm font-bold text-white sm:inline">{user.username}</span>
               </Link>
 
-              {/* Logout Button */}
-              <button 
+              <button
                 onClick={logout}
-                className="rounded-xl p-2 text-zinc-500 hover:bg-primary/5 hover:text-primary active:scale-95 transition-all"
-                title="Log Out"
+                className="rounded-xl p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-white active:scale-95"
+                title="Log out"
+                aria-label="Log out"
               >
-                <LogOut className="h-4.5 w-4.5" />
+                <LogOut className="h-5 w-5" />
               </button>
             </div>
           ) : (
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Mobile Free Spin Gift Button (Guest) */}
-              <Link 
-                href="/spin" 
-                className="flex md:hidden items-center justify-center h-9.5 w-9.5 rounded-xl bg-primary/10 border border-primary/25 text-primary hover:text-white hover:border-primary/50 shadow-md active:scale-95 transition-all relative shrink-0 mr-1"
+              <Link
+                href="/spin"
+                className="relative mr-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#c3b2ff] transition-transform duration-100 active:scale-95 md:hidden"
                 title="Daily Spin"
+                aria-label="Daily spin"
               >
-                <Gift className="h-4.5 w-4.5 text-primary" />
-                <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
+                <Gift className="h-5 w-5" />
+                <span className="g-live absolute -right-0.5 -top-0.5" />
               </Link>
-              <button
-                onClick={() => openAuth('login')}
-                className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs sm:text-sm"
-              >
-                Sign In
+              <button onClick={() => openAuth('login')} className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs sm:text-sm">
+                Sign in
               </button>
-              <button
-                onClick={() => openAuth('register')}
-                className="btn-gaming rounded-xl px-4 py-2 text-xs sm:text-sm"
-              >
+              <button onClick={() => openAuth('register')} className="btn-gaming rounded-xl px-4 py-2 text-xs sm:text-sm">
                 Register
               </button>
             </div>
@@ -201,21 +178,15 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* 2. DESKTOP SIDEBAR (fixed on the left, hidden on mobile) */}
-      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-dark-card border-r border-dark-border flex-col z-40">
-        {/* Sidebar Logo Header */}
-        <div className="h-24 border-b border-dark-border/40 flex items-center px-6 shrink-0">
-          <Link href="/" className="flex items-center group w-full justify-start">
-            <img 
-              src="/offerwall/blueberry_logo.png" 
-              alt="blueberrycash Logo" 
-              className="h-22 w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]" 
-            />
+      {/* 2. DESKTOP SIDEBAR */}
+      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 flex-col z-40 border-r border-dark-border bg-[var(--bb-sidebar)]">
+        <div className="h-24 shrink-0 flex items-center px-6 border-b border-dark-border">
+          <Link href="/" className="flex w-full items-center" aria-label="BlueberryCash home">
+            <img src="/offerwall/blueberry_logo.png" alt="BlueberryCash" className="h-20 w-auto object-contain" />
           </Link>
         </div>
 
-        {/* Sidebar Nav Links */}
-        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+        <nav aria-label="Main" className="flex-1 space-y-1 overflow-y-auto px-4 py-6">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isSupport = item.name === 'Support';
@@ -226,15 +197,10 @@ export default function Navbar() {
                 <button
                   key={item.name}
                   onClick={() => setIsSupportOpen(true)}
-                  className="flex w-full items-center justify-between text-sm font-semibold tracking-wide text-zinc-500 hover:text-primary hover:bg-primary/5 py-2.5 px-4 rounded-xl hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer border-none bg-transparent text-left group"
+                  className="g-nav w-full text-left text-sm"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-transparent text-zinc-500 group-hover:bg-primary/5 group-hover:text-primary transition-colors border border-transparent group-hover:border-dark-border/40">
-                      <Icon className="h-4.5 w-4.5" />
-                    </div>
-                    {item.name}
-                  </div>
-                  <ChevronRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-zinc-500" />
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                  {item.name}
                 </button>
               );
             }
@@ -243,101 +209,70 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center justify-between text-sm font-semibold tracking-wide py-2.5 px-4 rounded-xl hover:scale-[1.01] active:scale-[0.98] transition-all relative group overflow-hidden ${
-                  isActive 
-                    ? 'text-primary bg-primary/5 font-bold border-l-2 border-primary shadow-[inset_1px_0_0_rgba(93,95,239,0.2)]' 
-                    : 'text-zinc-500 hover:text-primary hover:bg-primary/5'
-                }`}
+                aria-current={isActive ? 'page' : undefined}
+                className="g-nav text-sm"
               >
-                <div className="flex items-center gap-3">
-                  <div className={`p-1.5 rounded-lg transition-all border ${
-                    isActive 
-                      ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(93,95,239,0.2)]' 
-                      : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-primary/5 group-hover:text-primary group-hover:border-dark-border/40'
-                  }`}>
-                    <Icon className="h-4.5 w-4.5" />
-                  </div>
-                  {item.name}
-                </div>
-                <ChevronRight className={`h-3.5 w-3.5 transition-all ${isActive ? 'opacity-100 text-primary' : 'opacity-0 group-hover:opacity-100 text-zinc-500'}`} />
+                <Icon className={`h-5 w-5 ${isActive ? 'text-[#c3b2ff]' : ''}`} aria-hidden="true" />
+                {item.name}
               </Link>
             );
           })}
         </nav>
 
-        {/* Sidebar Admin Controls */}
-        <div className="p-4 border-t border-dark-border/40 shrink-0 space-y-2">
+        <div className="shrink-0 space-y-2 border-t border-dark-border p-4">
           {user && user.role === 'admin' && (
             <Link
               href="/admin"
-              className="flex items-center justify-center gap-2 rounded-xl border border-accent-red/20 bg-accent-red/5 py-2.5 text-xs font-bold text-accent-red hover:bg-accent-red/10 active:scale-[0.98] transition-all"
+              className="flex items-center justify-center gap-2 rounded-xl border border-accent-red/30 bg-accent-red/10 py-2.5 text-xs font-bold text-[#ff8f9c] transition-colors hover:bg-accent-red/20 active:scale-[0.98]"
             >
-              <ShieldAlert className="h-4 w-4 animate-pulse" />
-              Admin Control Panel
+              <ShieldAlert className="h-4 w-4" aria-hidden="true" />
+              Admin panel
             </Link>
           )}
-
         </div>
       </aside>
 
-      {/* 3. MOBILE BOTTOM NAVIGATION (fixed at bottom, hidden on desktop) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-dark-card/95 backdrop-blur-lg border-t border-dark-border flex items-center justify-around z-40 px-2 shadow-2xl">
-        {navItems.filter(item => item.name !== 'Daily Spin').map((item) => {
+      {/* 3. MOBILE BOTTOM NAVIGATION */}
+      <nav aria-label="Main" className="md:hidden fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-dark-border bg-[var(--bb-sidebar)]/95 px-2 backdrop-blur-lg">
+        {navItems.filter((item) => item.name !== 'Daily Spin').map((item) => {
           const Icon = item.icon;
           const isSupport = item.name === 'Support';
           const isActive = !isSupport && pathname === item.href;
 
+          const inner = (
+            <>
+              <span className={`mb-0.5 grid h-8 w-8 place-items-center rounded-xl transition-colors duration-150 ${isActive ? 'bg-primary/25 text-white shadow-[0_0_14px_rgba(120,84,247,0.6)]' : 'text-zinc-400'}`}>
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <span className={`text-[10px] font-bold tracking-wide ${isActive ? 'text-white' : 'text-zinc-400'}`}>{item.name}</span>
+            </>
+          );
+
           if (isSupport) {
             return (
-              <button
-                key={item.name}
-                onClick={() => setIsSupportOpen(true)}
-                className="flex flex-col items-center justify-center flex-1 py-1 text-zinc-500 hover:text-primary active:scale-95 transition-all cursor-pointer border-none bg-transparent group"
-              >
-                <div className="p-1 rounded-lg bg-transparent text-zinc-500 group-hover:bg-primary/5 group-hover:text-primary transition-colors mb-0.5">
-                  <Icon className="h-4.5 w-4.5" />
-                </div>
-                <span className="text-[9px] font-bold tracking-wide">
-                  {item.name}
-                </span>
+              <button key={item.name} onClick={() => setIsSupportOpen(true)} className="flex flex-1 flex-col items-center justify-center py-1 transition-transform duration-100 active:scale-95">
+                {inner}
               </button>
             );
           }
 
           return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 py-1 active:scale-95 transition-all group ${
-                isActive 
-                  ? 'text-primary font-bold' 
-                  : 'text-zinc-500 hover:text-primary'
-              }`}
-            >
-              <div className={`p-1 rounded-lg transition-all border ${
-                isActive 
-                  ? 'bg-primary/10 text-primary border-primary/20 shadow-[0_0_8px_rgba(93,95,239,0.2)]' 
-                  : 'bg-transparent text-zinc-500 border-transparent group-hover:bg-primary/5 group-hover:text-primary'
-              } mb-0.5`}>
-                <Icon className="h-4.5 w-4.5" />
-              </div>
-              <span className="text-[9px] font-bold tracking-wide">
-                {item.name}
-              </span>
+            <Link key={item.name} href={item.href} aria-current={isActive ? 'page' : undefined} className="flex flex-1 flex-col items-center justify-center py-1 transition-transform duration-100 active:scale-95">
+              {inner}
             </Link>
           );
         })}
       </nav>
 
-      <AuthModal 
-        isOpen={isAuthOpen} 
-        onClose={() => setIsAuthOpen(false)} 
-        initialTab={authTab} 
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        defaultTab={authTab}
       />
 
-      <SupportModal 
-        isOpen={isSupportOpen} 
-        onClose={() => setIsSupportOpen(false)} 
+      <SupportModal
+        isOpen={isSupportOpen}
+        onClose={() => setIsSupportOpen(false)}
       />
     </>
   );

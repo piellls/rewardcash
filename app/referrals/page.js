@@ -4,691 +4,195 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
-import { Users, Coins, Share2, Copy, Check, Award, TrendingUp, Calendar, Info, Clock, DollarSign, Star, Shield, Swords, Zap, Sparkles, Crown, Gem, Flame, Globe } from 'lucide-react';
+import PageHeader, { Chip } from '@/components/PageHeader';
+import { Reveal, CountUp } from '@/components/motion';
+import { Users, Copy, Check, Share2, Link2, UserCheck, Coins, Percent } from 'lucide-react';
 
-export const playCoinSound = () => {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
-    const now = ctx.currentTime;
-    
-    // Note 1 (B5)
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(987.77, now);
-    gain1.gain.setValueAtTime(0.08, now);
-    gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-    osc1.start(now);
-    osc1.stop(now + 0.08);
-    
-    // Note 2 (E6)
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(1318.51, now + 0.08);
-    gain2.gain.setValueAtTime(0.08, now + 0.08);
-    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-    osc2.start(now + 0.08);
-    osc2.stop(now + 0.35);
-  } catch (err) {
-    console.error('Audio play error:', err);
-  }
-};
-
-export const triggerCoinBurst = (elementId) => {
-  const btn = document.getElementById(elementId);
-  if (!btn) return;
-  
-  const rect = btn.getBoundingClientRect();
-  const x = rect.left + rect.width / 2 + window.scrollX;
-  const y = rect.top + rect.height / 2 + window.scrollY;
-  
-  for (let i = 0; i < 15; i++) {
-    const coin = document.createElement('div');
-    coin.innerText = '🪙';
-    coin.style.position = 'absolute';
-    coin.style.left = `${x}px`;
-    coin.style.top = `${y}px`;
-    coin.style.fontSize = '18px';
-    coin.style.pointerEvents = 'none';
-    coin.style.zIndex = '9999';
-    coin.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-    
-    document.body.appendChild(coin);
-    
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 40 + Math.random() * 70;
-    const destX = x + Math.cos(angle) * distance;
-    const destY = y + Math.sin(angle) * distance - 80;
-    
-    requestAnimationFrame(() => {
-      coin.style.transform = 'translate(-50%, -50%) scale(0.4) rotate(' + (Math.random() * 360) + 'deg)';
-      coin.style.left = `${destX}px`;
-      coin.style.top = `${destY}px`;
-      coin.style.opacity = '0';
-    });
-    
-    setTimeout(() => coin.remove(), 800);
-  }
-};
+const STEPS = [
+  { icon: Link2, title: 'Share your link', text: 'Send your personal link to friends, on social or in a group chat.' },
+  { icon: UserCheck, title: 'They join and finish a task', text: 'When a friend signs up and completes their first task, you get a 100 coin bonus.' },
+  { icon: Percent, title: 'You earn 10% for good', text: 'After that you get 10% of the coins from every task they finish. It lands in your balance by itself.' },
+];
 
 export default function Referrals() {
-  const { user, earnCoinsSimulated } = useAuth();
-  
-  // Page states
+  const { user } = useAuth();
   const [stats, setStats] = useState({ totalReferrals: 0, totalEarnings: 0 });
-  const [referralsList, setReferralsList] = useState([]);
+  const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState('Tiers'); // 'Tiers', 'Affiliates', 'Leaderboard', 'Promo'
-  const [claimableCoins, setClaimableCoins] = useState(0);
-
-  // Auth Redirect modal states
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [authTab, setAuthTab] = useState('login');
-
-  // Custom How it works modal
-  const [isHowItWorksOpen, setIsHowItWorksOpen] = useState(false);
-
-  const TIERS = [
-    { level: 1, commission: 5, reqUSD: 0, badge: Shield, color: 'text-secondary', badgeName: 'Tier 1' },
-    { level: 2, commission: 6, reqUSD: 10, badge: Swords, color: 'text-primary', badgeName: 'Tier 2' },
-    { level: 3, commission: 7, reqUSD: 25, badge: Zap, color: 'text-secondary', badgeName: 'Tier 3' },
-    { level: 4, commission: 8, reqUSD: 50, badge: Sparkles, color: 'text-primary', badgeName: 'Tier 4' },
-    { level: 5, commission: 9, reqUSD: 100, badge: Star, color: 'text-secondary', badgeName: 'Tier 5' },
-    { level: 6, commission: 10, reqUSD: 500, badge: Crown, color: 'text-primary', badgeName: 'Tier 6' },
-    { level: 7, commission: 15, reqUSD: 2500, req30dUSD: 300, badge: Gem, color: 'text-secondary', badgeName: 'Tier 7' },
-    { level: 8, commission: 20, reqUSD: 10000, req30dUSD: 1200, badge: Award, color: 'text-primary', badgeName: 'Tier 8' },
-    { level: 9, commission: 25, reqUSD: 50000, req30dUSD: 6000, badge: Flame, color: 'text-secondary', badgeName: 'Tier 9' },
-    { level: 10, commission: 30, reqUSD: 100005, req30dUSD: 12000, badge: Globe, color: 'text-primary', badgeName: 'Tier 10' }
-  ];
-
-  const loadReferralData = async () => {
-    if (!user) return;
-    setLoading(true);
-    try {
-      const s = await db.getReferralStats(user.id);
-      const l = await db.getReferralsList(user.id);
-      setStats(s);
-      setReferralsList(l || []);
-
-      // Load claimable coins
-      const storedClaimable = localStorage.getItem(`rc_referral_claimable_${user.id}`);
-      if (storedClaimable) {
-        setClaimableCoins(parseInt(storedClaimable, 10));
-      } else {
-        // Seed 250 claimable coins for testing if total earnings is 0
-        const seedCoins = s.totalEarnings > 0 ? 0 : 250;
-        setClaimableCoins(seedCoins);
-        localStorage.setItem(`rc_referral_claimable_${user.id}`, seedCoins.toString());
-      }
-    } catch (err) {
-      console.error('Error loading referral data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [authTab, setAuthTab] = useState('register');
 
   useEffect(() => {
-    if (user) {
-      loadReferralData();
-    } else {
-      setLoading(false);
-    }
+    if (!user) { setLoading(false); return; }
+    let alive = true;
+    (async () => {
+      try {
+        const [s, l] = await Promise.all([db.getReferralStats(user.id), db.getReferralsList(user.id)]);
+        if (!alive) return;
+        setStats(s);
+        setFriends(l || []);
+      } catch (err) {
+        console.error('Error loading referral data:', err);
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+    return () => { alive = false; };
   }, [user?.id]);
 
-  const getReferralLink = () => {
-    if (typeof window === 'undefined' || !user) return '';
-    return `${window.location.origin}/ref/${user.username}`;
-  };
+  const link = typeof window !== 'undefined' && user ? `${window.location.origin}/ref/${user.username}` : '';
+  const shareText = 'Join BlueberryCash and earn coins for games, apps and surveys.';
 
-  const handleCopyLink = () => {
-    const link = getReferralLink();
+  const copy = async () => {
     if (!link) return;
-    navigator.clipboard.writeText(link);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleClaimEarnings = async () => {
-    if (claimableCoins <= 0 || !user) return;
-    
-    playCoinSound();
-    triggerCoinBurst('claim-btn');
-    
-    setLoading(true);
     try {
-      await earnCoinsSimulated({
-        id: 'referral_claim',
-        name: 'Claim Referral Commissions',
-        payout: claimableCoins / 1000,
-        coins: claimableCoins,
-        provider: 'Referral Program'
-      });
-      
-      localStorage.setItem(`rc_referral_claimable_${user.id}`, '0');
-      setClaimableCoins(0);
-      await loadReferralData();
-    } catch (err) {
-      alert(err.message || 'Failed to claim commissions');
-    } finally {
-      setLoading(false);
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard can be blocked; the link stays selectable in the field.
     }
   };
 
-  // Compute active tier based on total referral earnings USD (1,000 coins = $1.00 USD)
-  const usdEarnings = (stats.totalEarnings || 0) / 1000;
-  
-  const currentTier = TIERS.reduce((prev, curr) => {
-    if (usdEarnings >= curr.reqUSD) return curr;
-    return prev;
-  }, TIERS[0]);
+  const nativeShare = async () => {
+    try { await navigator.share({ title: 'BlueberryCash', text: shareText, url: link }); } catch { /* cancelled */ }
+  };
 
-  // Guest landing layout
-  if (!user && !loading) {
-    return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center items-center relative overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-gradient-to-br from-secondary/10 to-primary/5 rounded-full filter blur-[100px] pointer-events-none" />
-
-        <div className="rounded-2xl bg-gradient-to-tr from-secondary/10 to-primary/10 border border-primary/20 p-5 text-primary mb-6 animate-pulse-slow">
-          <Users className="h-10 w-10 text-primary" />
-        </div>
-        
-        <h1 className="text-4xl sm:text-5xl font-black text-white text-center tracking-tight mb-4 max-w-2xl leading-none">
-          Earn <span className="text-gradient">Passive Income</span> with Affiliates
-        </h1>
-        <p className="text-sm sm:text-base text-zinc-400 max-w-xl text-center mb-10 leading-relaxed">
-          Invite friends to BlueberryCash. Get a lifetime <strong className="text-primary">up to 30% commission</strong> on all of their earnings. Plus, they get <strong className="text-white">+100 welcome coins</strong> immediately!
-        </p>
-
-        {/* Highlight Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-4xl mb-12">
-          <div className="rounded-xl border border-dark-border bg-dark-card p-6 text-center hover:border-primary/10 transition-all relative overflow-hidden group">
-            <div className="icon-wrapper-primary h-12 w-12 flex mx-auto mb-3 group-hover:scale-105 transition-transform">
-              <Share2 className="h-5.5 w-5.5" />
-            </div>
-            <h3 className="text-sm font-bold text-white mb-1.5">1. Share Your Link</h3>
-            <p className="text-xs text-zinc-450 leading-relaxed">Send your unique affiliate invite link to friends, forums, or social networks.</p>
-          </div>
-          
-          <div className="rounded-xl border border-dark-border bg-dark-card p-6 text-center hover:border-primary/10 transition-all relative overflow-hidden group">
-            <div className="icon-wrapper-primary h-12 w-12 flex mx-auto mb-3 group-hover:scale-105 transition-transform">
-              <Coins className="h-5.5 w-5.5" />
-            </div>
-            <h3 className="text-sm font-bold text-white mb-1.5">2. Signup Welcome</h3>
-            <p className="text-xs text-zinc-450 leading-relaxed">Your friend immediately receives +100 welcome coins, and you receive +100 coins invite reward.</p>
-          </div>
-          
-          <div className="rounded-xl border border-dark-border bg-dark-card p-6 text-center hover:border-primary/10 transition-all relative overflow-hidden group">
-            <div className="icon-wrapper-secondary h-12 w-12 flex mx-auto mb-3 group-hover:scale-105 transition-transform">
-              <TrendingUp className="h-5.5 w-5.5" />
-            </div>
-            <h3 className="text-sm font-bold text-white mb-1.5">3. Tier Payout Shares</h3>
-            <p className="text-xs text-zinc-450 leading-relaxed">Earn from 5% up to 30% commission on every offer, survey, or download they complete.</p>
-          </div>
-        </div>
-
-        <button
-          onClick={() => { setAuthTab('register'); setIsAuthOpen(true); }}
-          className="btn-gaming rounded-xl px-8 py-3.5 text-xs sm:text-sm font-extrabold"
-        >
-          Create Free Account & Start
-        </button>
-
-        <AuthModal 
-          isOpen={isAuthOpen} 
-          onClose={() => setIsAuthOpen(false)} 
-          initialTab={authTab} 
-        />
-      </div>
-    );
-  }
+  const enc = encodeURIComponent;
+  const targets = [
+    { name: 'WhatsApp', href: `https://api.whatsapp.com/send?text=${enc(`${shareText} ${link}`)}` },
+    { name: 'Telegram', href: `https://t.me/share/url?url=${enc(link)}&text=${enc(shareText)}` },
+    { name: 'X', href: `https://twitter.com/intent/tweet?text=${enc(`${shareText} ${link}`)}` },
+    { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${enc(link)}` },
+  ];
 
   return (
-    <div className="page-referrals-bg mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
-      
-      {/* Header Row */}
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
-          <div className="icon-wrapper-primary p-1.5 border-none shadow-[0_0_8px_rgba(93,95,239,0.2)]">
-            <Users className="h-5.5 w-5.5" />
-          </div>
-          Affiliates
-        </h1>
-        <button 
-          onClick={() => setIsHowItWorksOpen(true)}
-          className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs flex items-center gap-1.5"
-        >
-          <Info className="h-4 w-4 text-primary" />
-          How it works
-        </button>
-      </div>
+    <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 pb-12 pt-2 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Referrals"
+        icon={Users}
+        title="Invite friends,"
+        accent="earn 10%"
+        subtitle="You get 10% of the coins your friends earn from tasks, for as long as they keep earning. No cap, no claim button."
+      />
 
-      {loading ? (
-        <div className="flex-1 flex flex-col items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest mt-3 animate-pulse">
-            Loading Affiliates Dashboard...
-          </span>
-        </div>
+      {!user ? (
+        <Reveal className="g-neon g-neon-live flex flex-col items-center gap-4 p-8 text-center">
+          <Users className="h-10 w-10 text-[#c3b2ff]" aria-hidden="true" />
+          <p className="text-lg font-extrabold text-white">Log in to get your referral link</p>
+          <div className="flex gap-3">
+            <button onClick={() => { setAuthTab('login'); setIsAuthOpen(true); }} className="btn-gaming-secondary min-h-[44px] rounded-xl px-6 text-xs">Log in</button>
+            <button onClick={() => { setAuthTab('register'); setIsAuthOpen(true); }} className="btn-gaming min-h-[44px] rounded-xl px-6 text-xs">Register</button>
+          </div>
+        </Reveal>
       ) : (
-        <div className="space-y-5">
-          
-          {/* Top Panel Rows (Profile & Stats split) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            
-            {/* Left Card: Profile & Claim Widget */}
-            <div className="lg:col-span-5 rounded-2xl border border-dark-border bg-dark-card p-6 flex items-center justify-between relative overflow-hidden">
-              <div className="flex items-center gap-4">
-                {/* Avatar */}
-                <div className="relative shrink-0">
-                  <img 
-                    src={user.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
-                    alt={user.username}
-                    className="h-20 w-20 rounded-full border-2 border-dark-border object-cover"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <h2 className="text-lg font-black text-white flex items-center gap-1.5">
-                    {user.username}
-                    <Star className="h-4.5 w-4.5 text-red-500 fill-red-500" />
-                  </h2>
-                  <div className="flex items-center gap-2.5 text-[11px] font-bold text-zinc-400">
-                    <span className="flex items-center gap-1">
-                      <div className="p-1 rounded bg-zinc-100 border border-dark-border/40 inline-flex items-center justify-center mr-1">
-                        {(() => {
-                          const BadgeIcon = currentTier.badge;
-                          return <BadgeIcon className={`h-3.5 w-3.5 ${currentTier.color}`} />;
-                        })()}
-                      </div>
-                      {currentTier.badgeName}
-                    </span>
-                    <span>•</span>
-                    <span className="text-primary">{currentTier.commission}% commission</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Claim Box */}
-              <div className="flex flex-col items-end gap-1.5 shrink-0 border-l border-dark-border/40 pl-6">
-                <div className="flex items-center gap-1 text-xs text-zinc-400">
-                  <div className="icon-wrapper-secondary p-0.5 border-none rounded-full shrink-0">
-                    <Coins className="h-4 w-4" />
-                  </div>
-                  <span className="font-extrabold text-white">{claimableCoins.toLocaleString()}</span>
-                  <span className="text-[9px] text-zinc-550 font-bold uppercase tracking-wider">Available</span>
-                </div>
-                
-                <button
-                  id="claim-btn"
-                  onClick={handleClaimEarnings}
-                  disabled={claimableCoins <= 0}
-                  className="btn-gaming rounded-xl px-5 py-2 text-xs font-extrabold"
-                >
-                  Claim
-                </button>
-              </div>
-            </div>
-
-            {/* Right Card: Statistics Grid */}
-            <div className="lg:col-span-7 rounded-2xl border border-dark-border bg-dark-card p-6 flex flex-col justify-between">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
-                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(56,189,248,0.1)]">
-                  <TrendingUp className="h-3.5 w-3.5" />
-                </div>
-                Statistics
-              </h3>
-              
-              <div className="grid grid-cols-3 gap-4">
-                {/* Stat 1 */}
-                <div className="flex items-center gap-3">
-                  <div className="icon-wrapper-primary p-2.5 shrink-0">
-                    <DollarSign className="h-5.5 w-5.5" />
-                  </div>
-                  <div>
-                    <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wide">Total Earnings</span>
-                    <span className="text-sm font-black text-white">{(stats.totalEarnings).toLocaleString()} Coins</span>
-                  </div>
-                </div>
-
-                {/* Stat 2 */}
-                <div className="flex items-center gap-3">
-                  <div className="icon-wrapper-primary p-2.5 shrink-0">
-                    <Users className="h-5.5 w-5.5" />
-                  </div>
-                  <div>
-                    <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wide">Users Referred</span>
-                    <span className="text-sm font-black text-white">{stats.totalReferrals}</span>
-                  </div>
-                </div>
-
-                {/* Stat 3 */}
-                <div className="flex items-center gap-3">
-                  <div className="icon-wrapper-primary p-2.5 shrink-0">
-                    <Clock className="h-5.5 w-5.5" />
-                  </div>
-                  <div>
-                    <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wide">Last 30 Days</span>
-                    <span className="text-sm font-black text-white">0 Coins</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Referral link Card */}
-          <div className="rounded-2xl border border-dark-border bg-dark-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="flex-1 space-y-1.5">
-              <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">
-                Your referral link
-              </span>
-              <div className="flex gap-2 max-w-md">
-                <input
-                  type="text"
-                  readOnly
-                  value={getReferralLink()}
-                  className="flex-1 rounded-xl bg-dark-bg border border-dark-border px-3.5 py-2.5 text-xs text-zinc-350 select-all focus:outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.6)] font-semibold"
-                />
-                <button
-                  onClick={handleCopyLink}
-                  className={`flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-extrabold shrink-0 ${
-                    copied 
-                      ? 'btn-gaming shadow-[0_0_10px_rgba(93,95,239,0.35)]' 
-                      : 'btn-gaming-secondary'
-                  }`}
-                >
-                  {copied ? <Check className="h-3.5 w-3.5 text-black font-extrabold" /> : <Copy className="h-3.5 w-3.5" />}
-                  Copy link
-                </button>
-              </div>
-            </div>
-
-            {/* Social Share logos */}
-            <div className="shrink-0 space-y-1.5">
-              <span className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider md:text-right">
-                Share your referral link
-              </span>
-              <div className="flex gap-2">
-                {/* Whatsapp */}
-                <a 
-                  href={`https://api.whatsapp.com/send?text=Join BlueberryCash and earn coins! ${getReferralLink()}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center text-zinc-400 hover:text-primary transition-all active:scale-90"
-                  title="Share on WhatsApp"
-                >
-                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.959-1.856-1.857-4.325-2.88-6.953-2.881-5.438 0-9.864 4.42-9.867 9.864-.001 1.757.485 3.468 1.411 4.966l-.99 3.619 3.701-.971zm11.367-7.251c-.302-.151-1.787-.882-2.058-.981-.271-.099-.468-.151-.664.151-.196.3-.76.981-.931 1.18-.171.199-.343.226-.644.076-.301-.15-1.272-.469-2.422-1.494-.894-.798-1.498-1.784-1.674-2.086-.176-.301-.019-.464.132-.613.136-.134.301-.351.452-.527.151-.176.201-.301.301-.502.1-.201.05-.377-.025-.527-.075-.15-.664-1.609-.91-2.201-.24-.578-.484-.5-.664-.51-.171-.009-.368-.01-.565-.01-.196 0-.518.075-.789.377-.271.301-1.036 1.015-1.036 2.475 0 1.46 1.063 2.874 1.214 3.074.15.201 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.787-.732 2.039-1.439.252-.707.252-1.314.177-1.439-.076-.126-.272-.201-.573-.351z"/>
-                  </svg>
-                </a>
-                {/* Twitter */}
-                <a 
-                  href={`https://twitter.com/intent/tweet?text=Join BlueberryCash and earn coins! ${getReferralLink()}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-[#00b2ff]/50 hover:bg-[#00b2ff]/5 flex items-center justify-center text-zinc-400 hover:text-[#00b2ff] transition-all active:scale-90"
-                  title="Share on X"
-                >
-                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                </a>
-                {/* Facebook */}
-                <a 
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${getReferralLink()}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-blue-600/50 hover:bg-blue-600/5 flex items-center justify-center text-zinc-400 hover:text-blue-500 transition-all active:scale-90"
-                  title="Share on Facebook"
-                >
-                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
-                  </svg>
-                </a>
-                {/* Telegram */}
-                <a 
-                  href={`https://t.me/share/url?url=${getReferralLink()}&text=Join BlueberryCash and earn coins!`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-9 h-9 rounded-full bg-dark-bg border border-dark-border/80 hover:border-[#00b2ff]/50 hover:bg-[#00b2ff]/5 flex items-center justify-center text-zinc-400 hover:text-[#00b2ff] transition-all active:scale-90"
-                  title="Share on Telegram"
-                >
-                  <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.58.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.24-5.54 3.65-.52.36-.99.53-1.41.52-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.37-.49 1.03-.75 4.04-1.76 6.74-2.92 8.1-3.48 3.85-1.58 4.65-1.86 5.17-1.87.11 0 .37.03.54.17.14.12.18.28.2.45-.02.07-.02.13-.03.19z"/>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Sub-tab Navigation */}
-          <div className="flex gap-2.5 bg-dark-bg/60 p-1.5 rounded-xl border border-dark-border max-w-sm">
-            {['Tiers', 'Affiliates', 'Leaderboard'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 rounded-lg py-1.5 text-xs font-extrabold active:scale-95 hover:scale-[1.02] transition-all ${
-                  activeTab === tab 
-                    ? 'bg-primary text-white shadow-[0_0_10px_rgba(93,95,239,0.35)]' 
-                    : 'text-zinc-500 hover:text-zinc-300'
-                }`}
-              >
-                {tab}
+        <div className="space-y-6">
+          <Reveal className="g-neon g-neon-live p-5 sm:p-6">
+            <label htmlFor="ref-link" className="text-xs font-bold uppercase tracking-wider text-zinc-400">Your referral link</label>
+            <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+              <input
+                id="ref-link"
+                readOnly
+                value={link}
+                onFocus={(e) => e.currentTarget.select()}
+                className="min-h-[48px] min-w-0 flex-1 rounded-xl border border-dark-border bg-dark-bg px-4 font-mono text-sm text-white"
+              />
+              <button onClick={copy} className="btn-gaming flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-6 text-xs">
+                {copied ? <Check className="g-pop h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+                {copied ? 'Copied' : 'Copy link'}
               </button>
-            ))}
-          </div>
-
-          {/* Tab Content Panels */}
-          {activeTab === 'Tiers' ? (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-zinc-400 text-xs mt-2.5">
-                <Info className="h-4.5 w-4.5 text-primary shrink-0" />
-                <span>Reach the next Tier to earn a higher commission from your affiliates.</span>
-              </div>
-              
-              {/* Tiers Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {TIERS.map((tier) => {
-                  const isActive = currentTier.level === tier.level;
-                  const isCompleted = usdEarnings >= tier.reqUSD;
-                  const isFinalTiers = tier.level >= 7;
-
-                  return (
-                    <div 
-                      key={tier.level}
-                      className={`relative flex flex-col justify-between rounded-xl border p-5 transition-all bg-dark-card ${
-                        isActive                          ? 'border-primary bg-primary/[0.02] shadow-[0_0_20px_rgba(93,95,239,0.1)]'
-                          : 'border-dark-border bg-dark-card/85'
-                      }`}
-                    >
-                      {/* Active Tag */}
-                      {isActive && (
-                        <div className="absolute -top-2.5 left-6 rounded-full bg-primary text-[8px] font-black text-white px-2.5 py-0.5 uppercase tracking-widest border border-primary">
-                          Active
-                        </div>
-                      )}
-
-                      <div>
-                        {/* Header */}
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-sm font-bold text-white flex items-center gap-1.5">
-                            <div className="p-1.5 rounded-lg bg-dark-bg border border-dark-border/80 flex items-center justify-center shrink-0 group-hover:border-primary/25 transition-colors shadow-inner mr-1.5">
-                              {(() => {
-                                const BadgeIcon = tier.badge;
-                                return <BadgeIcon className={`h-4 w-4 ${tier.color}`} />;
-                              })()}
-                            </div>
-                            {tier.badgeName}
-                          </span>
-                          <span className="rounded-full bg-dark-bg border border-dark-border px-2.5 py-0.5 text-[9px] font-bold text-primary uppercase">
-                            {tier.commission}% commission
-                          </span>
-                        </div>
-
-                        {/* Requirements */}
-                        <div className="space-y-2 mt-4 text-xs">
-                          <span className="block text-[10px] font-bold uppercase text-zinc-550 tracking-wider mb-2">
-                            Requirements
-                          </span>
-                          <div className="flex items-center gap-2 text-zinc-300">
-                            <div className={`rounded-full p-0.5 border ${
-                              isCompleted 
-                                ? 'bg-primary/10 border-primary/30 text-primary' 
-                                : 'border-dark-border text-zinc-650'
-                            }`}>
-                              {isCompleted ? (
-                                <Check className="h-3 w-3" />
-                              ) : (
-                                <div className="h-3 w-3" />
-                              )}
-                            </div>
-                            <span>${tier.reqUSD.toLocaleString()} affiliate earnings</span>
-                          </div>
-                          
-                          {/* 30-day additional requirements */}
-                          {isFinalTiers && (
-                            <div className="flex items-center gap-2 text-zinc-300">
-                              <div className="rounded-full p-0.5 border border-dark-border text-zinc-650">
-                                <div className="h-3 w-3" />
-                              </div>
-                              <span>${tier.req30dUSD.toLocaleString()} earnings last 30 days</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
-          ) : activeTab === 'Affiliates' ? (
-            <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
-              <div className="flex items-center gap-2 mb-5 border-b border-dark-border/40 pb-3">
-                <div className="icon-wrapper-primary p-1 border-none shadow-[0_0_8px_rgba(93,95,239,0.2)]">
-                  <Users className="h-4 w-4" />
-                </div>
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Affiliate Invites Directory</h3>
-              </div>
-
-              {referralsList.length === 0 ? (
-                <div className="text-center py-10 rounded-xl bg-dark-bg/20 border border-dashed border-dark-border">
-                  <p className="text-xs text-zinc-500 font-bold">No invites listed yet.</p>
-                  <p className="text-[10px] text-zinc-650 mt-1 uppercase tracking-wider font-semibold">Share your URL above to invite your first user!</p>
-                </div>
-              ) : (
-                <div className="overflow-x-auto text-xs">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
-                        <th className="pb-3 pr-4">Invited Username</th>
-                        <th className="pb-3 px-4">Joined Date</th>
-                        <th className="pb-3 px-4 text-right">Offer Activity</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-dark-border/30 text-zinc-300">
-                      {referralsList.map((refUser, idx) => (
-                        <tr key={idx} className="group hover:bg-dark-bg/40 transition-colors">
-                          <td className="py-3 pr-4 font-bold text-white">{refUser.username}</td>
-                          <td className="py-3 px-4 text-zinc-500">
-                            <div className="flex items-center gap-1.5">
-                              <Calendar className="h-3.5 w-3.5 text-zinc-650" />
-                              {new Date(refUser.created_at).toLocaleDateString()}
-                            </div>
-                          </td>
-                          <td className="py-3 px-4 text-right font-extrabold text-zinc-400">
-                            <span className="text-[9px] text-zinc-600 font-bold uppercase mr-1.5">User Earned:</span>
-                            {refUser.total_earned_coins?.toLocaleString() || 0} Coins
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {typeof navigator !== 'undefined' && navigator.share && (
+                <button onClick={nativeShare} className="btn-gaming-secondary inline-flex min-h-[40px] items-center gap-2 rounded-lg px-4 text-xs">
+                  <Share2 className="h-4 w-4" aria-hidden="true" /> Share
+                </button>
               )}
+              {targets.map((t) => (
+                <a key={t.name} href={t.href} target="_blank" rel="noopener noreferrer" className="btn-gaming-secondary inline-flex min-h-[40px] items-center rounded-lg px-4 text-xs">
+                  {t.name}
+                </a>
+              ))}
             </div>
-          ) : (
-            /* Leaderboard Tab */
-            <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
-              <div className="flex items-center gap-2 mb-5 border-b border-dark-border/40 pb-3">
-                <Award className="h-4.5 w-4.5 text-primary" />
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Top Affiliate Earners</h3>
-              </div>
-              
-              <div className="text-center py-10 rounded-xl bg-dark-bg/20 border border-dashed border-dark-border text-xs text-zinc-500 font-bold uppercase tracking-wide">
-                Leaderboard statistics update every Sunday. Start referring to compete!
-              </div>
-            </div>
-          )}
+          </Reveal>
 
-        </div>
-      )}
-      {isHowItWorksOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="fixed inset-0 bg-black/85 backdrop-blur-md" onClick={() => setIsHowItWorksOpen(false)} />
-          <div className="relative w-full max-w-lg rounded-2xl border border-dark-border bg-dark-card p-6 shadow-2xl overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-secondary" />
-
-            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <Users className="h-5.5 w-5.5 text-primary" />
-              Affiliate Program Guidelines
-            </h2>
-
-            <div className="space-y-4 mb-6 text-left">
-              <div className="flex items-start gap-3 rounded-xl bg-dark-bg p-4 border border-dark-border/60">
-                <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-xs text-primary shrink-0">
-                  1
-                </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Reveal className="g-card p-5">
+              <div className="flex items-center gap-3">
+                <span className="icon-wrapper-primary h-11 w-11"><Users className="h-5 w-5" aria-hidden="true" /></span>
                 <div>
-                  <h4 className="text-xs font-bold uppercase text-zinc-400 tracking-wider mb-1">Share Your Link</h4>
-                  <p className="text-xs text-zinc-350 leading-relaxed">
-                    Copy your unique referral link from the dashboard and share it with your friends, community, or on social media.
-                  </p>
+                  <div className="text-3xl font-extrabold tabular-nums text-white">{loading ? '–' : <CountUp value={stats.totalReferrals} />}</div>
+                  <div className="text-sm text-zinc-400">Friends invited</div>
                 </div>
               </div>
-
-              <div className="flex items-start gap-3 rounded-xl bg-dark-bg p-4 border border-dark-border/60">
-                <div className="h-8 w-8 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center font-bold text-xs text-secondary shrink-0">
-                  2
-                </div>
+            </Reveal>
+            <Reveal i={1} className="g-card p-5">
+              <div className="flex items-center gap-3">
+                <span className="icon-wrapper-gradient h-11 w-11"><Coins className="h-5 w-5" aria-hidden="true" /></span>
                 <div>
-                  <h4 className="text-xs font-bold uppercase text-zinc-400 tracking-wider mb-1">Earn Commission</h4>
-                  <p className="text-xs text-zinc-350 leading-relaxed">
-                    Get paid dynamic commission shares (from **5% up to 30%** based on Tiers 1-10) every time your referrals complete tasks, games, or surveys.
-                  </p>
+                  <div className="text-3xl font-extrabold tabular-nums text-[#f3c76b]">{loading ? '–' : <CountUp value={stats.totalEarnings} />}</div>
+                  <div className="text-sm text-zinc-400">
+                    Coins earned from referrals{!loading && stats.totalEarnings > 0 && <> · ${(stats.totalEarnings / 1000).toFixed(2)}</>}
+                  </div>
                 </div>
               </div>
-
-              <div className="flex items-start gap-3 rounded-xl bg-dark-bg p-4 border border-dark-border/60">
-                <div className="h-8 w-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-xs text-primary shrink-0">
-                  3
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold uppercase text-zinc-400 tracking-wider mb-1">Claim Instantly</h4>
-                  <p className="text-xs text-zinc-350 leading-relaxed">
-                    Your commissions pile up in real-time. You can click the "Claim Earnings" button on your panel to add them directly to your active coin balance.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setIsHowItWorksOpen(false)}
-              className="btn-gaming w-full rounded-xl py-3 text-xs font-extrabold"
-            >
-              Got it, thanks!
-            </button>
+            </Reveal>
           </div>
         </div>
       )}
 
+      <section className="mt-12">
+        <Reveal as="h2" className="g-title text-2xl sm:text-3xl">How it works</Reveal>
+        <ol className="mt-6 grid gap-3 md:grid-cols-3">
+          {STEPS.map((s, i) => (
+            <Reveal as="li" key={s.title} i={i}>
+              <div className="g-card g-card-hover h-full p-5">
+                <span className="icon-wrapper-primary h-12 w-12"><s.icon className="h-6 w-6" aria-hidden="true" /></span>
+                <h3 className="mt-4 text-lg font-bold text-white">{i + 1}. {s.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-zinc-400">{s.text}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
+      </section>
+
+      {user && (
+        <section className="mt-12">
+          <Reveal as="h2" className="g-title text-2xl sm:text-3xl">Your friends</Reveal>
+          <Reveal className="g-card mt-6 overflow-hidden">
+            {friends.length === 0 ? (
+              <div className="px-6 py-12 text-center">
+                <p className="font-bold text-white">{loading ? 'Loading…' : 'No friends yet'}</p>
+                {!loading && <p className="mt-1 text-sm text-zinc-400">Share your link above. Friends who sign up with it will show up here.</p>}
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-dark-border text-xs font-bold uppercase tracking-wider text-zinc-400">
+                      <th className="px-5 py-3">Friend</th>
+                      <th className="px-5 py-3">Joined</th>
+                      <th className="px-5 py-3 text-right">Coins earned</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-dark-border text-zinc-300">
+                    {friends.map((f) => (
+                      <tr key={`${f.username}-${f.created_at}`} className="transition-colors hover:bg-white/[0.03]">
+                        <td className="px-5 py-3 font-semibold text-white">{f.username}</td>
+                        <td className="px-5 py-3 text-zinc-400">{f.created_at ? new Date(f.created_at).toLocaleDateString() : ''}</td>
+                        <td className="px-5 py-3 text-right font-bold tabular-nums text-[#f3c76b]">{(f.total_earned_coins || 0).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </Reveal>
+        </section>
+      )}
+
+      {isAuthOpen && <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} defaultTab={authTab} />}
     </div>
   );
 }

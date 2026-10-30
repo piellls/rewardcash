@@ -4,111 +4,69 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import DirectTasksSection from '@/components/DirectTasksSection';
-import { Gamepad2, Play, Lock } from 'lucide-react';
+import PageHeader, { Chip } from '@/components/PageHeader';
+import { Reveal, AnimatedNumber } from '@/components/motion';
+import { PlayCircle, Coins, MousePointerClick, Flag, Hourglass } from 'lucide-react';
+
+const HOW = [
+  { icon: MousePointerClick, title: 'Pick a task', text: 'Every card shows the reward in coins before you start.' },
+  { icon: Flag, title: 'Finish it', text: 'Follow the steps in the task. Skipping a step usually means no credit.' },
+  { icon: Hourglass, title: 'Coins arrive', text: 'The advertiser confirms your task, then the coins land in your balance.' },
+];
 
 export default function Earn() {
   const { user } = useAuth();
   const [isAuthOpen, setIsAuthOpen] = useState(false);
-  const [authTab, setAuthTab] = useState('login');
+  const [authTab, setAuthTab] = useState('register');
 
-  const partnerWalls = [
-    { name: 'OGAds', desc: 'Premium app installs', badge: 'Bonus Offers', banner: '/banners/ogads.png', active: true },
-    { name: 'AdBlueMedia', desc: 'Highest paying surveys', badge: 'Daily Tasks', banner: '/banners/lootably.png', active: false },
-    { name: 'Lootably', desc: 'Watch videos & play', badge: 'Big Rewards', banner: '/banners/adbluemedia.png', active: false },
-  ];
+  const openAuth = (tab) => { setAuthTab(tab); setIsAuthOpen(true); };
 
   return (
-    <div className="page-earn-bg mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start animate-fade-in">
-      
-      {/* Page Title Header */}
-      <div className="text-center py-10 flex flex-col items-center justify-center select-none">
-        <h1 className="text-4xl font-extrabold text-white tracking-tight">
-          Earn <span className="text-gradient">Coins</span>
-        </h1>
-        <p className="text-sm text-zinc-400 mt-2">
-          Complete the tasks below to earn coins.
-        </p>
-      </div>
+    <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 pb-10 pt-2 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Earn"
+        icon={PlayCircle}
+        title="Earn"
+        accent="coins"
+        subtitle="Play games, try apps and answer surveys. Pick a task and get paid in coins."
+      >
+        <Chip icon={Coins} tone="gold">1,000 coins = $1.00</Chip>
+        {user && (
+          <Chip tone="green">
+            Balance: <AnimatedNumber value={user.balance_coins || 0} className="tabular-nums" /> coins
+          </Chip>
+        )}
+      </PageHeader>
 
-      {/* 2. PARTNER WALLS GRID (BANNERS) */}
-      <div className="mb-10">
-        <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <div className="icon-wrapper-secondary p-1.5 border-none bg-transparent">
-            <Gamepad2 className="h-4.5 w-4.5 text-secondary" />
+      {!user && (
+        <Reveal className="g-neon g-neon-live mb-8 flex flex-col items-center justify-between gap-4 p-5 sm:flex-row sm:p-6">
+          <div className="text-center sm:text-left">
+            <p className="text-lg font-extrabold text-white">Sign up to start earning</p>
+            <p className="text-sm text-zinc-400">Free, no deposit. You start with 100 coins.</p>
           </div>
-          Partner Offerwalls
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {partnerWalls.map((wall) => (
-            <div 
-              key={wall.name}
-              onClick={() => {
-                if (wall.active) {
-                  const target = document.getElementById('direct-tasks');
-                  if (target) target.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className={`rounded-2xl border transition-all relative overflow-hidden group w-full h-36 flex flex-col justify-center ${
-                wall.active 
-                  ? 'border-primary/20 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(93,95,239,0.2)] hover:-translate-y-1 cursor-pointer'
-                  : 'border-dark-border/40 opacity-75 cursor-not-allowed select-none'
-              }`}
-            >
-              {/* Banner Image */}
-              <img 
-                src={wall.banner} 
-                alt={wall.name} 
-                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ${
-                  wall.active ? 'group-hover:scale-105' : 'blur-[4px]'
-                }`}
-              />
-              
-              {/* Dark Gradient Overlay for Text Visibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
-              
-              {/* Locked Overlay */}
-              {!wall.active && (
-                <div className="absolute inset-0 bg-black/50 backdrop-blur-[1.5px] flex flex-col items-center justify-center z-10">
-                  <Lock className="h-6 w-6 mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" style={{ color: '#ffffff' }} />
-                  <span className="text-xs font-semibold tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" style={{ color: '#ffffff' }}>
-                    Earn 2,500 coins to unlock
-                  </span>
-                </div>
-              )}
+          <div className="flex gap-3">
+            <button onClick={() => openAuth('login')} className="btn-gaming-secondary min-h-[44px] rounded-xl px-5 text-xs">Log in</button>
+            <button onClick={() => openAuth('register')} className="btn-gaming min-h-[44px] rounded-xl px-5 text-xs">Register</button>
+          </div>
+        </Reveal>
+      )}
 
-              {/* Status Badge (Sandbox/Open) */}
-              {wall.active && (
-                <div className="absolute top-3 left-3 shadow-lg z-20">
-                  <div className="px-2 py-1 rounded-md backdrop-blur-md border bg-primary/20 border-primary/40 text-primary shadow-[0_0_10px_rgba(93,95,239,0.2)]">
-                    <span className="text-[9px] font-black uppercase flex items-center gap-1">
-                      <Play className="h-2.5 w-2.5 fill-primary" />
-                      OPEN
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Promo Badge */}
-              {wall.badge && (
-                <div className="absolute top-3 right-3 shadow-lg z-20">
-                  <span 
-                    className={`text-[10px] font-black px-2.5 py-1 rounded-md border uppercase tracking-wider bg-black/70 backdrop-blur-md ${
-                      wall.active 
-                        ? 'border-primary/50 shadow-[0_0_10px_rgba(0,0,0,0.5)]' 
-                        : 'border-dark-border'
-                    }`}
-                    style={{ color: '#ffffff' }}
-                  >
-                    {wall.badge}
-                  </span>
-                </div>
-              )}
+      <ol className="mb-10 grid gap-3 sm:grid-cols-3">
+        {HOW.map((h, i) => (
+          <Reveal as="li" key={h.title} i={i}>
+            <div className="g-card flex h-full items-start gap-4 p-4">
+              <span className="icon-wrapper-primary h-11 w-11 shrink-0">
+                <h.icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div>
+                <h2 className="font-bold text-white">{i + 1}. {h.title}</h2>
+                <p className="mt-0.5 text-sm leading-relaxed text-zinc-400">{h.text}</p>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </Reveal>
+        ))}
+      </ol>
 
-      {/* 3. DIRECT TASKS FEED */}
       <DirectTasksSection />
 
       {isAuthOpen && <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} defaultTab={authTab} />}

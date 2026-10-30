@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
+import PageHeader from '@/components/PageHeader';
 import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle, CheckCircle2, MessageSquare, ArrowLeft, Send } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -303,18 +304,14 @@ export default function AdminDashboard() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
       
-      {/* Header */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-2">
-            <ShieldAlert className="h-7 w-7 text-red-500 animate-pulse" />
-            Admin Dashboard
-          </h1>
-          <p className="text-sm text-zinc-400 mt-1">
-            Audit withdrawals, check support logs, and manage player accounts.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Staff only"
+        icon={ShieldAlert}
+        title="Admin"
+        accent="dashboard"
+        subtitle="Review withdrawals, answer support tickets and manage player accounts."
+        align="left"
+      />
 
       {successMsg && (
         <div className="mb-6 flex items-center gap-3 rounded-xl bg-emerald-950/40 border border-emerald-900/60 p-4 text-emerald-400">
@@ -324,7 +321,7 @@ export default function AdminDashboard() {
       )}
 
       {errorMsg && (
-        <div className="mb-6 flex items-center gap-3 rounded-xl bg-red-950/40 border border-red-900/60 p-4 text-red-400 animate-pulse">
+        <div className="mb-6 flex items-center gap-3 rounded-xl bg-red-950/40 border border-red-900/60 p-4 text-red-400">
           <AlertCircle className="h-5 w-5 shrink-0" />
           <span className="text-sm font-bold">{errorMsg}</span>
         </div>
@@ -360,7 +357,7 @@ export default function AdminDashboard() {
                 <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">User Base</span>
                 <span className="text-base font-black text-white">
                   {usersList.filter(u => u.role !== 'admin').length} Accounts 
-                  <span className="text-[10px] text-emerald-500 font-extrabold ml-1.5 animate-pulse">
+                  <span className="text-[10px] text-emerald-500 font-extrabold ml-1.5">
                     ({usersList.filter(u => u.role !== 'admin' && isUserOnline(u)).length} online)
                   </span>
                 </span>
@@ -379,7 +376,7 @@ export default function AdminDashboard() {
 
             <div className="rounded-xl border border-dark-border bg-dark-card p-5 flex items-center gap-4 hover:border-primary/10 transition-all">
               <div className="rounded-lg bg-secondary/10 border border-secondary/20 p-2.5 text-secondary">
-                <Coins className="h-5.5 w-5.5 animate-pulse" />
+                <Coins className="h-5.5 w-5.5" />
               </div>
               <div>
                 <span className="block text-[10px] font-bold text-zinc-550 uppercase tracking-wider">Paid Payouts</span>
@@ -456,7 +453,7 @@ export default function AdminDashboard() {
                           <td className="py-3 px-4">
                             {w.status === 'approved' && <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[9px] font-bold text-primary uppercase">Approved</span>}
                             {w.status === 'rejected' && <span className="rounded bg-red-950/40 border border-red-900/60 px-2 py-0.5 text-[9px] font-bold text-red-400 uppercase">Rejected</span>}
-                            {w.status === 'pending' && <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[9px] font-bold text-yellow-500 uppercase animate-pulse">Pending</span>}
+                            {w.status === 'pending' && <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[9px] font-bold text-yellow-500 uppercase">Pending</span>}
                           </td>
                           <td className="py-3 pl-4 text-right">
                             {w.status === 'pending' && (
@@ -523,7 +520,7 @@ export default function AdminDashboard() {
                             <div className="flex items-center gap-2.5">
                               <div className="relative shrink-0">
                                 <img 
-                                  src={usr.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                                  src={usr.avatar_url || '/avatars/1.png'} 
                                   alt={usr.username}
                                   className="h-7 w-7 rounded-full border border-dark-border object-cover"
                                 />
@@ -542,7 +539,7 @@ export default function AdminDashboard() {
                                 </div>
                                 <span className="text-[9px] font-semibold mt-0.5 shrink-0">
                                   {isUserOnline(usr) ? (
-                                    <span className="text-emerald-500 font-extrabold animate-pulse">Active Now</span>
+                                    <span className="text-emerald-500 font-extrabold">Active Now</span>
                                   ) : (
                                     <span className="text-zinc-550">Last seen: {getLastSeenText(usr)}</span>
                                   )}
@@ -614,7 +611,7 @@ export default function AdminDashboard() {
                       Resolved
                     </span>
                   ) : (
-                    <span className="text-[10px] font-black uppercase tracking-wider text-yellow-500 bg-amber-950/20 px-2.5 py-1 rounded border border-amber-900/50 animate-pulse">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-yellow-500 bg-amber-950/20 px-2.5 py-1 rounded border border-amber-900/50">
                       Pending
                     </span>
                   )}
@@ -707,12 +704,12 @@ export default function AdminDashboard() {
                 <button
                   type="submit"
                   disabled={sendingReply || !replyMessage.trim()}
-                  className="btn-gaming rounded-xl px-4 text-black disabled:opacity-50 disabled:scale-100 flex items-center justify-center shrink-0"
+                  className="btn-gaming rounded-xl px-4 disabled:opacity-50 disabled:scale-100 flex items-center justify-center shrink-0"
                 >
                   {sendingReply ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    <Send className="h-4 w-4 text-black fill-black" />
+                    <Send className="h-4 w-4" />
                   )}
                 </button>
               </form>
@@ -749,7 +746,7 @@ export default function AdminDashboard() {
                             {t.status === 'resolved' ? (
                               <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[9px] font-bold text-primary uppercase">Resolved</span>
                             ) : (
-                              <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[9px] font-bold text-yellow-500 uppercase animate-pulse">Pending</span>
+                              <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[9px] font-bold text-yellow-500 uppercase">Pending</span>
                             )}
                           </td>
                           <td className="py-3.5 pl-4 text-right">
@@ -804,7 +801,7 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-3">
                 <div className="relative shrink-0">
                   <img 
-                    src={inspectingUser.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'} 
+                    src={inspectingUser.avatar_url || '/avatars/1.png'} 
                     alt={inspectingUser.username}
                     className="h-10 w-10 rounded-full border border-dark-border object-cover"
                   />
@@ -817,7 +814,7 @@ export default function AdminDashboard() {
                     <span>{inspectingUser.username}'s Audit Log</span>
                     <span className="text-xs">{inspectingUser.country || '🌍'}</span>
                     <span className={`text-[8px] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider shrink-0 ${
-                      isUserOnline(inspectingUser) ? 'bg-emerald-950/60 border border-emerald-900/40 text-emerald-500 animate-pulse' : 'bg-zinc-900 border border-dark-border text-zinc-400'
+                      isUserOnline(inspectingUser) ? 'bg-emerald-950/60 border border-emerald-900/40 text-emerald-500' : 'bg-zinc-900 border border-dark-border text-zinc-400'
                     }`}>
                       {isUserOnline(inspectingUser) ? 'Active' : getLastSeenText(inspectingUser)}
                     </span>
@@ -917,7 +914,7 @@ export default function AdminDashboard() {
                   {/* Column 1: Completions */}
                   <div className="rounded-xl border border-dark-border bg-dark-bg/25 p-4 flex flex-col max-h-[350px]">
                     <h4 className="text-xs font-black text-white mb-3 flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       Completed Leads ({userCompletions.length})
                     </h4>
                     
@@ -950,7 +947,7 @@ export default function AdminDashboard() {
                   {/* Column 2: Clicks */}
                   <div className="rounded-xl border border-dark-border bg-dark-bg/25 p-4 flex flex-col max-h-[350px]">
                     <h4 className="text-xs font-black text-white mb-3 flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
                       Clicked Offers Log ({userClicks.length})
                     </h4>
                     

@@ -8,8 +8,8 @@ const SPIN_PRIZES = [
   { coins: 10, probability: 0.50, label: '$0.01', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.1)' },
   { coins: 50, probability: 0.30, label: '$0.05', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.1)' },
   { coins: 250, probability: 0.14, label: '$0.25', rarity: 'uncommon', border: '#10b981', bg: 'rgba(16,185,129,0.1)' },
-  { coins: 1000, probability: 0.045, label: '$1.00', rarity: 'rare', border: '#3b82f6', bg: 'rgba(59,130,246,0.1)' },
-  { coins: 2500, probability: 0.012, label: '$2.50', rarity: 'epic', border: '#a855f7', bg: 'rgba(168,85,247,0.1)' },
+  { coins: 1000, probability: 0.045, label: '$1.00', rarity: 'rare', border: '#4597ff', bg: 'rgba(69,151,255,0.1)' },
+  { coins: 2500, probability: 0.012, label: '$2.50', rarity: 'epic', border: '#7854f7', bg: 'rgba(120,84,247,0.1)' },
   { coins: 10000, probability: 0.0029, label: '$10.00', rarity: 'legendary', border: '#eab308', bg: 'rgba(234,179,8,0.1)' },
   { coins: 250000, probability: 0.0001, label: '$250.00', rarity: 'mythic', border: '#ef4444', bg: 'rgba(239,68,68,0.1)' },
 ];
