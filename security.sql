@@ -24,7 +24,7 @@ UPDATE public.profiles SET role = 'admin' WHERE lower(email) = 'xpilalhamlawe@gm
 --    (stops people from editing balance_coins, role, is_banned from the browser)
 -- ============================================================
 REVOKE UPDATE ON public.profiles FROM anon, authenticated;
-GRANT UPDATE (username, email, avatar_url, device_fingerprint, country)
+GRANT UPDATE (username, email, avatar_url, country)
   ON public.profiles TO authenticated;
 
 -- ============================================================
@@ -288,12 +288,11 @@ BEGIN
     LIMIT 1;
   END IF;
 
-  INSERT INTO public.profiles (id, username, email, balance_coins, total_earned_coins, device_fingerprint, country, referred_by, referral_code, referral_earnings_total)
+  INSERT INTO public.profiles (id, username, email, balance_coins, total_earned_coins, referred_by, referral_code, referral_earnings_total, country)
   VALUES (
     new.id, v_username, new.email, 100, 100,
-    new.raw_user_meta_data->>'device_fingerprint',
-    COALESCE(new.raw_user_meta_data->>'country', 'Unknown'),
-    v_referred_by_id, LOWER(v_username), 0
+    v_referred_by_id, LOWER(v_username), 0,
+    COALESCE(new.raw_user_meta_data->>'country', 'Unknown')
   );
   RETURN NEW;
 END;
