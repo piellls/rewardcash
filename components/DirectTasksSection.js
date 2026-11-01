@@ -339,7 +339,7 @@ export default function DirectTasksSection() {
                       <TypeIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
                     </span>
 
-                    <span className="absolute right-1.5 top-1.5 z-10 flex h-7 items-center gap-1.5 rounded-lg border border-white/10 bg-[#070a14]/80 px-2 text-zinc-100 sm:right-2 sm:top-2 sm:h-8">
+                    <span className="absolute right-1.5 top-1.5 z-10 flex h-7 items-center gap-1.5 rounded-lg border border-white/10 bg-[#070a14]/80 px-2 text-white sm:right-2 sm:top-2 sm:h-8">
                       {isAndroid && <AndroidIcon />}
                       {isApple && <AppleIcon />}
                     </span>
