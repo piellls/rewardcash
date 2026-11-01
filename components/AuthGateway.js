@@ -9,10 +9,6 @@ function GoogleMark() {
   return <span className="auth-google" aria-hidden="true">G</span>;
 }
 
-function RobloxMark() {
-  return <span className="auth-roblox" aria-hidden="true" />;
-}
-
 export default function AuthGateway({ mode, onModeChange, defaultEmail = '', onSuccess, active = true }) {
   const { signInWithSocial } = useAuth();
   const [method, setMethod] = useState('choices');
@@ -51,11 +47,6 @@ export default function AuthGateway({ mode, onModeChange, defaultEmail = '', onS
           <button type="button" className="auth-method" onClick={useGoogle} disabled={socialLoading}>
             {socialLoading ? <Loader2 className="animate-spin" size={18} /> : <GoogleMark />}
             {isLogin ? 'Continue with Google' : 'Sign up with Google'}
-          </button>
-          <button type="button" className="auth-method" disabled aria-label="Roblox login coming soon">
-            <RobloxMark />
-            {isLogin ? 'Continue with Roblox' : 'Sign up with Roblox'}
-            <span className="auth-coming-soon">Coming soon</span>
           </button>
           <button type="button" className="auth-method" onClick={() => setMethod('email')}>
             <Mail size={18} />
