@@ -330,7 +330,7 @@ export default function SpinPage() {
   const challengeProgress = Math.min(100, (signupState.progressCoins / 1000) * 100);
 
   return (
-    <div className="page-spin mx-auto flex w-full max-w-7xl flex-1 select-none flex-col justify-start overflow-x-hidden px-4 pb-10 pt-2 sm:px-6 lg:px-8 relative">
+    <div className="page-spin mx-auto flex w-full max-w-[1760px] flex-1 select-none flex-col justify-start overflow-x-hidden px-4 pb-10 pt-2 sm:px-6 lg:px-8 relative">
       <PageHeader
         eyebrow="Free rewards"
         icon={Gift}

@@ -291,7 +291,7 @@ export default function DirectTasksSection() {
       </div>
 
       {loading ? (
-        <div aria-busy="true" className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
+        <div aria-busy="true" className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-3 lg:grid-cols-5 min-[1800px]:grid-cols-6">
           {Array.from({ length: 10 }).map((_, i) => (
             <div key={i} className="h-[190px] animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)] sm:h-[230px]" />
           ))}
@@ -302,7 +302,7 @@ export default function DirectTasksSection() {
           <p className="mt-1 text-sm text-zinc-400">Offers change through the day. Try another type or check back soon.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-3 lg:grid-cols-5 min-[1800px]:grid-cols-6">
           {filteredOffers.map((offer, idx) => {
             const lockInfo = getOfferLockInfo(offer.id);
             const isLocked = !!lockInfo;
