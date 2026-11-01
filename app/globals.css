@@ -831,3 +831,40 @@ h1, h2, h3, h4, h5, h6, .font-display {
   .page-hero-subtitle { font-size:13px; }
   .page-hero h1 { font-size:30px; }
 }
+
+/* RBXFast-inspired authentication flow, adapted to BlueberryCash providers. */
+.auth-modal { border:1px solid #ffffff0a; }
+.auth-modal-art {
+  position:relative;
+  min-height:360px;
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  padding:28px;
+  background:#090a10 url('/home-reference/banner3.png') center/cover no-repeat;
+}
+.auth-modal-art-shade { position:absolute; inset:0; background:linear-gradient(180deg,#090a1022,#090a10 94%),linear-gradient(90deg,#090a1033,#090a1077); }
+.auth-modal-art p { position:relative; z-index:1; font-size:28px; font-weight:800; line-height:.95; letter-spacing:-.04em; color:white; transform:skew(-5deg); }
+.auth-modal-art p span { color:#713fe1; }
+.auth-tabs { display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:4px; border-radius:9px; background:#15161e; }
+.auth-tabs button { height:36px; border:0; border-radius:7px; background:transparent; color:#777783; font-size:14px; font-weight:600; transition:background-color .15s,color .15s; }
+.auth-tabs button.active { background:#713fe1; color:white; box-shadow:inset 0 1px 0 #ffffff2b; }
+.auth-choice-panel>p { margin:18px 0; text-align:center; color:#b6b6bf; font-size:13px; line-height:1.5; }
+.auth-choice-error { display:flex; align-items:flex-start; gap:7px; margin-bottom:10px; padding:9px 10px; border-radius:8px; background:#f1768514; color:#f9a4af; font-size:12px; }
+.auth-method { position:relative; display:flex; align-items:center; gap:10px; width:100%; min-height:42px; margin-top:10px; padding:0 13px; border:1px solid #ffffff08; border-radius:7px; background:#1b1c24; color:white; font-size:14px; font-weight:500; text-align:left; transition:background-color .15s,border-color .15s; }
+.auth-method:hover:not(:disabled) { background:#22232d; border-color:#ffffff17; }
+.auth-method:disabled { opacity:.55; cursor:not-allowed; }
+.auth-google { display:grid; place-items:center; width:18px; height:18px; border-radius:50%; background:conic-gradient(from -45deg,#4285f4 0 25%,#34a853 0 45%,#fbbc05 0 70%,#ea4335 0); color:white; font-family:Arial,sans-serif; font-size:12px; font-weight:800; }
+.auth-roblox { width:16px; height:16px; background:white; transform:rotate(14deg); box-shadow:inset 0 0 0 5px #1b1c24; }
+.auth-coming-soon { margin-left:auto; color:#85858f; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+.auth-back { display:flex; align-items:center; gap:3px; margin:15px 0 12px -4px; border:0; background:transparent; color:#a1a1aa; font-size:12px; }
+.auth-back:hover { color:white; }
+.auth-email-panel form { margin-top:4px; }
+.auth-email-panel form label { font-size:11px; }
+.auth-email-panel form input { padding-top:10px; padding-bottom:10px; font-size:14px; }
+.auth-email-panel form button[type='submit'] { padding-top:11px; padding-bottom:11px; }
+.auth-legal { margin-top:14px; text-align:center; color:#85858f; font-size:10px; line-height:1.5; }
+@media(max-width:767px) {
+  .auth-modal { max-width:420px; grid-template-columns:1fr; }
+  .auth-modal-art { display:none; }
+}
