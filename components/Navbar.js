@@ -243,20 +243,20 @@ export default function Navbar() {
               <span className={`mb-0.5 grid h-8 w-8 place-items-center rounded-xl transition-colors duration-150 ${isActive ? 'bg-primary/25 text-white shadow-[0_0_14px_rgba(113,63,225,0.6)]' : 'text-zinc-400'}`}>
                 <ThemeIcon name={item.name} fallback={Icon} className="h-6 w-6" />
               </span>
-              <span className={`text-[0.75rem] font-bold tracking-wide ${isActive ? 'text-white' : 'text-zinc-400'}`}>{item.name}</span>
+              <span className={`whitespace-nowrap text-[0.625rem] font-bold leading-tight tracking-normal ${isActive ? 'text-white' : 'text-zinc-400'}`}>{item.name}</span>
             </>
           );
 
           if (isSupport) {
             return (
-              <button key={item.name} onClick={() => setIsSupportOpen(true)} className="flex flex-1 flex-col items-center justify-center py-1 transition-transform duration-100 active:scale-95">
+              <button key={item.name} onClick={() => setIsSupportOpen(true)} className="flex min-w-0 flex-1 flex-col items-center justify-center py-1 transition-transform duration-100 active:scale-95">
                 {inner}
               </button>
             );
           }
 
           return (
-            <Link key={item.name} href={item.href} aria-current={isActive ? 'page' : undefined} className="flex flex-1 flex-col items-center justify-center py-1 transition-transform duration-100 active:scale-95">
+            <Link key={item.name} href={item.href} aria-current={isActive ? 'page' : undefined} className="flex min-w-0 flex-1 flex-col items-center justify-center py-1 transition-transform duration-100 active:scale-95">
               {inner}
             </Link>
           );
