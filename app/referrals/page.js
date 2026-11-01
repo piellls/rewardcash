@@ -79,7 +79,7 @@ export default function Referrals() {
   ];
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 pb-12 pt-2 sm:px-6 lg:px-8">
+    <div className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-4 pb-12 pt-2 sm:px-6 lg:px-8">
       <PageHeader
         eyebrow="Referrals"
         icon={Users}
