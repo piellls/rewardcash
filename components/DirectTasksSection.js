@@ -295,7 +295,7 @@ export default function DirectTasksSection() {
       {loading ? (
         <div aria-busy="true" className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-3 lg:grid-cols-5 min-[1800px]:grid-cols-6">
           {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="h-[11.875rem] animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)] sm:h-[14.375rem]" />
+            <div key={i} className="aspect-[4/5] animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)]" />
           ))}
         </div>
       ) : filteredOffers.length === 0 ? (
@@ -320,46 +320,46 @@ export default function DirectTasksSection() {
                   type="button"
                   onClick={() => handleOfferClick(offer)}
                   aria-label={`${offer.title}, ${offer.coins.toLocaleString()} coins`}
-                  className={`g-offer g-spot group relative flex h-[11.875rem] w-full flex-col justify-end overflow-hidden rounded-2xl border text-left sm:h-[14.375rem] ${
+                  className={`g-offer g-spot group relative flex w-full flex-col items-stretch gap-2 overflow-hidden rounded-2xl border p-2 text-left sm:gap-2.5 sm:p-2.5 ${
                     isLocked ? 'border-dark-border opacity-60' : showWarning ? 'border-[rgba(243,199,107,0.5)]' : 'border-dark-border'
                   }`}
                 >
-                  {offer.icon && offer.icon.startsWith('http') ? (
-                    <img src={offer.icon} alt="" loading="lazy" className="g-offer-img absolute inset-0 z-0 h-full w-full object-cover" />
-                  ) : (
-                    <div className="absolute inset-0 z-0 flex items-center justify-center bg-gradient-to-br from-[#26206a] to-[#111219]">
-                      <TypeIcon className="h-10 w-10 text-[#c3b2ff] opacity-70" aria-hidden="true" />
-                    </div>
-                  )}
+                  <h3 title={offer.title} className="line-clamp-1 px-0.5 text-center text-xs font-extrabold leading-snug text-white sm:text-sm">{offer.title}</h3>
 
-                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#070a14] via-[#070a14]/40 to-transparent" />
+                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[var(--bb-surface-2)]">
+                    {offer.icon && offer.icon.startsWith('http') ? (
+                      <img src={offer.icon} alt="" loading="lazy" className="g-offer-img h-full w-full object-cover" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#26206a] to-[#111219]">
+                        <TypeIcon className="h-10 w-10 text-[#c3b2ff] opacity-70" aria-hidden="true" />
+                      </div>
+                    )}
 
-                  {isLocked && (
-                    <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-[#070a14]/85 p-3">
-                      <span className="rounded-full border border-dark-border bg-dark-card p-2"><Lock className="h-4 w-4 text-zinc-400" aria-hidden="true" /></span>
-                      <span className="text-[0.75rem] font-extrabold uppercase tracking-wider text-zinc-400">Locked 24h</span>
-                      <span className="text-[0.8125rem] font-extrabold text-[#f3c76b]">{lockInfo}</span>
-                    </div>
-                  )}
+                    <span className="absolute left-1.5 top-1.5 z-10 grid h-7 w-7 place-items-center rounded-lg border border-white/10 bg-[#070a14]/80 text-[#c3b2ff] sm:left-2 sm:top-2 sm:h-8 sm:w-8">
+                      <TypeIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+                    </span>
 
-                  {showWarning && !isLocked && (
-                    <span className="absolute left-2.5 top-2.5 z-20 rounded bg-[#f3c76b] px-1.5 py-0.5 text-[0.75rem] font-black text-[#1a1405]">{clicksLeft} left</span>
-                  )}
+                    <span className="absolute right-1.5 top-1.5 z-10 flex h-7 items-center gap-1.5 rounded-lg border border-white/10 bg-[#070a14]/80 px-2 text-zinc-100 sm:right-2 sm:top-2 sm:h-8">
+                      {isAndroid && <AndroidIcon />}
+                      {isApple && <AppleIcon />}
+                    </span>
 
-                  <div className="absolute right-2.5 top-2.5 z-20 flex items-center gap-1.5 rounded-md border border-white/10 bg-[#070a14]/80 px-2 py-1 text-zinc-200">
-                    {isAndroid && <AndroidIcon />}
-                    {isApple && <AppleIcon />}
-                    <span className="h-3 w-px shrink-0 bg-white/15" />
-                    <TypeIcon className="h-3 w-3" aria-hidden="true" />
+                    {showWarning && !isLocked && (
+                      <span className="absolute bottom-1.5 left-1.5 z-10 rounded bg-[#f3c76b] px-1.5 py-0.5 text-[0.75rem] font-black text-[#1a1405] sm:bottom-2 sm:left-2">{clicksLeft} left</span>
+                    )}
+
+                    {isLocked && (
+                      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-1.5 bg-[#070a14]/85 p-3">
+                        <span className="rounded-full border border-dark-border bg-dark-card p-2"><Lock className="h-4 w-4 text-zinc-400" aria-hidden="true" /></span>
+                        <span className="text-[0.75rem] font-extrabold uppercase tracking-wider text-zinc-400">Locked 24h</span>
+                        <span className="text-[0.8125rem] font-extrabold text-[#f3c76b]">{lockInfo}</span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="relative z-20 p-3.5">
-                    <h3 className="line-clamp-1 text-xs font-extrabold leading-snug text-white sm:text-sm">{offer.title}</h3>
-                    <p className="mt-0.5 line-clamp-1 text-[0.8125rem] text-zinc-400">{offer.description}</p>
-                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-[rgba(243,199,107,0.4)] bg-[rgba(243,199,107,0.12)] px-2.5 py-1 text-xs font-black text-[#f3c76b] sm:text-sm">
-                      <Coins className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                      <span className="tabular-nums">{offer.coins.toLocaleString()}</span>
-                    </div>
+                  <div className="flex items-center justify-center gap-1.5 pb-0.5 text-sm font-black text-[#f3c76b] sm:text-base">
+                    <Coins className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span className="tabular-nums">{offer.coins.toLocaleString()}</span>
                   </div>
                 </button>
               </Reveal>
