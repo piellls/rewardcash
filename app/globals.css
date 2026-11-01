@@ -655,7 +655,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
     display: block;
     position: fixed; top: 0; left: 0; right: 0; height: 0.1875rem; z-index: 60;
     transform-origin: left center; transform: scaleX(0);
-    background: linear-gradient(90deg, #9b7bff, #713fe1 60%, #f3c76b);
+    background: linear-gradient(90deg, #9b7bff, #713fe1);
     pointer-events: none;
     animation: g-progress linear both;
     animation-timeline: scroll(root block);
@@ -698,7 +698,6 @@ h1, h2, h3, h4, h5, h6, .font-display {
 @media (prefers-reduced-motion: reduce) {
   .g-art::before { animation: none; opacity: 0.8; }
   .g-spark { display: none; }
-  .g-progress { animation: none; display: none; }
   .g-shine::before { animation: none; display: none; }
   .g-tilt { transition: none; }
 }
@@ -789,10 +788,17 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .text-gradient { background:none; color:var(--bb-primary); -webkit-text-fill-color:currentColor; }
 .btn-gaming,.bb-cta { background:var(--bb-primary); border:0; border-radius:0.625rem; font-weight:600; letter-spacing:0; text-transform:none; box-shadow:inset 0 1px 0 #ffffff33; }
 .btn-gaming-secondary,.bb-ghost { background:var(--bb-surface-2); border:0; border-radius:0.625rem; font-weight:600; letter-spacing:0; text-transform:none; box-shadow:inset 0 1px 0 #ffffff12; }
-.btn-gaming::after,.bb-cta::after { display:none; }
-.btn-gaming:hover:not(:disabled),.bb-cta:hover { background:var(--bb-primary-hover); box-shadow:inset 0 1px 0 #ffffff33; transform:translateY(-1px); }
-.btn-gaming-secondary:hover:not(:disabled),.bb-ghost:hover { background:var(--bb-surface-hover); box-shadow:inset 0 1px 0 #ffffff12; transform:translateY(-1px); }
-.btn-gaming:active:not(:disabled),.btn-gaming-secondary:active:not(:disabled),.bb-cta:active { transform:translateY(1px); box-shadow:none; }
+.btn-gaming:hover:not(:disabled),.bb-cta:hover { background:var(--bb-primary-hover); }
+.btn-gaming-secondary:hover:not(:disabled),.bb-ghost:hover { background:var(--bb-surface-hover); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-gaming:hover:not(:disabled),.bb-cta:hover { transform:translateY(-2px); box-shadow:inset 0 1px 0 #ffffff33, 0 0.625rem 1.5rem -0.5rem rgba(113, 63, 225, 0.75); }
+  .btn-gaming-secondary:hover:not(:disabled),.bb-ghost:hover { transform:translateY(-2px); box-shadow:inset 0 1px 0 #ffffff12, 0 0.5rem 1.25rem -0.75rem rgba(0, 0, 0, 0.8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-gaming:hover:not(:disabled),.bb-cta:hover,.btn-gaming-secondary:hover:not(:disabled),.bb-ghost:hover { transform:none; }
+}
+/* Press feedback last, so it wins over the hover lift and the reduced-motion reset */
+.btn-gaming:active:not(:disabled),.btn-gaming-secondary:active:not(:disabled),.bb-cta:active,.bb-ghost:active { transform:scale(0.97); box-shadow:inset 0 1px 0 #ffffff22; }
 .g-eyebrow { padding:0; background:none; border:0; border-radius:0; color:#9b7bff; font-size:0.75rem; font-weight:700; letter-spacing:.24em; }
 .icon-wrapper-primary,.icon-wrapper-secondary,.icon-wrapper-gradient { background:#713fe114; border:0; box-shadow:none; color:#b79aff; }
 .icon-wrapper-primary:hover,.icon-wrapper-secondary:hover,.icon-wrapper-gradient:hover { box-shadow:none; background:#713fe126; }

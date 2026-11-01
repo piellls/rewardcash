@@ -90,6 +90,29 @@ export function Reveal({ as: Tag = 'div', i = 0, plain = false, className = '', 
   );
 }
 
+// Landing-page scroll reveal. Every [data-reveal] element inside `ref` that starts below the fold is hidden
+// (data-pending) and shown, once, when it scrolls into view; the CSS fades and lifts it, staggered by --i.
+// Elements already on screen are never hidden, and without JavaScript nothing is hidden at all.
+export function useScrollReveal(ref) {
+  useEffect(() => {
+    const root = ref.current;
+    if (!root || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.removeAttribute('data-pending');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    root.querySelectorAll('[data-reveal]').forEach((el) => {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
+      el.setAttribute('data-pending', '');
+      io.observe(el);
+    });
+    return () => io.disconnect();
+  }, [ref]);
+}
+
 // Counts up from 0 once when it first becomes visible. Later changes of the value just update it.
 export function CountUp({ value, decimals = 0, prefix = '', suffix = '' }) {
   const ref = useRef(null);

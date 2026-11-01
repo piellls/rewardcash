@@ -30,6 +30,7 @@ export default function RootLayout({ children }) {
       style={{ colorScheme: 'dark' }}
     >
       <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans overflow-x-hidden max-w-[100vw]">
+        <div aria-hidden="true" className="g-progress" />
         <AuthProvider>
           <AuthPromptProvider>
             <AppShell>{children}</AppShell>
