@@ -10,7 +10,6 @@ import { useAuth } from '@/context/AuthContext';
 import AuthModal from './AuthModal';
 import SupportModal from './SupportModal';
 import { AnimatedNumber } from './motion';
-import SoundToggle from './SoundToggle';
 import { Coins, Trophy, Wallet, PlayCircle, ShieldAlert, LogOut, MessageSquare, Users, Gift } from 'lucide-react';
 
 const calculateLevel = (totalEarned = 0) => {
@@ -122,8 +121,6 @@ export default function Navbar() {
                 <span className="hidden text-[0.75rem] font-bold uppercase tracking-wider text-zinc-400 sm:inline">Coins</span>
               </div>
 
-              <SoundToggle className="hidden sm:flex" />
-
               {/* Mobile free spin button */}
               <Link
                 href="/spin"
@@ -156,7 +153,6 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="flex items-center gap-2 sm:gap-3">
-              <SoundToggle className="hidden sm:flex" />
               <Link
                 href="/spin"
                 className="relative mr-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/15 text-[#c3b2ff] transition-transform duration-100 active:scale-95 md:hidden"
