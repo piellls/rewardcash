@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
+import { useAuthPrompt } from '@/components/AuthPrompt';
 import { db } from '@/lib/db';
 import { COINS_PER_PAYOUT_USD } from '@/lib/cashout';
 import { needsPhone } from '@/lib/adblumedia';
@@ -81,6 +82,7 @@ const getOfferBadges = (offer) => {
 
 export default function DirectTasksSection() {
   const { user } = useAuth();
+  const { openAuth } = useAuthPrompt();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -205,8 +207,9 @@ export default function DirectTasksSection() {
   }, [user?.id]);
 
   const handleOfferClick = (offer) => {
+    // A task needs an account (the reward is credited to it), so visitors get the sign-up popup.
     if (!user) {
-      setNotice('Log in or register to start earning from tasks.');
+      openAuth('register');
       return;
     }
     if (getOfferLockInfo(offer.id)) {

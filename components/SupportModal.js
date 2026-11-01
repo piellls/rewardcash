@@ -3,13 +3,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
+import { useAuthPrompt } from './AuthPrompt';
 import { isMockMode, supabase, db } from '@/lib/db';
 import { X, MessageSquare, AlertCircle, Loader2, CheckCircle2, ArrowLeft, Send, History } from 'lucide-react';
 import ThemeIcon from './ThemeIcon';
 
 export default function SupportModal({ isOpen, onClose }) {
-  const { user } = useAuth();
-  
+  const { user, loading: authLoading } = useAuth();
+  const { openAuth } = useAuthPrompt();
+
   const [activeTab, setActiveTab] = useState('submit'); // 'submit' or 'list'
   const [selectedTicket, setSelectedTicket] = useState(null);
   
@@ -86,6 +88,15 @@ export default function SupportModal({ isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) sfx.play('open');
   }, [isOpen]);
+
+  // Tickets belong to an account, so a visitor goes straight to the sign-up popup instead of a dead-end dialog.
+  useEffect(() => {
+    if (isOpen && !authLoading && !user) {
+      onClose();
+      openAuth('register');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, authLoading, user]);
 
   useEffect(() => {
     if (!isOpen) return;

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useAuthPrompt } from '@/components/AuthPrompt';
 import { db } from '@/lib/db';
 import { 
   Gift, Zap, Sparkles, AlertCircle, Coins, Clock, CheckCircle2, RotateCcw,
@@ -105,6 +106,7 @@ const SPIN_PRIZES = [
 
 export default function SpinPage() {
   const { user, login } = useAuth();
+  const { openAuth } = useAuthPrompt();
   const [activeTab, setActiveTab] = useState('signup'); // Default to signup chest matching user focus
   const [spinning, setSpinning] = useState(false);
   const [error, setError] = useState(null);
@@ -233,7 +235,7 @@ export default function SpinPage() {
   const handleSpin = async () => {
     if (spinning) return;
     if (!user) {
-      setError('You must be logged in to claim rewards.');
+      openAuth('register');
       return;
     }
 
