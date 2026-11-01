@@ -7,13 +7,7 @@ import AuthModal from '@/components/AuthModal';
 import DirectTasksSection from '@/components/DirectTasksSection';
 import PageHeader, { Chip } from '@/components/PageHeader';
 import { Reveal, AnimatedNumber } from '@/components/motion';
-import { PlayCircle, Coins, MousePointerClick, Flag, Hourglass, Globe, Users, RotateCcw } from 'lucide-react';
-
-const HOW = [
-  { icon: MousePointerClick, title: 'Pick a task', text: 'Every card shows the reward in coins before you start.' },
-  { icon: Flag, title: 'Finish it', text: 'Follow the steps in the task. Skipping a step usually means no credit.' },
-  { icon: Hourglass, title: 'Coins arrive', text: 'The advertiser confirms your task, then the coins land in your balance.' },
-];
+import { PlayCircle, Coins, Globe, Users, RotateCcw } from 'lucide-react';
 
 export default function Earn() {
   const { user } = useAuth();
@@ -53,22 +47,6 @@ export default function Earn() {
           </div>
         </Reveal>
       )}
-
-      <ol className="mb-10 grid gap-3 sm:grid-cols-3">
-        {HOW.map((h, i) => (
-          <Reveal as="li" key={h.title} i={i}>
-            <div className="g-card flex h-full items-start gap-4 p-4">
-              <span className="icon-wrapper-primary h-11 w-11 shrink-0">
-                <h.icon className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <div>
-                <h2 className="font-bold text-white">{i + 1}. {h.title}</h2>
-                <p className="mt-0.5 text-sm leading-relaxed text-zinc-400">{h.text}</p>
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </ol>
 
       <Reveal className="g-card mb-8 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div>
