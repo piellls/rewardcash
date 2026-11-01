@@ -5,6 +5,7 @@ import { sfx } from '@/lib/sfx';
 import { useAuth } from '@/context/AuthContext';
 import { isMockMode, supabase, db } from '@/lib/db';
 import { X, MessageSquare, AlertCircle, Loader2, CheckCircle2, ArrowLeft, Send, History } from 'lucide-react';
+import ThemeIcon from './ThemeIcon';
 
 export default function SupportModal({ isOpen, onClose }) {
   const { user } = useAuth();
@@ -237,7 +238,7 @@ export default function SupportModal({ isOpen, onClose }) {
         {!selectedTicket && (
           <div className="mb-5 text-center">
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-[#713fe1]/40 bg-[#713fe1]/15 text-[#c3b2ff]">
-              <MessageSquare className="h-6 w-6" aria-hidden="true" />
+              <ThemeIcon name="Support" fallback={MessageSquare} className="h-8 w-8" />
             </div>
             <h2 className="g-title text-2xl text-white">Support</h2>
             <p className="mt-1.5 text-sm text-[var(--bb-muted)]">Open a ticket or follow up on an existing one.</p>
