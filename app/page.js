@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Check, Info, Coins, Gift, Link as LinkIcon, Users, ChevronDown, MessageCircle, ArrowRight } from 'lucide-react';
+import { Check, Info, Coins, Gift, Link as LinkIcon, Users, ChevronDown, MessageCircle, MessageSquare, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import SupportModal from '@/components/SupportModal';
+import ThemeIcon from '@/components/ThemeIcon';
 import { estimate, TIERS, formatUsd } from '@/lib/affiliate';
 import s from './home.module.css';
 
@@ -109,6 +110,13 @@ export default function Home() {
       </main>
       <footer className={s.footer}><div className={s.container}><div className={s.footerTop}><div className={s.footerIntro}><Brand /><p>Turn your spare time into rewards with BlueberryCash. Discover offers, collect coins and choose your next payout.</p><div className={s.footerPayments}>{['robux2.svg','paypal2.svg','eth.png','solana.png','usdc.png'].map(file => <img src={asset(file)} alt="" key={file} loading="lazy" />)}<span>+ More</span></div></div><div className={s.footerLinks}><div><h3>Quick Links</h3><Link href="/earn">Earn</Link><Link href="/cashout">Cashout</Link><Link href="/referrals">Affiliates</Link></div><div><h3>About</h3><a href="#how-it-works">How it works</a><a href="#faq">FAQ</a><button onClick={() => setSupport(true)}>Support</button><Link href="/privacy">Privacy Policy</Link><Link href="/terms">Terms of Service</Link></div><div><h3>Community</h3><Link href="/leaderboard">Leaderboard</Link><Link href="/spin">Daily Wheel</Link></div></div></div><div className={s.footerBottom}>© {new Date().getFullYear()} BlueberryCash. All rights reserved.<span>BlueberryCash is not affiliated with the brands shown.</span></div></div></footer>
       <button className={s.supportButton} aria-label="Contact support" onClick={() => setSupport(true)}><MessageCircle size={24} /></button>
+      {/* Phone navigation, the same five shortcuts as inside the app (shown to visitors before they sign in too) */}
+      <nav aria-label="Main" className={s.bottomNav}>
+        {[['Earn', '/earn'], ['Cashout', '/cashout'], ['Leaderboard', '/leaderboard'], ['Referrals', '/referrals']].map(([name, href]) => (
+          <Link key={name} href={href}><ThemeIcon name={name} fallback={MessageSquare} /><span>{name}</span></Link>
+        ))}
+        <button type="button" onClick={() => setSupport(true)}><MessageSquare aria-hidden="true" /><span>Support</span></button>
+      </nav>
       <AuthModal isOpen={Boolean(auth)} defaultTab={auth || 'login'} onClose={() => setAuth(null)} />
       <SupportModal isOpen={support} onClose={() => setSupport(false)} />
     </div>
