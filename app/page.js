@@ -338,6 +338,36 @@ export default function Home() {
           </Reveal>
         )}
 
+        {/* CATEGORIES: the three kinds of task, each leading to the live list */}
+        <section aria-label="Task types" className="pt-14">
+          <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Pick how you want to earn</Reveal>
+          <ul className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              { icon: Gamepad2, title: 'Games', text: 'Play a game to a set level. The coins land when you reach it.' },
+              { icon: Smartphone, title: 'Apps', text: 'Try a new app and finish the steps it asks for.' },
+              { icon: ClipboardList, title: 'Surveys', text: 'Answer a few questions and get paid in coins.' },
+            ].map((c, i) => (
+              <Reveal as="li" key={c.title} i={i}>
+                <Link href="/earn" className="bb-card g-spot group flex h-full flex-col gap-4 p-6 transition-transform duration-200 active:scale-[0.98]">
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--bb-surface-2)] text-[var(--bb-berry-300)]">
+                    <c.icon className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-bold">{c.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--bb-muted)]">{c.text}</p>
+                  </div>
+                  <span className="mt-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--bb-surface)] px-3 py-1.5 text-xs font-semibold text-[var(--bb-muted)]">
+                    Reward shown in coins before you start
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--bb-berry-300)]">
+                    Browse {c.title.toLowerCase()} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </ul>
+        </section>
+
         {/* THE HONEST PART: where the money comes from, in three plain points */}
         <section aria-label="Where your rewards come from" className="pt-14">
           <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Where your coins come from</Reveal>
