@@ -841,10 +841,14 @@ h1, h2, h3, h4, h5, h6, .font-display {
   .brand-logo { height:2.25rem; }
 }
 @media(max-width:479px) {
+  .brand-logo { height:1.75rem; } /* the phone header also holds the buttons: keep a gap at 360px */
   .page-hero { flex-direction:column-reverse; align-items:flex-start; padding:1.5rem; }
   .page-hero-art { width:6rem; }
   .page-hero-subtitle { font-size:0.8125rem; }
   .page-hero h1 { font-size:1.875rem; }
+}
+@media(max-width:359px) {
+  .brand-logo { height:1.5rem; }
 }
 
 /* RBXFast-inspired authentication flow, adapted to BlueberryCash providers. */
