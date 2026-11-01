@@ -9,7 +9,7 @@ export default function AppShell({ children }) {
   const isHome = usePathname() === '/';
   if (isHome) return children;
   return (
-    <div className="app-shell min-h-screen flex flex-col pt-[80px] pb-16 md:pb-0">
+    <div className="app-shell min-h-screen flex flex-col pt-[5rem] pb-16 md:pb-0">
       <Navbar />
       <div className="flex-1 flex flex-col w-full md:pl-64">
         <main className="flex-1 flex flex-col w-full">{children}</main>

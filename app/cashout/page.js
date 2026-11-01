@@ -370,7 +370,7 @@ export default function Cashout() {
                       <td className="py-3 pr-4 font-bold uppercase text-white">{w.payment_method}</td>
                       <td className="py-3 pr-4 font-extrabold tabular-nums text-[#c3b2ff]">${parseFloat(w.amount_usd).toFixed(2)}</td>
                       <td className="py-3 pr-4 tabular-nums text-zinc-400">{w.coins_spent?.toLocaleString()}</td>
-                      <td className="max-w-[180px] truncate py-3 pr-4 font-mono text-xs text-zinc-400" title={w.payment_address}>{w.payment_address}</td>
+                      <td className="max-w-[11.25rem] truncate py-3 pr-4 font-mono text-xs text-zinc-400" title={w.payment_address}>{w.payment_address}</td>
                       <td className="py-3 pr-4 text-zinc-400">{new Date(w.created_at).toLocaleDateString()}</td>
                       <td className="py-3">{getStatusBadge(w.status)}</td>
                     </tr>
@@ -416,7 +416,7 @@ export default function Cashout() {
                         key={amount.usd}
                         aria-pressed={isSelected}
                         onClick={() => setSelectedAmount(amount)}
-                        className={`flex min-h-[56px] flex-col items-center justify-center gap-0.5 rounded-xl border p-3 text-center transition-[background-color,border-color,box-shadow,transform] duration-150 active:scale-95 ${
+                        className={`flex min-h-[3.5rem] flex-col items-center justify-center gap-0.5 rounded-xl border p-3 text-center transition-[background-color,border-color,box-shadow,transform] duration-150 active:scale-95 ${
                           isSelected
                             ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(113,63,225,0.55)]'
                             : 'border-dark-border bg-dark-bg text-white hover:border-primary/60'
@@ -442,7 +442,7 @@ export default function Cashout() {
                   placeholder={selectedMethod.placeholder}
                   value={paymentAddress}
                   onChange={(e) => setPaymentAddress(e.target.value)}
-                  className="min-h-[48px] w-full rounded-xl border border-dark-border bg-dark-bg px-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-primary focus:outline-none"
+                  className="min-h-[3rem] w-full rounded-xl border border-dark-border bg-dark-bg px-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-primary focus:outline-none"
                 />
               </div>
 
@@ -455,10 +455,10 @@ export default function Cashout() {
               </div>
 
               <div className="flex gap-3">
-                <button type="button" onClick={() => setSelectedMethod(null)} className="btn-gaming-secondary min-h-[48px] flex-1 rounded-xl py-3 text-xs">
+                <button type="button" onClick={() => setSelectedMethod(null)} className="btn-gaming-secondary min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
                   Cancel
                 </button>
-                <button type="submit" disabled={loading} className="btn-gaming flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl py-3 text-xs">
+                <button type="submit" disabled={loading} className="btn-gaming flex min-h-[3rem] flex-1 items-center justify-center gap-2 rounded-xl py-3 text-xs">
                   {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-label="Sending" /> : 'Submit request'}
                 </button>
               </div>

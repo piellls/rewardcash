@@ -47,8 +47,8 @@ export default function Earn() {
             <p className="text-sm text-zinc-400">Free, no deposit. You start with 100 coins.</p>
           </div>
           <div className="flex gap-3">
-            <button onClick={() => openAuth('login')} className="btn-gaming-secondary min-h-[44px] rounded-xl px-5 text-xs">Log in</button>
-            <button onClick={() => openAuth('register')} className="btn-gaming min-h-[44px] rounded-xl px-5 text-xs">Register</button>
+            <button onClick={() => openAuth('login')} className="btn-gaming-secondary min-h-[2.75rem] rounded-xl px-5 text-xs">Log in</button>
+            <button onClick={() => openAuth('register')} className="btn-gaming min-h-[2.75rem] rounded-xl px-5 text-xs">Register</button>
           </div>
         </Reveal>
       )}

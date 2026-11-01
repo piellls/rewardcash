@@ -27,7 +27,7 @@ export default function TierProgress({ month }) {
             <div className="text-sm text-zinc-400">Your rate this month</div>
           </div>
         </div>
-        <div className="min-w-[200px] flex-1">
+        <div className="min-w-[12.5rem] flex-1">
           <div className="flex items-baseline justify-between gap-3 text-sm">
             <span className="text-zinc-400">Friends earned <strong className="font-bold tabular-nums text-white">{formatUsd(usd, 2)}</strong> so far</span>
             <span className="shrink-0 font-bold tabular-nums text-[#c3b2ff]">{next ? `${next.rate}% at ${formatUsd(next.from)}` : 'Top step'}</span>

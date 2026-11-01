@@ -37,7 +37,7 @@ export default function CoinCalculator({ payouts }) {
   return (
     <div className="g-card g-ring grid items-center gap-6 p-5 sm:p-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-10">
       <div className="flex flex-col items-center text-center">
-        <div className="w-[170px] transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] sm:w-[220px]" style={{ transform: `scale(${scale})` }}>
+        <div className="w-[10.625rem] transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] sm:w-[13.75rem]" style={{ transform: `scale(${scale})` }}>
           <Art name="coins" size="100%" glow="gold" float />
         </div>
         <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-[var(--bb-muted)]">Your coins are worth</p>

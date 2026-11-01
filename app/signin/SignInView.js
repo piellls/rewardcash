@@ -18,7 +18,7 @@ export default function SignInView() {
 
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-4 pb-10 pt-4 sm:px-6">
-      <Reveal className="auth-modal grid w-full max-w-[720px] self-center overflow-hidden rounded-2xl bg-[var(--bb-surface)] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] md:grid-cols-[42%_58%]">
+      <Reveal className="auth-modal grid w-full max-w-[45rem] self-center overflow-hidden rounded-2xl bg-[var(--bb-surface)] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] md:grid-cols-[42%_58%]">
         <div className="auth-modal-art" aria-hidden="true">
           <div className="auth-modal-art-shade" />
           <p>TURN TASKS<br /><span>INTO REWARDS</span></p>
