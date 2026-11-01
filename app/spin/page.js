@@ -69,17 +69,17 @@ const ChestIcon = ({ type = 'purple', size = 80 }) => {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none" className="drop-shadow-[0_12px_20px_rgba(0,0,0,0.75)] hover:scale-[1.05] transition-transform duration-300" xmlns="http://www.w3.org/2000/svg">
       <path d="M10 28C10 28 10 52 14 52H50C54 52 54 28 54 28" fill="#0f0f15" stroke={isGold ? "#f59e0b" : "#9b7bff"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M12 28H52V48C52 50 50 52 48 52H16C14 52 12 50 12 48V28Z" fill="#13141f" stroke={isGold ? "#fbbf24" : "#7854f7"} strokeWidth="1.5" />
+      <path d="M12 28H52V48C52 50 50 52 48 52H16C14 52 12 50 12 48V28Z" fill="#13141f" stroke={isGold ? "#fbbf24" : "#713fe1"} strokeWidth="1.5" />
       <path d="M8 20C8 15 15 12 32 12C49 12 56 15 56 20V28H8V20Z" fill={isGold ? "#451a03" : "#1e1b4b"} stroke={isGold ? "#fbbf24" : "#9b7bff"} strokeWidth="2.5" />
-      <rect x="20" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6945e4"} opacity="0.85" />
-      <rect x="38" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6945e4"} opacity="0.85" />
+      <rect x="20" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6335ce"} opacity="0.85" />
+      <rect x="38" y="12" width="6" height="40" fill={isGold ? "#f59e0b" : "#6335ce"} opacity="0.85" />
       <rect x="27" y="24" width="10" height="12" rx="2" fill={isGold ? "#fbbf24" : "#e879f9"} stroke={isGold ? "#ca8a04" : "#c084fc"} strokeWidth="1.5" />
       <circle cx="32" cy="30" r="2" fill="#000" />
       {!isGold ? (
         <>
-          <path d="M22 22L24 14L27 22H22Z" fill="#7854f7" />
+          <path d="M22 22L24 14L27 22H22Z" fill="#713fe1" />
           <path d="M29 22L32 10L35 22H29Z" fill="#9b7bff" />
-          <path d="M37 22L39 14L42 22H37Z" fill="#7854f7" />
+          <path d="M37 22L39 14L42 22H37Z" fill="#713fe1" />
         </>
       ) : (
         <>
@@ -96,8 +96,8 @@ const SPIN_PRIZES = [
   { coins: 10, label: '$0.01', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.08)', color: '#a1a1aa', level: 'low' },
   { coins: 50, label: '$0.05', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.08)', color: '#a1a1aa', level: 'low' },
   { coins: 250, label: '$0.25', rarity: 'uncommon', border: '#10b981', bg: 'rgba(16,185,129,0.08)', color: '#10b981', level: 'medium' },
-  { coins: 1000, label: '$1.00', rarity: 'rare', border: '#4597ff', bg: 'rgba(69,151,255,0.08)', color: '#4597ff', level: 'medium' },
-  { coins: 2500, label: '$2.50', rarity: 'epic', border: '#7854f7', bg: 'rgba(120,84,247,0.08)', color: '#7854f7', level: 'high' },
+  { coins: 1000, label: '$1.00', rarity: 'rare', border: '#9b7bff', bg: 'rgba(155,123,255,0.08)', color: '#9b7bff', level: 'medium' },
+  { coins: 2500, label: '$2.50', rarity: 'epic', border: '#713fe1', bg: 'rgba(113,63,225,0.08)', color: '#713fe1', level: 'high' },
   { coins: 10000, label: '$10.00', rarity: 'legendary', border: '#eab308', bg: 'rgba(234,179,8,0.08)', color: '#eab308', level: 'high' },
   { coins: 250000, label: '$250.00', rarity: 'mythic', border: '#ef4444', bg: 'rgba(239,68,68,0.08)', color: '#ef4444', level: 'mythic' }
 ];
@@ -428,8 +428,8 @@ export default function SpinPage() {
             45deg,
             #8f6dff,
             #8f6dff 12px,
-            #6945e4 12px,
-            #6945e4 24px
+            #6335ce 12px,
+            #6335ce 24px
           );
           background-size: 40px 40px;
           animation: stripesShift 1.2s linear infinite;
@@ -452,7 +452,7 @@ export default function SpinPage() {
           disabled={spinning}
           className={`min-h-[44px] px-4 sm:px-6 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-[background-color,border-color,box-shadow,color,transform] duration-150 active:scale-95 ${
             activeTab === 'signup'
-              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
+              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(113,63,225,0.55)]'
               : 'border-dark-border text-zinc-300 bg-[var(--bb-surface)] hover:bg-[var(--bb-surface-2)] hover:text-white'
           }`}
         >
@@ -463,7 +463,7 @@ export default function SpinPage() {
           disabled={spinning}
           className={`min-h-[44px] px-4 sm:px-6 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 border transition-[background-color,border-color,box-shadow,color,transform] duration-150 active:scale-95 ${
             activeTab === 'daily'
-              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
+              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(113,63,225,0.55)]'
               : 'border-dark-border text-zinc-300 bg-[var(--bb-surface)] hover:bg-[var(--bb-surface-2)] hover:text-white'
           }`}
         >
@@ -518,7 +518,7 @@ export default function SpinPage() {
                       : item.rarity === 'uncommon' 
                       ? 'rgba(16,185,129,0.06)' 
                       : item.rarity === 'epic' 
-                      ? 'rgba(120,84,247,0.06)' 
+                      ? 'rgba(113,63,225,0.06)'
                       : 'rgba(234,179,8,0.06)'
                   }}
                 >
@@ -589,7 +589,7 @@ export default function SpinPage() {
 
             {/* Progress bar matching the user mockup EXACTLY */}
             <div className="w-full max-w-full overflow-hidden flex items-center gap-2 sm:gap-3 mt-4 mb-4 select-none">
-              <div className="bg-[#7854f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(120,84,247,0.3)]">
+              <div className="bg-[#713fe1] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(113,63,225,0.3)]">
                 $ 0
               </div>
               <div className="flex-1 h-6 sm:h-7 bg-[#0b0c10] rounded-full border border-zinc-800/80 overflow-hidden relative flex items-center p-[3px]">
@@ -598,7 +598,7 @@ export default function SpinPage() {
                   style={{ width: `${challengeProgress}%` }}
                 />
               </div>
-              <div className="bg-[#7854f7] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(120,84,247,0.3)]">
+              <div className="bg-[#713fe1] text-white text-[10px] sm:text-[11px] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[42px] sm:min-w-[48px] shadow-[0_4px_12px_rgba(113,63,225,0.3)]">
                 $ 1
               </div>
             </div>
@@ -632,7 +632,7 @@ export default function SpinPage() {
               </div>
               <Link 
                 href="/earn"
-                className="w-full sm:w-auto sm:flex-1 bg-[#9b7bff] hover:bg-[#7854f7] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(120,84,247,0.3)]"
+                className="w-full sm:w-auto sm:flex-1 bg-[#9b7bff] hover:bg-[#713fe1] text-white text-xs font-black uppercase tracking-wider rounded-xl px-5 py-3 flex items-center justify-center gap-2 active:scale-95 transition-all shadow-[0_6px_20px_rgba(113,63,225,0.3)]"
               >
                 Start Earning <Play className="h-3.5 w-3.5 fill-white" />
               </Link>

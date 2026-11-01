@@ -280,7 +280,7 @@ export default function DirectTasksSection() {
               onClick={() => setSelectedCategory(cat)}
               className={`min-h-[40px] rounded-lg px-4 text-sm font-bold transition-[background-color,color,box-shadow,transform] duration-150 active:scale-95 ${
                 selectedCategory === cat
-                  ? 'bg-primary text-white shadow-[0_0_16px_rgba(120,84,247,0.55)]'
+                  ? 'bg-primary text-white shadow-[0_0_16px_rgba(113,63,225,0.55)]'
                   : 'text-zinc-400 hover:bg-white/5 hover:text-white'
               }`}
             >
@@ -325,7 +325,7 @@ export default function DirectTasksSection() {
                   {offer.icon && offer.icon.startsWith('http') ? (
                     <img src={offer.icon} alt="" loading="lazy" className="g-offer-img absolute inset-0 z-0 h-full w-full object-cover" />
                   ) : (
-                    <div className="absolute inset-0 z-0 flex items-center justify-center bg-gradient-to-br from-[#26206a] to-[#0c1222]">
+                    <div className="absolute inset-0 z-0 flex items-center justify-center bg-gradient-to-br from-[#26206a] to-[#111219]">
                       <TypeIcon className="h-10 w-10 text-[#c3b2ff] opacity-70" aria-hidden="true" />
                     </div>
                   )}

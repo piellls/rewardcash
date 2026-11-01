@@ -17,7 +17,7 @@ import { Mail, Lock, User, AlertCircle, Loader2, ShieldAlert, Eye, EyeOff, Zap }
 //   deviceCheck   'immediate' (default) checks as soon as the form is shown; 'on-focus' waits until the visitor
 //                 first touches a field, so a form that sits on a public page costs no request per visit
 const FIELD =
-  'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] py-3 pl-10 pr-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#7854f7] focus:outline-none focus:ring-2 focus:ring-[#7854f7]/30';
+  'w-full rounded-xl border border-[var(--bb-border)] bg-[var(--bb-bg)] py-3 pl-10 pr-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-[#713fe1] focus:outline-none focus:ring-2 focus:ring-[#713fe1]/30';
 
 export default function AuthForm({ mode, onModeChange, defaultEmail = '', onSuccess, active = true, deviceCheck = 'immediate' }) {
   const { login, register } = useAuth();

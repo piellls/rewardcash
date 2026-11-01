@@ -111,10 +111,10 @@ export default function CommissionCalculator({ defaultFriends = 25, defaultEach 
                 <div
                   className={`relative flex items-start justify-center rounded-t-lg pt-1.5 text-[11px] font-extrabold tabular-nums transition-[background-color,box-shadow,color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] sm:text-xs ${
                     state === 'now'
-                      ? 'bg-gradient-to-t from-[#6945e4] to-[#7854f7] text-white shadow-[0_0_22px_rgba(120,84,247,0.65)]'
+                      ? 'bg-gradient-to-t from-[#6335ce] to-[#713fe1] text-white shadow-[0_0_22px_rgba(113,63,225,0.65)]'
                       : state === 'passed'
-                        ? 'bg-[#7854f7]/40 text-white'
-                        : 'border border-b-0 border-[var(--bb-border)] bg-[#1c2540] text-[var(--bb-muted)]'
+                        ? 'bg-[#713fe1]/40 text-white'
+                        : 'border border-b-0 border-[var(--bb-border)] bg-[#1f2029] text-[var(--bb-muted)]'
                   }`}
                   style={{ height: `${(t.rate / MAX_RATE) * 100}%` }}
                 >

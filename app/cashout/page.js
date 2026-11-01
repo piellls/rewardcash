@@ -11,96 +11,10 @@ import { Reveal, AnimatedNumber } from '@/components/motion';
 import { Coins, Wallet, History, AlertCircle, CheckCircle2, Loader2, ArrowUpRight, ShieldCheck, Clock, Percent, CreditCard } from 'lucide-react';
 
 const MethodGiftCard = ({ id }) => {
-  const cardClasses = "w-full aspect-[1.58/1] rounded-xl flex items-center justify-center relative overflow-hidden shadow-md";
-  
-  switch (id) {
-    case 'paypal':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#003087] via-[#0079C1] to-[#00457C]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
-          <svg className="h-12 w-12 drop-shadow-lg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.076 2.245C7.26 2.083 7.502 2 7.747 2H14.5c1.8 0 3.25.4 4.15 1.25.85.8 1.2 1.95 1.05 3.3-.25 2.2-1.5 3.9-3.7 4.5-.75.2-1.6.25-2.5.25H9.926l-1.35 6.55c-.05.24-.26.4-.5.4H4.5c-.32 0-.55-.3-.48-.6l2.5-12.1a1 1 0 0 1 .556-.755z" fill="white" />
-            <path d="M10.076 6.245C10.26 6.083 10.502 6 10.747 6H16.5c1.5 0 2.7.35 3.4 1 .7.65.95 1.55.85 2.65-.2 1.75-1.2 3.1-2.9 3.6-.6.15-1.25.2-1.95.2H12.92l-1.15 5.55c-.05.24-.26.4-.5.4H7.5c-.32 0-.55-.3-.48-.6l2.5-12.1a1 1 0 0 1 .556-.755z" fill="#E2E8F0" opacity="0.9" />
-          </svg>
-        </div>
-      );
-    case 'visa':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#0057A0] to-[#1A1F71]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white to-transparent" />
-          <span className="text-3xl font-black italic text-white tracking-widest drop-shadow-md select-none font-sans">
-            VISA
-          </span>
-        </div>
-      );
-    case 'btc':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#F7931A] to-[#FFAB40]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white to-transparent" />
-          <svg className="h-14 w-14 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5" fill="none" />
-            <path d="M9 7h4a2.5 2.5 0 0 1 0 5H9m0 0h5.5a2.5 2.5 0 0 1 0 5H9M10.5 5v14M13.5 5v14" stroke="white" strokeWidth="1.5" fill="none" />
-          </svg>
-        </div>
-      );
-    case 'ltc':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#4E5B70] to-[#7B8B9E]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-white to-transparent" />
-          <svg className="h-14 w-14 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5" fill="none" />
-            <path d="M9.5 16h6M11.5 8l-3 8h5.5M8 12.5l5.5-2" stroke="white" strokeWidth="1.5" fill="none" />
-          </svg>
-        </div>
-      );
-    case 'eth':
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-[#3C3C3D] to-[#62688F]`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-white to-transparent" />
-          <svg className="h-14 w-14 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5" />
-            <path d="M12 5l4.5 7-4.5 2.5L7.5 12 12 5z" stroke="white" strokeWidth="1.5" />
-            <path d="M12 14.5l4.5-2.5-4.5 7-4.5-7 4.5 2.5z" stroke="white" strokeWidth="1.5" />
-          </svg>
-        </div>
-      );
-    case 'sol':
-      return (
-        <div className={`${cardClasses} bg-black`}>
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-800 to-transparent" />
-          <div className="drop-shadow-lg">
-            <svg className="h-10 w-10" viewBox="0 0 398 327" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M64.72 260.6c-4.42 0-7.99 3.58-7.99 8v50.2c0 4.42 3.57 8 7.99 8H389.9c4.43 0 8-3.58 8-8v-50.2c0-4.42-3.57-8-8-8H64.72z" fill="url(#solGrad1)"/>
-              <path d="M333.1 66.23c4.42 0 7.99-3.58 7.99-8V8.02c0-4.42-3.57-8-7.99-8H7.99C3.57.02 0 3.6 0 8.02v50.2c0 4.43 3.57 8 7.99 8H333.1z" fill="url(#solGrad2)"/>
-              <path d="M7.99 163.4c-4.42 0-7.99 3.58-7.99 8v50.2c0 4.42 3.57 8 7.99 8H333.1c4.42 0 7.99-3.58 7.99-8v-50.2c0-4.42-3.57-8-7.99-8H7.99z" fill="url(#solGrad3)"/>
-              <defs>
-                <linearGradient id="solGrad1" x1="64.7" y1="293.4" x2="389.9" y2="293.4" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#00ffa3"/>
-                  <stop offset="50%" stopColor="#03e1e5"/>
-                  <stop offset="100%" stopColor="#dc1fff"/>
-                </linearGradient>
-                <linearGradient id="solGrad2" x1="7.99" y1="33.1" x2="333.1" y2="33.1" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#00ffa3"/>
-                  <stop offset="50%" stopColor="#03e1e5"/>
-                  <stop offset="100%" stopColor="#dc1fff"/>
-                </linearGradient>
-                <linearGradient id="solGrad3" x1="7.99" y1="130.3" x2="333.1" y2="130.3" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#dc1fff"/>
-                  <stop offset="50%" stopColor="#03e1e5"/>
-                  <stop offset="100%" stopColor="#00ffa3"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </div>
-      );
-    default:
-      return (
-        <div className={`${cardClasses} bg-gradient-to-tr from-primary/20 to-secondary/10`}>
-          <CreditCard className="h-10 w-10 text-white" />
-        </div>
-      );
-  }
+  const logos = { paypal: 'paypal2.svg', visa: 'visa5.png', btc: 'bitcoin3.png', ltc: 'litecoin2.png', eth: 'eth.png', sol: 'solana.png' };
+  return <div className="payment-art">
+    {logos[id] ? <img src={`/home-reference/${logos[id]}`} alt="" width="64" height="64" /> : <CreditCard className="h-12 w-12" />}
+  </div>;
 };
 
 export default function Cashout() {
@@ -364,7 +278,7 @@ export default function Cashout() {
 
       <section className="mb-8">
         <Reveal as="h2" className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
-          <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(120,84,247,0.9)]" />
+          <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(113,63,225,0.9)]" />
           Cash
         </Reveal>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -374,7 +288,7 @@ export default function Cashout() {
 
       <section className="mb-8">
         <Reveal as="h2" className="mb-4 flex items-center gap-2 text-lg font-extrabold text-white">
-          <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(69,151,255,0.9)]" />
+          <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(155,123,255,0.9)]" />
           Crypto
         </Reveal>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -504,7 +418,7 @@ export default function Cashout() {
                         onClick={() => setSelectedAmount(amount)}
                         className={`flex min-h-[56px] flex-col items-center justify-center gap-0.5 rounded-xl border p-3 text-center transition-[background-color,border-color,box-shadow,transform] duration-150 active:scale-95 ${
                           isSelected
-                            ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(120,84,247,0.55)]'
+                            ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(113,63,225,0.55)]'
                             : 'border-dark-border bg-dark-bg text-white hover:border-primary/60'
                         } ${!canAfford && !isSelected ? 'opacity-45' : ''}`}
                       >

@@ -11,7 +11,9 @@ import { useRef } from 'react';
 //   glow     soft coloured light behind the art
 //   sizes    the rendered width hint for srcSet (pass e.g. "110px" for small decorative uses)
 //   priority load now with high fetch priority (the main picture of a page); eager loads now without it
-const GLOW = { purple: 'rgba(120,84,247,0.45)', blue: 'rgba(69,151,255,0.4)', gold: 'rgba(243,199,107,0.35)', green: 'rgba(66,216,160,0.32)' };
+const ART = { gem: 'earningboosts.png', gift: 'earniconlanding.png', trophy: 'exclusivetournaments.png', coins: 'withdrawiconlanding.png', wheel: 'dailywheelspins.png', referral: 'affiliateicon.png', berry: 'signupicon2landing.png' };
+
+const GLOW = { purple: 'rgba(113,63,225,0.45)', blue: 'rgba(155,123,255,0.4)', gold: 'rgba(243,199,107,0.35)', green: 'rgba(66,216,160,0.32)' };
 
 export default function Art({ name, size = 240, float = false, tilt = false, glow = 'purple', priority = false, eager = false, sizes = '(max-width: 767px) 180px, 280px', className = '', style, alt = '' }) {
   const ref = useRef(null);
@@ -44,8 +46,8 @@ export default function Art({ name, size = 240, float = false, tilt = false, glo
     >
       <div className={float ? 'bb-float' : ''} style={float ? { '--d': '6.5s' } : undefined}>
         <img
-          src={`/art/${name}.webp`}
-          srcSet={`/art/${name}-s.webp 240w, /art/${name}.webp 600w`}
+          src={ART[name] ? `/home-reference/${ART[name]}` : `/art/${name}.webp`}
+          srcSet={ART[name] ? undefined : `/art/${name}-s.webp 240w, /art/${name}.webp 600w`}
           sizes={sizes}
           alt={alt}
           width="600"
@@ -54,7 +56,7 @@ export default function Art({ name, size = 240, float = false, tilt = false, glo
           fetchPriority={priority ? 'high' : 'auto'}
           decoding="async"
           draggable="false"
-          className="block h-auto w-full select-none"
+          className="block aspect-square h-auto w-full object-contain select-none"
         />
       </div>
     </div>

@@ -1,5 +1,8 @@
 'use client';
 
+import BrandWordmark from './BrandWordmark';
+import ThemeIcon from './ThemeIcon';
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -66,11 +69,7 @@ export default function Navbar() {
         {/* Mobile Logo (hidden on desktop sidebar) */}
         <div className="flex items-center md:hidden">
           <Link href="/" className="flex items-center" aria-label="BlueberryCash home">
-            <img
-              src="/offerwall/blueberry_logo.png"
-              alt="BlueberryCash"
-              className="h-14 w-auto object-contain"
-            />
+            <BrandWordmark />
           </Link>
         </div>
 
@@ -78,7 +77,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3 g-card rounded-xl! px-4 py-2 max-w-sm w-full group relative">
           {user ? (
             <>
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-secondary text-sm font-black text-white shadow-[0_0_14px_rgba(120,84,247,0.55)]">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-secondary text-sm font-black text-white shadow-[0_0_14px_rgba(113,63,225,0.55)]">
                 {levelData.level}
               </span>
               <div className="flex flex-col flex-1 min-w-0 gap-1">
@@ -117,7 +116,7 @@ export default function Navbar() {
           ) : user ? (
             <div className="flex items-center gap-3 sm:gap-4">
               {/* Coin balance */}
-              <div className="flex items-center gap-2 rounded-xl border border-[rgba(120,84,247,0.4)] bg-[var(--bb-surface)] px-3.5 py-1.5 shadow-[0_0_18px_-4px_rgba(120,84,247,0.55)]">
+              <div className="flex items-center gap-2 rounded-xl border border-[rgba(113,63,225,0.4)] bg-[var(--bb-surface)] px-3.5 py-1.5 shadow-[0_0_18px_-4px_rgba(113,63,225,0.55)]">
                 <Coins className="h-4 w-4 text-[#c3b2ff]" aria-hidden="true" />
                 <AnimatedNumber celebrate value={user.balance_coins || 0} className="font-black text-white text-sm tabular-nums" />
                 <span className="hidden text-[10px] font-bold uppercase tracking-wider text-zinc-400 sm:inline">Coins</span>
@@ -182,7 +181,7 @@ export default function Navbar() {
       <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 flex-col z-40 border-r border-dark-border bg-[var(--bb-sidebar)]">
         <div className="h-24 shrink-0 flex items-center px-6 border-b border-dark-border">
           <Link href="/" className="flex w-full items-center" aria-label="BlueberryCash home">
-            <img src="/offerwall/blueberry_logo.png" alt="BlueberryCash" className="h-20 w-auto object-contain" />
+            <BrandWordmark />
           </Link>
         </div>
 
@@ -199,7 +198,7 @@ export default function Navbar() {
                   onClick={() => setIsSupportOpen(true)}
                   className="g-nav w-full text-left text-sm"
                 >
-                  <Icon className="h-5 w-5" aria-hidden="true" />
+                  <ThemeIcon name={item.name} fallback={Icon} className="h-6 w-6" />
                   {item.name}
                 </button>
               );
@@ -212,7 +211,7 @@ export default function Navbar() {
                 aria-current={isActive ? 'page' : undefined}
                 className="g-nav text-sm"
               >
-                <Icon className={`h-5 w-5 ${isActive ? 'text-[#c3b2ff]' : ''}`} aria-hidden="true" />
+                <ThemeIcon name={item.name} fallback={Icon} className="h-7 w-7" />
                 {item.name}
               </Link>
             );
@@ -241,8 +240,8 @@ export default function Navbar() {
 
           const inner = (
             <>
-              <span className={`mb-0.5 grid h-8 w-8 place-items-center rounded-xl transition-colors duration-150 ${isActive ? 'bg-primary/25 text-white shadow-[0_0_14px_rgba(120,84,247,0.6)]' : 'text-zinc-400'}`}>
-                <Icon className="h-5 w-5" aria-hidden="true" />
+              <span className={`mb-0.5 grid h-8 w-8 place-items-center rounded-xl transition-colors duration-150 ${isActive ? 'bg-primary/25 text-white shadow-[0_0_14px_rgba(113,63,225,0.6)]' : 'text-zinc-400'}`}>
+                <ThemeIcon name={item.name} fallback={Icon} className="h-6 w-6" />
               </span>
               <span className={`text-[10px] font-bold tracking-wide ${isActive ? 'text-white' : 'text-zinc-400'}`}>{item.name}</span>
             </>

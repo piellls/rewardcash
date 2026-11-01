@@ -33,7 +33,7 @@ export default function HeroScene({ children, className = '' }) {
   return (
     <section ref={ref} className={`bb-scene relative isolate overflow-hidden ${inView ? '' : 'bb-paused'} ${className}`}>
       {/* Sky glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_55%_at_30%_100%,rgba(120,84,247,0.45),transparent_70%),radial-gradient(45%_40%_at_88%_8%,rgba(69,151,255,0.22),transparent_70%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_55%_at_30%_100%,rgba(113,63,225,0.45),transparent_70%),radial-gradient(45%_40%_at_88%_8%,rgba(155,123,255,0.22),transparent_70%)]" />
 
       {/* Stars */}
       <svg aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 h-full w-full">
@@ -64,7 +64,7 @@ export default function HeroScene({ children, className = '' }) {
             </linearGradient>
             <linearGradient id="hs-near" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="#1f2a66" />
-              <stop offset="1" stopColor="#090d18" />
+              <stop offset="1" stopColor="#111219" />
             </linearGradient>
           </defs>
           <path d="M0 210C160 120 300 150 430 200S700 90 880 150 1200 90 1440 170V420H0Z" fill="url(#hs-far)" />

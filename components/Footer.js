@@ -1,5 +1,7 @@
 'use client';
 
+import BrandWordmark from './BrandWordmark';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShieldCheck, LifeBuoy, Volume2, VolumeX } from 'lucide-react';
@@ -28,13 +30,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.5fr_1fr_1fr]">
           <div className="space-y-4">
             <Link href="/" className="inline-flex items-center" aria-label="BlueberryCash home">
-              <img
-                src="/offerwall/blueberry_logo.png"
-                alt="BlueberryCash"
-                width="1024"
-                height="512"
-                className="h-14 w-auto object-contain"
-              />
+              <BrandWordmark />
             </Link>
             <p className="max-w-sm text-sm leading-relaxed text-[var(--bb-muted)]">
               BlueberryCash is a rewards site. Complete games, apps and surveys to earn coins, then cash out to PayPal, a Visa card or crypto. 1,000 coins = $1.00.

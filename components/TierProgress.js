@@ -38,10 +38,10 @@ export default function TierProgress({ month }) {
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(fraction * 100)}
-            className="mt-2 h-2.5 overflow-hidden rounded-full border border-[var(--bb-border)] bg-[#1c2540]"
+            className="mt-2 h-2.5 overflow-hidden rounded-full border border-[var(--bb-border)] bg-[#1f2029]"
           >
             <div
-              className="h-full w-full origin-left rounded-full bg-gradient-to-r from-[#4597ff] to-[#7854f7] transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none"
+              className="h-full w-full origin-left rounded-full bg-gradient-to-r from-[#9b7bff] to-[#713fe1] transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none"
               style={{ transform: `scaleX(${fraction})` }}
             />
           </div>
