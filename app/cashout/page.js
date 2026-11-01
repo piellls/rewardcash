@@ -227,20 +227,20 @@ export default function Cashout() {
           type="button"
           onClick={() => handleMethodClick(method)}
           aria-label={`Cash out with ${method.name}, minimum $${minUSD}`}
-          className={`g-card g-card-hover g-spot group flex h-full w-full flex-col justify-between p-5 text-left ${ready ? 'ring-1 ring-[rgba(66,216,160,0.5)]' : ''}`}
+          className={`g-card g-card-hover g-spot group flex h-full w-full flex-col justify-between p-3 text-left sm:p-5 ${ready ? 'ring-1 ring-[rgba(66,216,160,0.5)]' : ''}`}
         >
-          <div className="mb-4 flex items-center justify-between gap-2">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 sm:mb-4">
             <h3 className="text-sm font-bold text-white">{method.name}</h3>
             {ready && <span className="g-rarity" style={{ '--c': '#42d8a0' }}>Ready</span>}
           </div>
 
-          <div className="mb-4">
+          <div className="mb-3 sm:mb-4">
             <MethodGiftCard id={method.id} />
           </div>
 
           <div className="w-full space-y-2">
             <div className="g-xp" style={{ '--p': progress }}><i /></div>
-            <div className="flex items-center justify-between text-xs font-semibold text-zinc-400">
+            <div className="flex flex-col gap-0.5 text-xs font-semibold text-zinc-400 sm:flex-row sm:items-center sm:justify-between">
               <span>Minimum ${minUSD}</span>
               <span className="tabular-nums text-zinc-200">${userUSD.toFixed(2)} / ${minUSD}</span>
             </div>
@@ -281,7 +281,7 @@ export default function Cashout() {
           <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_rgba(113,63,225,0.9)]" />
           Cash
         </Reveal>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {methods.filter((m) => m.category === 'cash').map((m, i) => renderMethodCard(m, i))}
         </div>
       </section>
@@ -291,7 +291,7 @@ export default function Cashout() {
           <span className="h-2 w-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(155,123,255,0.9)]" />
           Crypto
         </Reveal>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {methods.filter((m) => m.category === 'crypto').map((m, i) => renderMethodCard(m, i))}
         </div>
       </section>
