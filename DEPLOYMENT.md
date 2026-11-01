@@ -85,6 +85,18 @@ The Earn page lists offers from AdBluMedia (`app/api/offers/adblumedia/route.js`
    The offer link carries our member id in the tracker's `sub5` field as `s1<member id>`; the postback accepts it with or without that `s1` prefix.
 3. Press **Save & Test** (the test sends a made-up `s1`, which is answered with `1` and credits nobody), then complete one real offer to confirm the coins arrive.
 
+### OGAds postback
+
+OGAds offers are credited by the same `/api/postback` route, with its own secret so it can be changed without touching AdBluMedia.
+
+1. In Vercel add `OGADS_POSTBACK_SECRET` (Production, Sensitive): a long random string of letters and digits only. Redeploy.
+2. In OGAds, open **Tools -> Postback URL** (`https://members.ogads.com/tools/postback-url`) and save:
+   ```text
+   https://www.blueberrycash.com/api/postback?secret=YOUR_OGADS_POSTBACK_SECRET&aff_sub4={aff_sub4}&payout={payout}&transaction_id={offer_id}_{aff_sub4}_{session_timestamp}
+   ```
+   `{aff_sub4}` is the member id the feed sends (`app/api/offers/ogads/route.js`), `{payout}` is the amount OGAds pays, and `transaction_id` is built from `{offer_id}`, the member and `{session_timestamp}` so a repeated postback is ignored (OGAds has no transaction id macro of its own). The macros are case sensitive and OGAds strips any it does not know.
+3. A postback that carries `OGADS_POSTBACK_SECRET` always credits as provider `ogads`; the `provider` parameter is only read when the request carries `POSTBACK_SECRET`.
+
 ---
 
 ## Step 5: Update Your Offer Wall Links

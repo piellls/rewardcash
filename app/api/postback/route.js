@@ -19,15 +19,25 @@ const firstParam = (params, names) => {
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
 
-  // Only the offer network knows POSTBACK_SECRET; without it anyone could credit themselves coins.
-  const expectedSecret = process.env.POSTBACK_SECRET;
-  if (!expectedSecret) {
-    console.error('[POSTBACK ERROR] POSTBACK_SECRET is not set; refusing all postbacks.');
+  // Only the offer networks know the secrets; without one anyone could credit themselves coins.
+  // POSTBACK_SECRET is the main one (AdBluMedia and anything set up before OGAds).
+  // OGADS_POSTBACK_SECRET is a separate secret for OGAds only, so it can be changed without touching the other
+  // network. A request that carries it can only ever credit as the "ogads" provider.
+  const mainSecret = process.env.POSTBACK_SECRET;
+  const ogadsSecret = process.env.OGADS_POSTBACK_SECRET;
+  if (!mainSecret && !ogadsSecret) {
+    console.error('[POSTBACK ERROR] No postback secret is set; refusing all postbacks.');
     return NextResponse.json({ error: 'Postback not configured.' }, { status: 500 });
   }
   const given = Buffer.from(firstParam(searchParams, ['secret', 'password']) || '');
-  const expected = Buffer.from(expectedSecret);
-  if (given.length !== expected.length || !timingSafeEqual(given, expected)) {
+  const secretMatches = (secret) => {
+    if (!secret) return false;
+    const expected = Buffer.from(secret);
+    return given.length === expected.length && timingSafeEqual(given, expected);
+  };
+  const isMain = secretMatches(mainSecret);
+  const isOgads = secretMatches(ogadsSecret);
+  if (!isMain && !isOgads) {
     console.warn('[POSTBACK REJECTED] bad secret');
     return NextResponse.json({ error: 'Forbidden.' }, { status: 403 });
   }
@@ -41,7 +51,9 @@ export async function GET(request) {
   const candidates = CLICK_FIELDS.map((n) => asMemberId(searchParams.get(n))).filter(Boolean);
   const click_id = candidates.find((v) => UUID_RE.test(v)) || candidates[0] || null;
   const payoutStr = (searchParams.get('payout') || searchParams.get('amount') || '0').replace('$', '');
-  const provider = (searchParams.get('provider') || searchParams.get('network') || 'cpalead').slice(0, 40);
+  const provider = isMain
+    ? (searchParams.get('provider') || searchParams.get('network') || 'cpalead').slice(0, 40)
+    : 'ogads';
   // The network's own id for this conversion. It makes a repeated postback harmless.
   const txn = firstParam(searchParams, ['transaction_id', 'txid', 'tid', 'conversion_id', 'lead_id'])?.slice(0, 120) || null;
 
