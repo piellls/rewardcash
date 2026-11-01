@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { AlertCircle, ChevronLeft, Loader2, Mail } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import AuthForm from './AuthForm';
@@ -60,7 +61,10 @@ export default function AuthGateway({ mode, onModeChange, defaultEmail = '', onS
         </div>
       )}
 
-      <p className="auth-legal">By continuing you confirm you are at least 18 years old.</p>
+      <p className="auth-legal">
+        By continuing you confirm you are at least 18 years old and agree to the{' '}
+        <Link href="/rules" target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-white">Rules</Link>.
+      </p>
     </div>
   );
 }

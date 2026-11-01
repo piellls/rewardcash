@@ -86,6 +86,7 @@ export default function Footer() {
           <p className="mt-2 flex gap-4">
             <Link href="/privacy" className="hover:text-[var(--bb-text)]">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-[var(--bb-text)]">Terms of Service</Link>
+            <Link href="/rules" className="hover:text-[var(--bb-text)]">Rules</Link>
           </p>
         </div>
       </div>
