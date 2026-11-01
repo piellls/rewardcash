@@ -308,10 +308,13 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+            {!user && (
+              <a href="#join" className="bb-cta mt-6 w-full sm:w-auto">Create your free account</a>
+            )}
             <PhoneMockup feed={feed} />
           </div>
 
-          {user ? <MemberCard feed={feed} /> : <SignupCard />}
+          {user ? <MemberCard feed={feed} /> : <div id="join" className="scroll-mt-28"><SignupCard /></div>}
         </div>
       </HeroScene>
 
