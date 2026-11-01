@@ -6,9 +6,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useAuthPrompt } from '@/components/AuthPrompt';
 import { db } from '@/lib/db';
 import { COINS_PER_PAYOUT_USD } from '@/lib/cashout';
-import { needsPhone } from '@/lib/adblumedia';
 import { Reveal } from '@/components/motion';
-import { FileText, Smartphone, Gamepad2, Lock, Award, CheckCircle, Coins, Info, UserPlus, AlertCircle } from 'lucide-react';
+import { FileText, Smartphone, Gamepad2, Lock, Award, CheckCircle, Coins, Info, UserPlus } from 'lucide-react';
 
 const AndroidIcon = () => (
   <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM19 5.5l-1.34-2.31c-.13-.24-.44-.32-.68-.19-.24.13-.32.44-.19.68L18.13 6H5.87l1.34-2.31c.13-.24.05-.55-.19-.68-.24-.13-.55-.05-.68.19L5 5.5C2.69 6.84 1.14 9.21 1 12h22c-.14-2.79-1.69-5.16-4-6.5zM9 9.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
@@ -391,12 +390,6 @@ export default function DirectTasksSection() {
                 <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
                 <p className="text-sm leading-relaxed text-zinc-300">{executingOffer.description}</p>
               </div>
-              {needsPhone(executingOffer) && (
-                <p className="flex items-start gap-2 rounded-xl border border-[rgba(243,199,107,0.4)] bg-[rgba(243,199,107,0.1)] p-3 text-xs leading-relaxed text-[#f3c76b]">
-                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                  This task asks for your phone number and a PIN sent by SMS. Some of these start a paid subscription, so read the terms on the offer page before you confirm.
-                </p>
-              )}
               <p className="flex items-start gap-2 text-xs leading-relaxed text-zinc-400">
                 <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--bb-success)]" aria-hidden="true" />
                 Coins are added after the advertiser confirms you finished. This can take a few minutes up to a few days.
