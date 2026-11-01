@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import PageHeader from '@/components/PageHeader';
+import PostbackPanel from '@/components/PostbackPanel';
 import { ShieldAlert, Lock, Check, X, Coins, Users, Wallet, Loader2, AlertCircle, CheckCircle2, MessageSquare, ArrowLeft, Send } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
     return `${days}d ago`;
   };
   
-  const [activeTab, setActiveTab] = useState('withdrawals'); // 'withdrawals', 'users', or 'tickets'
+  const [activeTab, setActiveTab] = useState('withdrawals'); // 'withdrawals', 'users', 'tickets' or 'postback'
   const [withdrawals, setWithdrawals] = useState([]);
   const [usersList, setUsersList] = useState([]);
   const [tickets, setTickets] = useState([]);
@@ -417,6 +418,16 @@ export default function AdminDashboard() {
             >
               Support Inbox ({tickets.length})
             </button>
+            <button
+              onClick={() => setActiveTab('postback')}
+              className={`pb-2 text-xs font-bold uppercase tracking-wider border-b-2 active:scale-95 transition-all ${
+                activeTab === 'postback' 
+                  ? 'border-primary text-primary' 
+                  : 'border-transparent text-zinc-500 hover:text-zinc-350'
+              }`}
+            >
+              Postback
+            </button>
           </div>
 
           {/* Tab Content */}
@@ -492,6 +503,8 @@ export default function AdminDashboard() {
                 </div>
               )}
             </div>
+          ) : activeTab === 'postback' ? (
+            <PostbackPanel />
           ) : activeTab === 'users' ? (
             <div className="rounded-2xl border border-dark-border bg-dark-card p-6">
               <div className="overflow-x-auto text-xs">
