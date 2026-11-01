@@ -828,8 +828,10 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .page-chip { display:inline-flex; align-items:center; gap:0.375rem; padding:0.5rem 0.75rem; border-radius:0.5rem; background:var(--bb-surface-2); color:#d4d4d8; font-size:0.75rem; font-weight:500; }
 .page-chip-gold { color:#f3c76b; }
 .page-chip-green { color:#42d8a0; }
-.payment-art { display:grid; place-items:center; width:100%; aspect-ratio:1.58; border-radius:0.75rem; background:radial-gradient(ellipse at center,#713fe11a,transparent 75%),var(--bb-surface-2); }
-.payment-art img { width:4rem; height:4rem; object-fit:contain; }
+/* Payment logo tile: every logo is fitted into the same box (wide ones like Visa fill the width, round ones the height),
+   and overflow is clipped so a logo's own proportions can never stretch the tile. */
+.payment-art { display:grid; place-items:center; width:100%; aspect-ratio:1.58; overflow:hidden; border-radius:0.75rem; background:radial-gradient(ellipse at center,#713fe11a,transparent 75%),var(--bb-surface-2); }
+.payment-art img { width:60%; height:52%; object-fit:contain; }
 @media(max-width:767px) {
   .page-hero { padding:1.5rem; gap:1rem; }
   .page-hero-art { width:6.25rem; }
