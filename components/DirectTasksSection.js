@@ -7,6 +7,7 @@ import { useAuthPrompt } from '@/components/AuthPrompt';
 import { db } from '@/lib/db';
 import { COINS_PER_PAYOUT_USD } from '@/lib/cashout';
 import { Reveal } from '@/components/motion';
+import Portal from '@/components/Portal';
 import { FileText, Smartphone, Gamepad2, Lock, Award, CheckCircle, Coins, Info, UserPlus } from 'lucide-react';
 
 const AndroidIcon = () => (
@@ -378,42 +379,44 @@ export default function DirectTasksSection() {
 
       {/* Offer details */}
       {executingOffer && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Task details">
-          <div className="g-fade fixed inset-0 bg-[#04060c]/80 backdrop-blur-sm" onClick={() => setExecutingOffer(null)} />
-          <div className="g-modal g-neon relative w-full max-w-lg overflow-hidden rounded-2xl p-6 shadow-2xl">
-            <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-white">
-              <Award className="h-5 w-5 text-[#c3b2ff]" aria-hidden="true" />
-              Start this task
-            </h2>
-            <p className="mb-4 flex justify-between border-b border-dark-border pb-3 text-sm text-zinc-400">
-              <span>Reward: <strong className="text-[#f3c76b]">{executingOffer.coins.toLocaleString()} coins</strong></span>
-            </p>
-
-            <div className="mb-5 space-y-3">
-              <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
-                <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">Task</h4>
-                <p className="text-sm font-semibold text-white">{shortTitle(executingOffer.title)}</p>
-              </div>
-              <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
-                <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
-                <p className="text-sm leading-relaxed text-zinc-300">{executingOffer.description}</p>
-              </div>
-              <p className="flex items-start gap-2 text-xs leading-relaxed text-zinc-400">
-                <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--bb-success)]" aria-hidden="true" />
-                Coins are added after the advertiser confirms you finished. This can take a few minutes up to a few days.
+        <Portal>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Task details">
+            <div className="g-fade fixed inset-0 bg-[#04060c]/80 backdrop-blur-sm" onClick={() => setExecutingOffer(null)} />
+            <div className="g-modal g-neon relative w-full max-w-lg overflow-hidden rounded-2xl p-6 shadow-2xl">
+              <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-white">
+                <Award className="h-5 w-5 text-[#c3b2ff]" aria-hidden="true" />
+                Start this task
+              </h2>
+              <p className="mb-4 flex justify-between border-b border-dark-border pb-3 text-sm text-zinc-400">
+                <span>Reward: <strong className="text-[#f3c76b]">{executingOffer.coins.toLocaleString()} coins</strong></span>
               </p>
-            </div>
 
-            <div className="flex gap-3">
-              <button onClick={() => setExecutingOffer(null)} className="btn-gaming-secondary min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
-                Cancel
-              </button>
-              <button onClick={handleSimulateCompletion} className="btn-gaming min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
-                Open task
-              </button>
+              <div className="mb-5 space-y-3">
+                <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
+                  <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">Task</h4>
+                  <p className="text-sm font-semibold text-white">{shortTitle(executingOffer.title)}</p>
+                </div>
+                <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
+                  <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
+                  <p className="text-sm leading-relaxed text-zinc-300">{executingOffer.description}</p>
+                </div>
+                <p className="flex items-start gap-2 text-xs leading-relaxed text-zinc-400">
+                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--bb-success)]" aria-hidden="true" />
+                  Coins are added after the advertiser confirms you finished. This can take a few minutes up to a few days.
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <button onClick={() => setExecutingOffer(null)} className="btn-gaming-secondary min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
+                  Cancel
+                </button>
+                <button onClick={handleSimulateCompletion} className="btn-gaming min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
+                  Open task
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Portal>
       )}
     </div>
   );
