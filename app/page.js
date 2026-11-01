@@ -100,6 +100,9 @@ export default function Home() {
         <div className={s.logoWindow} aria-label="Reward brands">
           <div className={s.logoTrack}>{[0, 1, 2].map(copy => <div key={copy} className={s.logoGroup} aria-hidden={copy > 0}>{logos.map(([name, file, width, height]) => <img key={name} src={asset(file)} alt={copy ? '' : name} style={{ width: `${width}em`, height: `${height}em` }} />)}</div>)}</div>
         </div>
+        <figure className={s.gamesBanner} data-reveal>
+          <img src="/banners/blueberrycash-neon-games.jpg" alt="Blueberry mascot surrounded by colorful mobile games" width="2048" height="768" loading="lazy" decoding="async" />
+        </figure>
         <section id="how-it-works" className={s.steps} aria-label="How it works">{steps.map(([file, title, text], i) => <article className={s.step} key={title} data-reveal style={{ '--i': i }}><img src={asset(file)} alt="" width="96" height="96" /><h2>{title}</h2><p>{text}</p></article>)}</section>
         <section className={s.offers}>
           <h2 className={s.eyebrow} data-reveal>What we Offer</h2><hr />

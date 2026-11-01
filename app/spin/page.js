@@ -73,7 +73,7 @@ export default function SpinPage() {
   const waiting = Boolean(user) && !canSpinDaily && !spinning;
 
   return (
-    <div className="page-spin relative flex w-full flex-1 select-none flex-col justify-start overflow-x-hidden px-4 pb-10 pt-2 sm:px-6 lg:px-8">
+    <div className="page-spin relative mx-auto flex w-full max-w-[1360px] flex-1 select-none flex-col justify-start overflow-x-hidden px-6 pb-10 pt-2 md:px-8 lg:px-10 2xl:px-14">
       <PageHeader
         eyebrow="Free rewards"
         icon={Gift}

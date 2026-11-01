@@ -73,7 +73,7 @@ export default function Leaderboard() {
   const myIndex = user ? players.findIndex((p) => p.username === user.username) : -1;
 
   return (
-    <div className="flex w-full flex-1 flex-col px-4 pb-12 pt-2 sm:px-6 lg:px-8">
+    <div className="mx-auto flex w-full max-w-[1360px] flex-1 flex-col px-6 pb-12 pt-2 md:px-8 lg:px-10 2xl:px-14">
       <PageHeader
         eyebrow="Rankings"
         icon={Trophy}
