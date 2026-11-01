@@ -8,6 +8,7 @@ import { db } from '@/lib/db';
 import AuthModal from '@/components/AuthModal';
 import PageHeader, { Chip } from '@/components/PageHeader';
 import { Reveal, AnimatedNumber } from '@/components/motion';
+import Portal from '@/components/Portal';
 import { Coins, Wallet, History, AlertCircle, CheckCircle2, Loader2, ArrowUpRight, ShieldCheck, Clock, Percent, CreditCard } from 'lucide-react';
 
 const MethodGiftCard = ({ id }) => {
@@ -384,87 +385,89 @@ export default function Cashout() {
 
       {/* Cashout dialog */}
       {selectedMethod && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={`Cash out with ${selectedMethod.name}`}>
-          <div className="g-fade fixed inset-0 bg-[#04060c]/80 backdrop-blur-sm" onClick={() => setSelectedMethod(null)} />
+        <Portal>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label={`Cash out with ${selectedMethod.name}`}>
+            <div className="g-fade fixed inset-0 bg-[#04060c]/80 backdrop-blur-sm" onClick={() => setSelectedMethod(null)} />
 
-          <div className="g-modal g-neon relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl p-6 shadow-2xl">
-            <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-white">
-              <ArrowUpRight className="h-5 w-5 text-[#c3b2ff]" aria-hidden="true" />
-              Cash out with {selectedMethod.name}
-            </h2>
-            <p className="mb-4 border-b border-dark-border pb-3 text-sm text-zinc-400">
-              Pick an amount and enter where to send it.
-            </p>
+            <div className="g-modal g-neon relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl p-6 shadow-2xl">
+              <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-white">
+                <ArrowUpRight className="h-5 w-5 text-[#c3b2ff]" aria-hidden="true" />
+                Cash out with {selectedMethod.name}
+              </h2>
+              <p className="mb-4 border-b border-dark-border pb-3 text-sm text-zinc-400">
+                Pick an amount and enter where to send it.
+              </p>
 
-            {error && (
-              <div role="alert" className="mb-4 flex items-center gap-2 rounded-xl border border-[rgba(241,118,133,0.4)] bg-[rgba(241,118,133,0.1)] p-3 text-sm text-[#f17685]">
-                <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleWithdrawSubmit} className="space-y-4">
-              <fieldset>
-                <legend className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Amount</legend>
-                <div className="grid grid-cols-2 gap-2">
-                  {selectedMethod.amounts.map((amount) => {
-                    const isSelected = selectedAmount?.usd === amount.usd;
-                    const canAfford = user.balance_coins >= amount.coins;
-                    return (
-                      <button
-                        type="button"
-                        key={amount.usd}
-                        aria-pressed={isSelected}
-                        onClick={() => setSelectedAmount(amount)}
-                        className={`flex min-h-[3.5rem] flex-col items-center justify-center gap-0.5 rounded-xl border p-3 text-center transition-[background-color,border-color,box-shadow,transform] duration-150 active:scale-95 ${
-                          isSelected
-                            ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(113,63,225,0.55)]'
-                            : 'border-dark-border bg-dark-bg text-white hover:border-primary/60'
-                        } ${!canAfford && !isSelected ? 'opacity-45' : ''}`}
-                      >
-                        <span className="text-base font-extrabold tabular-nums">${amount.usd.toFixed(2)}</span>
-                        <span className={`text-xs tabular-nums ${isSelected ? 'text-white/80' : 'text-zinc-400'}`}>{amount.coins.toLocaleString()} coins</span>
-                      </button>
-                    );
-                  })}
+              {error && (
+                <div role="alert" className="mb-4 flex items-center gap-2 rounded-xl border border-[rgba(241,118,133,0.4)] bg-[rgba(241,118,133,0.1)] p-3 text-sm text-[#f17685]">
+                  <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{error}</span>
                 </div>
-              </fieldset>
+              )}
 
-              <div>
-                <label htmlFor="payout-address" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-zinc-400">
-                  Send to
-                </label>
-                <input
-                  id="payout-address"
-                  type={selectedMethod.type}
-                  required
-                  autoComplete="off"
-                  placeholder={selectedMethod.placeholder}
-                  value={paymentAddress}
-                  onChange={(e) => setPaymentAddress(e.target.value)}
-                  className="min-h-[3rem] w-full rounded-xl border border-dark-border bg-dark-bg px-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-primary focus:outline-none"
-                />
-              </div>
+              <form onSubmit={handleWithdrawSubmit} className="space-y-4">
+                <fieldset>
+                  <legend className="mb-2 block text-xs font-bold uppercase tracking-wider text-zinc-400">Amount</legend>
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedMethod.amounts.map((amount) => {
+                      const isSelected = selectedAmount?.usd === amount.usd;
+                      const canAfford = user.balance_coins >= amount.coins;
+                      return (
+                        <button
+                          type="button"
+                          key={amount.usd}
+                          aria-pressed={isSelected}
+                          onClick={() => setSelectedAmount(amount)}
+                          className={`flex min-h-[3.5rem] flex-col items-center justify-center gap-0.5 rounded-xl border p-3 text-center transition-[background-color,border-color,box-shadow,transform] duration-150 active:scale-95 ${
+                            isSelected
+                              ? 'border-primary bg-primary text-white shadow-[0_0_18px_rgba(113,63,225,0.55)]'
+                              : 'border-dark-border bg-dark-bg text-white hover:border-primary/60'
+                          } ${!canAfford && !isSelected ? 'opacity-45' : ''}`}
+                        >
+                          <span className="text-base font-extrabold tabular-nums">${amount.usd.toFixed(2)}</span>
+                          <span className={`text-xs tabular-nums ${isSelected ? 'text-white/80' : 'text-zinc-400'}`}>{amount.coins.toLocaleString()} coins</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </fieldset>
 
-              <div className="flex items-center justify-between rounded-xl border border-dark-border bg-dark-bg px-4 py-3 text-sm">
-                <span className="font-semibold text-zinc-400">Your balance</span>
-                <span className="flex items-center gap-1.5 font-bold tabular-nums text-white">
-                  <Coins className="h-4 w-4 text-[#f3c76b]" aria-hidden="true" />
-                  {user.balance_coins.toLocaleString()} / {selectedAmount ? selectedAmount.coins.toLocaleString() : '0'}
-                </span>
-              </div>
+                <div>
+                  <label htmlFor="payout-address" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-zinc-400">
+                    Send to
+                  </label>
+                  <input
+                    id="payout-address"
+                    type={selectedMethod.type}
+                    required
+                    autoComplete="off"
+                    placeholder={selectedMethod.placeholder}
+                    value={paymentAddress}
+                    onChange={(e) => setPaymentAddress(e.target.value)}
+                    className="min-h-[3rem] w-full rounded-xl border border-dark-border bg-dark-bg px-4 text-base text-white placeholder:text-zinc-500 transition-colors focus:border-primary focus:outline-none"
+                  />
+                </div>
 
-              <div className="flex gap-3">
-                <button type="button" onClick={() => setSelectedMethod(null)} className="btn-gaming-secondary min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
-                  Cancel
-                </button>
-                <button type="submit" disabled={loading} className="btn-gaming flex min-h-[3rem] flex-1 items-center justify-center gap-2 rounded-xl py-3 text-xs">
-                  {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-label="Sending" /> : 'Submit request'}
-                </button>
-              </div>
-            </form>
+                <div className="flex items-center justify-between rounded-xl border border-dark-border bg-dark-bg px-4 py-3 text-sm">
+                  <span className="font-semibold text-zinc-400">Your balance</span>
+                  <span className="flex items-center gap-1.5 font-bold tabular-nums text-white">
+                    <Coins className="h-4 w-4 text-[#f3c76b]" aria-hidden="true" />
+                    {user.balance_coins.toLocaleString()} / {selectedAmount ? selectedAmount.coins.toLocaleString() : '0'}
+                  </span>
+                </div>
+
+                <div className="flex gap-3">
+                  <button type="button" onClick={() => setSelectedMethod(null)} className="btn-gaming-secondary min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
+                    Cancel
+                  </button>
+                  <button type="submit" disabled={loading} className="btn-gaming flex min-h-[3rem] flex-1 items-center justify-center gap-2 rounded-xl py-3 text-xs">
+                    {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-label="Sending" /> : 'Submit request'}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        </Portal>
       )}
 
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} defaultTab={authTab} />
