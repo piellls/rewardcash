@@ -3,6 +3,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import AppShell from "@/components/AppShell";
 import AvatarSelectorModal from "@/components/AvatarSelectorModal";
 import { AuthPromptProvider } from "@/components/AuthPrompt";
+import { SignupSpinProvider } from "@/components/SignupSpin";
 
 export const metadata = {
   title: "BlueberryCash – Get paid for games, apps and surveys",
@@ -33,8 +34,10 @@ export default function RootLayout({ children }) {
         <div aria-hidden="true" className="g-progress" />
         <AuthProvider>
           <AuthPromptProvider>
-            <AppShell>{children}</AppShell>
-            <AvatarSelectorModal />
+            <SignupSpinProvider>
+              <AppShell>{children}</AppShell>
+              <AvatarSelectorModal />
+            </SignupSpinProvider>
           </AuthPromptProvider>
         </AuthProvider>
       </body>
