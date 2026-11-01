@@ -3,20 +3,23 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { sfx } from '@/lib/sfx';
 import { fx } from '@/lib/fx';
+import { SPIN_PRIZES } from '@/lib/spinPrizes';
 import { usePrefersReducedMotion } from '@/components/motion';
 
 // The prize wheel used by the daily spin and the sign-up spin.
-// The server picks the prize (app/api/spin/route.js) and answers with an index into this list, so the order
-// and the coin values here must stay in step with SPIN_PRIZES there. The wheel only animates to that answer.
-export const WHEEL_PRIZES = [
-  { coins: 10, label: '$0.01', color: '#cbd5e1', tint: 'rgba(148,163,184,0.16)' },
-  { coins: 50, label: '$0.05', color: '#cbd5e1', tint: 'rgba(148,163,184,0.22)' },
-  { coins: 250, label: '$0.25', color: '#34d399', tint: 'rgba(16,185,129,0.24)' },
-  { coins: 1000, label: '$1.00', color: '#a98bff', tint: 'rgba(155,123,255,0.28)' },
-  { coins: 2500, label: '$2.50', color: '#d8b4fe', tint: 'rgba(168,85,247,0.30)' },
-  { coins: 10000, label: '$10.00', color: '#facc15', tint: 'rgba(234,179,8,0.30)' },
-  { coins: 250000, label: '$250.00', color: '#fb7185', tint: 'rgba(239,68,68,0.34)' },
+// The server picks the prize (app/api/spin/route.js) and answers with an index into SPIN_PRIZES (lib/spinPrizes.js),
+// so the wheel draws that same list: the order and the coin values can never drift apart. The wheel only animates
+// to the answer. Only the colours below are the wheel's own.
+const LOOK = [
+  { color: '#cbd5e1', tint: 'rgba(148,163,184,0.16)' },
+  { color: '#cbd5e1', tint: 'rgba(148,163,184,0.22)' },
+  { color: '#34d399', tint: 'rgba(16,185,129,0.24)' },
+  { color: '#a98bff', tint: 'rgba(155,123,255,0.28)' },
+  { color: '#d8b4fe', tint: 'rgba(168,85,247,0.30)' },
+  { color: '#facc15', tint: 'rgba(234,179,8,0.30)' },
+  { color: '#fb7185', tint: 'rgba(239,68,68,0.34)' },
 ];
+export const WHEEL_PRIZES = SPIN_PRIZES.map((p, i) => ({ coins: p.coins, label: p.label, ...LOOK[i] }));
 
 // The wheel has 12 slots; each holds one prize (an index into WHEEL_PRIZES). The common prizes appear more often,
 // like the odds, and no two neighbours match.
@@ -128,7 +131,7 @@ const SpinWheel = forwardRef(function SpinWheel({ className = '', dimmed = false
                 x={CENTER + RIM - 8}
                 y={CENTER + 3.6}
                 textAnchor="end"
-                fontSize="10.5"
+                fontSize={WHEEL_PRIZES[p].label.length > 5 ? 9 : 10.5}
                 fontWeight="800"
                 fontFamily="inherit"
                 fill={WHEEL_PRIZES[p].color}

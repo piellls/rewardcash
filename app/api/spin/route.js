@@ -2,26 +2,11 @@ import { NextResponse } from 'next/server';
 import { randomInt } from 'node:crypto';
 import { db } from '@/lib/db';
 import { authenticate } from '@/lib/supabaseAdmin';
+import { SPIN_PRIZES, prizeIndexForRoll } from '@/lib/spinPrizes';
 
-// Probabilities add up to 1. Keep in sync with the prizes shown on app/spin/page.js.
-const SPIN_PRIZES = [
-  { coins: 10, probability: 0.50, label: '$0.01', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.1)' },
-  { coins: 50, probability: 0.30, label: '$0.05', rarity: 'common', border: '#3f3f46', bg: 'rgba(63,63,70,0.1)' },
-  { coins: 250, probability: 0.14, label: '$0.25', rarity: 'uncommon', border: '#10b981', bg: 'rgba(16,185,129,0.1)' },
-  { coins: 1000, probability: 0.045, label: '$1.00', rarity: 'rare', border: '#4597ff', bg: 'rgba(69,151,255,0.1)' },
-  { coins: 2500, probability: 0.012, label: '$2.50', rarity: 'epic', border: '#7854f7', bg: 'rgba(120,84,247,0.1)' },
-  { coins: 10000, probability: 0.0029, label: '$10.00', rarity: 'legendary', border: '#eab308', bg: 'rgba(234,179,8,0.1)' },
-  { coins: 250000, probability: 0.0001, label: '$250.00', rarity: 'mythic', border: '#ef4444', bg: 'rgba(239,68,68,0.1)' },
-];
-
+// The prizes and their odds live in lib/spinPrizes.js (95% of spins win less than 200 coins).
 function rollPrize() {
-  const roll = randomInt(0, 1_000_000) / 1_000_000;
-  let cumulative = 0;
-  for (let i = 0; i < SPIN_PRIZES.length; i++) {
-    cumulative += SPIN_PRIZES[i].probability;
-    if (roll < cumulative) return i;
-  }
-  return 0;
+  return prizeIndexForRoll(randomInt(0, 1_000_000) / 1_000_000);
 }
 
 export async function POST(request) {
