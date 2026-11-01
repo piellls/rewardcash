@@ -2,6 +2,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import AppShell from "@/components/AppShell";
 import AvatarSelectorModal from "@/components/AvatarSelectorModal";
+import { AuthPromptProvider } from "@/components/AuthPrompt";
 
 export const metadata = {
   title: "BlueberryCash – Get paid for games, apps and surveys",
@@ -30,8 +31,10 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col bg-dark-bg text-foreground font-sans overflow-x-hidden max-w-[100vw]">
         <AuthProvider>
-          <AppShell>{children}</AppShell>
-          <AvatarSelectorModal />
+          <AuthPromptProvider>
+            <AppShell>{children}</AppShell>
+            <AvatarSelectorModal />
+          </AuthPromptProvider>
         </AuthProvider>
       </body>
     </html>
