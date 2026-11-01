@@ -199,4 +199,4 @@
   .logoTrack{animation-duration:80s}
 }
 .button:active{transform:scale(.97)}
-@media(max-width:359px){.brand img{height:1.75rem}}
+@media(max-width:359px){.brand img{height:1.5rem}}
