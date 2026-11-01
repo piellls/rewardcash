@@ -71,12 +71,10 @@ html {
   max-width: 100vw !important;
 }
 
-/* Bigger screens get bigger text and spacing. Sizes are in rem, so everything scales together with the root size.
-   Phones, tablets and laptops (under 1536px) keep 16px, exactly as before. */
-@media (min-width: 1536px) { html { font-size: 112.5%; } }
-@media (min-width: 1920px) { html { font-size: 125%; } }
-@media (min-width: 2560px) { html { font-size: 150%; } }
-@media (min-width: 3200px) { html { font-size: 175%; } }
+/* The whole interface is sized in rem, so changing the root size scales text, spacing and controls together.
+   From 1334px wide the root grows with the screen (1.2% of the width), so a big monitor shows the same proportions
+   as a laptop instead of tiny text. Below that it stays 16px, as before. */
+html { font-size: clamp(16px, 1.2vw, 40px); }
 
 body {
   background-color: var(--background);
@@ -545,7 +543,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   display: inline-flex; align-items: center; gap: 0.35rem;
   padding: 0.15rem 0.55rem;
   border-radius: 624.9375rem;
-  font-size: 0.6875rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 0.75rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--c, #a1a1aa);
   border: 1px solid color-mix(in srgb, var(--c, #a1a1aa) 45%, transparent);
   background: color-mix(in srgb, var(--c, #a1a1aa) 14%, transparent);
@@ -865,10 +863,10 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .auth-back { display:flex; align-items:center; gap:0.1875rem; margin:0.9375rem 0 0.75rem -0.25rem; border:0; background:transparent; color:#a1a1aa; font-size:0.75rem; }
 .auth-back:hover { color:white; }
 .auth-email-panel form { margin-top:0.25rem; }
-.auth-email-panel form label { font-size:0.6875rem; }
+.auth-email-panel form label { font-size:0.75rem; }
 .auth-email-panel form input { padding-top:0.625rem; padding-bottom:0.625rem; font-size:0.875rem; }
 .auth-email-panel form button[type='submit'] { padding-top:0.6875rem; padding-bottom:0.6875rem; }
-.auth-legal { margin-top:0.875rem; text-align:center; color:#85858f; font-size:0.625rem; line-height:1.5; }
+.auth-legal { margin-top:0.875rem; text-align:center; color:#85858f; font-size:0.75rem; line-height:1.5; }
 @media(max-width:767px) {
   .auth-modal { max-width:26.25rem; grid-template-columns:1fr; }
   .auth-modal-art { display:none; }

@@ -335,13 +335,13 @@ export default function DirectTasksSection() {
                   {isLocked && (
                     <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-[#070a14]/85 p-3">
                       <span className="rounded-full border border-dark-border bg-dark-card p-2"><Lock className="h-4 w-4 text-zinc-400" aria-hidden="true" /></span>
-                      <span className="text-[0.625rem] font-extrabold uppercase tracking-wider text-zinc-400">Locked 24h</span>
-                      <span className="text-[0.6875rem] font-extrabold text-[#f3c76b]">{lockInfo}</span>
+                      <span className="text-[0.75rem] font-extrabold uppercase tracking-wider text-zinc-400">Locked 24h</span>
+                      <span className="text-[0.8125rem] font-extrabold text-[#f3c76b]">{lockInfo}</span>
                     </div>
                   )}
 
                   {showWarning && !isLocked && (
-                    <span className="absolute left-2.5 top-2.5 z-20 rounded bg-[#f3c76b] px-1.5 py-0.5 text-[0.625rem] font-black text-[#1a1405]">{clicksLeft} left</span>
+                    <span className="absolute left-2.5 top-2.5 z-20 rounded bg-[#f3c76b] px-1.5 py-0.5 text-[0.75rem] font-black text-[#1a1405]">{clicksLeft} left</span>
                   )}
 
                   <div className="absolute right-2.5 top-2.5 z-20 flex items-center gap-1.5 rounded-md border border-white/10 bg-[#070a14]/80 px-2 py-1 text-zinc-200">
@@ -353,7 +353,7 @@ export default function DirectTasksSection() {
 
                   <div className="relative z-20 p-3.5">
                     <h3 className="line-clamp-1 text-xs font-extrabold leading-snug text-white sm:text-sm">{offer.title}</h3>
-                    <p className="mt-0.5 line-clamp-1 text-[0.6875rem] text-zinc-400">{offer.description}</p>
+                    <p className="mt-0.5 line-clamp-1 text-[0.8125rem] text-zinc-400">{offer.description}</p>
                     <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-[rgba(243,199,107,0.4)] bg-[rgba(243,199,107,0.12)] px-2.5 py-1 text-xs font-black text-[#f3c76b] sm:text-sm">
                       <Coins className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                       <span className="tabular-nums">{offer.coins.toLocaleString()}</span>
@@ -381,11 +381,11 @@ export default function DirectTasksSection() {
 
             <div className="mb-5 space-y-3">
               <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
-                <h4 className="mb-1 text-[0.6875rem] font-bold uppercase tracking-wider text-zinc-500">Task</h4>
+                <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">Task</h4>
                 <p className="text-sm font-semibold text-white">{executingOffer.title}</p>
               </div>
               <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
-                <h4 className="mb-1 text-[0.6875rem] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
+                <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
                 <p className="text-sm leading-relaxed text-zinc-300">{executingOffer.description}</p>
               </div>
               {needsPhone(executingOffer) && (

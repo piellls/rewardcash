@@ -109,7 +109,7 @@ export default function CommissionCalculator({ defaultFriends = 25, defaultEach 
             return (
               <li key={t.rate} className="flex h-full min-w-0 flex-1 flex-col justify-end" aria-hidden="true">
                 <div
-                  className={`relative flex items-start justify-center rounded-t-lg pt-1.5 text-[0.6875rem] font-extrabold tabular-nums transition-[background-color,box-shadow,color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] sm:text-xs ${
+                  className={`relative flex items-start justify-center rounded-t-lg pt-1.5 text-[0.8125rem] font-extrabold tabular-nums transition-[background-color,box-shadow,color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] sm:text-xs ${
                     state === 'now'
                       ? 'bg-gradient-to-t from-[#6335ce] to-[#713fe1] text-white shadow-[0_0_22px_rgba(113,63,225,0.65)]'
                       : state === 'passed'
@@ -127,7 +127,7 @@ export default function CommissionCalculator({ defaultFriends = 25, defaultEach 
         </ol>
         <div aria-hidden="true" className="mt-1.5 flex gap-1 border-t border-[var(--bb-border)] pt-1.5 sm:gap-1.5">
           {TIERS.map((t, i) => (
-            <span key={t.rate} className={`min-w-0 flex-1 text-center text-[0.625rem] font-semibold tabular-nums tracking-tight sm:text-[0.6875rem] ${i === est.index ? 'text-white' : 'text-[var(--bb-muted)]'}`}>
+            <span key={t.rate} className={`min-w-0 flex-1 text-center text-[0.75rem] font-semibold tabular-nums tracking-tight sm:text-[0.8125rem] ${i === est.index ? 'text-white' : 'text-[var(--bb-muted)]'}`}>
               {shortUsd(t.from)}
             </span>
           ))}
