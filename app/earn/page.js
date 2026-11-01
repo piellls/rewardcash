@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import DirectTasksSection from '@/components/DirectTasksSection';
 import PageHeader, { Chip } from '@/components/PageHeader';
 import { Reveal, AnimatedNumber } from '@/components/motion';
-import { PlayCircle, Coins, MousePointerClick, Flag, Hourglass } from 'lucide-react';
+import { PlayCircle, Coins, MousePointerClick, Flag, Hourglass, Globe, Users, RotateCcw } from 'lucide-react';
 
 const HOW = [
   { icon: MousePointerClick, title: 'Pick a task', text: 'Every card shows the reward in coins before you start.' },
@@ -68,6 +69,20 @@ export default function Earn() {
           </Reveal>
         ))}
       </ol>
+
+      <Reveal className="g-card mb-8 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div>
+          <p className="font-bold text-white">Before you start, these can get your account banned</p>
+          <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-300">
+            {[[Globe, 'No VPN or proxy'], [Users, 'One account only'], [RotateCcw, 'Each offer once a day']].map(([Icon, text]) => (
+              <li key={text} className="flex items-center gap-2">
+                <Icon className="h-4 w-4 shrink-0 text-[#f17685]" aria-hidden="true" />{text}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Link href="/rules" className="btn-gaming-secondary inline-flex min-h-[2.75rem] shrink-0 items-center justify-center rounded-xl px-5 text-xs">Read the rules</Link>
+      </Reveal>
 
       <DirectTasksSection />
 

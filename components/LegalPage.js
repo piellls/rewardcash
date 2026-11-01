@@ -29,7 +29,9 @@ export default function LegalPage({ title, updated, intro, sections }) {
         Questions? Use <strong>Contact support</strong> in the footer of any page. See also our{' '}
         <Link href={title === 'Privacy Policy' ? '/terms' : '/privacy'} className="text-[var(--bb-berry-300)] underline underline-offset-4">
           {title === 'Privacy Policy' ? 'Terms of Service' : 'Privacy Policy'}
-        </Link>.
+        </Link>{' '}
+        and{' '}
+        <Link href="/rules" className="text-[var(--bb-berry-300)] underline underline-offset-4">Rules</Link>.
       </p>
     </div>
   );
