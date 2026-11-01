@@ -70,6 +70,13 @@ const TABS = {
   },
 };
 
+// Three quick entry points, each with its own artwork from /public/art (no third-party images)
+const PROMOS = [
+  { art: 'coins', glow: 'gold', eyebrow: 'Earn', title: 'Finish tasks, get paid', text: 'Games, apps and surveys. Every reward is shown in coins before you start.', cta: 'Browse tasks', href: '/earn' },
+  { art: 'wheel', glow: 'purple', eyebrow: 'Free every day', title: 'Spin once a day', text: 'One free spin every 24 hours. Prizes land in your balance straight away.', cta: 'Spin now', href: '/spin' },
+  { art: 'referral', glow: 'blue', eyebrow: 'Referrals', title: 'Earn from your friends', text: `Earn ${MIN_RATE}% to ${MAX_RATE}% of what the friends you invite complete.`, cta: 'Get your link', href: '/referrals' },
+];
+
 const FAQ = [
   { q: 'What is BlueberryCash?', a: 'A rewards site. Advertisers pay us when you try their games, apps or surveys. We share part of that with you as coins you can cash out.' },
   { q: 'How much is a coin worth?', a: '1,000 coins = $1.00. Every task shows its reward in coins before you start it.' },
@@ -188,6 +195,26 @@ function MemberCard({ feed }) {
   );
 }
 
+function PromoStrip() {
+  return (
+    <section aria-label="Quick start" className="grid gap-4 md:grid-cols-3">
+      {PROMOS.map((p, i) => (
+        <Reveal as="div" key={p.href} i={i} className="bb-card g-spot relative flex items-center gap-4 overflow-hidden p-5">
+          <div className="w-[96px] shrink-0" aria-hidden="true">
+            <Art name={p.art} size="100%" sizes="96px" glow={p.glow} float style={{ '--delay': `${-i * 1.2}s` }} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="g-eyebrow">{p.eyebrow}</p>
+            <h3 className="mt-1 text-lg font-bold leading-snug">{p.title}</h3>
+            <p className="mt-1 text-sm leading-relaxed text-[var(--bb-muted)]">{p.text}</p>
+            <Link href={p.href} className="bb-ghost mt-3 inline-flex">{p.cta}</Link>
+          </div>
+        </Reveal>
+      ))}
+    </section>
+  );
+}
+
 /* ---------- Page ---------- */
 
 export default function Home() {
@@ -253,6 +280,8 @@ export default function Home() {
       </HeroScene>
 
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 pb-20 pt-4 sm:px-6">
+
+        <PromoStrip />
 
         {/* PROOF: real recent earnings and totals (space is reserved while loading so the page doesn't jump) */}
         {(!loaded || feed.length > 0 || statItems.length > 0) && (
