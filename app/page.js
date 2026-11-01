@@ -215,6 +215,41 @@ function PromoStrip() {
   );
 }
 
+// Phone-sized preview of the live payouts, shown under the hero copy on every screen size.
+function PhoneMockup({ feed }) {
+  const rows = feed.slice(0, 3);
+  return (
+    <div className="bb-enter relative mx-auto mt-8 w-full max-w-[300px] lg:mx-0" style={{ '--i': 6 }} aria-hidden="true">
+      <div className="absolute -bottom-7 -right-5 z-10 w-[84px]">
+        <Art name="coins" size="100%" sizes="84px" glow="gold" float />
+      </div>
+      <div className="rounded-[34px] border-[6px] border-[#1b2338] bg-[var(--bb-surface)] p-4 shadow-[0_30px_70px_-25px_rgba(120,84,247,0.55)]">
+        <div className="mb-3 flex items-center justify-between">
+          <span className="text-xs font-semibold uppercase tracking-wider text-[var(--bb-berry-300)]">Live now</span>
+          <span className="flex items-center gap-1.5 text-xs text-[var(--bb-muted)]">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--bb-success)]" />
+            Paying out
+          </span>
+        </div>
+        <ul className="space-y-2.5">
+          {rows.length ? rows.map((f) => (
+            <li key={f.id} className="flex items-center gap-3 rounded-xl bg-[var(--bb-surface-2)] px-3 py-2.5">
+              <Avatar f={f} className="h-9 w-9 text-sm" />
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-semibold">{f.username}</div>
+                <div className="truncate text-xs text-[var(--bb-muted)]">Task completed · {ago(f.at)}</div>
+              </div>
+              <div className="text-sm font-bold text-[var(--bb-success)]">${f.usd.toFixed(2)}</div>
+            </li>
+          )) : (
+            <li className="rounded-xl bg-[var(--bb-surface-2)] px-3 py-4 text-center text-sm text-[var(--bb-muted)]">1,000 coins = $1.00</li>
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Page ---------- */
 
 export default function Home() {
@@ -273,9 +308,13 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+            {!user && (
+              <a href="#join" className="bb-cta mt-6 w-full sm:w-auto">Create your free account</a>
+            )}
+            <PhoneMockup feed={feed} />
           </div>
 
-          {user ? <MemberCard feed={feed} /> : <SignupCard />}
+          {user ? <MemberCard feed={feed} /> : <div id="join" className="scroll-mt-28"><SignupCard /></div>}
         </div>
       </HeroScene>
 
@@ -301,6 +340,54 @@ export default function Home() {
             )}
           </Reveal>
         )}
+
+        {/* CATEGORIES: the three kinds of task, each leading to the live list */}
+        <section aria-label="Task types" className="pt-14">
+          <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Pick how you want to earn</Reveal>
+          <ul className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              { icon: Gamepad2, title: 'Games', text: 'Play a game to a set level. The coins land when you reach it.' },
+              { icon: Smartphone, title: 'Apps', text: 'Try a new app and finish the steps it asks for.' },
+              { icon: ClipboardList, title: 'Surveys', text: 'Answer a few questions and get paid in coins.' },
+            ].map((c, i) => (
+              <Reveal as="li" key={c.title} i={i}>
+                <Link href="/earn" className="bb-card g-spot group flex h-full flex-col gap-4 p-6 transition-transform duration-200 active:scale-[0.98]">
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--bb-surface-2)] text-[var(--bb-berry-300)]">
+                    <c.icon className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-bold">{c.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--bb-muted)]">{c.text}</p>
+                  </div>
+                  <span className="mt-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--bb-surface)] px-3 py-1.5 text-xs font-semibold text-[var(--bb-muted)]">
+                    Reward shown in coins before you start
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--bb-berry-300)]">
+                    Browse {c.title.toLowerCase()} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </ul>
+        </section>
+
+        {/* THE HONEST PART: where the money comes from, in three plain points */}
+        <section aria-label="Where your rewards come from" className="pt-14">
+          <Reveal as="h2" className="text-3xl font-bold tracking-tight sm:text-4xl">Where your coins come from</Reveal>
+          <ol className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              { n: '01', title: 'Advertisers want your time', text: 'Games, apps and surveys are how advertisers find new players and customers. They pay us for each completed task.' },
+              { n: '02', title: 'We share it with you', text: 'Part of that payment is paid to you as coins. The reward is shown before you start, so there are no surprises.' },
+              { n: '03', title: 'Cash out when you are ready', text: `Once you reach $${MIN_CASHOUT}, withdraw to PayPal, a Visa card or crypto. Requests are checked within 24 hours.` },
+            ].map((p, i) => (
+              <Reveal as="li" key={p.n} i={i} className="bb-card g-spot p-6">
+                <span className="g-title text-sm text-[var(--bb-berry-300)]">{p.n}</span>
+                <h3 className="mt-3 text-lg font-bold">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--bb-muted)]">{p.text}</p>
+              </Reveal>
+            ))}
+          </ol>
+        </section>
 
         {/* HOW IT WORKS */}
         <section id="how" className="scroll-mt-24 pt-14">
