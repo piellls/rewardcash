@@ -83,6 +83,10 @@ export default function Footer() {
 
         <div className="mt-8 border-t border-[var(--bb-border)] pt-6 text-xs text-[var(--bb-subtle)]">
           <p>© {new Date().getFullYear()} BlueberryCash. All rights reserved.</p>
+          <p className="mt-2 flex gap-4">
+            <Link href="/privacy" className="hover:text-[var(--bb-text)]">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-[var(--bb-text)]">Terms of Service</Link>
+          </p>
         </div>
       </div>
     </footer>
