@@ -86,7 +86,7 @@ export default function Home() {
           </div>
         </section>
         <div className={s.logoWindow} aria-label="Reward brands">
-          <div className={s.logoTrack}>{[0, 1].map(copy => <div key={copy} className={s.logoGroup} aria-hidden={copy === 1}>{logos.map(([name, file, width, height]) => <img key={name} src={asset(file)} alt={copy ? '' : name} style={{ width: `${width}em`, height: `${height}em` }} />)}</div>)}</div>
+          <div className={s.logoTrack}>{[0, 1, 2].map(copy => <div key={copy} className={s.logoGroup} aria-hidden={copy > 0}>{logos.map(([name, file, width, height]) => <img key={name} src={asset(file)} alt={copy ? '' : name} style={{ width: `${width}em`, height: `${height}em` }} />)}</div>)}</div>
         </div>
         <section id="how-it-works" className={s.steps} aria-label="How it works">{steps.map(([file, title, text]) => <article className={s.step} key={title}><img src={asset(file)} alt="" width="96" height="96" /><h2>{title}</h2><p>{text}</p></article>)}</section>
         <section className={s.offers}>
