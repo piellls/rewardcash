@@ -1,9 +1,21 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
-import { FileText, Smartphone, Gamepad2, Lock, Check, Loader2, AlertTriangle, Award, CheckCircle, Coins } from 'lucide-react';
+import { FileText, Smartphone, Gamepad2, Lock, Check, Loader2, AlertTriangle, Award, CheckCircle, Coins, Search, RotateCcw } from 'lucide-react';
+
+const CATEGORY_OPTIONS = [
+  { value: 'all', label: 'All', category: null },
+  { value: 'games', label: 'Games', category: 'Game' },
+  { value: 'apps', label: 'Apps', category: 'App' },
+  { value: 'surveys', label: 'Surveys', category: 'Survey' },
+];
+
+const SORT_OPTIONS = [
+  { value: 'recommended', label: 'Recommended' },
+  { value: 'reward', label: 'Highest reward' },
+];
 
 const ABM_USER_ID = '516060';
 const ABM_API_KEY = '7c9eb5786d705edbd319f9cb81dabc5c';
@@ -106,7 +118,12 @@ export default function DirectTasksSection() {
   const { user, earnCoinsSimulated } = useAuth();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [failedProviders, setFailedProviders] = useState([]);
+  const [reloadKey, setReloadKey] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [providerFilter, setProviderFilter] = useState('All');
+  const [sortBy, setSortBy] = useState('recommended');
+  const [query, setQuery] = useState('');
   const [executingOffer, setExecutingOffer] = useState(null);
   const [loadingOfferId, setLoadingOfferId] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -114,6 +131,42 @@ export default function DirectTasksSection() {
   const [lockedOffers, setLockedOffers] = useState({});
 
   const MAX_CLICKS = 5;
+
+  // Restore filters from the URL once on mount, so a filtered view can be shared or reloaded.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    const provider = params.get('provider');
+    const sort = params.get('sort');
+    const q = params.get('q');
+    if (CATEGORY_OPTIONS.some((o) => o.value === category)) setSelectedCategory(category);
+    if (provider) setProviderFilter(provider);
+    if (SORT_OPTIONS.some((o) => o.value === sort)) setSortBy(sort);
+    if (q) setQuery(q);
+  }, []);
+
+  const updateFilters = (patch) => {
+    const next = {
+      category: selectedCategory,
+      provider: providerFilter,
+      sort: sortBy,
+      q: query,
+      ...patch,
+    };
+    const params = new URLSearchParams();
+    if (next.category !== 'all') params.set('category', next.category);
+    if (next.provider !== 'All') params.set('provider', next.provider);
+    if (next.sort !== 'recommended') params.set('sort', next.sort);
+    if (next.q.trim()) params.set('q', next.q.trim());
+    const search = params.toString();
+    window.history.replaceState(null, '', `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`);
+    if ('category' in patch) setSelectedCategory(patch.category);
+    if ('provider' in patch) setProviderFilter(patch.provider);
+    if ('sort' in patch) setSortBy(patch.sort);
+    if ('q' in patch) setQuery(patch.q);
+  };
+
+  const resetFilters = () => updateFilters({ category: 'all', provider: 'All', sort: 'recommended', q: '' });
 
   // Load state
   useEffect(() => {
@@ -199,6 +252,8 @@ export default function DirectTasksSection() {
   useEffect(() => {
     const fetchOffers = async () => {
       setLoading(true);
+      setFailedProviders([]);
+      const failed = [];
       try {
         const s1  = user ? user.id : 'guest';
         let abmOffers = [];
@@ -207,10 +262,9 @@ export default function DirectTasksSection() {
         // 1. Fetch AdBlueMedia via fast server proxy first
         try {
           const res  = await fetch(`/api/offers?s1=${s1}`);
-          if (res.ok) {
-            const data = await res.json();
-            abmOffers = (Array.isArray(data) ? data : []).map(mapOffer);
-          }
+          if (!res.ok) throw new Error(`proxy status ${res.status}`);
+          const data = await res.json();
+          abmOffers = (Array.isArray(data) ? data : []).map(mapOffer);
         } catch (err) {
           console.warn('[OFFERS] Server proxy failed, trying JSONP fallback:', err.message);
           try {
@@ -219,41 +273,42 @@ export default function DirectTasksSection() {
             abmOffers = (Array.isArray(raw) ? raw : []).map(mapOffer);
           } catch (e) {
             console.error('[OFFERS] AdBlueMedia both methods failed:', e.message);
+            failed.push('AdBlueMedia');
           }
         }
 
         // 2. Fetch OGAds
         try {
           const res = await fetch(`/api/offers/ogads?s1=${s1}`);
-          if (res.ok) {
-            const data = await res.json();
-            const rawOffers = Array.isArray(data) ? data : (data.offers || []);
-            ogAdsOffers = rawOffers.map(offer => {
-              const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
-              const coins = Math.round(rawPayout * 300);
-              const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
-              let category = 'App';
-              if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
-                category = 'Game';
-              } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion') || text.includes('submit')) {
-                category = 'Survey';
-              }
-              return {
-                id: offer.offerid || offer.id || `og_${Math.random()}`,
-                title: offer.name_short || offer.name || 'OGAds Task',
-                description: simplifyDescription(offer.name || '', offer.description || offer.adcopy || '', category),
-                coins,
-                payout: rawPayout,
-                provider: 'OGAds',
-                icon: offer.picture || null,
-                category,
-                url: offer.link || offer.url,
-                anchor: offer.anchor || 'Install Now',
-              };
-            });
-          }
+          if (!res.ok) throw new Error(`ogads status ${res.status}`);
+          const data = await res.json();
+          const rawOffers = Array.isArray(data) ? data : (data.offers || []);
+          ogAdsOffers = rawOffers.map(offer => {
+            const rawPayout = parseFloat(offer.payout || offer.user_payout || '0.20');
+            const coins = Math.round(rawPayout * 300);
+            const text = `${offer.name} ${offer.description || ''} ${offer.adcopy || ''}`.toLowerCase();
+            let category = 'App';
+            if (text.includes('game') || text.includes('play') || text.includes('level') || text.includes('slot') || text.includes('casino')) {
+              category = 'Game';
+            } else if (text.includes('survey') || text.includes('quiz') || text.includes('opinion') || text.includes('submit')) {
+              category = 'Survey';
+            }
+            return {
+              id: offer.offerid || offer.id || `og_${Math.random()}`,
+              title: offer.name_short || offer.name || 'OGAds Task',
+              description: simplifyDescription(offer.name || '', offer.description || offer.adcopy || '', category),
+              coins,
+              payout: rawPayout,
+              provider: 'OGAds',
+              icon: offer.picture || null,
+              category,
+              url: offer.link || offer.url,
+              anchor: offer.anchor || 'Install Now',
+            };
+          });
         } catch (err) {
           console.error('[OFFERS] Failed to load OGAds:', err.message);
+          failed.push('OGAds');
         }
 
         const allOffers = [...abmOffers, ...ogAdsOffers].sort((a, b) => {
@@ -262,14 +317,16 @@ export default function DirectTasksSection() {
           return b.payout - a.payout;
         });
         setOffers(allOffers);
+        setFailedProviders(failed);
       } catch (err) {
         console.error('Error fetching offers:', err);
+        setFailedProviders(['AdBlueMedia', 'OGAds']);
       } finally {
         setLoading(false);
       }
     };
     fetchOffers();
-  }, [user?.id, mapOffer]);
+  }, [user?.id, mapOffer, reloadKey]);
 
   const handleOfferClick = (offer) => {
     if (!user) {
@@ -299,22 +356,48 @@ export default function DirectTasksSection() {
     setExecutingOffer(offer);
   };
 
-  const handleSimulateCompletion = () => {
+  const handleStartOffer = () => {
     if (!user || !executingOffer) return;
-    
-    // Redirect user to the offer URL in a new tab
+
+    // Open the provider's tracking link in a new tab. Credit is added server-side
+    // by the postback once the provider confirms completion, never on this click.
     if (executingOffer.url) {
-      window.open(executingOffer.url, '_blank');
+      window.open(executingOffer.url, '_blank', 'noopener,noreferrer');
     }
 
-    // Close the details modal
     setExecutingOffer(null);
   };
 
-  const categories = ['All', 'Game', 'App', 'Survey'];
-  const filteredOffers = selectedCategory === 'All' 
-    ? offers 
-    : offers.filter(o => o.category === selectedCategory);
+  useEffect(() => {
+    if (!executingOffer) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setExecutingOffer(null);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [executingOffer]);
+
+  const providerOptions = useMemo(
+    () => ['All', ...new Set(offers.map((o) => o.provider))],
+    [offers]
+  );
+
+  const visibleOffers = useMemo(() => {
+    const categoryFilter = CATEGORY_OPTIONS.find((o) => o.value === selectedCategory)?.category;
+    const term = query.trim().toLowerCase();
+    const list = offers.filter((o) =>
+      (!categoryFilter || o.category === categoryFilter) &&
+      (providerFilter === 'All' || o.provider === providerFilter) &&
+      (!term || o.title.toLowerCase().includes(term))
+    );
+    if (sortBy === 'reward') {
+      return [...list].sort((a, b) => b.payout - a.payout);
+    }
+    return list;
+  }, [offers, selectedCategory, providerFilter, sortBy, query]);
+
+  const hasActiveFilters =
+    selectedCategory !== 'all' || providerFilter !== 'All' || sortBy !== 'recommended' || query.trim() !== '';
 
   return (
     <div id="direct-tasks" className="scroll-mt-6 flex-1 flex flex-col w-full">
@@ -333,38 +416,127 @@ export default function DirectTasksSection() {
         </h2>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap gap-1 bg-dark-bg p-1 rounded-xl border border-dark-border">
-          {categories.map((cat) => (
+        <div role="group" aria-label="Filter by offer type" className="flex flex-wrap gap-1 bg-dark-bg p-1 rounded-xl border border-dark-border">
+          {CATEGORY_OPTIONS.map((option) => (
             <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              key={option.value}
+              type="button"
+              aria-pressed={selectedCategory === option.value}
+              onClick={() => updateFilters({ category: option.value })}
               className={`rounded-lg px-3.5 py-1.5 text-xs font-extrabold active:scale-[0.95] hover:scale-[1.02] transition-all ${
-                selectedCategory === cat 
-                  ? 'bg-primary text-white shadow-[0_0_10px_rgba(93,95,239,0.35)]' 
+                selectedCategory === option.value
+                  ? 'bg-primary text-white shadow-[0_0_10px_rgba(93,95,239,0.35)]'
                   : 'text-zinc-400 hover:text-white hover:bg-dark-card'
               }`}
             >
-              {cat}
+              {option.label}
             </button>
           ))}
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex-1 flex flex-col items-center justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mb-3" />
-          <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest animate-pulse">
-            Loading Offers...
-          </span>
+      {/* Search, provider, sort and result count */}
+      <div className="flex flex-col md:flex-row md:items-center gap-3 mb-6">
+        <label className="relative flex-1 min-w-0">
+          <span className="sr-only">Search offers</span>
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-500 pointer-events-none" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => updateFilters({ q: e.target.value })}
+            placeholder="Search offers"
+            className="w-full rounded-xl bg-dark-bg border border-dark-border pl-9 pr-3 py-2 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-primary/60"
+          />
+        </label>
+        <div className="flex flex-wrap items-center gap-2">
+          <label className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-400">
+            <span>Provider</span>
+            <select
+              value={providerFilter}
+              onChange={(e) => updateFilters({ provider: e.target.value })}
+              className="rounded-lg bg-dark-bg border border-dark-border px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-primary/60"
+            >
+              {providerOptions.map((p) => (
+                <option key={p} value={p}>{p === 'All' ? 'All providers' : p}</option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-400">
+            <span>Sort</span>
+            <select
+              value={sortBy}
+              onChange={(e) => updateFilters({ sort: e.target.value })}
+              className="rounded-lg bg-dark-bg border border-dark-border px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-primary/60"
+            >
+              {SORT_OPTIONS.map((s) => (
+                <option key={s.value} value={s.value}>{s.label}</option>
+              ))}
+            </select>
+          </label>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="flex items-center gap-1 rounded-lg border border-dark-border px-2.5 py-1.5 text-xs font-bold text-zinc-300 hover:text-white hover:border-primary/50"
+            >
+              <RotateCcw className="h-3 w-3" />
+              Reset filters
+            </button>
+          )}
         </div>
-      ) : filteredOffers.length === 0 ? (
+      </div>
+
+      {!loading && failedProviders.length > 0 && failedProviders.length < 2 && (
+        <div role="status" className="mb-6 flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs font-semibold text-amber-300">
+          <AlertTriangle className="h-4 w-4 shrink-0" />
+          {failedProviders[0]} offers are unavailable right now. Showing the other providers.
+        </div>
+      )}
+
+      {loading ? (
+        <div aria-busy="true" aria-label="Loading offers" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-5">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div key={i} className="flex flex-col">
+              <div className="h-[180px] sm:h-[220px] rounded-2xl bg-dark-card border border-dark-border/60 animate-pulse" />
+              <div className="mt-2 h-3 w-16 rounded bg-dark-card animate-pulse" />
+            </div>
+          ))}
+        </div>
+      ) : failedProviders.length === 2 ? (
+        <div role="alert" className="text-center py-16 rounded-2xl border border-dark-border border-dashed flex flex-col items-center gap-3">
+          <AlertTriangle className="h-6 w-6 text-amber-400" />
+          <p className="text-sm font-bold text-white">Offers couldn&apos;t load.</p>
+          <p className="text-xs text-zinc-500">Check your connection and try again.</p>
+          <button
+            type="button"
+            onClick={() => setReloadKey((k) => k + 1)}
+            className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs font-extrabold"
+          >
+            Retry
+          </button>
+        </div>
+      ) : offers.length === 0 ? (
         <div className="text-center py-16 rounded-2xl border border-dark-border border-dashed text-zinc-500 text-sm">
-          No tasks found in this category at the moment. Please check back later!
+          No offers are available for your region right now. Check back later.
+        </div>
+      ) : visibleOffers.length === 0 ? (
+        <div className="text-center py-16 rounded-2xl border border-dark-border border-dashed flex flex-col items-center gap-3">
+          <p className="text-sm font-bold text-white">No offers match these filters.</p>
+          <button
+            type="button"
+            onClick={resetFilters}
+            className="btn-gaming-secondary rounded-xl px-4 py-2 text-xs font-extrabold"
+          >
+            Reset filters
+          </button>
         </div>
       ) : (
         <div className="space-y-10 flex-1 flex flex-col">
+          <p className="text-[11px] font-bold text-zinc-500 -mt-2">
+            Showing {visibleOffers.length} of {offers.length} offers
+          </p>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-5">
-            {filteredOffers.map((offer) => {
+            {visibleOffers.map((offer) => {
               const lockInfo = getOfferLockInfo(offer.id);
               const isLocked = !!lockInfo;
               const clickCount = clickCounts[offer.id] || 0;
@@ -380,8 +552,18 @@ export default function DirectTasksSection() {
                 <div key={offer.id} className="flex flex-col select-none">
                   {/* Elevated 3D Card Container */}
                   <div
+                    role="button"
+                    tabIndex={isLocked ? -1 : 0}
+                    aria-disabled={isLocked || undefined}
+                    aria-label={`${offer.title}, ${offer.coins.toLocaleString()} coins`}
                     onClick={() => handleOfferClick(offer)}
-                    className={`relative w-full h-[180px] sm:h-[220px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-[1.03] transition-all duration-300 border flex flex-col justify-end group ${
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleOfferClick(offer);
+                      }
+                    }}
+                    className={`relative w-full h-[180px] sm:h-[220px] rounded-2xl overflow-hidden cursor-pointer shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:scale-[1.03] transition-all duration-300 border flex flex-col justify-end group ${
                       isLocked
                         ? 'border-zinc-800 opacity-60 cursor-not-allowed'
                         : showWarning
@@ -478,12 +660,12 @@ export default function DirectTasksSection() {
       {executingOffer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-black/85 backdrop-blur-md" onClick={() => setExecutingOffer(null)} />
-          <div className="relative w-full max-w-lg rounded-2xl border border-dark-border bg-dark-card p-6 shadow-2xl overflow-hidden">
+          <div role="dialog" aria-modal="true" aria-labelledby="offer-dialog-title" className="relative w-full max-w-lg rounded-2xl border border-dark-border bg-dark-card p-6 shadow-2xl overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary via-primary to-secondary" />
 
-            <h2 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
+            <h2 id="offer-dialog-title" className="text-lg font-bold text-white mb-1 flex items-center gap-2">
               <Award className="h-5.5 w-5.5 text-primary" />
-              Complete Offer
+              Start offer
             </h2>
             <p className="text-[11px] text-zinc-400 border-b border-dark-border/60 pb-3 mb-4 flex justify-between">
               <span>Reward: <strong className="text-primary">{executingOffer.coins.toLocaleString()} Coins</strong></span>
@@ -499,20 +681,26 @@ export default function DirectTasksSection() {
                 <h4 className="text-[10px] font-bold uppercase text-zinc-500 tracking-wider mb-1">Requirements</h4>
                 <p className="text-xs text-zinc-350 leading-relaxed">{executingOffer.description}</p>
               </div>
+
+              <p className="text-[11px] text-zinc-500 leading-relaxed">
+                The provider opens in a new tab. Your credits are added only after the provider confirms the completed offer.
+              </p>
             </div>
 
             <div className="flex gap-3">
               <button
+                type="button"
                 onClick={() => setExecutingOffer(null)}
                 className="btn-gaming-secondary flex-1 rounded-xl py-3 text-xs font-extrabold"
               >
                 Cancel
               </button>
               <button
-                onClick={handleSimulateCompletion}
+                type="button"
+                onClick={handleStartOffer}
                 className="btn-gaming flex-1 rounded-xl py-3 text-xs font-extrabold flex items-center justify-center gap-1.5"
               >
-                Complete Offer
+                Start offer
               </button>
             </div>
           </div>
