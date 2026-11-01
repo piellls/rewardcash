@@ -165,7 +165,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="mx-auto max-w-[1760px] px-4 py-8 sm:px-6 lg:px-8 flex-1 flex flex-col justify-start">
+    <div className="flex w-full flex-1 flex-col justify-start px-4 py-8 sm:px-6 lg:px-8">
       
       {/* Header Row */}
       <div className="mb-6 flex items-center justify-between">

@@ -251,7 +251,7 @@ export default function Cashout() {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-[1760px] flex-1 flex-col px-4 pb-10 pt-2 sm:px-6 lg:px-8">
+    <div className="flex w-full flex-1 flex-col px-4 pb-10 pt-2 sm:px-6 lg:px-8">
       <PageHeader
         eyebrow="Cashout"
         icon={Wallet}
