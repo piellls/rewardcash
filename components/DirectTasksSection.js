@@ -79,6 +79,14 @@ const getOfferBadges = (offer) => {
   return { isApple, isAndroid };
 };
 
+// "Tap Rewards - Earn Rewards" -> "Tap Rewards". Only a dash with spaces around it counts as the break,
+// so names without one ("BACCARAT") and hyphenated words ("Check-in") stay as they are.
+const shortTitle = (title) => {
+  const text = String(title || '').trim();
+  const head = text.split(/\s+[-\u2013\u2014]\s+/)[0].trim();
+  return head.length >= 2 ? head : text;
+};
+
 export default function DirectTasksSection() {
   const { user } = useAuth();
   const { openAuth } = useAuthPrompt();
@@ -319,12 +327,12 @@ export default function DirectTasksSection() {
                 <button
                   type="button"
                   onClick={() => handleOfferClick(offer)}
-                  aria-label={`${offer.title}, ${offer.coins.toLocaleString()} coins`}
+                  aria-label={`${shortTitle(offer.title)}, ${offer.coins.toLocaleString()} coins`}
                   className={`g-offer g-spot group relative flex w-full flex-col items-stretch gap-2 overflow-hidden rounded-2xl border p-2 text-left sm:gap-2.5 sm:p-2.5 ${
                     isLocked ? 'border-dark-border opacity-60' : showWarning ? 'border-[rgba(243,199,107,0.5)]' : 'border-dark-border'
                   }`}
                 >
-                  <h3 title={offer.title} className="line-clamp-1 px-0.5 text-center text-xs font-extrabold leading-snug text-white sm:text-sm">{offer.title}</h3>
+                  <h3 title={offer.title} className="line-clamp-1 px-0.5 text-center text-xs font-extrabold leading-snug text-white sm:text-sm">{shortTitle(offer.title)}</h3>
 
                   <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[var(--bb-surface-2)]">
                     {offer.icon && offer.icon.startsWith('http') ? (
@@ -384,7 +392,7 @@ export default function DirectTasksSection() {
             <div className="mb-5 space-y-3">
               <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
                 <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">Task</h4>
-                <p className="text-sm font-semibold text-white">{executingOffer.title}</p>
+                <p className="text-sm font-semibold text-white">{shortTitle(executingOffer.title)}</p>
               </div>
               <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
                 <h4 className="mb-1 text-[0.8125rem] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
