@@ -9,6 +9,8 @@ import { Gift, Clock, Coins, AlertCircle, Sparkles } from 'lucide-react';
 import PageHeader, { Chip } from '@/components/PageHeader';
 import { AnimatedNumber } from '@/components/motion';
 import SpinWheel, { celebrateWin } from '@/components/SpinWheel';
+import EarningStreak from '@/components/EarningStreak';
+import { TOP_SPIN_PRIZE } from '@/lib/spinPrizes';
 import { sfx } from '@/lib/sfx';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -79,9 +81,9 @@ export default function SpinPage() {
         accent="win"
         art="wheel"
         artGlow="purple"
-        subtitle="Spin the wheel for free coins once every 24 hours. Prizes go straight to your balance."
+        subtitle="Spin the wheel for free coins once every 24 hours. Coins go straight to your balance."
       >
-        <Chip tone="gold">Top prize $250 (very rare)</Chip>
+        <Chip tone="gold">Top prize {TOP_SPIN_PRIZE.toLocaleString()} coins (very rare)</Chip>
         {user && <Chip tone="green"><AnimatedNumber value={user.balance_coins || 0} className="tabular-nums" /> coins</Chip>}
       </PageHeader>
 
@@ -98,7 +100,7 @@ export default function SpinPage() {
       <div className="g-card g-neon relative mx-auto flex w-full max-w-xl flex-col items-center overflow-hidden p-5 shadow-2xl sm:p-8">
         <h2 className="text-center text-2xl font-black leading-none text-white sm:text-3xl">Daily Free Spin</h2>
         <p className="mt-2 text-center text-sm font-semibold text-zinc-400">
-          One free spin every 24 hours. Win up to <span className="font-bold text-[#a98bff]">$250</span>.
+          One free spin every 24 hours. Win up to <span className="font-bold text-[#a98bff]">{TOP_SPIN_PRIZE.toLocaleString()} coins</span>.
         </p>
 
         <div className="mt-8 w-full px-3 sm:px-8">
@@ -119,7 +121,7 @@ export default function SpinPage() {
                   <Coins className="h-6 w-6 text-primary" aria-hidden="true" />
                 </div>
                 <div className="text-left">
-                  <h4 className="text-sm font-black text-white">You won +{winPrize.coins.toLocaleString()} coins ({winPrize.label})</h4>
+                  <h4 className="text-sm font-black text-white">You won +{winPrize.coins.toLocaleString()} coins</h4>
                   <p className="text-xs text-zinc-400">It is already in your balance. Come back in 24 hours for the next spin.</p>
                 </div>
               </div>
@@ -157,9 +159,11 @@ export default function SpinPage() {
         </div>
 
         <p className="mt-6 max-w-md text-center text-xs leading-relaxed text-zinc-400">
-          The prize is added to your coin balance automatically. 1,000 coins = $1.00.
+          Coins are added to your balance automatically. 1,000 coins = $1.00.
         </p>
       </div>
+
+      {user && <EarningStreak />}
     </div>
   );
 }

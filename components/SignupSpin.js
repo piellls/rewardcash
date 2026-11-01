@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/db';
 import { sfx } from '@/lib/sfx';
 import SpinWheel, { celebrateWin } from '@/components/SpinWheel';
+import { TOP_SPIN_PRIZE } from '@/lib/spinPrizes';
 import { X, Clock, Coins, AlertCircle, Sparkles } from 'lucide-react';
 
 // The sign-up spin as a popup.
@@ -94,7 +95,7 @@ function SignupSpinModal({ state, onClose, onClaimed }) {
         <div className="mb-5 pr-8 text-center sm:px-8">
           <p className="g-eyebrow inline-flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> Welcome gift</p>
           <h2 id="signup-spin-title" className="g-title mt-1 text-2xl text-white">Your free sign-up spin</h2>
-          <p className="mt-1 text-sm text-[var(--bb-muted)]">Spin the wheel for free coins. The $250 top prize is very rare.</p>
+          <p className="mt-1 text-sm text-[var(--bb-muted)]">Spin the wheel for free coins. The {TOP_SPIN_PRIZE.toLocaleString()} coin top prize is very rare.</p>
         </div>
 
         <div className="px-3 sm:px-6">
@@ -111,7 +112,7 @@ function SignupSpinModal({ state, onClose, onClaimed }) {
             <div className="animate-new-card">
               <p className="text-xs font-bold uppercase tracking-wider text-[var(--bb-muted)]">You won</p>
               <p className="flex items-center justify-center gap-2 text-2xl font-black text-[#f3c76b]">
-                <Coins className="h-6 w-6" aria-hidden="true" />+{prize.coins.toLocaleString()} <span className="text-sm font-bold text-zinc-400">({prize.label})</span>
+                <Coins className="h-6 w-6" aria-hidden="true" />+{prize.coins.toLocaleString()} <span className="text-sm font-bold text-zinc-400">coins</span>
               </p>
             </div>
           )}
@@ -135,7 +136,7 @@ function SignupSpinModal({ state, onClose, onClaimed }) {
         {challengeOpen && (
           <div className="mt-5 rounded-2xl border border-dark-border bg-[var(--bb-surface-2)] p-4">
             <p className="text-xs font-semibold leading-relaxed text-zinc-300">
-              Earn <span className="font-extrabold text-white">$1</span> (1,000 coins) within <span className="font-extrabold text-[#a98bff]">48 hours</span> of signing up and get <span className="font-extrabold text-[#a98bff]">3 more free spins</span>.
+              Earn <span className="font-extrabold text-white">1,000 coins</span> within <span className="font-extrabold text-[#a98bff]">48 hours</span> of signing up and get <span className="font-extrabold text-[#a98bff]">3 more free spins</span>.
             </p>
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#0b0c10]" role="progressbar" aria-valuemin={0} aria-valuemax={1000} aria-valuenow={Math.min(1000, state.progressCoins || 0)} aria-label="Coins earned toward 3 more spins">
               <div className="h-full rounded-full bg-[#9b7bff] transition-[width] duration-500" style={{ width: `${progress}%` }} />

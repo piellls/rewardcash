@@ -99,6 +99,19 @@ In your production code, when creating links to CPALead offers:
 
 ---
 
+## Earning Streak (the Spin page)
+
+The Earning Streak section on `/spin` needs one extra SQL file, run once:
+
+1. Supabase -> **SQL Editor** -> **New query**, paste the contents of `earning_streak.sql` and press **Run**. It is safe to run again.
+2. Reload `/spin` while signed in. Until the SQL has been run the section simply stays hidden; nothing else is affected.
+
+How it works: a member earns the daily goal in coins from real offers (1,000 coins per UTC day; spins do not count) on consecutive days and claims a bonus for each day: 80, 120, 240, 400, 500, 600, 800 coins for days 1 to 7, then it starts again from 80. The server decides everything (`app/api/streak/route.js`) and each day can be claimed only once. The goal, the bonuses and the length of the cycle are the first lines of `lib/streak.js`.
+
+The Spin prizes and their odds are in `lib/spinPrizes.js` (95% of spins win less than 200 coins).
+
+---
+
 ## Production Security Reminders
 
 > [!WARNING]
