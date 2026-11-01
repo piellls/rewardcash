@@ -26,7 +26,7 @@ export default function Footer() {
 
   return (
     <footer className="mt-auto w-full border-t border-[var(--bb-border)] bg-[var(--bb-sidebar)]">
-      <div className="mx-auto max-w-[1760px] px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[110rem] px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.5fr_1fr_1fr]">
           <div className="space-y-4">
             <Link href="/" className="inline-flex items-center" aria-label="BlueberryCash home">

@@ -525,7 +525,7 @@ export default function SpinPage() {
                   <div className="mb-2 shrink-0 select-none">
                     <CoinsStack level={item.level} size={50} />
                   </div>
-                  <div className="text-[0.625rem] font-black tracking-wider uppercase mt-1" style={{ color: item.color }}>
+                  <div className="text-[0.75rem] font-black tracking-wider uppercase mt-1" style={{ color: item.color }}>
                     {item.label}
                   </div>
                 </div>
@@ -556,7 +556,7 @@ export default function SpinPage() {
             </div>
             <button 
               onClick={() => setWinPrize(null)}
-              className="rounded-full px-5 py-2 bg-zinc-800 hover:bg-zinc-700 text-[0.625rem] font-bold uppercase tracking-wider text-white border border-dark-border/40 transition-colors shrink-0"
+              className="rounded-full px-5 py-2 bg-zinc-800 hover:bg-zinc-700 text-[0.75rem] font-bold uppercase tracking-wider text-white border border-dark-border/40 transition-colors shrink-0"
             >
               Close
             </button>
@@ -589,7 +589,7 @@ export default function SpinPage() {
 
             {/* Progress bar matching the user mockup EXACTLY */}
             <div className="w-full max-w-full overflow-hidden flex items-center gap-2 sm:gap-3 mt-4 mb-4 select-none">
-              <div className="bg-[#713fe1] text-white text-[0.625rem] sm:text-[0.6875rem] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[2.625rem] sm:min-w-[3rem] shadow-[0_4px_12px_rgba(113,63,225,0.3)]">
+              <div className="bg-[#713fe1] text-white text-[0.75rem] sm:text-[0.8125rem] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[2.625rem] sm:min-w-[3rem] shadow-[0_4px_12px_rgba(113,63,225,0.3)]">
                 $ 0
               </div>
               <div className="flex-1 h-6 sm:h-7 bg-[#0b0c10] rounded-full border border-zinc-800/80 overflow-hidden relative flex items-center p-[3px]">
@@ -598,13 +598,13 @@ export default function SpinPage() {
                   style={{ width: `${challengeProgress}%` }}
                 />
               </div>
-              <div className="bg-[#713fe1] text-white text-[0.625rem] sm:text-[0.6875rem] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[2.625rem] sm:min-w-[3rem] shadow-[0_4px_12px_rgba(113,63,225,0.3)]">
+              <div className="bg-[#713fe1] text-white text-[0.75rem] sm:text-[0.8125rem] font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shrink-0 flex items-center justify-center min-w-[2.625rem] sm:min-w-[3rem] shadow-[0_4px_12px_rgba(113,63,225,0.3)]">
                 $ 1
               </div>
             </div>
 
             {/* Campaign info text */}
-            <p className="text-zinc-300 text-[0.6875rem] sm:text-xs font-semibold tracking-wide text-center leading-relaxed mt-2 px-2">
+            <p className="text-zinc-300 text-[0.8125rem] sm:text-xs font-semibold tracking-wide text-center leading-relaxed mt-2 px-2">
               Earn over <span className="text-white font-extrabold">$ 1</span> within <span className="text-[#9b7bff] font-extrabold">48 Hours</span> and receive <span className="text-[#9b7bff] font-extrabold">3 more free cases!</span>
             </p>
 

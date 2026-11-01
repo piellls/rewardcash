@@ -344,7 +344,7 @@ export default function AdminDashboard() {
                 <Wallet className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="block text-[0.625rem] font-bold text-zinc-550 uppercase tracking-wider">Pending Cashouts</span>
+                <span className="block text-[0.75rem] font-bold text-zinc-550 uppercase tracking-wider">Pending Cashouts</span>
                 <span className="text-base font-black text-white">{pendingWithdrawals.length} Requests</span>
               </div>
             </div>
@@ -354,10 +354,10 @@ export default function AdminDashboard() {
                 <Users className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="block text-[0.625rem] font-bold text-zinc-550 uppercase tracking-wider">User Base</span>
+                <span className="block text-[0.75rem] font-bold text-zinc-550 uppercase tracking-wider">User Base</span>
                 <span className="text-base font-black text-white">
                   {usersList.filter(u => u.role !== 'admin').length} Accounts 
-                  <span className="text-[0.625rem] text-emerald-500 font-extrabold ml-1.5">
+                  <span className="text-[0.75rem] text-emerald-500 font-extrabold ml-1.5">
                     ({usersList.filter(u => u.role !== 'admin' && isUserOnline(u)).length} online)
                   </span>
                 </span>
@@ -369,7 +369,7 @@ export default function AdminDashboard() {
                 <MessageSquare className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="block text-[0.625rem] font-bold text-zinc-550 uppercase tracking-wider">Pending Support</span>
+                <span className="block text-[0.75rem] font-bold text-zinc-550 uppercase tracking-wider">Pending Support</span>
                 <span className="text-base font-black text-white">{pendingTickets.length} Tickets</span>
               </div>
             </div>
@@ -379,7 +379,7 @@ export default function AdminDashboard() {
                 <Coins className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="block text-[0.625rem] font-bold text-zinc-550 uppercase tracking-wider">Paid Payouts</span>
+                <span className="block text-[0.75rem] font-bold text-zinc-550 uppercase tracking-wider">Paid Payouts</span>
                 <span className="text-base font-black text-white">${totalVolumeUSD.toFixed(2)} USD</span>
               </div>
             </div>
@@ -430,7 +430,7 @@ export default function AdminDashboard() {
                 <div className="overflow-x-auto text-xs">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-dark-border/40 text-[0.625rem] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                      <tr className="border-b border-dark-border/40 text-[0.75rem] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                         <th className="pb-3 pr-4">User</th>
                         <th className="pb-3 px-4">Method</th>
                         <th className="pb-3 px-4">USD Value</th>
@@ -448,12 +448,12 @@ export default function AdminDashboard() {
                           <td className="py-3 px-4 font-semibold text-zinc-450 uppercase">{w.payment_method}</td>
                           <td className="py-3 px-4 text-primary font-extrabold">${parseFloat(w.amount_usd).toFixed(2)}</td>
                           <td className="py-3 px-4 text-zinc-400 font-medium">{w.coins_spent?.toLocaleString()}</td>
-                          <td className="py-3 px-4 font-mono text-[0.625rem] text-zinc-500 max-w-[9.375rem] truncate" title={w.payment_address}>{w.payment_address}</td>
+                          <td className="py-3 px-4 font-mono text-[0.75rem] text-zinc-500 max-w-[9.375rem] truncate" title={w.payment_address}>{w.payment_address}</td>
                           <td className="py-3 px-4 text-zinc-500">{new Date(w.created_at).toLocaleDateString()}</td>
                           <td className="py-3 px-4">
-                            {w.status === 'approved' && <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[0.5625rem] font-bold text-primary uppercase">Approved</span>}
-                            {w.status === 'rejected' && <span className="rounded bg-red-950/40 border border-red-900/60 px-2 py-0.5 text-[0.5625rem] font-bold text-red-400 uppercase">Rejected</span>}
-                            {w.status === 'pending' && <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[0.5625rem] font-bold text-yellow-500 uppercase">Pending</span>}
+                            {w.status === 'approved' && <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[0.6875rem] font-bold text-primary uppercase">Approved</span>}
+                            {w.status === 'rejected' && <span className="rounded bg-red-950/40 border border-red-900/60 px-2 py-0.5 text-[0.6875rem] font-bold text-red-400 uppercase">Rejected</span>}
+                            {w.status === 'pending' && <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[0.6875rem] font-bold text-yellow-500 uppercase">Pending</span>}
                           </td>
                           <td className="py-3 pl-4 text-right">
                             {w.status === 'pending' && (
@@ -497,7 +497,7 @@ export default function AdminDashboard() {
               <div className="overflow-x-auto text-xs">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-dark-border/40 text-[0.625rem] font-bold text-zinc-550 uppercase tracking-widest pb-3">
+                    <tr className="border-b border-dark-border/40 text-[0.75rem] font-bold text-zinc-550 uppercase tracking-widest pb-3">
                       <th className="pb-3 pr-4">User account</th>
                       <th className="pb-3 px-4">Email</th>
                       <th className="pb-3 px-4">Country</th>
@@ -532,12 +532,12 @@ export default function AdminDashboard() {
                                 <div className="flex items-center gap-1.5 flex-wrap">
                                   <span className="font-bold text-white truncate">{usr.username}</span>
                                   {usr.is_banned && (
-                                    <span className="rounded bg-red-950/60 border border-red-900/60 px-1.5 py-0.5 text-[0.5rem] font-black text-red-500 uppercase tracking-widest leading-none shrink-0">
+                                    <span className="rounded bg-red-950/60 border border-red-900/60 px-1.5 py-0.5 text-[0.6875rem] font-black text-red-500 uppercase tracking-widest leading-none shrink-0">
                                       Banned
                                     </span>
                                   )}
                                 </div>
-                                <span className="text-[0.5625rem] font-semibold mt-0.5 shrink-0">
+                                <span className="text-[0.6875rem] font-semibold mt-0.5 shrink-0">
                                   {isUserOnline(usr) ? (
                                     <span className="text-emerald-500 font-extrabold">Active Now</span>
                                   ) : (
@@ -554,12 +554,12 @@ export default function AdminDashboard() {
                           <td className="py-3.5 px-4 text-zinc-500">{new Date(usr.created_at).toLocaleDateString()}</td>
                           <td className="py-3.5 px-4 text-left">
                             {referrer ? (
-                              <span className="rounded bg-primary/10 border border-primary/20 px-2 py-0.5 text-[0.625rem] font-bold text-primary inline-flex items-center gap-1">
+                              <span className="rounded bg-primary/10 border border-primary/20 px-2 py-0.5 text-[0.75rem] font-bold text-primary inline-flex items-center gap-1">
                                 <Users className="h-3 w-3" />
                                 Referred by <span className="underline font-extrabold">{referrer.username}</span>
                               </span>
                             ) : (
-                              <span className="rounded bg-zinc-100 border border-dark-border px-2 py-0.5 text-[0.625rem] font-semibold text-zinc-500">
+                              <span className="rounded bg-zinc-100 border border-dark-border px-2 py-0.5 text-[0.75rem] font-semibold text-zinc-500">
                                 Direct Signup
                               </span>
                             )}
@@ -598,7 +598,7 @@ export default function AdminDashboard() {
                     <h3 className="text-sm font-bold text-white leading-none">
                       Support conversation with {selectedTicket.username}
                     </h3>
-                    <span className="text-[0.625rem] text-zinc-500 mt-1 block">
+                    <span className="text-[0.75rem] text-zinc-500 mt-1 block">
                       Account: <span className="font-mono text-zinc-400">{selectedTicket.email}</span>
                     </span>
                   </div>
@@ -607,11 +607,11 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-3">
                   {/* Status Indicator */}
                   {selectedTicket.status === 'resolved' ? (
-                    <span className="text-[0.625rem] font-black uppercase tracking-wider text-primary bg-emerald-950/20 px-2.5 py-1 rounded border border-emerald-900/50">
+                    <span className="text-[0.75rem] font-black uppercase tracking-wider text-primary bg-emerald-950/20 px-2.5 py-1 rounded border border-emerald-900/50">
                       Resolved
                     </span>
                   ) : (
-                    <span className="text-[0.625rem] font-black uppercase tracking-wider text-yellow-500 bg-amber-950/20 px-2.5 py-1 rounded border border-amber-900/50">
+                    <span className="text-[0.75rem] font-black uppercase tracking-wider text-yellow-500 bg-amber-950/20 px-2.5 py-1 rounded border border-amber-900/50">
                       Pending
                     </span>
                   )}
@@ -644,7 +644,7 @@ export default function AdminDashboard() {
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="font-bold text-zinc-400">{selectedTicket.username}</span>
-                      <span className="text-[0.5625rem] text-zinc-550">
+                      <span className="text-[0.6875rem] text-zinc-550">
                         {new Date(selectedTicket.created_at).toLocaleDateString()}
                       </span>
                     </div>
@@ -669,7 +669,7 @@ export default function AdminDashboard() {
                         <span className={`font-bold ${isUserMsg ? 'text-zinc-400' : 'text-primary'}`}>
                           {isUserMsg ? msg.sender_username : 'Admin Support'}
                         </span>
-                        <span className="text-[0.5625rem] text-zinc-550">
+                        <span className="text-[0.6875rem] text-zinc-550">
                           {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -724,7 +724,7 @@ export default function AdminDashboard() {
                 <div className="overflow-x-auto text-xs">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-dark-border/40 text-[0.625rem] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                      <tr className="border-b border-dark-border/40 text-[0.75rem] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                         <th className="pb-3 pr-4">User</th>
                         <th className="pb-3 px-4">Email</th>
                         <th className="pb-3 px-4">Subject</th>
@@ -738,15 +738,15 @@ export default function AdminDashboard() {
                       {tickets.map((t) => (
                         <tr key={t.id} className="group hover:bg-zinc-50/10 transition-colors">
                           <td className="py-3.5 pr-4 font-bold text-white">{t.username}</td>
-                          <td className="py-3.5 px-4 font-mono text-[0.625rem] text-zinc-500">{t.email}</td>
+                          <td className="py-3.5 px-4 font-mono text-[0.75rem] text-zinc-500">{t.email}</td>
                           <td className="py-3.5 px-4 text-zinc-800 font-semibold">{t.subject}</td>
                           <td className="py-3.5 px-4 text-zinc-400 max-w-[15.625rem] truncate" title={t.message}>{t.message}</td>
                           <td className="py-3.5 px-4 text-zinc-500">{new Date(t.created_at).toLocaleDateString()}</td>
                           <td className="py-3.5 px-4">
                             {t.status === 'resolved' ? (
-                              <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[0.5625rem] font-bold text-primary uppercase">Resolved</span>
+                              <span className="rounded bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 text-[0.6875rem] font-bold text-primary uppercase">Resolved</span>
                             ) : (
-                              <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[0.5625rem] font-bold text-yellow-500 uppercase">Pending</span>
+                              <span className="rounded bg-amber-950/40 border border-amber-900/60 px-2 py-0.5 text-[0.6875rem] font-bold text-yellow-500 uppercase">Pending</span>
                             )}
                           </td>
                           <td className="py-3.5 pl-4 text-right">
@@ -813,20 +813,20 @@ export default function AdminDashboard() {
                   <h3 className="text-base font-black text-white flex items-center gap-2">
                     <span>{inspectingUser.username}'s Audit Log</span>
                     <span className="text-xs">{inspectingUser.country || '🌍'}</span>
-                    <span className={`text-[0.5rem] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider shrink-0 ${
+                    <span className={`text-[0.6875rem] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider shrink-0 ${
                       isUserOnline(inspectingUser) ? 'bg-emerald-950/60 border border-emerald-900/40 text-emerald-500' : 'bg-zinc-900 border border-dark-border text-zinc-400'
                     }`}>
                       {isUserOnline(inspectingUser) ? 'Active' : getLastSeenText(inspectingUser)}
                     </span>
                   </h3>
-                  <p className="text-[0.625rem] text-zinc-500 font-semibold truncate max-w-sm sm:max-w-md">{inspectingUser.email}</p>
+                  <p className="text-[0.75rem] text-zinc-500 font-semibold truncate max-w-sm sm:max-w-md">{inspectingUser.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleToggleBan}
                   disabled={banning}
-                  className={`rounded-xl border px-3 py-1.5 text-[0.625rem] font-extrabold uppercase transition-all active:scale-95 flex items-center gap-1.5 ${
+                  className={`rounded-xl border px-3 py-1.5 text-[0.75rem] font-extrabold uppercase transition-all active:scale-95 flex items-center gap-1.5 ${
                     inspectingUser.is_banned 
                       ? 'border-emerald-850 bg-emerald-950/20 text-emerald-500 hover:bg-emerald-900/30' 
                       : 'border-red-900 bg-red-950/20 text-red-500 hover:bg-red-900/30'
@@ -856,25 +856,25 @@ export default function AdminDashboard() {
                 {/* Stats cards */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
-                    <p className="text-[0.5625rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Available Balance</p>
+                    <p className="text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Available Balance</p>
                     <p className="text-sm font-black text-primary flex items-center gap-1">
                       <Coins className="h-4 w-4" />
                       {inspectingUser.balance_coins?.toLocaleString()}
                     </p>
                   </div>
                   <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
-                    <p className="text-[0.5625rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Earned</p>
+                    <p className="text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Earned</p>
                     <p className="text-sm font-black text-white flex items-center gap-1">
                       <Coins className="h-4 w-4 text-primary" />
                       {inspectingUser.total_earned_coins?.toLocaleString()}
                     </p>
                   </div>
                   <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
-                    <p className="text-[0.5625rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Completed Offers</p>
+                    <p className="text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Completed Offers</p>
                     <p className="text-sm font-black text-emerald-500">{userCompletions.length}</p>
                   </div>
                   <div className="rounded-xl border border-dark-border bg-dark-bg/40 p-4">
-                    <p className="text-[0.5625rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Clicks</p>
+                    <p className="text-[0.6875rem] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Clicks</p>
                     <p className="text-sm font-black text-amber-500">{userClicks.length}</p>
                   </div>
                 </div>
@@ -901,10 +901,10 @@ export default function AdminDashboard() {
                     </button>
                   </form>
                   {adjustError && (
-                    <p className="text-[0.625rem] text-red-500 font-bold mt-2">{adjustError}</p>
+                    <p className="text-[0.75rem] text-red-500 font-bold mt-2">{adjustError}</p>
                   )}
                   {adjustSuccess && (
-                    <p className="text-[0.625rem] text-emerald-500 font-bold mt-2">{adjustSuccess}</p>
+                    <p className="text-[0.75rem] text-emerald-500 font-bold mt-2">{adjustSuccess}</p>
                   )}
                 </div>
 
@@ -919,16 +919,16 @@ export default function AdminDashboard() {
                     </h4>
                     
                     {userCompletions.length === 0 ? (
-                      <div className="flex-1 flex items-center justify-center text-[0.625rem] font-bold text-zinc-500 py-10">
+                      <div className="flex-1 flex items-center justify-center text-[0.75rem] font-bold text-zinc-500 py-10">
                         No completed offers logged yet.
                       </div>
                     ) : (
-                      <div className="flex-1 overflow-y-auto space-y-2.5 custom-scrollbar text-[0.6875rem] pr-1">
+                      <div className="flex-1 overflow-y-auto space-y-2.5 custom-scrollbar text-[0.8125rem] pr-1">
                         {userCompletions.map((comp) => (
                           <div key={comp.id} className="rounded-lg border border-dark-border/40 bg-dark-card/55 p-3 flex justify-between items-center gap-2">
                             <div>
                               <p className="font-bold text-white leading-none mb-1">{comp.offer_id}</p>
-                              <p className="text-[0.5625rem] text-zinc-500 font-semibold">
+                              <p className="text-[0.6875rem] text-zinc-500 font-semibold">
                                 Provider: <span className="text-zinc-400 uppercase">{comp.provider}</span> • {new Date(comp.completed_at).toLocaleString()}
                               </p>
                             </div>
@@ -936,7 +936,7 @@ export default function AdminDashboard() {
                               <span className="text-emerald-500 font-extrabold flex items-center justify-end gap-0.5 leading-none mb-1">
                                 +{comp.coins_earned} Coins
                               </span>
-                              <span className="text-[0.5625rem] text-zinc-500 font-bold">${parseFloat(comp.payout_usd || 0).toFixed(2)} USD</span>
+                              <span className="text-[0.6875rem] text-zinc-500 font-bold">${parseFloat(comp.payout_usd || 0).toFixed(2)} USD</span>
                             </div>
                           </div>
                         ))}
@@ -952,20 +952,20 @@ export default function AdminDashboard() {
                     </h4>
                     
                     {userClicks.length === 0 ? (
-                      <div className="flex-1 flex items-center justify-center text-[0.625rem] font-bold text-zinc-500 py-10">
+                      <div className="flex-1 flex items-center justify-center text-[0.75rem] font-bold text-zinc-500 py-10">
                         No clicked offers logged f database.
                       </div>
                     ) : (
-                      <div className="flex-1 overflow-y-auto space-y-2.5 custom-scrollbar text-[0.6875rem] pr-1">
+                      <div className="flex-1 overflow-y-auto space-y-2.5 custom-scrollbar text-[0.8125rem] pr-1">
                         {userClicks.map((clk) => (
                           <div key={clk.id} className="rounded-lg border border-dark-border/40 bg-dark-card/55 p-3 flex justify-between items-center gap-2">
                             <div>
                               <p className="font-bold text-white leading-none mb-1">{clk.offer_title}</p>
-                              <p className="text-[0.5625rem] text-zinc-500 font-semibold">
+                              <p className="text-[0.6875rem] text-zinc-500 font-semibold">
                                 ID: <span className="text-zinc-400">{clk.offer_id}</span> • {new Date(clk.clicked_at).toLocaleString()}
                               </p>
                             </div>
-                            <span className="text-[0.625rem] font-extrabold text-amber-500 shrink-0 bg-amber-955/15 border border-amber-900/20 px-2 py-0.5 rounded-md uppercase">
+                            <span className="text-[0.75rem] font-extrabold text-amber-500 shrink-0 bg-amber-955/15 border border-amber-900/20 px-2 py-0.5 rounded-md uppercase">
                               {clk.provider}
                             </span>
                           </div>
