@@ -39,7 +39,6 @@ const questions = [
   ['Which payouts are available?', 'Visit Cashout to see the current payment methods, minimum amounts and availability for your account. Each 1,000 coins is worth $1.'],
   ['How do I contact support?', 'Use the support button below to open a ticket. Include the offer name and any details that can help us investigate.'],
 ];
-const payoutIcons = ['robux2.svg', 'litecoin2.png', 'solana.png', 'bitcoin3.png', 'usdc.png', 'eth.png', 'paypal2.svg', 'visa5.png', 'mastercard3.png', 'discord3.png', 'apple.svg', 'amazon.svg', 'steam2.png', 'playstation.svg', 'xbox.svg', 'twitch2.png', 'netflix2.png', 'fortnite.png', 'googleplay2.png', 'nintendowhite-trim.png', 'ubereats.png', 'walmart.png', 'doordash.png', 'justeat.png'];
 
 function Brand() {
   return <Link href="/" className={s.brand} aria-label="BlueberryCash home"><span>BLUEBERRY</span>CASH</Link>;
@@ -100,8 +99,9 @@ export default function Home() {
         <div className={s.logoWindow} aria-label="Reward brands">
           <div className={s.logoTrack}>{[0, 1, 2].map(copy => <div key={copy} className={s.logoGroup} aria-hidden={copy > 0}>{logos.map(([name, file, width, height]) => <img key={name} src={asset(file)} alt={copy ? '' : name} style={{ width: `${width}em`, height: `${height}em` }} />)}</div>)}</div>
         </div>
-        <figure className={s.gamesBanner} data-reveal>
-          <img src="/banners/blueberrycash-neon-games.jpg" alt="Blueberry mascot surrounded by colorful mobile games" width="2048" height="768" loading="lazy" decoding="async" />
+        <figure className={`${s.artBanner} ${s.gamesBanner}`} data-reveal>
+          <img src="/banners/blueberrycash-neon-games.png" alt="Blueberry mascot surrounded by colorful mobile games" width="2048" height="768" loading="lazy" decoding="async" />
+          <span className={s.neonLine} aria-hidden="true" />
         </figure>
         <section id="how-it-works" className={s.steps} aria-label="How it works">{steps.map(([file, title, text], i) => <article className={s.step} key={title} data-reveal style={{ '--i': i }}><img src={asset(file)} alt="" width="96" height="96" /><h2>{title}</h2><p>{text}</p></article>)}</section>
         <section className={s.offers}>
@@ -120,7 +120,10 @@ export default function Home() {
           </div>
         </section>
         <section id="faq" className={s.faq}><h2 className={s.eyebrow} data-reveal>Still have questions?</h2><p className={s.faqSubtitle} data-reveal style={{ '--i': 1 }}>Here are top answers</p><hr /><div className={s.faqList}>{questions.map(([q,a],i) => <article key={q} data-reveal style={{ '--i': i }}><h3><button aria-expanded={faq === i} aria-controls={`answer-${i}`} onClick={() => setFaq(faq === i ? null : i)}>{q}<ChevronDown size={18} style={{transform: faq === i ? 'rotate(180deg)' : undefined}} /></button></h3><div id={`answer-${i}`} className={s.accordion} data-open={faq === i ? '' : undefined} inert={faq !== i}><div><div className={s.answer}>{a}</div></div></div></article>)}</div></section>
-        <Link href="/cashout" className={s.cashoutBanner} data-reveal><p>Cash out your way<br /><strong>Explore your rewards</strong></p><div className={s.payoutColumns} aria-hidden="true">{Array.from({length: 7}, (_,col) => <div className={s.payoutColumn} key={col}>{Array.from({length: 6},(_,row) => <span key={row}><img alt="" loading="lazy" src={asset(payoutIcons[(col * 3 + row) % payoutIcons.length])} /></span>)}</div>)}</div></Link>
+        <Link href="/cashout" className={`${s.artBanner} ${s.rewardsBanner}`} data-reveal aria-label="Explore cashout rewards">
+          <img src="/banners/blueberrycash-cashout-rewards.png" alt="Blueberry mascot with PayPal, crypto, gift card and gaming rewards" width="2078" height="757" loading="lazy" decoding="async" />
+          <span className={s.neonLine} aria-hidden="true" />
+        </Link>
       </main>
       <footer className={s.footer}><div className={s.container}><div className={s.footerTop} data-reveal><div className={s.footerIntro}><Brand /><p>Turn your spare time into rewards with BlueberryCash. Discover offers, collect coins and choose your next payout.</p><div className={s.footerPayments}>{['robux2.svg','paypal2.svg','eth.png','solana.png','usdc.png'].map(file => <img src={asset(file)} alt="" key={file} loading="lazy" />)}<span>+ More</span></div></div><div className={s.footerLinks}><div><h3>Quick Links</h3><Link href="/earn">Earn</Link><Link href="/cashout">Cashout</Link><Link href="/referrals">Affiliates</Link></div><div><h3>About</h3><a href="#how-it-works">How it works</a><a href="#faq">FAQ</a><button onClick={() => setSupport(true)}>Support</button><Link href="/privacy">Privacy Policy</Link><Link href="/terms">Terms of Service</Link><Link href="/rules">Rules</Link></div><div><h3>Community</h3><Link href="/leaderboard">Leaderboard</Link><Link href="/spin">Daily Wheel</Link></div></div></div><div className={s.footerBottom}>© {new Date().getFullYear()} BlueberryCash. All rights reserved.<span>BlueberryCash is not affiliated with the brands shown.</span></div></div></footer>
       <button className={s.supportButton} aria-label="Contact support" onClick={() => setSupport(true)}><ThemeIcon name="Support" fallback={MessageCircle} /></button>
