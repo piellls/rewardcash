@@ -204,9 +204,9 @@ export default function SupportModal({ isOpen, onClose }) {
   const tabBtn = (on) => `relative px-1 pb-2.5 text-xs font-extrabold uppercase tracking-wider transition-colors ${on ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`;
   const statusPill = (status) => (
     status === 'resolved' ? (
-      <span className="rounded-full border border-[#42d8a0]/35 bg-[#42d8a0]/10 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#42d8a0]">Resolved</span>
+      <span className="rounded-full border border-[#42d8a0]/35 bg-[#42d8a0]/10 px-2.5 py-1 text-[0.625rem] font-extrabold uppercase tracking-wider text-[#42d8a0]">Resolved</span>
     ) : (
-      <span className="rounded-full border border-[#f3c76b]/35 bg-[#f3c76b]/10 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[#f3c76b]">Pending</span>
+      <span className="rounded-full border border-[#f3c76b]/35 bg-[#f3c76b]/10 px-2.5 py-1 text-[0.625rem] font-extrabold uppercase tracking-wider text-[#f3c76b]">Pending</span>
     )
   );
 
@@ -342,7 +342,7 @@ export default function SupportModal({ isOpen, onClose }) {
                     <span className="min-w-0 flex-1 space-y-1">
                       <span className="flex items-center gap-2">
                         <span className="truncate text-sm font-bold text-white">{t.subject}</span>
-                        <span className="shrink-0 text-[10px] font-medium text-zinc-500">{new Date(t.created_at).toLocaleDateString()}</span>
+                        <span className="shrink-0 text-[0.625rem] font-medium text-zinc-500">{new Date(t.created_at).toLocaleDateString()}</span>
                       </span>
                       <span className="block truncate text-xs text-[var(--bb-muted)]">{t.message}</span>
                     </span>
@@ -358,7 +358,7 @@ export default function SupportModal({ isOpen, onClose }) {
             <div className="flex h-[min(26rem,60dvh)] flex-col">
               <div className="mb-3 flex shrink-0 items-center justify-between gap-3 border-b border-[var(--bb-border)] pb-3">
                 <div className="min-w-0">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">Ticket</span>
+                  <span className="text-[0.625rem] font-bold uppercase tracking-wider text-zinc-500">Ticket</span>
                   <h3 className="truncate text-sm font-bold leading-snug text-white">{selectedTicket.subject}</h3>
                 </div>
                 {statusPill(selectedTicket.status)}
@@ -368,7 +368,7 @@ export default function SupportModal({ isOpen, onClose }) {
                 <div className="flex max-w-[88%] flex-col">
                   <div className="mb-1 flex flex-wrap items-center gap-2">
                     <span className="font-bold text-zinc-200">{selectedTicket.username}</span>
-                    <span className="text-[10px] text-zinc-500">
+                    <span className="text-[0.625rem] text-zinc-500">
                       {new Date(selectedTicket.created_at).toLocaleDateString()} {new Date(selectedTicket.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
@@ -383,7 +383,7 @@ export default function SupportModal({ isOpen, onClose }) {
                     <div key={msg.id} className={`flex max-w-[88%] flex-col ${mine ? 'items-start' : 'ml-auto items-end'}`}>
                       <div className={`mb-1 flex flex-wrap items-center gap-2 ${mine ? '' : 'justify-end'}`}>
                         <span className={`font-bold ${mine ? 'text-zinc-200' : 'text-[#c3b2ff]'}`}>{mine ? msg.sender_username : 'BlueberryCash support'}</span>
-                        <span className="text-[10px] text-zinc-500">{new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        <span className="text-[0.625rem] text-zinc-500">{new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                       <p className={`select-text whitespace-pre-wrap break-words rounded-2xl border px-3.5 py-2.5 text-sm leading-relaxed ${
                         mine
@@ -418,7 +418,7 @@ export default function SupportModal({ isOpen, onClose }) {
                   type="submit"
                   disabled={sendingMsg || !newMessage.trim()}
                   aria-label="Send reply"
-                  className="btn-gaming flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-xl"
+                  className="btn-gaming flex h-[2.875rem] w-[2.875rem] shrink-0 items-center justify-center rounded-xl"
                 >
                   {sendingMsg ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
                 </button>

@@ -51,7 +51,7 @@ export default function HeroScene({ children, className = '' }) {
       </svg>
 
       {/* Hills: far, middle and near, each a little darker and closer */}
-      <div aria-hidden="true" className="g-depth pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[46%] min-h-[240px]" data-depth="6">
+      <div aria-hidden="true" className="g-depth pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[46%] min-h-[15rem]" data-depth="6">
         <svg viewBox="0 0 1440 420" preserveAspectRatio="none" className="h-full w-full">
           <defs>
             <linearGradient id="hs-far" x1="0" y1="0" x2="0" y2="1">
@@ -79,17 +79,17 @@ export default function HeroScene({ children, className = '' }) {
       {/* Characters on the hill (aligned to the page column, behind the text and the card) */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[2]">
         <div className="relative mx-auto h-full max-w-6xl">
-          <div className="g-depth absolute bottom-6 left-[3%] hidden w-[150px] sm:block lg:bottom-9" data-depth="14">
+          <div className="g-depth absolute bottom-6 left-[3%] hidden w-[9.375rem] sm:block lg:bottom-9" data-depth="14">
             <Art name="berry" size="100%" sizes="150px" glow="purple" float eager />
           </div>
-          <div className="g-depth absolute bottom-4 left-[25%] hidden w-[108px] sm:block lg:bottom-6" data-depth="24">
+          <div className="g-depth absolute bottom-4 left-[25%] hidden w-[6.75rem] sm:block lg:bottom-6" data-depth="24">
             <Art name="coins" size="100%" sizes="110px" glow="gold" float eager style={{ '--delay': '-1.5s' }} />
           </div>
-          <div className="g-depth absolute bottom-16 left-[37%] hidden w-[84px] sm:block lg:bottom-20" data-depth="32">
+          <div className="g-depth absolute bottom-16 left-[37%] hidden w-[5.25rem] sm:block lg:bottom-20" data-depth="32">
             <Art name="gem" size="100%" sizes="90px" glow="blue" float eager style={{ '--delay': '-3s' }} />
           </div>
           {/* Phones: just the mascot, tucked in the corner under the card */}
-          <div className="absolute bottom-3 right-4 w-[84px] sm:hidden">
+          <div className="absolute bottom-3 right-4 w-[5.25rem] sm:hidden">
             <Art name="berry" size="100%" sizes="90px" glow="purple" float eager />
           </div>
         </div>

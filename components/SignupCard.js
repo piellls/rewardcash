@@ -12,10 +12,10 @@ export default function SignupCard() {
   return (
     <div id="signup" className="relative scroll-mt-24">
       {/* Decorative art peeking over the card edges (wide screens only; never takes clicks) */}
-      <div aria-hidden="true" className="pointer-events-none absolute -top-12 right-3 z-10 hidden w-[92px] sm:block">
+      <div aria-hidden="true" className="pointer-events-none absolute -top-12 right-3 z-10 hidden w-[5.75rem] sm:block">
         <Art name="coins" size="100%" sizes="110px" glow="gold" float eager />
       </div>
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-9 -left-3 z-10 hidden w-[88px] sm:block">
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-9 -left-3 z-10 hidden w-[5.5rem] sm:block">
         <Art name="gem" size="100%" sizes="110px" glow="blue" float eager style={{ '--delay': '-2.5s' }} />
       </div>
 

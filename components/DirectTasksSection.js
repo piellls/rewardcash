@@ -278,7 +278,7 @@ export default function DirectTasksSection() {
               role="tab"
               aria-selected={selectedCategory === cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`min-h-[40px] rounded-lg px-4 text-sm font-bold transition-[background-color,color,box-shadow,transform] duration-150 active:scale-95 ${
+              className={`min-h-[2.5rem] rounded-lg px-4 text-sm font-bold transition-[background-color,color,box-shadow,transform] duration-150 active:scale-95 ${
                 selectedCategory === cat
                   ? 'bg-primary text-white shadow-[0_0_16px_rgba(113,63,225,0.55)]'
                   : 'text-zinc-400 hover:bg-white/5 hover:text-white'
@@ -293,7 +293,7 @@ export default function DirectTasksSection() {
       {loading ? (
         <div aria-busy="true" className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-3 lg:grid-cols-5 min-[1800px]:grid-cols-6">
           {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="h-[190px] animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)] sm:h-[230px]" />
+            <div key={i} className="h-[11.875rem] animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)] sm:h-[14.375rem]" />
           ))}
         </div>
       ) : filteredOffers.length === 0 ? (
@@ -318,7 +318,7 @@ export default function DirectTasksSection() {
                   type="button"
                   onClick={() => handleOfferClick(offer)}
                   aria-label={`${offer.title}, ${offer.coins.toLocaleString()} coins`}
-                  className={`g-offer g-spot group relative flex h-[190px] w-full flex-col justify-end overflow-hidden rounded-2xl border text-left sm:h-[230px] ${
+                  className={`g-offer g-spot group relative flex h-[11.875rem] w-full flex-col justify-end overflow-hidden rounded-2xl border text-left sm:h-[14.375rem] ${
                     isLocked ? 'border-dark-border opacity-60' : showWarning ? 'border-[rgba(243,199,107,0.5)]' : 'border-dark-border'
                   }`}
                 >
@@ -335,13 +335,13 @@ export default function DirectTasksSection() {
                   {isLocked && (
                     <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-[#070a14]/85 p-3">
                       <span className="rounded-full border border-dark-border bg-dark-card p-2"><Lock className="h-4 w-4 text-zinc-400" aria-hidden="true" /></span>
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400">Locked 24h</span>
-                      <span className="text-[11px] font-extrabold text-[#f3c76b]">{lockInfo}</span>
+                      <span className="text-[0.625rem] font-extrabold uppercase tracking-wider text-zinc-400">Locked 24h</span>
+                      <span className="text-[0.6875rem] font-extrabold text-[#f3c76b]">{lockInfo}</span>
                     </div>
                   )}
 
                   {showWarning && !isLocked && (
-                    <span className="absolute left-2.5 top-2.5 z-20 rounded bg-[#f3c76b] px-1.5 py-0.5 text-[10px] font-black text-[#1a1405]">{clicksLeft} left</span>
+                    <span className="absolute left-2.5 top-2.5 z-20 rounded bg-[#f3c76b] px-1.5 py-0.5 text-[0.625rem] font-black text-[#1a1405]">{clicksLeft} left</span>
                   )}
 
                   <div className="absolute right-2.5 top-2.5 z-20 flex items-center gap-1.5 rounded-md border border-white/10 bg-[#070a14]/80 px-2 py-1 text-zinc-200">
@@ -353,7 +353,7 @@ export default function DirectTasksSection() {
 
                   <div className="relative z-20 p-3.5">
                     <h3 className="line-clamp-1 text-xs font-extrabold leading-snug text-white sm:text-sm">{offer.title}</h3>
-                    <p className="mt-0.5 line-clamp-1 text-[11px] text-zinc-400">{offer.description}</p>
+                    <p className="mt-0.5 line-clamp-1 text-[0.6875rem] text-zinc-400">{offer.description}</p>
                     <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-[rgba(243,199,107,0.4)] bg-[rgba(243,199,107,0.12)] px-2.5 py-1 text-xs font-black text-[#f3c76b] sm:text-sm">
                       <Coins className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                       <span className="tabular-nums">{offer.coins.toLocaleString()}</span>
@@ -381,11 +381,11 @@ export default function DirectTasksSection() {
 
             <div className="mb-5 space-y-3">
               <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
-                <h4 className="mb-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500">Task</h4>
+                <h4 className="mb-1 text-[0.6875rem] font-bold uppercase tracking-wider text-zinc-500">Task</h4>
                 <p className="text-sm font-semibold text-white">{executingOffer.title}</p>
               </div>
               <div className="rounded-xl border border-dark-border bg-dark-bg p-4">
-                <h4 className="mb-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
+                <h4 className="mb-1 text-[0.6875rem] font-bold uppercase tracking-wider text-zinc-500">What to do</h4>
                 <p className="text-sm leading-relaxed text-zinc-300">{executingOffer.description}</p>
               </div>
               {needsPhone(executingOffer) && (
@@ -401,10 +401,10 @@ export default function DirectTasksSection() {
             </div>
 
             <div className="flex gap-3">
-              <button onClick={() => setExecutingOffer(null)} className="btn-gaming-secondary min-h-[48px] flex-1 rounded-xl py-3 text-xs">
+              <button onClick={() => setExecutingOffer(null)} className="btn-gaming-secondary min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
                 Cancel
               </button>
-              <button onClick={handleSimulateCompletion} className="btn-gaming min-h-[48px] flex-1 rounded-xl py-3 text-xs">
+              <button onClick={handleSimulateCompletion} className="btn-gaming min-h-[3rem] flex-1 rounded-xl py-3 text-xs">
                 Open task
               </button>
             </div>

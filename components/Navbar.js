@@ -81,7 +81,7 @@ export default function Navbar() {
                 {levelData.level}
               </span>
               <div className="flex flex-col flex-1 min-w-0 gap-1">
-                <div className="flex items-center justify-between text-[11px] font-bold">
+                <div className="flex items-center justify-between text-[0.6875rem] font-bold">
                   <span className="uppercase tracking-wider text-[#c3b2ff]">Level {levelData.level}</span>
                   <span className="text-zinc-400 tabular-nums">{levelData.current.toLocaleString()} / {levelData.next.toLocaleString()} XP</span>
                 </div>
@@ -99,11 +99,11 @@ export default function Navbar() {
                   <span>To next level</span>
                   <span className="font-bold text-[#c3b2ff] tabular-nums">{(levelData.next - levelData.current).toLocaleString()} XP</span>
                 </div>
-                <p className="border-t border-dark-border pt-1.5 text-[11px] leading-relaxed text-zinc-400">Every coin you earn counts as 1 XP. Your level shows next to your name.</p>
+                <p className="border-t border-dark-border pt-1.5 text-[0.6875rem] leading-relaxed text-zinc-400">Every coin you earn counts as 1 XP. Your level shows next to your name.</p>
               </div>
             </>
           ) : (
-            <div className="w-full text-center text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+            <div className="w-full text-center text-[0.6875rem] font-bold uppercase tracking-wider text-zinc-400">
               Level bar unlocks when you register
             </div>
           )}
@@ -119,7 +119,7 @@ export default function Navbar() {
               <div className="flex items-center gap-2 rounded-xl border border-[rgba(113,63,225,0.4)] bg-[var(--bb-surface)] px-3.5 py-1.5 shadow-[0_0_18px_-4px_rgba(113,63,225,0.55)]">
                 <Coins className="h-4 w-4 text-[#c3b2ff]" aria-hidden="true" />
                 <AnimatedNumber celebrate value={user.balance_coins || 0} className="font-black text-white text-sm tabular-nums" />
-                <span className="hidden text-[10px] font-bold uppercase tracking-wider text-zinc-400 sm:inline">Coins</span>
+                <span className="hidden text-[0.625rem] font-bold uppercase tracking-wider text-zinc-400 sm:inline">Coins</span>
               </div>
 
               <SoundToggle className="hidden sm:flex" />
@@ -243,7 +243,7 @@ export default function Navbar() {
               <span className={`mb-0.5 grid h-8 w-8 place-items-center rounded-xl transition-colors duration-150 ${isActive ? 'bg-primary/25 text-white shadow-[0_0_14px_rgba(113,63,225,0.6)]' : 'text-zinc-400'}`}>
                 <ThemeIcon name={item.name} fallback={Icon} className="h-6 w-6" />
               </span>
-              <span className={`text-[10px] font-bold tracking-wide ${isActive ? 'text-white' : 'text-zinc-400'}`}>{item.name}</span>
+              <span className={`text-[0.625rem] font-bold tracking-wide ${isActive ? 'text-white' : 'text-zinc-400'}`}>{item.name}</span>
             </>
           );
 

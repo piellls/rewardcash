@@ -95,8 +95,8 @@ export default function Referrals() {
           <Users className="h-10 w-10 text-[#c3b2ff]" aria-hidden="true" />
           <p className="text-lg font-extrabold text-white">Log in to get your referral link</p>
           <div className="flex gap-3">
-            <button onClick={() => { setAuthTab('login'); setIsAuthOpen(true); }} className="btn-gaming-secondary min-h-[44px] rounded-xl px-6 text-xs">Log in</button>
-            <button onClick={() => { setAuthTab('register'); setIsAuthOpen(true); }} className="btn-gaming min-h-[44px] rounded-xl px-6 text-xs">Register</button>
+            <button onClick={() => { setAuthTab('login'); setIsAuthOpen(true); }} className="btn-gaming-secondary min-h-[2.75rem] rounded-xl px-6 text-xs">Log in</button>
+            <button onClick={() => { setAuthTab('register'); setIsAuthOpen(true); }} className="btn-gaming min-h-[2.75rem] rounded-xl px-6 text-xs">Register</button>
           </div>
         </Reveal>
       ) : (
@@ -109,21 +109,21 @@ export default function Referrals() {
                 readOnly
                 value={link}
                 onFocus={(e) => e.currentTarget.select()}
-                className="min-h-[48px] min-w-0 flex-1 rounded-xl border border-dark-border bg-dark-bg px-4 font-mono text-sm text-white"
+                className="min-h-[3rem] min-w-0 flex-1 rounded-xl border border-dark-border bg-dark-bg px-4 font-mono text-sm text-white"
               />
-              <button onClick={copy} className="btn-gaming flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-6 text-xs">
+              <button onClick={copy} className="btn-gaming flex min-h-[3rem] items-center justify-center gap-2 rounded-xl px-6 text-xs">
                 {copied ? <Check className="g-pop h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
                 {copied ? 'Copied' : 'Copy link'}
               </button>
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {typeof navigator !== 'undefined' && navigator.share && (
-                <button onClick={nativeShare} className="btn-gaming-secondary inline-flex min-h-[40px] items-center gap-2 rounded-lg px-4 text-xs">
+                <button onClick={nativeShare} className="btn-gaming-secondary inline-flex min-h-[2.5rem] items-center gap-2 rounded-lg px-4 text-xs">
                   <Share2 className="h-4 w-4" aria-hidden="true" /> Share
                 </button>
               )}
               {targets.map((t) => (
-                <a key={t.name} href={t.href} target="_blank" rel="noopener noreferrer" className="btn-gaming-secondary inline-flex min-h-[40px] items-center rounded-lg px-4 text-xs">
+                <a key={t.name} href={t.href} target="_blank" rel="noopener noreferrer" className="btn-gaming-secondary inline-flex min-h-[2.5rem] items-center rounded-lg px-4 text-xs">
                   {t.name}
                 </a>
               ))}

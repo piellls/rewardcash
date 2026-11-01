@@ -31,7 +31,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login', defau
       <div className="g-fade fixed inset-0 bg-[#05070d]/80 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
-      <div className="auth-modal g-modal relative z-10 grid max-h-[calc(100dvh-2rem)] w-full max-w-[720px] overflow-hidden rounded-2xl bg-[var(--bb-surface)] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] md:grid-cols-[42%_58%]">
+      <div className="auth-modal g-modal relative z-10 grid max-h-[calc(100dvh-2rem)] w-full max-w-[45rem] overflow-hidden rounded-2xl bg-[var(--bb-surface)] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] md:grid-cols-[42%_58%]">
         <div className="auth-modal-art" aria-hidden="true">
           <div className="auth-modal-art-shade" />
           <p>TURN TASKS<br /><span>INTO REWARDS</span></p>

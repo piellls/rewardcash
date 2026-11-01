@@ -208,7 +208,7 @@ export default function Dashboard() {
             
             {/* Left Card: Profile Details */}
             <div className="lg:col-span-5 g-card p-6 flex flex-col justify-between relative overflow-hidden">
-              <div aria-hidden="true" className="pointer-events-none absolute -right-6 -top-8 w-[150px] opacity-90 sm:w-[170px]">
+              <div aria-hidden="true" className="pointer-events-none absolute -right-6 -top-8 w-[9.375rem] opacity-90 sm:w-[10.625rem]">
                 <Art name="trophy" size="100%" glow="gold" float />
               </div>
               
@@ -242,7 +242,7 @@ export default function Dashboard() {
 
               {/* Level Progress Bar */}
               <div className="mt-8 space-y-2">
-                <div className="flex items-center justify-between text-[11px] font-bold">
+                <div className="flex items-center justify-between text-[0.6875rem] font-bold">
                   <span className="text-zinc-500">Progress</span>
                   <span className="text-zinc-400 font-extrabold">
                     {coinsToLevelUp.toLocaleString()} coins to level up
@@ -391,7 +391,7 @@ export default function Dashboard() {
                       <select
                         value={partnerFilter}
                         onChange={(e) => setPartnerFilter(e.target.value)}
-                        className="appearance-none rounded-xl bg-dark-bg border border-dark-border pl-3.5 pr-8 py-2 font-bold text-zinc-300 focus:outline-none text-[11px] cursor-pointer hover:border-dark-hover focus:border-primary/50 transition-all"
+                        className="appearance-none rounded-xl bg-dark-bg border border-dark-border pl-3.5 pr-8 py-2 font-bold text-zinc-300 focus:outline-none text-[0.6875rem] cursor-pointer hover:border-dark-hover focus:border-primary/50 transition-all"
                       >
                         <option value="All" className="bg-dark-card text-white">All offer partners</option>
                         <option value="OGAds" className="bg-dark-card text-white">OGAds</option>
@@ -417,7 +417,7 @@ export default function Dashboard() {
                     <div className="overflow-x-auto text-xs">
                       <table className="w-full text-left border-collapse">
                         <thead>
-                          <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                          <tr className="border-b border-dark-border/40 text-[0.625rem] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                             <th className="pb-3 pr-4">Survey Name</th>
                             <th className="pb-3 px-4">Reward</th>
                             <th className="pb-3 px-4">Reward Status</th>
@@ -455,7 +455,7 @@ export default function Dashboard() {
                     <div className="overflow-x-auto text-xs">
                       <table className="w-full text-left border-collapse">
                         <thead>
-                          <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                          <tr className="border-b border-dark-border/40 text-[0.625rem] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                             <th className="pb-3 pr-4">Offer Name</th>
                             <th className="pb-3 px-4">Reward</th>
                             <th className="pb-3 px-4">Reward Status</th>
@@ -495,12 +495,12 @@ export default function Dashboard() {
                   {referralsCount === 0 ? (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">No users referred yet</p>
-                      <Link href="/referrals" className="text-[10px] text-primary hover:underline font-bold mt-1.5 uppercase block">Get invite link</Link>
+                      <Link href="/referrals" className="text-[0.625rem] text-primary hover:underline font-bold mt-1.5 uppercase block">Get invite link</Link>
                     </div>
                   ) : (
                     <div className="text-center py-12">
                       <p className="text-xs text-zinc-400 font-bold">You have referred {referralsCount} users.</p>
-                      <Link href="/referrals" className="text-[10px] text-primary hover:underline font-bold mt-1.5 uppercase block">View Invites Directory</Link>
+                      <Link href="/referrals" className="text-[0.625rem] text-primary hover:underline font-bold mt-1.5 uppercase block">View Invites Directory</Link>
                     </div>
                   )}
                 </div>
@@ -510,7 +510,7 @@ export default function Dashboard() {
             <div className="g-card p-6 shadow-custom-card">
               <div className="text-center py-12">
                 <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-2">No offers started yet</p>
-                <Link href="/earn" className="text-[10px] text-primary hover:underline font-extrabold uppercase tracking-wider">
+                <Link href="/earn" className="text-[0.625rem] text-primary hover:underline font-extrabold uppercase tracking-wider">
                   Browse Offers
                 </Link>
               </div>
@@ -521,7 +521,7 @@ export default function Dashboard() {
               {withdrawals.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-2">No cashout payouts requested yet</p>
-                  <Link href="/cashout" className="text-[10px] text-primary hover:underline font-extrabold uppercase tracking-wider">
+                  <Link href="/cashout" className="text-[0.625rem] text-primary hover:underline font-extrabold uppercase tracking-wider">
                     Browse Cashouts
                   </Link>
                 </div>
@@ -529,7 +529,7 @@ export default function Dashboard() {
                 <div className="overflow-x-auto text-xs">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-dark-border/40 text-[10px] font-bold text-zinc-500 uppercase tracking-widest pb-3">
+                      <tr className="border-b border-dark-border/40 text-[0.625rem] font-bold text-zinc-500 uppercase tracking-widest pb-3">
                         <th className="pb-3 pr-4">Payout Method</th>
                         <th className="pb-3 px-4">Address</th>
                         <th className="pb-3 px-4 text-center">Amount (USD)</th>
@@ -544,9 +544,9 @@ export default function Dashboard() {
                           <td className="py-3 px-4 font-semibold text-zinc-450 select-all">{w.payment_address}</td>
                           <td className="py-3 px-4 text-center font-extrabold text-white">${parseFloat(w.amount_usd).toFixed(2)}</td>
                           <td className="py-3 px-4 text-center font-bold">
-                            {w.status === 'approved' && <span className="text-[9px] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(113,63,225,0.1)]">Paid</span>}
-                            {w.status === 'rejected' && <span className="text-[9px] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-2 py-0.5 rounded">Rejected</span>}
-                            {w.status === 'pending' && <span className="text-[9px] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded">Pending</span>}
+                            {w.status === 'approved' && <span className="text-[0.5625rem] font-black uppercase text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shadow-[0_0_8px_rgba(113,63,225,0.1)]">Paid</span>}
+                            {w.status === 'rejected' && <span className="text-[0.5625rem] font-black uppercase text-red-400 bg-red-950/30 border border-red-900/40 px-2 py-0.5 rounded">Rejected</span>}
+                            {w.status === 'pending' && <span className="text-[0.5625rem] font-black uppercase text-yellow-500 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded">Pending</span>}
                           </td>
                           <td className="py-3 pl-4 text-right text-zinc-500 font-bold">{new Date(w.created_at).toLocaleDateString()}</td>
                         </tr>
