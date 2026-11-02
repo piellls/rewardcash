@@ -24,8 +24,6 @@ export default function Referrals() {
   const [friends, setFriends] = useState([]);
   const [month, setMonth] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(false);
-  const [reloadKey, setReloadKey] = useState(0);
   const [copied, setCopied] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authTab, setAuthTab] = useState('register');
@@ -46,13 +44,12 @@ export default function Referrals() {
         setMonth(m);
       } catch (err) {
         console.error('Error loading referral data:', err);
-        if (alive) setLoadError(true);
       } finally {
         if (alive) setLoading(false);
       }
     })();
     return () => { alive = false; };
-  }, [user?.id, reloadKey]);
+  }, [user?.id]);
 
   const link = typeof window !== 'undefined' && user ? `${window.location.origin}/ref/${user.username}` : '';
   const shareText = 'Join BlueberryCash and earn coins for games, apps and surveys.';
@@ -191,13 +188,7 @@ export default function Referrals() {
         <section className="mt-12">
           <Reveal as="h2" className="g-title text-2xl sm:text-3xl">Your friends</Reveal>
           <Reveal className="g-card mt-6 overflow-hidden">
-            {loadError ? (
-              <div role="alert" className="px-6 py-12 text-center">
-                <p className="font-bold text-white">Your referral data could not load</p>
-                <p className="mt-1 text-sm text-zinc-400">Check your connection and try again.</p>
-                <button type="button" onClick={() => { setLoadError(false); setLoading(true); setReloadKey((k) => k + 1); }} className="btn-gaming-secondary mt-5 min-h-[2.75rem] rounded-xl px-5 text-xs">Try again</button>
-              </div>
-            ) : friends.length === 0 ? (
+            {friends.length === 0 ? (
               <div className="px-6 py-12 text-center">
                 <p className="font-bold text-white">{loading ? 'Loading…' : 'No friends yet'}</p>
                 {!loading && <p className="mt-1 text-sm text-zinc-400">Share your link above. Friends who sign up with it will show up here.</p>}
