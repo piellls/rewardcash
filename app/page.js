@@ -91,7 +91,7 @@ export default function Home() {
           <img className={s.heroImage} src={asset('banner3.png')} alt="" fetchPriority="high" />
           <div className={s.heroShade} />
           <div className={s.heroContent}>
-            <h1 style={{ '--i': 0 }}>Turn <span>Tasks &amp; Surveys</span><br />Into Rewards</h1>
+            <h1 style={{ '--i': 0 }}>Turn <span className={s.accent}>Tasks &amp; Surveys</span><br />Into Rewards</h1>
             <div className={s.badges} style={{ '--i': 1 }}>{['No deposit', 'Quick cashout', 'Free to join'].map(t => <span key={t}><Check size={14} strokeWidth={3} />{t}</span>)}</div>
             <div className={s.heroActions} style={{ '--i': 2 }}><Link className={`${s.button} ${s.primary}`} href="/earn">Earn now!</Link><a className={s.button} href="#how-it-works"><Info size={18} />How it works</a></div>
           </div>
