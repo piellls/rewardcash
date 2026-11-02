@@ -8,14 +8,9 @@ import { SignupSpinProvider } from "@/components/SignupSpin";
 export const metadata = {
   title: "BlueberryCash – Get paid for games, apps and surveys",
   description: "Earn money by completing tasks, testing apps and playing games. Cashout Gift cards, Bitcoin, Crypto, Robux and more instantly.",
-  // The blueberry icon. favicon.ico (16/32/48) is picked up from this folder by Next; the PNGs are for
-  // bookmarks, Android and the iOS home screen. They are new file names, so browsers that cached the old icon fetch these.
   icons: {
-    icon: [
-      { url: "/brand/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
-    ],
-    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    icon: "/offerwall/blueberry_icon.png",
+    apple: "/offerwall/blueberry_icon.png",
   },
   openGraph: {
     images: ["/offerwall/hero.jpg"],
@@ -25,7 +20,7 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#0d1027',
+  themeColor: '#111219',
 };
 
 export default function RootLayout({ children }) {

@@ -93,8 +93,7 @@ export default function DirectTasksSection() {
   const { openAuth } = useAuthPrompt();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadFailed, setLoadFailed] = useState(false); // both offer networks failed: this is not "no tasks"
-  const [reloadKey, setReloadKey] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [executingOffer, setExecutingOffer] = useState(null);
   useEffect(() => { if (executingOffer) sfx.play('open'); }, [executingOffer]);
   const [notice, setNotice] = useState('');
@@ -206,7 +205,6 @@ export default function DirectTasksSection() {
 
         const allOffers = [...(adBlu.value || []), ...(ogAds.value || [])].sort((a, b) => b.payout - a.payout);
         setOffers(allOffers);
-        setLoadFailed(adBlu.status === 'rejected' && ogAds.status === 'rejected');
       } catch (err) {
         console.error('Error fetching offers:', err);
       } finally {
@@ -214,7 +212,7 @@ export default function DirectTasksSection() {
       }
     };
     fetchOffers();
-  }, [user?.id, reloadKey]);
+  }, [user?.id]);
 
   const handleOfferClick = (offer) => {
     // A task needs an account (the reward is credited to it), so visitors get the sign-up popup.
@@ -258,6 +256,11 @@ export default function DirectTasksSection() {
     setExecutingOffer(null);
   };
 
+  const categories = ['All', 'Game', 'App', 'Survey', 'Sign-up'];
+  const filteredOffers = selectedCategory === 'All' 
+    ? offers 
+    : offers.filter(o => o.category === selectedCategory);
+
   const TYPE_ICON = { Survey: FileText, Game: Gamepad2, App: Smartphone, 'Sign-up': UserPlus };
 
   return (
@@ -271,11 +274,31 @@ export default function DirectTasksSection() {
         </div>
       )}
 
-      <div className="mb-6">
-        <h2 className="g-title text-2xl">Available tasks</h2>
-        <p className="mt-1 text-sm text-zinc-400">
-          {loading ? 'Looking for tasks that fit your country…' : loadFailed ? 'Tasks are unavailable right now.' : `${offers.length} task${offers.length === 1 ? '' : 's'} right now. The reward is shown on each card.`}
-        </p>
+      <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+          <h2 className="g-title text-2xl">Available tasks</h2>
+          <p className="mt-1 text-sm text-zinc-400">
+            {loading ? 'Looking for tasks that fit your country…' : `${filteredOffers.length} task${filteredOffers.length === 1 ? '' : 's'} right now. The reward is shown on each card.`}
+          </p>
+        </div>
+
+        <div role="tablist" aria-label="Task type" className="flex flex-wrap gap-1 rounded-xl border border-dark-border bg-[var(--bb-surface)] p-1">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              role="tab"
+              aria-selected={selectedCategory === cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`min-h-[2.5rem] rounded-lg px-4 text-sm font-bold transition-[background-color,color,box-shadow,transform] duration-150 active:scale-95 ${
+                selectedCategory === cat
+                  ? 'bg-primary text-white shadow-[0_0_16px_rgba(113,63,225,0.55)]'
+                  : 'text-zinc-400 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
 
       {loading ? (
@@ -284,20 +307,14 @@ export default function DirectTasksSection() {
             <div key={i} className="aspect-[4/5] animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)]" />
           ))}
         </div>
-      ) : loadFailed ? (
-        <div role="alert" className="g-card py-14 text-center">
-          <p className="font-bold text-white">Tasks could not load</p>
-          <p className="mt-1 text-sm text-zinc-400">Check your connection and try again.</p>
-          <button type="button" onClick={() => setReloadKey((k) => k + 1)} className="btn-gaming-secondary mt-5 min-h-[2.75rem] rounded-xl px-5 text-xs">Try again</button>
-        </div>
-      ) : offers.length === 0 ? (
+      ) : filteredOffers.length === 0 ? (
         <div className="g-card py-16 text-center">
-          <p className="font-bold text-white">No tasks right now</p>
-          <p className="mt-1 text-sm text-zinc-400">Offers change through the day. Check back soon.</p>
+          <p className="font-bold text-white">No tasks in this category right now</p>
+          <p className="mt-1 text-sm text-zinc-400">Offers change through the day. Try another type or check back soon.</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3.5 sm:gap-5 md:grid-cols-3 lg:grid-cols-5 min-[1800px]:grid-cols-6">
-          {offers.map((offer, idx) => {
+          {filteredOffers.map((offer, idx) => {
             const lockInfo = getOfferLockInfo(offer.id);
             const isLocked = !!lockInfo;
             const clickCount = clickCounts[offer.id] || 0;
@@ -322,7 +339,7 @@ export default function DirectTasksSection() {
                     {offer.icon && offer.icon.startsWith('http') ? (
                       <img src={offer.icon} alt="" loading="lazy" className="g-offer-img h-full w-full object-cover" />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#26206a] to-[#0d1027]">
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#26206a] to-[#111219]">
                         <TypeIcon className="h-10 w-10 text-[#c3b2ff] opacity-70" aria-hidden="true" />
                       </div>
                     )}
