@@ -23,6 +23,7 @@
 .main{padding-top:1rem;padding-bottom:2.5rem}
 .hero{position:relative;overflow:hidden;border-radius:1rem;aspect-ratio:2170/725;margin-bottom:2.5rem}
 .heroImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left}
+.heroModel{position:absolute;right:1%;bottom:-4%;width:min(46%,520px);height:112%;z-index:2;pointer-events:none;--poster-color:transparent;background:transparent}
 .heroShade{position:absolute;inset:0;background:linear-gradient(to right,#111219 5%,#1112194d 35%,transparent 60%),linear-gradient(to left,#1112198c,transparent 45%);pointer-events:none}
 .heroContent{position:absolute;inset-block:0;left:0;display:flex;flex-direction:column;justify-content:center;gap:1.5rem;max-width:48rem}
 .hero h1{margin:0;font-size:3.75rem;line-height:1.05;letter-spacing:-1.5px;font-weight:800;white-space:nowrap}

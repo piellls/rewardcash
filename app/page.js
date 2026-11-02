@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Script from 'next/script';
 import { Check, Info, Coins, Gift, Link as LinkIcon, Users, ChevronDown, MessageCircle, MessageSquare, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
@@ -90,6 +91,20 @@ export default function Home() {
         <section className={s.hero}>
           <img className={s.heroImage} src={asset('banner3.png')} alt="" fetchPriority="high" />
           <div className={s.heroShade} />
+          <Script type="module" strategy="afterInteractive" src="/3d/model-viewer.min.js" />
+          {/* 3D mascot (Tripo model). Loaded from its CDN for now; move the file to public/3d/ for production. */}
+          <model-viewer
+            className={s.heroModel}
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38E3XDKYRMV4m3wEmidnvyzgS11/hf_20261102_215732_36572de5-e213-470e-9a87-ee9608b27900.glb"
+            alt="BlueberryCash mascot in 3D"
+            auto-rotate
+            rotation-per-second="18deg"
+            interaction-prompt="none"
+            camera-orbit="0deg 75deg 105%"
+            shadow-intensity="0.6"
+            exposure="1.05"
+            loading="lazy"
+          ></model-viewer>
           <div className={s.heroContent}>
             <h1 style={{ '--i': 0 }}>Turn <span>Tasks &amp; Surveys</span><br />Into Rewards</h1>
             <div className={s.badges} style={{ '--i': 1 }}>{['No deposit', 'Quick cashout', 'Free to join'].map(t => <span key={t}><Check size={14} strokeWidth={3} />{t}</span>)}</div>
