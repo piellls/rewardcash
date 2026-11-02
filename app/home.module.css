@@ -27,6 +27,13 @@
 .heroContent{position:absolute;inset-block:0;left:0;display:flex;flex-direction:column;justify-content:center;gap:1.5rem;max-width:48rem}
 .hero h1{margin:0;font-size:3.75rem;line-height:1.05;letter-spacing:-1.5px;font-weight:800;white-space:nowrap}
 .hero h1 span{color:var(--purple)}
+@font-face{font-family:LandingRubik;src:url('/fonts/Rubik-Black.woff2') format('woff2');font-weight:900;font-display:swap}
+.hero h1 .accent{display:inline-block;font-family:LandingRubik,LandingPoppins,Arial,sans-serif;font-weight:900;letter-spacing:-0.5px;padding-inline:0.05em;background:linear-gradient(90deg,#8b5cf6,#d6c2ff,#3ee0ff,#a77bff,#8b5cf6);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px #713fe1aa)}
+@media(prefers-reduced-motion:no-preference){
+  .hero h1 .accent{animation:accentShift 4s linear infinite,accentGlow 2.4s ease-in-out infinite}
+}
+@keyframes accentShift{to{background-position:250% center}}
+@keyframes accentGlow{0%,100%{filter:drop-shadow(0 0 6px #713fe1aa) brightness(1)}50%{filter:drop-shadow(0 0 22px #a77bffcc) drop-shadow(0 0 4px #3ee0ff88) brightness(1.15)}}
 .badges{display:flex;flex-wrap:wrap;gap:0.5rem}
 .badges span{display:flex;align-items:center;gap:0.5rem;height:2.25rem;padding:0 1rem;border-radius:0.5rem;background:var(--raised);font-size:0.875rem;font-weight:600;white-space:nowrap}
 .badges svg{color:#17c964}
