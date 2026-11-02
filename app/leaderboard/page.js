@@ -51,16 +51,18 @@ export default function Leaderboard() {
   const { user } = useAuth();
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false); // a network error is not the same as "no rankings yet"
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let alive = true;
     fetch('/api/leaderboard')
-      .then((r) => r.json())
-      .then((d) => alive && setPlayers(d.players || []))
-      .catch(() => {})
-      .finally(() => alive && setLoading(false));
+      .then((r) => { if (!r.ok) throw new Error(`status ${r.status}`); return r.json(); })
+      .then((d) => { if (alive) setPlayers(d.players || []); })
+      .catch(() => { if (alive) setFailed(true); })
+      .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
-  }, []);
+  }, [reloadKey]);
 
   const podium = [];
   // Source order is 1st, 2nd, 3rd (reads right when stacked on phones); md:order puts 1st in the middle on wide screens
@@ -95,6 +97,12 @@ export default function Leaderboard() {
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="h-16 animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)]" />
           ))}
+        </div>
+      ) : failed ? (
+        <div role="alert" className="g-card py-16 text-center">
+          <p className="text-lg font-extrabold text-white">The leaderboard could not load</p>
+          <p className="mt-1 text-sm text-zinc-400">Check your connection and try again.</p>
+          <button type="button" onClick={() => { setFailed(false); setLoading(true); setReloadKey((k) => k + 1); }} className="btn-gaming-secondary mt-5 min-h-[2.75rem] rounded-xl px-5 text-xs">Try again</button>
         </div>
       ) : players.length === 0 ? (
         <div className="g-card py-16 text-center">

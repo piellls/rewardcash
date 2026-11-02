@@ -199,3 +199,60 @@
   .logoTrack{animation-duration:80s}
 }
 .button:active{transform:scale(.97)}
+
+/* ============================================================
+   DYNAMIC LAYER: more life on the page, all transform/opacity,
+   scroll-linked where the browser supports it, off for reduced motion.
+   ============================================================ */
+
+/* Hero headline: a slow light sweep runs across the purple word */
+@media(prefers-reduced-motion:no-preference){
+  .hero h1 span{background:linear-gradient(100deg,var(--purple) 35%,#e9e1ff 50%,var(--purple) 65%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:wordSweep 4.5s ease-in-out 1.2s infinite}
+}
+@keyframes wordSweep{0%{background-position:100% 0}60%,100%{background-position:-60% 0}}
+
+/* Hero buttons: a soft lift and glow on hover, pointer devices only */
+@media(hover:hover) and (pointer:fine){
+  .heroActions .button{transition:transform .25s var(--ease-out),box-shadow .25s ease,background-color .2s ease}
+  .heroActions .button:hover{transform:translateY(-2px);box-shadow:0 .5rem 1.5rem -.5rem #713fe1aa}
+}
+
+/* Marquee of payment brands pauses under the pointer so names can be read */
+.logoWindow:hover .logoTrack{animation-play-state:paused}
+
+/* Steps: a line draws itself between the three cards as you scroll */
+.steps{position:relative}
+@media(min-width:768px){
+  .step:not(:last-child)::after{content:'';position:absolute;top:50%;left:100%;width:1rem;height:2px;background:linear-gradient(90deg,#713fe1,#33c8ff);transform-origin:left center;border-radius:2px}
+  @supports (animation-timeline:view()){
+    .step:not(:last-child)::after{animation:drawLine linear both;animation-timeline:view();animation-range:entry 20% cover 45%}
+  }
+}
+@keyframes drawLine{from{transform:scaleX(0);opacity:.2}to{transform:scaleX(1);opacity:1}}
+
+/* Step and benefit icons react to the card they belong to */
+.step:hover img,.benefit:hover img{transform:translateY(-6px) rotate(-4deg) scale(1.06)}
+.step:hover{background:#1f202e;box-shadow:0 1rem 2.25rem -1.25rem #713fe155}
+.benefit img{transition:transform .35s var(--ease-out)}
+.benefit:hover img{transform:translateY(-4px) scale(1.05)}
+
+/* Idle float for the hero mascot-art and benefit icons, paused while off screen */
+@media(prefers-reduced-motion:no-preference){
+  .benefit img{animation:bob 5.5s ease-in-out infinite}
+  .benefit:nth-child(2) img{animation-delay:-1.4s}
+  .benefit:nth-child(3) img{animation-delay:-2.8s}
+  .benefit:nth-child(4) img{animation-delay:-4.1s}
+}
+
+/* Art banners lean slightly toward the pointer */
+@media(hover:hover) and (pointer:fine){
+  .artBanner:hover img{transform:scale(1.015) rotate(-.4deg)}
+}
+
+/* Feature panel: its glow drifts while it is on screen */
+@media(prefers-reduced-motion:no-preference){
+  .feature{background-size:140% 140%;animation:featureDrift 12s ease-in-out infinite alternate}
+}
+@keyframes featureDrift{from{background-position:0% 100%}to{background-position:100% 0%}}
+
+.brand img{display:block;height:2.75rem;width:auto;max-width:none}
