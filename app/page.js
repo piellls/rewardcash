@@ -27,7 +27,7 @@ const steps = [
 const benefits = [
   ['dailywheelspins.png', 'Daily Wheel Spins', 'Come back every 24 hours for a free spin and a chance to collect more coins.'],
   ['rankrewards.png', 'Rank Rewards', 'Every completed offer adds to your experience. Watch your level grow as you earn.'],
-  ['bonusesicon.png', 'Bonuses on Earnings', 'Start with a welcome bonus and discover more ways to build your balance.'],
+  ['bonusesicon.png', 'Bonuses on Earnings', 'Every new account starts with 100 coins. Add more from each task you finish.'],
   ['earningboosts.png', 'More Ways to Earn', 'Find a new game, try an app or share your opinion in a survey.'],
   ['exclusivetournaments.png', 'Community Leaderboard', 'See how your earnings compare with other members of the community.'],
   ['affiliateicon.png', 'High Payout Commissions', 'Invite friends and receive a share of their completed offers, with rates up to 15%.'],
