@@ -93,6 +93,8 @@ export default function DirectTasksSection() {
   const { openAuth } = useAuthPrompt();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false); // both offer networks failed: this is not "no tasks"
+  const [reloadKey, setReloadKey] = useState(0);
   const [executingOffer, setExecutingOffer] = useState(null);
   useEffect(() => { if (executingOffer) sfx.play('open'); }, [executingOffer]);
   const [notice, setNotice] = useState('');
@@ -204,6 +206,7 @@ export default function DirectTasksSection() {
 
         const allOffers = [...(adBlu.value || []), ...(ogAds.value || [])].sort((a, b) => b.payout - a.payout);
         setOffers(allOffers);
+        setLoadFailed(adBlu.status === 'rejected' && ogAds.status === 'rejected');
       } catch (err) {
         console.error('Error fetching offers:', err);
       } finally {
@@ -211,7 +214,7 @@ export default function DirectTasksSection() {
       }
     };
     fetchOffers();
-  }, [user?.id]);
+  }, [user?.id, reloadKey]);
 
   const handleOfferClick = (offer) => {
     // A task needs an account (the reward is credited to it), so visitors get the sign-up popup.
@@ -271,7 +274,7 @@ export default function DirectTasksSection() {
       <div className="mb-6">
         <h2 className="g-title text-2xl">Available tasks</h2>
         <p className="mt-1 text-sm text-zinc-400">
-          {loading ? 'Looking for tasks that fit your country…' : `${offers.length} task${offers.length === 1 ? '' : 's'} right now. The reward is shown on each card.`}
+          {loading ? 'Looking for tasks that fit your country…' : loadFailed ? 'Tasks are unavailable right now.' : `${offers.length} task${offers.length === 1 ? '' : 's'} right now. The reward is shown on each card.`}
         </p>
       </div>
 
@@ -280,6 +283,12 @@ export default function DirectTasksSection() {
           {Array.from({ length: 10 }).map((_, i) => (
             <div key={i} className="aspect-[4/5] animate-pulse rounded-2xl border border-dark-border bg-[var(--bb-surface)]" />
           ))}
+        </div>
+      ) : loadFailed ? (
+        <div role="alert" className="g-card py-14 text-center">
+          <p className="font-bold text-white">Tasks could not load</p>
+          <p className="mt-1 text-sm text-zinc-400">Check your connection and try again.</p>
+          <button type="button" onClick={() => setReloadKey((k) => k + 1)} className="btn-gaming-secondary mt-5 min-h-[2.75rem] rounded-xl px-5 text-xs">Try again</button>
         </div>
       ) : offers.length === 0 ? (
         <div className="g-card py-16 text-center">
@@ -313,7 +322,7 @@ export default function DirectTasksSection() {
                     {offer.icon && offer.icon.startsWith('http') ? (
                       <img src={offer.icon} alt="" loading="lazy" className="g-offer-img h-full w-full object-cover" />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#26206a] to-[#111219]">
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#26206a] to-[#0d1027]">
                         <TypeIcon className="h-10 w-10 text-[#c3b2ff] opacity-70" aria-hidden="true" />
                       </div>
                     )}
