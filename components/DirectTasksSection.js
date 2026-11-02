@@ -313,7 +313,7 @@ export default function DirectTasksSection() {
                     {offer.icon && offer.icon.startsWith('http') ? (
                       <img src={offer.icon} alt="" loading="lazy" className="g-offer-img h-full w-full object-cover" />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#26206a] to-[#111219]">
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#26206a] to-[#0d1027]">
                         <TypeIcon className="h-10 w-10 text-[#c3b2ff] opacity-70" aria-hidden="true" />
                       </div>
                     )}

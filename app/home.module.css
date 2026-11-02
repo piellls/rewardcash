@@ -2,14 +2,14 @@
 @font-face{font-family:LandingPoppins;src:url('/home-reference/8888a3826f4a3af4-s.p.woff2') format('woff2');font-weight:500;font-display:swap}
 @font-face{font-family:LandingPoppins;src:url('/home-reference/0484562807a97172-s.p.woff2') format('woff2');font-weight:600;font-display:swap}
 @font-face{font-family:LandingPoppins;src:url('/home-reference/b957ea75a84b6ea7-s.p.woff2') format('woff2');font-weight:700;font-display:swap}
-.home{--purple:#713fe1;--surface:#181923;--raised:#1f2029;background:#111219;color:white;min-height:100vh;font-family:LandingPoppins,Arial,sans-serif;font-size:1rem;line-height:1.5;isolation:isolate}
+.home{--purple:#713fe1;--surface:#161a38;--raised:#1c2146;background:#0d1027;color:white;min-height:100vh;font-family:LandingPoppins,Arial,sans-serif;font-size:1rem;line-height:1.5;isolation:isolate}
 .home h1,.home h2,.home h3,.home h4{font-family:inherit}
 .home button,.home a,.home input{-webkit-tap-highlight-color:transparent}
 .home button,.home a{cursor:pointer}
 .home a:focus-visible,.home button:focus-visible,.home input:focus-visible{outline:2px solid #a58aff;outline-offset:0.3125rem}
 .container{width:100%;max-width:85rem;margin-inline:auto;padding-inline:1.5rem}
-.header{position:sticky;top:0;z-index:40;background:#111219;transition:background-color .25s ease,box-shadow .25s ease}
-.header[data-scrolled]{background:#111219eb;backdrop-filter:blur(.75rem);box-shadow:0 1px 0 #ffffff12,0 .75rem 1.5rem -.75rem #000c}
+.header{position:sticky;top:0;z-index:40;background:#0d1027;transition:background-color .25s ease,box-shadow .25s ease}
+.header[data-scrolled]{background:#0d1027eb;backdrop-filter:blur(.75rem);box-shadow:0 1px 0 #ffffff12,0 .75rem 1.5rem -.75rem #000c}
 .nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding-block:1rem;min-height:4.5rem}
 .brand{display:block;line-height:0}
 .brand img{display:block;height:2.75rem;width:auto;max-width:none}
@@ -23,7 +23,7 @@
 .main{padding-top:1rem;padding-bottom:2.5rem}
 .hero{position:relative;overflow:hidden;border-radius:1rem;aspect-ratio:2170/725;margin-bottom:2.5rem}
 .heroImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:left}
-.heroShade{position:absolute;inset:0;background:linear-gradient(to right,#111219 5%,#1112194d 35%,transparent 60%),linear-gradient(to left,#1112198c,transparent 45%);pointer-events:none}
+.heroShade{position:absolute;inset:0;background:linear-gradient(to right,#0d1027 5%,#0d10274d 35%,transparent 60%),linear-gradient(to left,#0d10278c,transparent 45%);pointer-events:none}
 .heroContent{position:absolute;inset-block:0;left:0;display:flex;flex-direction:column;justify-content:center;gap:1.5rem;max-width:48rem}
 .hero h1{margin:0;font-size:3.75rem;line-height:1.05;letter-spacing:-1.5px;font-weight:800;white-space:nowrap}
 .hero h1 span{color:var(--purple)}
@@ -56,7 +56,7 @@
 @keyframes lineSweep{0%,12%{transform:translateX(0);opacity:0}25%{opacity:1}75%{opacity:1}88%,100%{transform:translateX(500%);opacity:0}}
 .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;scroll-margin-top:6rem}
 .step{position:relative;overflow:hidden;border-radius:1rem;padding:2.5rem 2rem;background:var(--surface);text-align:center;transition:background-color .25s ease}
-.step:hover{background:#1f202e}
+.step:hover{background:#1c2146}
 .step img{width:6rem;height:6rem;object-fit:contain;margin:0 auto 1.5rem}
 .step h2{font-size:1.25rem;line-height:1.75rem;font-weight:700;margin-bottom:0.5rem}
 .step p{max-width:20rem;margin:auto;color:#a1a1aa;font-size:0.875rem;line-height:1.25rem}
@@ -108,7 +108,7 @@
 .faqList button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:1rem 0;color:white;background:transparent;border:0;text-align:left;font-size:0.9375rem;font-weight:500;line-height:1.5rem}
 .faqList svg{flex-shrink:0;color:#a1a1aa;transition:transform .2s}
 .answer{padding:0 0 1.25rem;font-size:0.875rem;line-height:1.5rem;color:#a1a1aa;max-width:62.5rem}
-.footer{padding:2.5rem 0;background:#111219}
+.footer{padding:2.5rem 0;background:#0d1027}
 .footerTop{display:flex;justify-content:space-between;align-items:flex-start;gap:2.5rem}
 .footerIntro{max-width:24rem}
 .footerIntro p{font-size:0.875rem;line-height:1.4375rem;color:#d4d4d8;margin-top:0.75rem}

@@ -64,7 +64,7 @@ export default function HeroScene({ children, className = '' }) {
             </linearGradient>
             <linearGradient id="hs-near" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="#1f2a66" />
-              <stop offset="1" stopColor="#111219" />
+              <stop offset="1" stopColor="#0d1027" />
             </linearGradient>
           </defs>
           <path d="M0 210C160 120 300 150 430 200S700 90 880 150 1200 90 1440 170V420H0Z" fill="url(#hs-far)" />
