@@ -44,6 +44,7 @@ git push -u origin main
 | `NEXT_PUBLIC_SUPABASE_URL` | *Your Supabase Project URL* | Public (Anon) |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | *Your Supabase Anon Public Key* | Public (Anon) |
 | `SUPABASE_SERVICE_ROLE_KEY` | *Your Supabase Service Role Key (Keep Private!)* | Server-only |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | *Optional.* Cloudflare Turnstile **Site key**, see "Cloudflare Turnstile" below | Public |
 
 5. Click **Deploy**. Vercel will build and launch your site live with an SSL certificate (`https`) in under a minute!
 
@@ -109,6 +110,24 @@ The Earning Streak section on `/spin` needs one extra SQL file, run once:
 How it works: a member earns the daily goal in coins from real offers (1,000 coins per UTC day; spins do not count) on consecutive days and claims a bonus for each day: 80, 120, 240, 400, 500, 600, 800 coins for days 1 to 7, then it starts again from 80. The server decides everything (`app/api/streak/route.js`) and each day can be claimed only once. The goal, the bonuses and the length of the cycle are the first lines of `lib/streak.js`.
 
 The Spin prizes and their odds are in `lib/spinPrizes.js` (95% of spins win less than 200 coins).
+
+---
+
+## Cloudflare Turnstile (anti-bot on email sign-in and sign-up)
+
+The email sign-in and sign-up forms can run [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/), a check that most visitors never see and that keeps bots out. Google sign-in is not covered by it. Until the steps below are done nothing changes on the site. Do them **in this order**:
+
+1. **Create the widget.** Cloudflare dashboard -> **Turnstile** -> **Add widget**. Name it `BlueberryCash`, add the hostnames `blueberrycash.com` and `www.blueberrycash.com`, choose the mode **Managed**, then **Create**. Copy the **Site key** (public) and the **Secret key** (private).
+2. **Give the site the Site key.** In Vercel, **Settings -> Environment Variables**, add `NEXT_PUBLIC_TURNSTILE_SITE_KEY` with the Site key for **Production** only (preview addresses are not in the widget's hostname list), then **redeploy**: the value is read when the site is built. Open the live site and press **Sign in**: the button says "Checking…" for a second, then turns into "Sign in". Nothing is enforced yet.
+3. **Turn the check on in Supabase, last.** Supabase -> **Authentication** -> **Attack Protection** (older dashboards: **Settings -> Authentication -> Bot and Abuse Protection**) -> switch on **CAPTCHA protection**, provider **Cloudflare Turnstile**, paste the **Secret key** and save. The Secret key lives only in Supabase, never in Vercel and never in the code.
+
+Why the order matters: once Supabase checks, every email sign-in and sign-up must carry a token. If step 3 is done before step 2 is live, nobody can sign in with email. To undo, switch **CAPTCHA protection** off in Supabase (it applies at once); the widget on the site can stay.
+
+Good to know:
+- Supabase is what enforces the check, so a bot that skips the form and calls the Supabase API directly is stopped too. The site only collects the token (`captchaToken`).
+- With the check on, email sign-in and sign-up work on the production domain. Preview addresses and `localhost` are not in the widget's hostname list, so email sign-in fails there (add `localhost` to the widget's hostnames to test locally).
+- If the check fails for a visitor (a VPN or a content blocker, usually), the form says so and offers "try again".
+- The code is in `lib/turnstile.js` (reads the Site key), `components/TurnstileWidget.js` (the widget), `components/AuthForm.js` (waits for the token and sends it) and `lib/db.js` (`signUp` / `signIn`).
 
 ---
 

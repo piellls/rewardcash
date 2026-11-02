@@ -11,8 +11,8 @@
 .header{position:sticky;top:0;z-index:40;background:#111219;transition:background-color .25s ease,box-shadow .25s ease}
 .header[data-scrolled]{background:#111219eb;backdrop-filter:blur(.75rem);box-shadow:0 1px 0 #ffffff12,0 .75rem 1.5rem -.75rem #000c}
 .nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding-block:1rem;min-height:4.5rem}
-.brand{display:inline-block;white-space:nowrap;font-size:1.3125rem;font-weight:800;letter-spacing:-1.1px;line-height:2.25rem;color:white}
-.brand span{color:var(--purple)}
+.brand{display:block;line-height:0}
+.brand img{display:block;height:2.75rem;width:auto;max-width:none}
 .navLinks{display:flex;align-items:center;justify-content:center;gap:0.25rem}
 .navLinks a{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;color:#9da0c0;font-weight:600;transition:color .2s}
 .navLinks a:hover{color:white}
@@ -118,8 +118,8 @@
 @media(min-width:1024px){.container{padding-inline:2.5rem}}
 @media(min-width:1536px){.container{padding-inline:3.5rem}}
 @media(max-width:1023px){.hero{aspect-ratio:auto;height:24rem}.hero h1{white-space:normal}.featureGrid{flex-direction:column}.calculator{width:100%}.footerTop{flex-direction:column}.footerLinks{gap:3rem}.wheelArt{width:100%}}
-@media(max-width:767px){.hero h1{font-size:3rem;letter-spacing:-1.2px}.steps{grid-template-columns:1fr}.benefit h3{font-size:1.25rem;line-height:1.75rem}.brand{font-size:1.0625rem;letter-spacing:-.8px}.navLinks a{font-size:0.875rem;padding-inline:0.5rem}.navLinks svg{width:1rem}.authActions .button{min-width:5rem}.footerBottom{flex-direction:column}.artBanner{width:calc(100% + 2.5rem);margin-inline:-1.25rem}}
-@media(max-width:639px){.nav{min-height:4.25rem}.navLinks{display:none}.authActions{grid-column:3}.brand{font-size:0.9375rem;letter-spacing:-.8px}.button{min-width:5rem}.authActions .button{padding:0 0.625rem;font-size:0.8125rem}.hero{height:auto;aspect-ratio:auto;border-radius:0;margin-bottom:2rem}.heroImage,.heroShade{display:none}.heroContent{position:relative;padding:0.25rem 0;gap:1rem}.hero h1{font-size:2.25rem;letter-spacing:-.9px;line-height:1.05}.badges span:last-child{display:none}.badges span{padding:0 1rem;font-size:0.875rem}.heroActions .button{padding:0 1.25rem;font-size:0.875rem}.heroActions .primary{padding:0 1.5rem}.logoTrack{font-size:1.375rem}.logoGroup img{margin-inline:1.5rem}.gamesBanner{margin-bottom:2rem}.rewardsBanner{margin-top:2.5rem;padding-bottom:1.25rem}.neonLine{width:76%;bottom:.25rem}.eyebrow{font-size:0.75rem;line-height:1rem}.benefits{gap:1.5rem}.benefit,.benefit:nth-child(even){flex-direction:column;text-align:center;gap:0.75rem}.benefit img{height:4rem}.benefit h3{font-size:1.125rem;line-height:1.75rem}.benefit p{font-size:0.75rem;line-height:1rem}.feature{padding:1.5rem}.tabs button{font-size:0.875rem}.featureGrid{padding-top:2rem}.featureText h2{font-size:1.5rem;line-height:2rem}.featureText>p,.featureText li{font-size:0.875rem;line-height:1.25rem}.calculator{padding:1.25rem}.calculator>p{font-size:0.75rem}.tiers{gap:2px}.tiers span{font-size:0.75rem}.estimate{font-size:0.75rem}.estimate strong{font-size:1.75rem}.faqSubtitle{font-size:1.25rem}.footerLinks{gap:1.75rem}.footerLinks h3{font-size:0.875rem}.footerLinks a,.footerLinks button{font-size:0.75rem}.footerPayments{gap:0.75rem}}
+@media(max-width:767px){.hero h1{font-size:3rem;letter-spacing:-1.2px}.steps{grid-template-columns:1fr}.benefit h3{font-size:1.25rem;line-height:1.75rem}.brand img{height:2.5rem}.navLinks a{font-size:0.875rem;padding-inline:0.5rem}.navLinks svg{width:1rem}.authActions .button{min-width:5rem}.footerBottom{flex-direction:column}.artBanner{width:calc(100% + 2.5rem);margin-inline:-1.25rem}}
+@media(max-width:639px){.nav{min-height:4.25rem}.navLinks{display:none}.authActions{grid-column:3}.brand img{height:2rem}.button{min-width:5rem}.authActions .button{padding:0 0.625rem;font-size:0.8125rem}.hero{height:auto;aspect-ratio:auto;border-radius:0;margin-bottom:2rem}.heroImage,.heroShade{display:none}.heroContent{position:relative;padding:0.25rem 0;gap:1rem}.hero h1{font-size:2.25rem;letter-spacing:-.9px;line-height:1.05}.badges span:last-child{display:none}.badges span{padding:0 1rem;font-size:0.875rem}.heroActions .button{padding:0 1.25rem;font-size:0.875rem}.heroActions .primary{padding:0 1.5rem}.logoTrack{font-size:1.375rem}.logoGroup img{margin-inline:1.5rem}.gamesBanner{margin-bottom:2rem}.rewardsBanner{margin-top:2.5rem;padding-bottom:1.25rem}.neonLine{width:76%;bottom:.25rem}.eyebrow{font-size:0.75rem;line-height:1rem}.benefits{gap:1.5rem}.benefit,.benefit:nth-child(even){flex-direction:column;text-align:center;gap:0.75rem}.benefit img{height:4rem}.benefit h3{font-size:1.125rem;line-height:1.75rem}.benefit p{font-size:0.75rem;line-height:1rem}.feature{padding:1.5rem}.tabs button{font-size:0.875rem}.featureGrid{padding-top:2rem}.featureText h2{font-size:1.5rem;line-height:2rem}.featureText>p,.featureText li{font-size:0.875rem;line-height:1.25rem}.calculator{padding:1.25rem}.calculator>p{font-size:0.75rem}.tiers{gap:2px}.tiers span{font-size:0.75rem}.estimate{font-size:0.75rem}.estimate strong{font-size:1.75rem}.faqSubtitle{font-size:1.25rem}.footerLinks{gap:1.75rem}.footerLinks h3{font-size:0.875rem}.footerLinks a,.footerLinks button{font-size:0.75rem}.footerPayments{gap:0.75rem}}
 /* Bottom navigation: always on the landing page, signed in or not. A full-width bar on phones, a floating bar on wider screens. */
 .bottomNav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:center;justify-content:space-around;height:4rem;padding-inline:.5rem;background:rgba(17,18,25,.95);border-top:1px solid #27272a;backdrop-filter:blur(1rem)}
 .bottomNav a,.bottomNav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.125rem;padding:.25rem 0;border:0;background:transparent;color:#a1a1aa;font-size:.75rem;font-weight:700;letter-spacing:.02em;line-height:1.2;transition:transform .1s,color .15s ease}.bottomNav a:active,.bottomNav button:active{transform:scale(.95)}.bottomNav img{width:1.75rem;height:1.75rem;object-fit:contain}.bottomNav svg{width:1.5rem;height:1.5rem;margin-bottom:.125rem}
@@ -199,60 +199,4 @@
   .logoTrack{animation-duration:80s}
 }
 .button:active{transform:scale(.97)}
-
-/* ============================================================
-   DYNAMIC LAYER: more life on the page, all transform/opacity,
-   scroll-linked where the browser supports it, off for reduced motion.
-   ============================================================ */
-
-/* Hero headline: a slow light sweep runs across the purple word */
-@media(prefers-reduced-motion:no-preference){
-  .hero h1 span{background:linear-gradient(100deg,var(--purple) 35%,#e9e1ff 50%,var(--purple) 65%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:wordSweep 4.5s ease-in-out 1.2s infinite}
-}
-@keyframes wordSweep{0%{background-position:100% 0}60%,100%{background-position:-60% 0}}
-
-/* Hero buttons: a soft lift and glow on hover, pointer devices only */
-@media(hover:hover) and (pointer:fine){
-  .heroActions .button{transition:transform .25s var(--ease-out),box-shadow .25s ease,background-color .2s ease}
-  .heroActions .button:hover{transform:translateY(-2px);box-shadow:0 .5rem 1.5rem -.5rem #713fe1aa}
-}
-
-/* Marquee of payment brands pauses under the pointer so names can be read */
-.logoWindow:hover .logoTrack{animation-play-state:paused}
-
-/* Steps: a line draws itself between the three cards as you scroll */
-.steps{position:relative}
-@media(min-width:768px){
-  .step:not(:last-child)::after{content:'';position:absolute;top:50%;left:100%;width:1rem;height:2px;background:linear-gradient(90deg,#713fe1,#33c8ff);transform-origin:left center;border-radius:2px}
-  @supports (animation-timeline:view()){
-    .step:not(:last-child)::after{animation:drawLine linear both;animation-timeline:view();animation-range:entry 20% cover 45%}
-  }
-}
-@keyframes drawLine{from{transform:scaleX(0);opacity:.2}to{transform:scaleX(1);opacity:1}}
-
-/* Step and benefit icons react to the card they belong to */
-.step:hover img,.benefit:hover img{transform:translateY(-6px) rotate(-4deg) scale(1.06)}
-.step:hover{background:#1f202e;box-shadow:0 1rem 2.25rem -1.25rem #713fe155}
-.benefit img{transition:transform .35s var(--ease-out)}
-.benefit:hover img{transform:translateY(-4px) scale(1.05)}
-
-/* Idle float for the hero mascot-art and benefit icons, paused while off screen */
-@media(prefers-reduced-motion:no-preference){
-  .benefit img{animation:bob 5.5s ease-in-out infinite}
-  .benefit:nth-child(2) img{animation-delay:-1.4s}
-  .benefit:nth-child(3) img{animation-delay:-2.8s}
-  .benefit:nth-child(4) img{animation-delay:-4.1s}
-}
-
-/* Art banners lean slightly toward the pointer */
-@media(hover:hover) and (pointer:fine){
-  .artBanner:hover img{transform:scale(1.015) rotate(-.4deg)}
-}
-
-/* Feature panel: its glow drifts while it is on screen */
-@media(prefers-reduced-motion:no-preference){
-  .feature{background-size:140% 140%;animation:featureDrift 12s ease-in-out infinite alternate}
-}
-@keyframes featureDrift{from{background-position:0% 100%}to{background-position:100% 0%}}
-
-.brand img{display:block;height:2.75rem;width:auto;max-width:none}
+@media(max-width:359px){.brand img{height:1.5rem}}

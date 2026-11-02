@@ -41,7 +41,7 @@ const questions = [
 ];
 
 function Brand() {
-  return <Link href="/" className={s.brand} aria-label="BlueberryCash home"><img src="/brand/blueberrycash-logo.png" alt="BlueberryCash" width="640" height="167" decoding="async" /></Link>;
+  return <Link href="/" className={s.brand} aria-label="BlueberryCash home"><img src="/brand/blueberrycash-logo.png" alt="" width="640" height="167" decoding="async" /></Link>;
 }
 
 export default function Home() {

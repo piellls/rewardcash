@@ -174,10 +174,10 @@ export function AuthProvider({ children }) {
     return () => clearInterval(interval);
   }, [user?.id]);
 
-  const login = async (email, password) => {
+  const login = async (email, password, captchaToken) => {
     setLoading(true);
     try {
-      const u = await db.signIn(email, password);
+      const u = await db.signIn(email, password, captchaToken);
       
       // Check if user is banned
       const profile = await db.getProfile(u.id);
@@ -207,11 +207,11 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const register = async (username, email, password) => {
+  const register = async (username, email, password, captchaToken) => {
     setLoading(true);
     try {
       const refCode = typeof window !== 'undefined' ? localStorage.getItem('rc_referred_by') : null;
-      const u = await db.signUp(username, email, password, refCode);
+      const u = await db.signUp(username, email, password, refCode, captchaToken);
       
       if (refCode && typeof window !== 'undefined') {
         localStorage.removeItem('rc_referred_by');
