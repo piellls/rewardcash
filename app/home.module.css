@@ -254,3 +254,5 @@
   .feature{background-size:140% 140%;animation:featureDrift 12s ease-in-out infinite alternate}
 }
 @keyframes featureDrift{from{background-position:0% 100%}to{background-position:100% 0%}}
+
+.brand img{display:block;height:2.75rem;width:auto;max-width:none}
