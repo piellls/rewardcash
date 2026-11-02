@@ -1035,3 +1035,55 @@ h1, h2, h3, h4, h5, h6, .font-display {
 @media (prefers-reduced-motion: reduce) {
   .bb-method-card, .bb-input { transition: none; }
 }
+
+/* ============================================================
+   VISUAL PASS: blueberry navy + lilac accents
+   Applies to every page through shared surfaces. Appended last so it wins over earlier rules.
+   ============================================================ */
+body {
+  background-color: #0d1027;
+  background-image: radial-gradient(900px 480px at 85% -8%, rgba(155, 123, 255, 0.12), transparent 70%);
+  background-attachment: fixed;
+}
+
+.g-card,
+.g-neon {
+  border-color: rgba(195, 178, 255, 0.12);
+}
+
+.page-hero {
+  border: 1px solid rgba(195, 178, 255, 0.14);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(155, 123, 255, 0.16), transparent 60%),
+    radial-gradient(ellipse at 100% 50%, #713fe11c, transparent 65%),
+    var(--bb-surface);
+}
+
+.page-chip {
+  border: 1px solid rgba(195, 178, 255, 0.1);
+}
+
+/* Keyboard users always see where they are */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #c3b2ff;
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+::selection {
+  background: rgba(155, 123, 255, 0.4);
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not(.no-motion-pref) * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
